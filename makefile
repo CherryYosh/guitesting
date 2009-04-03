@@ -7,7 +7,7 @@ SRCDIR= src
 SRC= $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp) $(wildcard $(SRCDIR)/*/*.c)
 OBJS= $(patsubst %.cpp, %.o, $(SRC)) 
 
-PROG= vcsm
+PROG= test
 
 current: $(PROG)
 
