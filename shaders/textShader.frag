@@ -14,7 +14,9 @@ centroid in vec2 texCoord;
 out vec4 pixelColor;
 
 void main(){
-	pixelColor = texture( tex0, texCoord );
-	//pixelColor = vec4( texCoord, 0.0, 1.0 );
-	//pixelColor = vec4(1.0,0.0,0.0,1.0 );
+	
+	vec4 color = texture( tex0, texCoord );
+	if( color.a == 0.0 || color.rgb == vec3( 0.0 ) )
+		discard;
+	pixelColor = color;
 }
