@@ -1,11 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#define GUI_TYPE_CONTROL 1
-#define GUI_TYPE_BUTTON  2
-#define GUI_TYPE_RULE    3
-#define GUI_TYPE_EDITBOX 4
-
+#define CTRL_INPUT (1) >> 1 //does the control allow input
 
 #ifndef NULL
 #define NULL 0
@@ -40,7 +36,7 @@ public:
 	virtual void SetCallback( boost::function<int()> callback );
 	virtual void SetWidth( unsigned int );
 	virtual void SetHeight( unsigned int );
-	virtual char GetType();
+	virtual bool HasAttrib( unsigned short );
 
 	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
 	std::string type; //CLOSE, etc
@@ -52,6 +48,7 @@ protected:
 	virtual void SetFocuse( bool value);
 
 	int x, y, width, height;
+	unsigned short attributes;
 	float scale[2];
 private:
 	bool hasFocus, isEnabled;

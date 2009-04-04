@@ -35,5 +35,3 @@ void Button::onMousePress( int button ){
 	if( button == 1 && m_Callback ) //left mouse click, TODO: enable multi buttons
 		m_Callback();
 }
-
-char Button::GetType() { return GUI_TYPE_BUTTON; }

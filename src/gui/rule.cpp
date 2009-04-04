@@ -20,5 +20,3 @@ bool Rule::HitTest( int mouseX, int mouseY ){
 	}
 	return false;
 }
-
-char Rule::GetType(){ return GUI_TYPE_RULE; }

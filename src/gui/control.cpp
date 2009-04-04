@@ -8,6 +8,8 @@ Control::Control( std::string t ){
 	
 	scale[0] = 1.0;
 	scale[1] = 1.0;
+
+	attributes = 0;
 }
 
 Control::~Control(){
@@ -71,6 +73,7 @@ void Control::SetHeight( unsigned int h ){
 	height = h;
 }
 
-char Control::GetType(){
-	return GUI_TYPE_CONTROL;
+bool Control::HasAttrib( unsigned short a ){
+	//will only return true if all the attributes are there
+	return a == ( attributes & a );
 }

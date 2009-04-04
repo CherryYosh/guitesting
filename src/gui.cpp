@@ -163,7 +163,7 @@ void GUI::HitTest( int x, int y ){
 		if(  ((Control*)*it)->HitTest( x, y ) ){
 			activeControl = ((Control*)*it);
 			
-			if( !isRecevingInput && activeControl->GetType() == GUI_TYPE_EDITBOX){
+			if( !isRecevingInput && activeControl->HasAttrib( CTRL_INPUT )){
 				isRecevingInput = true;
 				std::string* data = new std::string( "typing" );
 				engine->ReceiveMessage( SYSTEM_INPUT, INPUT_CHANGE_PROFILE, (void*)data ); 

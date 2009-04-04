@@ -8,15 +8,13 @@ Editbox::Editbox( std::string t, int x, int y ) : Control(t){
 	caretPos = 0;
 
 	modelview.set_translate( nv::vec3<float>( x, y, -1.0 ) );
+
+	attributes |= CTRL_INPUT;
 }
 
 Editbox::~Editbox(){
 	//nothing right now
 }
-
-//void Editbox::Render(){
-	//hummm... how??
-//}
 
 bool Editbox::HitTest( int mX, int mY ){
 	if( mX > x && mY < x + ( width * scale[0] ) 
@@ -29,7 +27,6 @@ bool Editbox::HitTest( int mX, int mY ){
 void Editbox::onKeyPress( int key, int mod ){
 	if( key  > 31 && key < 126 ){
 		text.insert( caretPos++, (const char*)&key );
-		//text.push_back( (const char)key);
 		printf( "%s\n", text.c_str() );
 	}
 }
@@ -42,5 +39,3 @@ void Editbox::onMousePress( int button ){
 
 void Editbox::onMouseRelease( int button ){
 }
-
-char Editbox::GetType(){ return GUI_TYPE_EDITBOX; }

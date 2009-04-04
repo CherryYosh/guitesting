@@ -11,7 +11,6 @@ public:
 
 	bool HitTest( int mouseX, int mouseY );
 	void onMousePress( int button );
-	char GetType();
 protected:
 private:
 };

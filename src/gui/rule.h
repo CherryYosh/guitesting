@@ -9,7 +9,6 @@ public:
 	~Rule();
 
 	bool HitTest( int mouseX, int mouseY );
-	char GetType();
 protected:
 private:
 };

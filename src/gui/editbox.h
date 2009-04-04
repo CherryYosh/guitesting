@@ -7,14 +7,11 @@ class Editbox : public Control{
 public:
 	Editbox( std::string, int, int );
 	~Editbox();
-//	void Render();
 	bool HitTest( int, int );
 	void onKeyPress( int, int );
 	void onKeyRelease( int, int );
 	void onMousePress( int );
 	void onMouseRelease( int );
-	
-	char GetType();
 private:
 protected:
 	unsigned int tx, ty, twidth, theight; //texture stuff, are they needed?
