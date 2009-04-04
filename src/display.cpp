@@ -33,7 +33,7 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
 	gui = new GUI( ptEngine );
-	//timer = new Timer();
+	timer = new Timer();
 	mouse = new Mouse();
 	camera = new Camera();
 
@@ -90,7 +90,7 @@ void Display::Start(){
 	running = true;
 	
 	while( running ){
-	//	timer->Update();
+		timer->Update();
 
 		Render();
 
@@ -161,12 +161,6 @@ void Display::Render(){
 
 	textShader.Bind();
 	textShader.SetProjection( camera->GetOrtho() );
-	
-	nv::matrix4<float> m;
-	m.make_identity();
-	m.set_translate( nv::vec3<float>( 50, 50, -1.0 ));
-	
-	textShader.SetModelview( m._array );
 	
 	FontMgr_glDrawText( 0, 50, 50, &textShader, "hi momy!!!" );	
 

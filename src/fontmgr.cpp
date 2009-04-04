@@ -94,11 +94,11 @@ void FontMgr_LoadFont(int fontID, const char *fontname, int fontsize)
 	nFont->descender = faces[fontID]->size->metrics.descender >> 6;
 
 	// Vertex Array
-	int vsize = sizeof(int) * 3 * 4 * 128;
+	int vsize = sizeof(float) * 3 * 4 * 128;
 	int tsize = sizeof(float) * 2 * 4 * 128;
 	int totalsize = vsize + tsize;
 	nFont->vertexdata = malloc(totalsize);
-	VERTEXi *vertexptr = (VERTEXi *) nFont->vertexdata;
+	VECTOR3 *vertexptr = (VECTOR3 *) nFont->vertexdata;
 	float *texcoordptr = (float *) ((char *)nFont->vertexdata+vsize);
 	nFont->tcoordptr = (void *) texcoordptr;
 
@@ -195,25 +195,24 @@ void FontMgr_LoadFont(int fontID, const char *fontname, int fontsize)
 // tx = left of text box
 // ty = bottom corner of text box
 // tw, th = clip box, text will wrap on tw, -1 = no clip
-void FontMgr_glDrawText(int fontID, int tw, int th, Shader* shader, const char *text)
+void FontMgr_glDrawText(int fontID, int tx, int ty, Shader* shader, const char *text)
 {
 	nv::matrix4<float> m;
 	m.make_identity();
-	m.set_translate( nv::vec3<float>( tw, th, -1 ) );
+	m.set_translate( nv::vec3<float>( tx, ty, -1.0 ) );
 
 	FT_Vector kdelta;
 	Font *font = fonts[fontID];
 	glBindTexture(GL_TEXTURE_2D, font->textureID);
 
-	size_t length = strlen(text);
-
 	glEnableVertexAttribArray( shader->attribute[0] );
 	glEnableVertexAttribArray( shader->attribute[1] );
-	//glVertexPointer(3, GL_INT, 0, font->vertexdata);
-	glEnableClientState( GL_VERTEX_ARRAY );
-	glVertexAttribPointer(shader->attribute[0], 3, GL_INT, GL_FALSE, 0, font->vertexdata);
+	
+	glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, 0, font->vertexdata);
 	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 0, font->tcoordptr);
+	
 	int vindex;
+	size_t length = strlen(text);
 	for( unsigned int i = 0; i < length; i++ ){
 		vindex = text[i] << 2;
 
@@ -224,36 +223,10 @@ void FontMgr_glDrawText(int fontID, int tw, int th, Shader* shader, const char *
 		FT_Get_Kerning( faces[fontID], font->glyphs[*(text+i)].index, font->glyphs[*(text+i+1)].index, FT_KERNING_DEFAULT, &kdelta);
 		
 		m._41 += font->glyphs[*(text+i)].advance + (kdelta.x >> 6);
-		//glTranslatef(font->glyphs[*(text+i)].advance + (kdelta.x >> 6), 0.0f, 0.0f);
 	}
 
-	glDisableClientState( GL_VERTEX_ARRAY );
 	glDisableVertexAttribArray( shader->attribute[0] );
 	glDisableVertexAttribArray( shader->attribute[1] );
-
-/*	
-	FT_Vector kdelta; // Kerning
-	Font *font = fonts[fontID]; // For readability
-	glBindTexture(GL_TEXTURE_2D, font->textureID);
-
-	size_t length = strlen(text);
-
-	glVertexPointer(3, GL_INT, 0, font->vertexdata);
-	glTexCoordPointer(2, GL_FLOAT, 0, font->tcoordptr);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	int vindex;
-	for(unsigned int i = 0; i < length; i++)
-	{
-		vindex = text[i] << 2;
-		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_SHORT, (unsigned short *)font->indexdata+vindex);
-		// Kerning
-		FT_Get_Kerning(faces[fontID], font->glyphs[*(text+i)].index, font->glyphs[*(text+i+1)].index, FT_KERNING_DEFAULT, &kdelta);
-		glTranslatef(font->glyphs[*(text+i)].advance + (kdelta.x >> 6), 0.0f, 0.0f);
-	}
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-*/
 }
 
 int FontMgr_GetFontAscender(int fontID)
