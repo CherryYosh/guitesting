@@ -42,13 +42,12 @@ unsigned int ThemeMgr_LoadTheme( char* themename ){
 			return count;
 		
 		temp = line.substr( 0, pos ); //get from start to pos
-		printf( "temp = %s\n", temp.c_str() );
 		
 		if( temp.compare( "image" ) == 0 ){
 			temp = line.substr( pos+1 ); //now we get the rest for the image name, add 1 to remove the :
 			temp.insert( 0, "themes/" ); //insert the code path, change to soft code??
 			theme.imageID = GetGLTexture( temp.c_str(), &theme.width, &theme.height );	
-			//continue;
+			continue;
 		} else { //the data is pretty simple and uniform right now..
 			ThemeMgr_ImageDataT* data = new ThemeMgr_ImageDataT;
 			data->type = temp;

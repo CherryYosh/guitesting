@@ -15,6 +15,10 @@ Engine::Engine(){
 	input->BindKey( "default", SDLK_q, KMOD_LCTRL, "QUIT" );
 	input->BindKey( "default", SDLK_q, KMOD_NONE, "QUIT" );
 
+	input->BindAction( "typing", SYSTEM_ENGINE, "QUIT", true, QUIT, NULL );
+	input->BindKey( "typing", SDLK_q, KMOD_LCTRL, "QUIT" );
+	
+
 ////////////////////////////////////
 // all this does is set up the basic
 // keyboard functions... waistful memory :[

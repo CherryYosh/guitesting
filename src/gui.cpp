@@ -17,7 +17,7 @@ GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
 
 	AddControl( new Button( "close", 0, 0 ) );
 	AddControl( new Button( "close", 200, 200 ) );
-	AddControl( new Editbox( "topbar", 100, 50 ) );
+	AddControl( new Editbox( "topbar", 50, 50 ) );
 }
 
 GUI::~GUI(){
@@ -134,7 +134,11 @@ void GUI::Render( Shader* shader ){
 		((Control*)*it)->Render();
 	}
 
+	glDisableVertexAttribArray( shader->attribute[0]);
+	glDisableVertexAttribArray( shader->attribute[1]);
+
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
 void GUI::AddControl( Control* control ){
@@ -180,7 +184,7 @@ void GUI::HitTest( int x, int y ){
 
 void GUI::Move( int x, int y ){
 	if( activeControl != NULL )
-		activeControl->Move( x, -y );
+		activeControl->Move( x, y );
 }
 
 void GUI::HandelKeyPress( int key, int mod ){

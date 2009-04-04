@@ -8,7 +8,7 @@
 
 
 Shader::Shader(){
-	name = "NA";
+	name = "noname";
 
 	for( int i = 0; i < 12; i++ )
 		uniform[i] = 0;
@@ -40,14 +40,10 @@ void Shader::Unbind(){
 
 void Shader::GetUniformLoc( GLuint uID, char* name ){
 	uniform[uID] = glGetUniformLocation( id, name );
-
-	printf( "set unifom %i to %i \n", uID, uniform[uID ] );
 }
 
 void Shader::GetAttributeLoc( GLuint uID, char* name ){
         attribute[uID] = glGetAttribLocation( id, name );
-
-        printf( "set attribute %i to %i \n", uID, attribute[uID] );
 }
 
 void Shader::SetProjection( float m[16] ){
@@ -74,7 +70,6 @@ char* ReadShaderFile( const char* filename ){
 #ifdef _DEBUG_
                 printf( "FATIAL: Could not read shader file %s\n", filename );
 #endif
-//                exit(-1);
                 return NULL;
         }
 
@@ -171,9 +166,6 @@ void printShaderLog( GLuint shader ){
         int length;
         char *log;
 
-       	//if( glGetError() == GL_NO_ERROR )
-	//	return;
-	
 	glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &length );
 
         if( length <= 0 )
@@ -190,10 +182,6 @@ void printShaderLog( GLuint shader ){
 }
 
 void printProgramLog( GLuint program ){
-	GLenum error;
-	//if( (error = glGetError()) == GL_NO_ERROR )
-	//	return;
-
 	int infologLength = 0;
     	int charsWritten  = 0;
     	char *infoLog;

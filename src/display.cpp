@@ -10,6 +10,7 @@
 #include "shader.h"
 
 Shader guiShader;
+Shader textShader;
 Shader* Control::_Shader = NULL;
 
 Display::Display( Engine *ptEngine ) : System( ptEngine ){
@@ -32,7 +33,7 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
 	gui = new GUI( ptEngine );
-	timer = new Timer();
+	//timer = new Timer();
 	mouse = new Mouse();
 	camera = new Camera();
 
@@ -65,6 +66,13 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	guiShader.GetAttributeLoc( 0, "vertex" );
 	guiShader.GetAttributeLoc( 1, "tcoord" );
 	
+	textShader.Load( "textShader" );
+	textShader.GetUniformLoc( 0, "projection" );
+	textShader.GetUniformLoc( 1, "modelview" );
+	textShader.GetUniformLoc( 2, "tex0" );
+	textShader.GetAttributeLoc( 0, "vertex" );
+	textShader.GetAttributeLoc( 1, "tcoord" );
+	
 	Control::_Shader = &guiShader;
 
 	guiShader.Bind();
@@ -82,7 +90,7 @@ void Display::Start(){
 	running = true;
 	
 	while( running ){
-		timer->Update();
+	//	timer->Update();
 
 		Render();
 
@@ -141,7 +149,6 @@ void Display::ProcessMessages(){
 }
 
 void Display::Render(){	
-	glClearColor( 1.0, 1.0, 1.0, 1.0 );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	guiShader.Bind();
@@ -151,6 +158,19 @@ void Display::Render(){
 	gui->Render( &guiShader );
 
 	guiShader.Unbind();
+
+	textShader.Bind();
+	textShader.SetProjection( camera->GetOrtho() );
+	
+	nv::matrix4<float> m;
+	m.make_identity();
+	m.set_translate( nv::vec3<float>( 50, 50, -1.0 ));
+	
+	textShader.SetModelview( m._array );
+	
+	FontMgr_glDrawText( 0, 50, 50, &textShader, "hi momy!!!" );	
+
+	textShader.Unbind();
 
 	SDL_GL_SwapBuffers();
 }
@@ -177,6 +197,6 @@ void Display::HandleMouseMotion(){
 	mouse->SetMousePosition();
 
 	if( mouse->GetButtonState(0) ){
-		gui->Move( mouse->GetChangeX(), -mouse->GetChangeY() );
+		gui->Move( mouse->GetChangeX(), mouse->GetChangeY() );
 	}
 }

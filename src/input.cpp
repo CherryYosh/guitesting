@@ -113,7 +113,7 @@ void Input::ProcessMessages(){
 		}
 
 		if( temp->parameters != NULL )
-			delete [] temp->parameters;
+			delete [] (char*)temp->parameters;
 		delete temp;
 		temp = next;
 	}
@@ -186,6 +186,7 @@ void Input::ProcessKey( bool pressed, SDLKey key, SDLMod mod ){
 				else if( keys[i]->Action->UseOnce )
 					keys[i]->Action->Handled = false;
 			}
+			//auidios.. 
 			return;
 		}
 	}
