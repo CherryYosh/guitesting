@@ -1,12 +1,14 @@
 #ifndef EDITBOX_H
 #define EDITBOX_H
 
-#include "control.h"
+//#include "control.h"
+#include "textbox.h"
 
-class Editbox : public Control{
+class Editbox : public Textbox{
 public:
 	Editbox( std::string, int, int );
 	~Editbox();
+	void Render();
 	bool HitTest( int, int );
 	void onKeyPress( int, int );
 	void onKeyRelease( int, int );
@@ -14,9 +16,6 @@ public:
 	void onMouseRelease( int );
 private:
 protected:
-	unsigned int tx, ty, twidth, theight; //texture stuff, are they needed?
-	unsigned short caretPos, size;
-	std::string text;
 };
 
 #endif

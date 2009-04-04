@@ -7,5 +7,6 @@
 #include "button.h"
 #include "rule.h"
 #include "editbox.h"
+#include "textbox.h"
 
 #endif

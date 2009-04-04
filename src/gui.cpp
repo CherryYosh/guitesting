@@ -9,6 +9,8 @@
 //TEMP DATA!!!
 GLuint vbo[2];
 
+Textbox* test;
+
 GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
 	activeControl = NULL;
 	isRecevingInput = false;
@@ -17,7 +19,8 @@ GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
 
 	AddControl( new Button( "close", 0, 0 ) );
 	AddControl( new Button( "close", 200, 200 ) );
-	AddControl( new Editbox( "topbar", 50, 50 ) );
+	test = new Editbox("topbar", 50, 50 );
+	AddControl( test );
 }
 
 GUI::~GUI(){
@@ -139,6 +142,10 @@ void GUI::Render( Shader* shader ){
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+}
+
+void GUI::RenderText( Shader* shader ){
+	test->RenderText();
 }
 
 void GUI::AddControl( Control* control ){

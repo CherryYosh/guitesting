@@ -18,6 +18,7 @@ public:
 	~GUI();
 
 	void Render( Shader* );
+	void RenderText( Shader* );
 
 	void AddControl( Control* control );
 	void SetTheme( char* );

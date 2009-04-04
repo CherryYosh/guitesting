@@ -23,7 +23,7 @@
 //the basic control class of all GUI objects
 class Control{
 public:
-	Control( std::string t );
+	Control( std::string t, int x, int y );
 	virtual ~Control();
 	virtual void Activate(); //called when ever the control becomes active
 	virtual void Render();

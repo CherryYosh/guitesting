@@ -13,11 +13,7 @@
 
 #include "button.h"
 
-Button::Button( std::string t, int x, int y ) : Control(t){
-	this->x = x;
-	this->y = y;
-	
-	modelview.set_translate( nv::vec3<float>(x,y,-1.0) );
+Button::Button( std::string t, int x, int y ) : Control(t,x,y){
 }
 
 Button::~Button(){
@@ -26,6 +22,7 @@ Button::~Button(){
 bool Button::HitTest( int mouseX, int mouseY ){
 	if( mouseX > x && mouseX < x + width &&
 		mouseY > y && mouseY < y + height ){
+		printf( "here!\n" );
 		return true;
 	}
 	return false;

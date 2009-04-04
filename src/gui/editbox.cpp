@@ -1,15 +1,6 @@
 #include "editbox.h"
 
-Editbox::Editbox( std::string t, int x, int y ) : Control(t){
-	this->x = x;
-	this->y = y;
-
-	text = "";
-	caretPos = 0;
-
-	modelview.set_translate( nv::vec3<float>( x, y, -1.0 ) );
-
-	attributes |= CTRL_INPUT;
+Editbox::Editbox( std::string t, int x, int y ) : Textbox( t,x,y,width,height){
 }
 
 Editbox::~Editbox(){
@@ -27,8 +18,18 @@ bool Editbox::HitTest( int mX, int mY ){
 void Editbox::onKeyPress( int key, int mod ){
 	if( key  > 31 && key < 126 ){
 		text.insert( caretPos++, (const char*)&key );
-		printf( "%s\n", text.c_str() );
 	}
+
+	if( key == 8 ){ //backspace
+		text.erase( caretPos-- );
+	}
+}
+
+void Editbox::Render(){
+	_Shader->SetModelview( modelview._array );
+	glVertexAttribPointer(_Shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 0, (GLvoid *)(NULL + vertexOffset));
+	glVertexAttribPointer(_Shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 0, (GLvoid *)(NULL + textureOffset));
+	glDrawElements( GL_QUADS, 4, GL_UNSIGNED_SHORT, 0 );
 }
 
 void Editbox::onKeyRelease( int key, int mod ){

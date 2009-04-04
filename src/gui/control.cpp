@@ -1,10 +1,14 @@
 #include "control.h"
 
-Control::Control( std::string t ){
+Control::Control( std::string t, int x, int y ){
 	isEnabled = true;
 	hasFocus = false;
 	type = t;
+	this->x = x;
+	this->y = y;
+	
 	modelview.make_identity();
+	modelview.set_translate( nv::vec3<float>( x, y, -1.0 ) );
 	
 	scale[0] = 1.0;
 	scale[1] = 1.0;

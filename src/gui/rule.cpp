@@ -3,11 +3,7 @@
 
 #include "rule.h"
 
-Rule::Rule( std::string t, int x, int y ) : Control(t) {
-	this->x = x;
-	this->y = y;
-
-	modelview.set_translate( nv::vec3<float>(x,y,-1.0) );
+Rule::Rule( std::string t, int x, int y ) : Control(t,x,y) {
 }
 
 Rule::~Rule(){

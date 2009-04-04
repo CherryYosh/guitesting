@@ -12,6 +12,7 @@
 Shader guiShader;
 Shader textShader;
 Shader* Control::_Shader = NULL;
+Shader* Textbox::_TextShader = NULL;
 
 Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
@@ -74,6 +75,7 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	textShader.GetAttributeLoc( 1, "tcoord" );
 	
 	Control::_Shader = &guiShader;
+	Textbox::_TextShader = &textShader;
 
 	guiShader.Bind();
 	glUniform1i( guiShader.uniform[2], 0 );
@@ -162,7 +164,8 @@ void Display::Render(){
 	textShader.Bind();
 	textShader.SetProjection( camera->GetOrtho() );
 	
-	FontMgr_glDrawText( 0, 50, 50, &textShader, "hi momy!!!" );	
+	//FontMgr_glDrawText( 0, 50, 50, &textShader, "hi momy!!!" );	
+	gui->RenderText( &textShader );
 
 	textShader.Unbind();
 
