@@ -3,12 +3,15 @@
 #include "../fontmgr.h"
 
 Textbox::Textbox( std::string t, int x, int y, int width, int height ) : Control(t,x,y){
-	twidth = width;
-	theight = height;
+	twidth = width; //width in pixels
+	theight = 1;//height; //height in characters
 	multiline = false;
 	text = ""; 
 	caretPos = 0;
 	font = 0;
+	flashCaret = false;
+	showingCaret = false;
+	editable = false;
 	attributes |= CTRL_INPUT;
 }
 
@@ -21,7 +24,7 @@ void Textbox::Render(){
 }
 
 void Textbox::RenderText(){
-	FontMgr_glDrawText( font, x, y, _TextShader, text.c_str() ); 
+	FontMgr_glDrawText( font, x, y + FontMgr_GetLineHeight(font), _TextShader, text.c_str() ); 
 }
 
 void Textbox::onMousePress( int button ){

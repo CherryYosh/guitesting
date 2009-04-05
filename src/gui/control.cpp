@@ -61,7 +61,7 @@ void Control::SetEnabled( bool value ){
 	isEnabled = value;
 }
 
-void Control::SetFocuse( bool value ){
+void Control::SetFocus( bool value ){
 	hasFocus = value;
 }
 

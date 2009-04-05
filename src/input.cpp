@@ -39,6 +39,7 @@ Input::~Input(){
 void Input::Start(){
 	SDL_Event keyevent;
 	running = true;
+	bool temp = false;
 
 	while( running ){
 		while( SDL_PollEvent( &keyevent ) ){
@@ -50,13 +51,16 @@ void Input::Start(){
 					ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
 					break;
 				case SDL_MOUSEBUTTONDOWN:
+					temp = true;
 					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_PRESS, NULL );
 					break;
 				case SDL_MOUSEBUTTONUP:
+					temp = false;
 					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_RELEASE, NULL );
 					break;
 				case SDL_MOUSEMOTION:
-					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_MOTION, NULL );
+					//if( temp )
+						engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_MOTION, NULL );
 					break;
 				case SDL_ACTIVEEVENT:
 					break;

@@ -166,14 +166,24 @@ void GUI::AddControl( Control* control ){
 }
 
 void GUI::HitTest( int x, int y ){
+	if( activeControl != NULL )
+		activeControl->SetFocus( false );
+
 	for( std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it ){
 		if(  ((Control*)*it)->HitTest( x, y ) ){
 			activeControl = ((Control*)*it);
-			
-			if( !isRecevingInput && activeControl->HasAttrib( CTRL_INPUT )){
-				isRecevingInput = true;
-				std::string* data = new std::string( "typing" );
-				engine->ReceiveMessage( SYSTEM_INPUT, INPUT_CHANGE_PROFILE, (void*)data ); 
+			activeControl->SetFocus( true );
+
+			if( activeControl->HasAttrib( CTRL_INPUT ) ){
+				if( !isRecevingInput ){
+					isRecevingInput = true;
+					std::string* data = new std::string( "typing" );
+					engine->ReceiveMessage( SYSTEM_INPUT, INPUT_CHANGE_PROFILE, (void*)data ); 
+				} 
+			} else if( isRecevingInput ){ //we dont have a INPUT class, and we're receving.. bad idea
+				isRecevingInput = false;
+				std::string* data = new std::string( "default" );
+				engine->ReceiveMessage( SYSTEM_INPUT, INPUT_CHANGE_PROFILE, (void*)data );
 			}
 
 			return;

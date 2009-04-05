@@ -37,6 +37,8 @@ public:
 	virtual void SetWidth( unsigned int );
 	virtual void SetHeight( unsigned int );
 	virtual bool HasAttrib( unsigned short );
+	virtual void SetEnabled( bool value );
+	virtual void SetFocus( bool value);
 
 	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
 	std::string type; //CLOSE, etc
@@ -44,8 +46,6 @@ public:
 	static Shader* _Shader;
 	nv::matrix4<float> modelview;
 protected:
-	virtual void SetEnabled( bool value );
-	virtual void SetFocuse( bool value);
 
 	int x, y, width, height;
 	unsigned short attributes;

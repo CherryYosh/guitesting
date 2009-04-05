@@ -25,6 +25,9 @@ protected:
 	bool multiline;
 	std::string text;
 	unsigned int caretPos;
+	bool flashCaret;
+	bool showingCaret;
+	bool editable;
 	unsigned char font; //fixed at 0 right now
 private:
 };

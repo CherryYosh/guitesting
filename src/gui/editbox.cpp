@@ -1,6 +1,10 @@
 #include "editbox.h"
+#include "../fontmgr.h"
+
 
 Editbox::Editbox( std::string t, int x, int y ) : Textbox( t,x,y,width,height){
+	flashCaret = true;
+	editable = true;
 }
 
 Editbox::~Editbox(){
@@ -8,8 +12,24 @@ Editbox::~Editbox(){
 }
 
 bool Editbox::HitTest( int mX, int mY ){
-	if( mX > x && mY < x + ( width * scale[0] ) 
+	if( mX > x && mX < x + ( width * scale[0] ) 
 			&& mY > y && mY < y + ( height * scale[1] ) ){
+		
+		//now to handel
+		if( mY < y + ( FontMgr_GetLineHeight( font ) * theight ) &&
+				mX < x + ( FontMgr_GetStringWidth(font, text.c_str() ))) { //note mY > y has already been checked
+			
+			std::string temp = text;
+			for( int i = text.length(); i >= 0; i-- ){
+				temp.erase( i ); 
+				if( mX > x + FontMgr_GetStringWidth(font, temp.c_str() )){
+					caretPos = i;
+					printf( "caret found at %i\n", caretPos );
+					break;
+				}
+			}
+		}
+		
 		return true;
 	}
 	return false;
@@ -17,7 +37,7 @@ bool Editbox::HitTest( int mX, int mY ){
 
 void Editbox::onKeyPress( unsigned short unicode ){ 
 	if( unicode > 31 && unicode < 126 ){
-		//WARNING: Error might occure
+		//WARNING: Error might occure with the wunicode
 		text.insert( caretPos++, (const char*)&unicode );
 	}
 
