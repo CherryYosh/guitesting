@@ -6,7 +6,7 @@ Textbox::Textbox( std::string t, int x, int y, int width, int height ) : Control
 	twidth = width;
 	theight = height;
 	multiline = false;
-	text = "";
+	text = ""; 
 	caretPos = 0;
 	font = 0;
 	attributes |= CTRL_INPUT;

@@ -21,7 +21,7 @@ void Editbox::onKeyPress( unsigned short unicode ){
 		text.insert( caretPos++, (const char*)&unicode );
 	}
 
-	if( unicode == 8 ){ //backspace
+	if( unicode == 8 && caretPos > 0){ //backspace
 		text.erase( --caretPos );
 	}
 }
