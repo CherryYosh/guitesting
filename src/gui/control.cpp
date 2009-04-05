@@ -43,7 +43,7 @@ void Control::onMouseRelease( int button ){
 	//called by input
 }
 
-void Control::onKeyPress( int key, int mod ){
+void Control::onKeyPress( unsigned short unicode ){ 
 	//called by input
 }
 

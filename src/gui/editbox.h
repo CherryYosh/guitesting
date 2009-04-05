@@ -10,7 +10,7 @@ public:
 	~Editbox();
 	void Render();
 	bool HitTest( int, int );
-	void onKeyPress( int, int );
+	void onKeyPress( unsigned short );
 	void onKeyRelease( int, int );
 	void onMousePress( int );
 	void onMouseRelease( int );

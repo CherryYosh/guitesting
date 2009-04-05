@@ -43,7 +43,7 @@ public:
 	
 	void BindAction( std::string, short, std::string, bool, int, void* ); 
 	void BindKey( std::string, SDLKey, SDLMod, std::string );
-	void ProcessKey( bool, SDLKey, SDLMod );
+	void ProcessKey( bool, SDL_keysym );//SDLKey, SDLMod );
 	void ProcessInput();
 
 	Input_ProfileDataT* GetProfile( std::string );

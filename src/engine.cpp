@@ -101,11 +101,8 @@ void Engine::ReceiveMessage( short classID, int messageID, void *parameters){
 
 void Engine::ProcessMessages(){
 	msg_mutex.lock();
-
-        eMessageList *temp = list;
-	
-	list = NULL;
-	
+        	eMessageList *temp = list;	
+		list = NULL;
         msg_mutex.unlock();
 
         eMessageList *next;

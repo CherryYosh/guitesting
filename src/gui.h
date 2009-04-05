@@ -24,7 +24,7 @@ public:
 	void SetTheme( char* );
 	void HitTest( int, int );
 	void Move( int, int );
-	void HandelKeyPress( int, int );
+	void HandelKeyPress( unsigned short ); 
 protected:
 	std::vector<Control*> controls;
 private:

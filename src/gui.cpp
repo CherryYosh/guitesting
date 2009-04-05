@@ -194,8 +194,8 @@ void GUI::Move( int x, int y ){
 		activeControl->Move( x, y );
 }
 
-void GUI::HandelKeyPress( int key, int mod ){
+void GUI::HandelKeyPress( unsigned short unicode ){ 
 	if( activeControl != NULL ){ //shouldnt be needed but here just incase
-		activeControl->onKeyPress( key, mod );
+		activeControl->onKeyPress( unicode );
 	}
 }

@@ -16,7 +16,7 @@ public:
 	virtual void onMousePress( int button );
 	virtual void onMouseRelease( int button );
 
-	virtual void onKeyPress( int key, int mod );
+	virtual void onKeyPress( unsigned short unicode ); 
 	virtual void onKeyRelease( int key, int mod );
 
 	static Shader* _TextShader;

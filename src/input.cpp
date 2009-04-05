@@ -44,10 +44,10 @@ void Input::Start(){
 		while( SDL_PollEvent( &keyevent ) ){
 			switch( keyevent.type ){
 				case SDL_KEYDOWN:
-					ProcessKey( true, keyevent.key.keysym.sym, keyevent.key.keysym.mod );
+					ProcessKey( true, keyevent.key.keysym );//, keyevent.key.keysym.mod );
 					break;
 				case SDL_KEYUP:
-					ProcessKey( false, keyevent.key.keysym.sym, keyevent.key.keysym.mod );
+					ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_PRESS, NULL );
@@ -170,13 +170,13 @@ void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string ac
 	prof->Keys.push_back( newKey );
 }
 
-void Input::ProcessKey( bool pressed, SDLKey key, SDLMod mod ){
+void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod ){
 	std::vector<Input_KeyDataT*> keys = ActiveProfile->Keys;
 
 	size_t size = keys.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		//				this allows use to have caps / numlock on while typeing
-		if( keys[i]->Key == key && ( mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
+		if( keys[i]->Key == sym.sym && ( sym.mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
 			if( pressed )
 				keys[i]->Action->Count++;
 			else{
@@ -193,9 +193,9 @@ void Input::ProcessKey( bool pressed, SDLKey key, SDLMod mod ){
 
 	//else we do this
 	if( pressed && ActiveProfile->Name == "typing" ){
-		unsigned int* data = new unsigned int[2];
-		data[0] = key;
-		data[1] = mod;
+		unsigned short* data = new unsigned short[1];
+		data[0] = sym.unicode;
+		//data[1] = mod;
 		engine->ReceiveMessage( SYSTEM_DISPLAY, INPUT_KEYPRESS, (void*)data );
 	}
 }

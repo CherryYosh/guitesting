@@ -15,13 +15,14 @@ bool Editbox::HitTest( int mX, int mY ){
 	return false;
 }
 
-void Editbox::onKeyPress( int key, int mod ){
-	if( key  > 31 && key < 126 ){
-		text.insert( caretPos++, (const char*)&key );
+void Editbox::onKeyPress( unsigned short unicode ){ 
+	if( unicode > 31 && unicode < 126 ){
+		//WARNING: Error might occure
+		text.insert( caretPos++, (const char*)&unicode );
 	}
 
-	if( key == 8 ){ //backspace
-		text.erase( caretPos-- );
+	if( unicode == 8 ){ //backspace
+		text.erase( --caretPos );
 	}
 }
 

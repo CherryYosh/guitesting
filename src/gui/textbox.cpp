@@ -32,7 +32,7 @@ void Textbox::onMouseRelease( int button ){
 	//needed?
 }
 
-void Textbox::onKeyPress( int key, int mod ){
+void Textbox::onKeyPress( unsigned short unicode ){ 
 }
 
 void Textbox::onKeyRelease( int key, int mod ){

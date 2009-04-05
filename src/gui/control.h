@@ -30,7 +30,7 @@ public:
 	virtual bool HitTest( int mouseX, int mouseY );
 	virtual void onMousePress( int button );
 	virtual void onMouseRelease( int button );
-	virtual void onKeyPress( int key, int mod );
+	virtual void onKeyPress( unsigned short ); 
 	virtual void onKeyRelease( int key, int mod );
 	virtual void Move( int x, int y );
 	virtual void SetCallback( boost::function<int()> callback );

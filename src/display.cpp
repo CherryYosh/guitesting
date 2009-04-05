@@ -30,6 +30,8 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
 	}
 
+	SDL_EnableUNICODE(true);
+
 	glewInit();
 
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
@@ -133,7 +135,7 @@ void Display::ProcessMessages(){
 				camera->Move( ((double*)temp->parameters)[0], ((double*)temp->parameters)[1], ((double*)temp->parameters)[2] );
 				break;
 			case INPUT_KEYPRESS:
-				gui->HandelKeyPress( ((int*)temp->parameters)[0], ((int*)temp->parameters)[1] );
+				gui->HandelKeyPress( ((unsigned short*)temp->parameters)[0] );//, ((int*)temp->parameters)[1] );
 				break;
 			default:
 #ifdef _DEBUG_
