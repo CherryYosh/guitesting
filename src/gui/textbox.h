@@ -4,6 +4,7 @@
 #include "control.h"
 
 #include <string>
+#include <vector>
 
 class Textbox : public Control {
 public:
@@ -21,14 +22,15 @@ public:
 
 	static Shader* _TextShader;
 protected:
-	unsigned int twidth, theight;
+	unsigned short twidth, theight;
+	unsigned short caretPos, caretLine;
+	unsigned short bottomLine; //the index of the bottome line
 	bool multiline;
-	std::string text;
-	unsigned int caretPos;
 	bool flashCaret;
 	bool showingCaret;
 	bool editable;
-	unsigned char font; //fixed at 0 right now
+	unsigned char font; 		//fixed at 0 right now
+	std::vector<std::string> lines;
 private:
 };
 

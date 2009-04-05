@@ -4,10 +4,12 @@
 
 Textbox::Textbox( std::string t, int x, int y, int width, int height ) : Control(t,x,y){
 	twidth = width; //width in pixels
-	theight = 1;//height; //height in characters
+	theight = height; //height in lines
 	multiline = false;
-	text = ""; 
+	lines.push_back( "" );
+	bottomLine = 0;
 	caretPos = 0;
+	caretLine = 0;
 	font = 0;
 	flashCaret = false;
 	showingCaret = false;
@@ -24,7 +26,14 @@ void Textbox::Render(){
 }
 
 void Textbox::RenderText(){
-	FontMgr_glDrawText( font, x, y + FontMgr_GetLineHeight(font), _TextShader, text.c_str() ); 
+	short size = lines.size();
+	short line = bottomLine;
+	for( short i = theight; i > 0; i-- ){
+		if( line >= 0 )
+			FontMgr_glDrawText( font, x, y + ( FontMgr_GetLineHeight(font) * i), _TextShader, lines[line--].c_str() ); 
+		else
+			return;
+	}
 }
 
 void Textbox::onMousePress( int button ){

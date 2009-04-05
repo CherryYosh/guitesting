@@ -32,8 +32,8 @@ private:
 		std::string type; //close, sidepanel etc
 		unsigned int vertexOffset;
 		unsigned int textureOffset;
-		unsigned int width;
-		unsigned int height;
+		unsigned short width;
+		unsigned short height;
 	};
 	
 	std::vector<GUI_GUIDataT*> guiData;

@@ -93,8 +93,8 @@ void GUI::SetTheme( char* themePath ){
 		temp->type = theme->data[i]->type;
 		temp->vertexOffset = slot*sizeof(float);
 		temp->textureOffset = (slot+6)*sizeof(float);
-		temp->width = (theme->data[i]->x2 - theme->data[i]->x);
-		temp->height = (theme->data[i]->y2 - theme->data[i]->y);
+		temp->width = (short)(theme->data[i]->x2 - theme->data[i]->x);
+		temp->height = (short)(theme->data[i]->y2 - theme->data[i]->y);
 		
 		guiData.push_back( temp );
 	}
