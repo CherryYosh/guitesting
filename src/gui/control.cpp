@@ -10,7 +10,7 @@ GLuint Control::GUI_vbo;
 //	vbo = id of the vbo to send the texture data too
 //	path = the name of the default theme to load
 //OUT: none
-void Control_Init( GLuint vbo, const char* path ){
+void Control_Init( const char* path ){
 	unsigned int size = ThemeMgr_LoadTheme( path );
         ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
                 
@@ -43,8 +43,6 @@ void Control_Init( GLuint vbo, const char* path ){
         glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
         glBufferData( GL_ARRAY_BUFFER, 0, 0, GL_STREAM_DRAW );
         glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
- 	vbo = Control::GUI_vbo; 
 }
 
 //This should only be called when a new theme has been loaded or when the control is initlized

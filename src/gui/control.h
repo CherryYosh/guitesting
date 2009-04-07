@@ -69,5 +69,5 @@ private:
 	bool hasFocus, isEnabled;
 };
 
-void Control_Init( GLuint, const char* );
+void Control_Init( const char* );
 #endif
