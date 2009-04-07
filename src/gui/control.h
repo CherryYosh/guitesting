@@ -9,7 +9,6 @@
 
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glext.h>
 
 #include <string>
@@ -17,13 +16,17 @@
 #include <boost/function.hpp>
 
 #include "../shader.h"
-#include "../nvMatrix.h"
-#include "../nvVector.h"
+
+struct CTRL_GUIDataT{
+	std::string type;
+	float s,t, s2,t2; //the uv coords
+	float width, height;
+};
 
 //the basic control class of all GUI objects
 class Control{
 public:
-	Control( std::string t, int x, int y );
+	Control( std::string t, float x, float y );
 	virtual ~Control();
 	virtual void Activate(); //called when ever the control becomes active
 	virtual void Render();
@@ -32,25 +35,39 @@ public:
 	virtual void onMouseRelease( int button );
 	virtual void onKeyPress( unsigned short ); 
 	virtual void onKeyRelease( int key, int mod );
-	virtual void Move( int x, int y );
+	virtual void Move( float x, float y );
 	virtual void SetCallback( boost::function<int()> callback );
-	virtual void SetWidth( unsigned int );
-	virtual void SetHeight( unsigned int );
+	virtual void SetWidth( float );
+	virtual void SetHeight( float );
 	virtual bool HasAttrib( unsigned short );
 	virtual void SetEnabled( bool value );
 	virtual void SetFocus( bool value);
+	virtual void SetDepth( float );
 
-	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
-	std::string type; //CLOSE, etc
-	unsigned int vertexOffset, textureOffset;
-	static Shader* _Shader;
-	nv::matrix4<float> modelview;
+	virtual float GetWidth();
+	virtual float GetHeight();
+	virtual float GetDepth();
+
+	//unsigned int TextureOffset;
+	unsigned int VertexOffset; 
+
+	float x, y;
+	float s, t, s2, t2;
+
+	static Shader* GUIShader;
+	static Shader* TextShader;
+	static GLuint GUI_vbo;
 protected:
-
-	int x, y, width, height;
-	unsigned short attributes;
-	float scale[2];
+	float Depth;
+	float Width, Height;
+	unsigned short Attributes;
+	std::string Type; //CLOSE, etc
+	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
 private:
+	void GetControlData();
+
 	bool hasFocus, isEnabled;
 };
+
+void Control_Init( GLuint, const char* );
 #endif

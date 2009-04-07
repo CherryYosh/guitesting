@@ -20,9 +20,8 @@ Button::~Button(){
 }
 
 bool Button::HitTest( int mouseX, int mouseY ){
-	if( mouseX > x && mouseX < x + width &&
-		mouseY > y && mouseY < y + height ){
-		printf( "here!\n" );
+	if( mouseX > x && mouseX < x + Width &&
+		mouseY > y && mouseY < y + Height ){
 		return true;
 	}
 	return false;

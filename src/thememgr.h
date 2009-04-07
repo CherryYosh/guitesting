@@ -24,7 +24,7 @@ struct ThemeMgr_ThemeDataT{
 	std::vector< ThemeMgr_ImageDataT* > data; //maybe replace this later, but im feeling lazy right now
 };
 
-unsigned int ThemeMgr_LoadTheme( char* );
+unsigned int ThemeMgr_LoadTheme( const char* );
 unsigned int ThemeMgr_GetImage();
 ThemeMgr_ThemeDataT* ThemeMgr_GetTheme();
 

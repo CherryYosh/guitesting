@@ -2,19 +2,23 @@
 
 #include "../fontmgr.h"
 
-Textbox::Textbox( std::string t, int x, int y, int width, int height ) : Control(t,x,y){
-	twidth = width; //width in pixels
-	theight = height; //height in lines
-	multiline = false;
+Textbox::Textbox( std::string t, int x, int y ) : Control(t,x,y){
+	TextWidth = 0;
+	TextHeight = 0; 
+	Multiline = false;
 	lines.push_back( "" );
-	bottomLine = 0;
-	caretPos = 0;
-	caretLine = 0;
+	BottomLine = 0;
+	CaretPos = 0;
+	CaretLine = 0;
 	font = 0;
-	flashCaret = false;
-	showingCaret = false;
-	editable = false;
-	attributes |= CTRL_INPUT;
+	FlashCaret = false;
+	ShowingCaret = false;
+	Editable = false;
+	NumCharacters = 0;
+	MaxCharacters = 255;
+	NumLines = 1; 
+	MaxLines = 8;
+	Attributes |= CTRL_INPUT;
 }
 
 Textbox::~Textbox(){
@@ -26,14 +30,16 @@ void Textbox::Render(){
 }
 
 void Textbox::RenderText(){
+/*
 	short size = lines.size();
-	short line = bottomLine;
-	for( short i = theight; i > 0; i-- ){
+	short line = BottomLine;
+	for( short i = TextHeight; i > 0; i-- ){
 		if( line >= 0 )
 			FontMgr_glDrawText( font, x, y + ( FontMgr_GetLineHeight(font) * i), _TextShader, lines[line--].c_str() ); 
 		else
 			return;
 	}
+*/
 }
 
 void Textbox::onMousePress( int button ){
@@ -49,4 +55,19 @@ void Textbox::onKeyPress( unsigned short unicode ){
 
 void Textbox::onKeyRelease( int key, int mod ){
 	//needed?
+}
+
+void Textbox::SetFont( unsigned char f ){
+	font = f;
+	TextHeight = Height / FontMgr_GetLineHeight( font );
+}
+
+void Textbox::SetWidth( unsigned short w){
+	Width = w;
+	TextWidth = Width;
+}
+
+void Textbox::SetHeight( unsigned short h){
+	Height = h;
+	TextHeight = Height / FontMgr_GetLineHeight( font );
 }

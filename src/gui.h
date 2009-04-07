@@ -25,20 +25,12 @@ public:
 	void HitTest( int, int );
 	void Move( int, int );
 	void HandelKeyPress( unsigned short ); 
-protected:
-	std::vector<Control*> controls;
-private:
-	struct GUI_GUIDataT{
-		std::string type; //close, sidepanel etc
-		unsigned int vertexOffset;
-		unsigned int textureOffset;
-		unsigned short width;
-		unsigned short height;
-	};
 	
-	std::vector<GUI_GUIDataT*> guiData;
+	void CreateWindowConsole( float, float );
 
-	Control* activeControl;
+protected:
+	std::vector<Window*> windows;
+private:
 	bool isRecevingInput;
 };
 

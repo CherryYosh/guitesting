@@ -17,7 +17,7 @@ ThemeMgr_ThemeDataT theme; //needs to be visible to the gui
 // close:toprightX, toprightY, width, height, more!
 
 //MUST BE CALLED AFTER DEVIL_INIT
-unsigned int ThemeMgr_LoadTheme( char* themename ){
+unsigned int ThemeMgr_LoadTheme( const char* themename ){
 	string line; //the current line
 	string temp; //temp data, a substring of line
 	size_t  pos; //position in the search

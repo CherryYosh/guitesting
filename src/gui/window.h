@@ -2,21 +2,38 @@
 #define WINDOW_H
 
 #include "control.h"
-/*
-class Window : public Control {
+
+#include <vector>
+
+//defines for the depth
+#define WINDOW_BOTTOM 	2
+#define WINDOW_MIDDLE 	1
+#define WINDOW_TOP 	0
+
+struct WINDOW_VBOVertex{
+	float x, y;
+	float s, t;
+	float spacer[4]; //keep it aligned in 32 bits
+};
+
+class Window {
 public:
 	Window();
 	~Window();
 
-	void AddChild( Control *child );
-	void Move( int xChange, int yChange );
-	void Close();
+	virtual void AddChild( Control*, int, bool );
+	virtual void Move( float, float );
+	virtual void Close();
+	virtual void Render();
+	virtual void UpdateVBO();
 protected:
 private:
-	struct tControlList{
-		Control* control;
-		tControlList* next;
-	} *list;
+	virtual void RebuildVBO();
+	float Depth;
+	float x, y;
+	std::vector<Control*> Children;
+	unsigned int VertexPosition, VertexLength; 
+	bool VertexPositionIsSet;
 };
-*/
+
 #endif

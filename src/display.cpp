@@ -11,8 +11,8 @@
 
 Shader guiShader;
 Shader textShader;
-Shader* Control::_Shader = NULL;
-Shader* Textbox::_TextShader = NULL;
+//Shader* Control::_Shader = NULL;
+//Shader* Textbox::_TextShader = NULL;
 
 Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
@@ -34,16 +34,22 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 
 	glewInit();
 
+	//start up the fontmgr, thanks rj
+	FontMgr_Init();
+	FontMgr_LoadFont( 0, "/usr/share/fonts/corefonts/arial.ttf", 16 );
+	
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
 	gui = new GUI( ptEngine );
 	timer = new Timer();
 	mouse = new Mouse();
 	camera = new Camera();
 
+	gui->CreateWindowConsole( 50, 50 );
 	
 	glViewport( 0, 0, 640, 480 );
 	camera->SetProjection( 45.0, 640.0/480.0, 1.0, 1000.0 );
 	camera->SetOrtho( 0, 640, 480, 0, 1, 20 ); 
+	camera->Move( 0, 0, -1 );
 
 	//set percision for os compatibility
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
@@ -55,11 +61,6 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
 	
 	SDL_WM_SetCaption( "Untitled Project", NULL );
-
-	//start up the fontmgr, thanks rj
-	FontMgr_Init();
-	FontMgr_LoadFont( 0, "/usr/share/fonts/corefonts/arial.ttf", 16 );
-
 	
 	//=============================== set up default shaders!
 	guiShader.Load( "guiShader" );
@@ -76,8 +77,8 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	textShader.GetAttributeLoc( 0, "vertex" );
 	textShader.GetAttributeLoc( 1, "tcoord" );
 	
-	Control::_Shader = &guiShader;
-	Textbox::_TextShader = &textShader;
+	//Control::_Shader = &guiShader;
+	//Textbox::_TextShader = &textShader;
 
 	guiShader.Bind();
 	glUniform1i( guiShader.uniform[2], 0 );
@@ -157,20 +158,20 @@ void Display::Render(){
 
 	guiShader.Bind();
 	guiShader.SetProjection( camera->GetOrtho() );
-	
-	//time to draw the gui, last thing we do
+	guiShader.SetModelview( camera->GetModelview() );
+
 	gui->Render( &guiShader );
 
 	guiShader.Unbind();
-
+/*
 	textShader.Bind();
 	textShader.SetProjection( camera->GetOrtho() );
-	
-	//FontMgr_glDrawText( 0, 50, 50, &textShader, "hi momy!!!" );	
+	textShader.SetModelview( camera->GetModelview() );
+
 	gui->RenderText( &textShader );
 
 	textShader.Unbind();
-
+*/
 	SDL_GL_SwapBuffers();
 }
 
