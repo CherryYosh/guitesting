@@ -29,7 +29,9 @@ public:
 	void CreateWindowConsole( float, float );
 
 protected:
-	std::vector<Window*> windows;
+	std::vector<Window*> Windows;
+	Window* ActiveWindow;
+	unsigned int numIndices;
 private:
 	bool isRecevingInput;
 };

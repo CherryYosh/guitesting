@@ -13,6 +13,7 @@ Editbox::~Editbox(){
 }
 
 bool Editbox::HitTest( int mX, int mY ){
+	
 	if( mX > x && mX < x + Width 
 			&& mY > y && mY < y + Height ){
 		
@@ -108,9 +109,6 @@ void Editbox::onKeyPress( unsigned short unicode ){
 }
 
 void Editbox::Render(){
-//	glVertexAttribPointer(_Shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 0, (GLvoid *)(NULL + vertexOffset));
-//	glVertexAttribPointer(_Shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 0, (GLvoid *)(NULL + textureOffset));
-//	glDrawArrays( GL_QUADS, 0, 8 );
 }
 
 void Editbox::onKeyRelease( int key, int mod ){

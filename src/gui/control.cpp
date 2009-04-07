@@ -73,7 +73,6 @@ Control::Control( std::string t, float ix, float iy ){
 	y = iy;
 	VertexOffset = 0;
 
-	printf( "setting x %f y %f\n", x, y );
 	Attributes = 0;
 	GetControlData();
 }

@@ -62,6 +62,11 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	
 	SDL_WM_SetCaption( "Untitled Project", NULL );
 	
+	glEnable (GL_BLEND); 
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable( GL_ALPHA_TEST );
+	glClearColor( 0.0, 0.0, 0.0, 1.0 );
+
 	//=============================== set up default shaders!
 	guiShader.Load( "guiShader" );
 	guiShader.GetUniformLoc( 0, "projection" );

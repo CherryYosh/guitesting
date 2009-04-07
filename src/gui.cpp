@@ -9,8 +9,9 @@
 GLuint vbo;
 
 GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
+	ActiveWindow = NULL;
 	isRecevingInput = false;
-	
+	numIndices = 0;	
 	glGenBuffers( 1, &vbo );
 
 	//SetTheme( "themes/default.theme" );
@@ -82,27 +83,12 @@ void GUI::Render( Shader* shader ){
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	//glVertexPointer( 2, GL_FLOAT, 4*sizeof(float), 0 );
 
-	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 32, 0 );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(NULL + 2 * sizeof(float)) );
+	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
+	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(NULL + 2 * sizeof(float)) );
 
-	glDrawArrays( GL_QUADS, 0, 128 );	
-/*
-	//and then set up the vertex array
-	glBindBuffer( GL_ARRAY_BUFFER, Control::_Vertex );
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, 0);
+	glDrawArrays( GL_QUADS, 0, numIndices );	
 	
-	//and tell it to send the texture data to a attribute...
-	glEnableVertexAttribArray(shader->attribute[0]);
-	glEnableVertexAttribArray(shader->attribute[1]);
-
-	//and now we draw them all
-	for( std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it ){
-		((Control*)*it)->Render();
-	}
-*/
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
@@ -118,9 +104,24 @@ void GUI::AddControl( Control* control ){
 }
 
 void GUI::HitTest( int x, int y ){
+	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y ) ){
+		return;
+	}
+
+	size_t size = Windows.size();
+	for( int i = 0; i < size; i++ ){
+		if( Windows[i]->HitTest( x, y ) ){
+			ActiveWindow = Windows[i];
+			return;
+		}	
+	}
+
+	ActiveWindow = NULL;
 }
 
 void GUI::Move( int x, int y ){
+	if( ActiveWindow != NULL )
+		ActiveWindow->Move( x, y );
 }
 
 void GUI::HandelKeyPress( unsigned short unicode ){ 
@@ -141,23 +142,27 @@ void GUI::CreateWindowConsole( float x, float y ){
 
 	//now to position them
 	//NOTE: top bar is positioned..
-	printf( "moving! %f %f\n", topbar->GetWidth() - (close->GetWidth() * 1.5 ),  topbar->GetHeight() * 0.25 );
 	close->Move( topbar->GetWidth() - (close->GetWidth() * 1.5 ),  topbar->GetHeight() * 0.25 );
 	lsidebar->Move( 0, topbar->GetHeight() );
-	rsidebar->Move( topbar->GetWidth(), topbar->GetHeight() );
-	bottombar->Move( 0, topbar->GetHeight() + lsidebar->GetHeight() );
+	rsidebar->Move( topbar->GetWidth() - rsidebar->GetWidth(), topbar->GetHeight() );
+	bottombar->Move( lsidebar->GetWidth(), topbar->GetHeight() + lsidebar->GetHeight() - bottombar->GetHeight() );
 	textarea->Move( lsidebar->GetWidth(), topbar->GetHeight() );
 	inputarea->Move( lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight() );
 
 	//now add them all
-	window->AddChild( close, WINDOW_TOP, false );
 	window->AddChild( topbar, WINDOW_BOTTOM, false );
 	window->AddChild( bottombar, WINDOW_BOTTOM, false );
 	window->AddChild( lsidebar, WINDOW_BOTTOM, false );
 	window->AddChild( rsidebar, WINDOW_BOTTOM, false );
+	window->AddChild( close, WINDOW_TOP, false );
 	window->AddChild( textarea, WINDOW_TOP, false );
 	window->AddChild( inputarea, WINDOW_TOP, true );
 
+	numIndices += 4 * 7;
+	
 	//now we move it (and all its children) and make it build its vbo
+	window->width = topbar->GetWidth();
+	window->height = topbar->GetHeight() + lsidebar->GetHeight();
 	window->Move( x, y );
+	Windows.push_back( window );
 }

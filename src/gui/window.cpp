@@ -45,6 +45,27 @@ void Window::Close(){
 void Window::Render(){
 }
 
+bool Window::HitTest( int mx, int my ){
+	//TODO: make this faster :P
+	if( mx > x && mx < x + width &&
+			my > y && my < y + height ){
+		//now we test the controls
+		//remove the windows position from the mouse click..
+		//due to the fact that the children are based on the window's position
+		mx -= x;
+		my -= y;
+		size_t size = Children.size();
+		for( int i = 0; i < size; i++ ){
+			if(Children[i]->HitTest(mx, my))
+				return true;
+		}
+
+		
+		return true;
+	}
+	return false;
+}
+
 void Window::UpdateVBO(){
 	//NOTE: This is a lot like rebuild, only the end changes..
 	
@@ -101,11 +122,10 @@ void Window::UpdateVBO(){
 	GLint size;
 	glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
 
-	printf( "data size %i : %i positons %i length %i\n", sizeof( WINDOW_VBOVertex ), size, VertexPosition, VertexLength );
 	void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, VertexPosition, VertexLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
 	if( ptr != NULL ){
-		//memcpy( ptr, data, VertexLength );
+		memcpy( ptr, data, VertexLength );
 		//NOTE: Do a check here to make sure Unmap returns GL_TRUE :P
 		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glFlushMappedBufferRange( GL_ARRAY_BUFFER_ARB, VertexPosition, VertexLength );

@@ -26,6 +26,9 @@ public:
 	virtual void Close();
 	virtual void Render();
 	virtual void UpdateVBO();
+	virtual bool HitTest( int, int );
+
+	float width, height;
 protected:
 private:
 	virtual void RebuildVBO();
