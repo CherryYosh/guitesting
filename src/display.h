@@ -10,7 +10,7 @@
 #include <SDL/SDL.h>
 
 #include "timer.h"
-#include "mouse.h" //needed?
+#include "mouse.h" 
 #include "system.h"
 #include "camera.h"
 #include "gui.h"
@@ -26,18 +26,13 @@ public:
 	void Render();
 	void Resize( unsigned int width, unsigned int height );
 
-	void HandleMousePress();
-	void HandleMouseRelease();
-	void HandleMouseMotion();
+	void OnMouseButtonChange();
+	void OnMouseMotion();
 protected:
-	struct tWindow{
-		unsigned int width, height;
-	}window;
 private:
 	Camera *camera;
 	Timer *timer;
 	GUI *gui;
-	Mouse *mouse;
 };
 
 #endif

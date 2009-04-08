@@ -6,7 +6,6 @@
 #endif
 
 #include <boost/thread/mutex.hpp>
-#include <boost/thread/shared_mutex.hpp>
 
 #include "defines.h"
 
@@ -29,7 +28,7 @@ public:
 protected:
 	bool running;
 	Engine *engine;
-	boost::shared_mutex msg_mutex;
+	boost::mutex msg_mutex;
 	MessageList* msgList;
 private:
 };

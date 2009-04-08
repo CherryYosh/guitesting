@@ -6,7 +6,6 @@
 #include <string>
 
 #include "system.h"
-#include "mouse.h"
 
 
 struct Input_ActionDataT{
@@ -32,8 +31,7 @@ struct Input_ProfileDataT{
 };
 
 
-class Input : public System 
-{
+class Input : public System {
 public:
 	Input( Engine *ptEngine );
 	~Input();

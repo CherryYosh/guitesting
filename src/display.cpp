@@ -11,8 +11,40 @@
 
 Shader guiShader;
 Shader textShader;
-//Shader* Control::_Shader = NULL;
-//Shader* Textbox::_TextShader = NULL;
+
+//TODO: clean up??
+void LoadShaders(){
+	guiShader.Load( "guiShader" );
+	guiShader.GetUniformLoc( 0, "projection" );
+	guiShader.GetUniformLoc( 1, "modelview" );
+	guiShader.GetUniformLoc( 2, "tex0" );
+	guiShader.GetAttributeLoc( 0, "vertex" );
+	guiShader.GetAttributeLoc( 1, "tcoord" );
+	
+	textShader.Load( "textShader" );
+	textShader.GetUniformLoc( 0, "projection" );
+	textShader.GetUniformLoc( 1, "modelview" );
+	textShader.GetUniformLoc( 2, "tex0" );
+	textShader.GetAttributeLoc( 0, "vertex" );
+	textShader.GetAttributeLoc( 1, "tcoord" );
+	
+	guiShader.Bind();
+		glUniform1i( guiShader.uniform[2], 0 );
+	guiShader.Unbind();
+}
+
+void SetupSDL(){
+	 SDL_EnableUNICODE(true);
+
+	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
+
+	SDL_WM_SetCaption( "Untitled Project", NULL );
+}
+
+void Blah( void* data ){
+	printf( "here!\n" );
+}
 
 Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
@@ -30,8 +62,8 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
 	}
 
-	SDL_EnableUNICODE(true);
-
+	SetupSDL();
+	
 	glewInit();
 
 	//start up the fontmgr, thanks rj
@@ -40,10 +72,10 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
 	gui = new GUI( ptEngine );
-	timer = new Timer();
-	mouse = new Mouse();
+	timer = new Timer(this);
 	camera = new Camera();
 
+	
 	gui->CreateWindowConsole( 50, 50 );
 	
 	glViewport( 0, 0, 640, 480 );
@@ -51,60 +83,47 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	camera->SetOrtho( 0, 640, 480, 0, 1, 20 ); 
 	camera->Move( 0, 0, -1 );
 
-	//set percision for os compatibility
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-
-	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
-	
-	SDL_WM_SetCaption( "Untitled Project", NULL );
-	
 	glEnable (GL_BLEND); 
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable( GL_ALPHA_TEST );
+	glAlphaFunc( GL_GREATER, 0.4 );
+	glEnable( GL_ALPHA_TEST );
+	
 	glClearColor( 0.0, 0.0, 0.0, 1.0 );
 
-	//=============================== set up default shaders!
-	guiShader.Load( "guiShader" );
-	guiShader.GetUniformLoc( 0, "projection" );
-	guiShader.GetUniformLoc( 1, "modelview" );
-	guiShader.GetUniformLoc( 2, "tex0" );
-	guiShader.GetAttributeLoc( 0, "vertex" );
-	guiShader.GetAttributeLoc( 1, "tcoord" );
-	
-	textShader.Load( "textShader" );
-	textShader.GetUniformLoc( 0, "projection" );
-	textShader.GetUniformLoc( 1, "modelview" );
-	textShader.GetUniformLoc( 2, "tex0" );
-	textShader.GetAttributeLoc( 0, "vertex" );
-	textShader.GetAttributeLoc( 1, "tcoord" );
-	
-	//Control::_Shader = &guiShader;
-	//Textbox::_TextShader = &textShader;
-
-	guiShader.Bind();
-	glUniform1i( guiShader.uniform[2], 0 );
-	guiShader.Unbind();
+	LoadShaders();
+	Mouse_Init();
 }
 
 Display::~Display(){
 	//TODO
 	delete gui;
 	delete timer;
+	delete camera;
+	Mouse_Die();
 }
+
+void (*ptr)(void*);
 
 void Display::Start(){
 	running = true;
+	unsigned char MouseUpdate;
+
+	timer->SetFunction( &Blah, NULL );
+	printf( "1 %p\n", &Blah );
+	ptr = &Blah;
+	ptr(NULL);
+	timer->Start();
 	
 	while( running ){
-		timer->Update();
-
 		Render();
 
 		ProcessMessages();
+		
+		if( (MouseUpdate = Mouse_SetState()) != 0 ){
+			if( MouseUpdate & 0x01 ) OnMouseButtonChange();
+			if( MouseUpdate & 0x02 ) OnMouseMotion();
+		}
+	
 	}
 }
 
@@ -126,13 +145,8 @@ void Display::ProcessMessages(){
                                 running = false;
                                 break;
                 	case MOUSE_PRESS:
-				HandleMousePress();
-				break;
 			case MOUSE_RELEASE:
-				HandleMouseRelease();
-				break;
-			case MOUSE_MOTION:
-				HandleMouseMotion();
+				OnMouseButtonChange();
 				break;
 			case WINDOW_RESIZE:
 				Resize( ((int*)temp->parameters)[0], ((int*)temp->parameters)[1] );
@@ -143,6 +157,12 @@ void Display::ProcessMessages(){
 			case INPUT_KEYPRESS:
 				gui->HandelKeyPress( ((unsigned short*)temp->parameters)[0] );//, ((int*)temp->parameters)[1] );
 				break;
+			case FUNCTION:
+				//FEAR ME!!!! MUAHAHAHAHAAHAH
+				//((void(*)(void*))temp->parameters) -- gets a pointer to a function
+				//(void*)((char*)temp->parameters)[sizeof(void(*)(void*))-1] -- passes in the data
+				((void(*)(void*))temp->parameters)((void*)((char*)temp->parameters)[sizeof(void(*)(void*))-1]);
+				break;
 			default:
 #ifdef _DEBUG_
 				printf( "ERROR: unknown event id (%i) recived.\n", temp->ID );
@@ -150,8 +170,8 @@ void Display::ProcessMessages(){
 				break;
 		}
 
-                if( temp->parameters != NULL )
-			delete [] temp->parameters;
+//                if( temp->parameters != NULL )
+//			delete [] temp->parameters;
 		delete temp;
                 temp = next;
         }
@@ -161,47 +181,23 @@ void Display::ProcessMessages(){
 void Display::Render(){	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	guiShader.Bind();
-	guiShader.SetProjection( camera->GetOrtho() );
-	guiShader.SetModelview( camera->GetModelview() );
-
 	gui->Render( &guiShader );
 
-	guiShader.Unbind();
-/*
-	textShader.Bind();
-	textShader.SetProjection( camera->GetOrtho() );
-	textShader.SetModelview( camera->GetModelview() );
-
-	gui->RenderText( &textShader );
-
-	textShader.Unbind();
-*/
 	SDL_GL_SwapBuffers();
 }
 
 void Display::Resize( unsigned int width, unsigned int height ){	
 	glViewport( 0, 0, width, height );
 	camera->SetProjection( camera->fov, width / height, camera->zNear, camera->zFar );
-
-	window.width = width;
-	window.height = height;
 }
 
-void Display::HandleMousePress(){
-	mouse->SetButtonState();
-	
-	gui->HitTest( mouse->GetX(), mouse->GetY() );
+void Display::OnMouseButtonChange(){
+	if( Mouse_GetButtonState( 0 ) )
+		gui->HitTest( Mouse_GetX(), Mouse_GetY() );
 }
 
-void Display::HandleMouseRelease(){
-	mouse->SetButtonState();
-}
-
-void Display::HandleMouseMotion(){
-	mouse->SetMousePosition();
-
-	if( mouse->GetButtonState(0) ){
-		gui->Move( mouse->GetChangeX(), mouse->GetChangeY() );
+void Display::OnMouseMotion(){
+	if( Mouse_GetButtonState(0) ){ //dragging
+		gui->Move( Mouse_GetChangeX(), Mouse_GetChangeY() );
 	}
 }

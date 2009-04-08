@@ -10,6 +10,7 @@
 
 #include "system.h"
 #include "shader.h"
+#include "camera.h"
 #include "gui/controls.h"
 
 class GUI : public System {
@@ -20,8 +21,6 @@ public:
 	void Render( Shader* );
 	void RenderText( Shader* );
 
-	void AddControl( Control* control );
-	void SetTheme( char* );
 	void HitTest( int, int );
 	void Move( int, int );
 	void HandelKeyPress( unsigned short ); 
@@ -34,6 +33,7 @@ protected:
 	unsigned int numIndices;
 private:
 	bool isRecevingInput;
+	Camera* Screen;
 };
 
 #endif

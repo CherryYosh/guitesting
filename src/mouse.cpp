@@ -3,7 +3,7 @@
  * a adjustable click time
  *
  * TODO: double clicks, more then 3
- * button support, isure proper touch
+ * Buttons support, isure proper touch
  * pad support... 
  *
  *
@@ -15,75 +15,91 @@
  */
 
 #include "mouse.h"
-#include <stdio.h>
+#include <SDL/SDL.h>
 
-Mouse::Mouse(){	
-	button = new bool[3]; //TODO: remove the magic number to suppror more buttons
+unsigned char NumClicks;
+bool* Buttons;
+unsigned int x, y, oldx, oldy;
+unsigned int ClickTimeout;
+unsigned int ClickTime;
+
+void Mouse_Init(){	
+	Buttons = new bool[3];
 	x = 0;
 	y = 0;
-	pressClicks = 0;
-	clickTimeout = 1000; //1second
-	SetButtonState();
+	ClickTime = 0;
+	ClickTimeout = 1000; //1second
+	Mouse_SetState();
 }
 
-Mouse::~Mouse(){
-	delete button;
+void Mouse_Die(){
+	delete Buttons;
 }
 
-void Mouse::SetButtonState(){
+unsigned char Mouse_SetState(){
+	unsigned char ret = 0;
+	if(Mouse_SetButtonState())
+		ret = 1;
+	if( Mouse_SetPosition())
+		ret = ret | 0x02;
+	return ret;
+}
+
+bool Mouse_SetButtonState(){
+	bool old[2];
+	old[0] = Buttons[0];
+	old[1] = Buttons[1];
+	
 	//left
-	if( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(1) )
-		button[0] = true;
-	else 
-		button[0] = false;
+	Buttons[0] =  ( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(1) );
 	
 	//right
-	if( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(2) )
-	        button[1] = true;
-	else 
-	        button[1] = false;
+	Buttons[1] =  ( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(2) );
+
+	return !( old[1] == Buttons[0] && old[2] == Buttons[2] );
 }
 
-//get the mouse pos from SDL, setting x and y
-void Mouse::SetMousePosition(){
+bool Mouse_SetPosition(){
 	//used for change
 	oldx = x;
 	oldy = y;
 
-	SDL_GetMouseState( &x, &y );
+	SDL_GetMouseState( (int*)&x, (int*)&y );
+	
+	return !(oldx == x && oldy == y);
 }
 
-void Mouse::SetClickTimeout(int timeout ){
-	clickTimeout = timeout;
+void Mouse_SetTimeout(int timeout ){
+	ClickTimeout = timeout;
 }
 
-bool Mouse::GetButtonState( int key ){
+bool Mouse_GetButtonState( int key ){
 	//out of bounds check
 	//TODO: remove magic number
 	if( key > 2 )
 		return false;
 
-	return button[key];
+	return Buttons[key];
 
 }
 
-void Mouse::GetMousePosition( int *retx, int *rety ){
+void Mouse_GetPosition( unsigned int *retx, unsigned int *rety ){
 	retx = &x;
 	rety = &y;
 }
 
-int Mouse::GetX(){
+unsigned int Mouse_GetX(){
 	return x;
 }
 
-int Mouse::GetY(){
+unsigned int Mouse_GetY(){
 	return y;
 }
 
-int Mouse::GetChangeX(){
+unsigned int Mouse_GetChangeX(){
 	return x - oldx;
 }
-int Mouse::GetChangeY(){
+unsigned int Mouse_GetChangeY(){
 	return y - oldy;
 }
 

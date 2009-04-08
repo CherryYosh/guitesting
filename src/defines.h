@@ -10,6 +10,7 @@
 
 //global messages
 #define QUIT 1000
+#define FUNCTION 1001
 
 //display messages
 #define MOUSE_PRESS 	1103

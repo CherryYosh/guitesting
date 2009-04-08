@@ -3,7 +3,6 @@
 
 #include <boost/bind.hpp>
 #include <boost/thread/thread.hpp>
-#include <boost/thread/shared_mutex.hpp>
 
 #include "defines.h"
 #include "input.h"
@@ -25,7 +24,7 @@ protected:
 private:
 	bool running;
 	
-	boost::shared_mutex msg_mutex;
+	boost::mutex msg_mutex;
 	
 	boost::thread engine_thread;
 	boost::thread input_thread;

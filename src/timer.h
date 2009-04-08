@@ -11,18 +11,41 @@
 #define TIMER_H
 
 #include <SDL/SDL.h>
-#include <stdio.h>
+#include "system.h"
+#include <boost/thread/thread.hpp>
+#include <boost/bind.hpp>
 
-//simple FPS timer
 class Timer{
 public:
-        Timer();
+        Timer( System* );
+	~Timer();
 
-        void Update();
+	void Start();
+	void Stop();
+	void Restart();
+	void Tick();
+	void Step();
+
+	void SetFunction( void(*)(void*), void* );
+
 
 private:
-	int startTicks;
-	int frames;
+	void WaistTime();
+
+	unsigned int CurTicks;
+	unsigned int StopTicks;
+	unsigned int RunTime;
+	unsigned int Ticks; 
+	unsigned int Steps;
+
+	bool Running;
+	void (*Function)(void*);
+	void* Parameters;
+	
+	boost::thread Thread;
+	boost::mutex Mutex;
+
+	System* Owner;
 };
 
 #endif
