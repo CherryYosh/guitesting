@@ -42,10 +42,6 @@ void SetupSDL(){
 	SDL_WM_SetCaption( "Untitled Project", NULL );
 }
 
-void Blah( void* data ){
-	printf( "here!\n" );
-}
-
 Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
 		printf( "Unable to init SDL: %s\n", SDL_GetError() );
@@ -74,7 +70,6 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	gui = new GUI( ptEngine );
 	timer = new Timer(this);
 	camera = new Camera();
-
 	
 	gui->CreateWindowConsole( 50, 50 );
 	
@@ -102,18 +97,10 @@ Display::~Display(){
 	Mouse_Die();
 }
 
-void (*ptr)(void*);
-
 void Display::Start(){
 	running = true;
 	unsigned char MouseUpdate;
 
-	timer->SetFunction( &Blah, NULL );
-	printf( "1 %p\n", &Blah );
-	ptr = &Blah;
-	ptr(NULL);
-	timer->Start();
-	
 	while( running ){
 		Render();
 
@@ -170,6 +157,7 @@ void Display::ProcessMessages(){
 				break;
 		}
 
+//is this causing a memory leak??
 //                if( temp->parameters != NULL )
 //			delete [] temp->parameters;
 		delete temp;

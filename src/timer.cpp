@@ -30,8 +30,6 @@ void Timer::WaistTime(){
 		CurTicks = SDL_GetTicks();
 	}
 
-	//temp
-	printf("2 %p\n", (void*)*Function );
 	Owner->ReceiveMessage( FUNCTION, (void*)*Function );
 	Running = false;
 }
@@ -61,7 +59,6 @@ void Timer::Step(){
 void Timer::SetFunction( void function(void*), void* parameters ){
 	Mutex.lock();
 		Function = function;
-		printf( "3 %p\n", function );
 		Parameters = parameters;
 	Mutex.unlock();
 }
