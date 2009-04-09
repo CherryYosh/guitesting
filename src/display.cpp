@@ -94,32 +94,26 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 Display::~Display(){
 	//TODO
 	delete gui;
-	delete FPSTimer;
+	//delete FPSTimer;
 	delete camera;
 	Mouse_Die();
 }
 
 void Display::InitTimers(){
-	boost::function2<void, Display*, void*> f;
-	f = &Display::DrawFPS;
-	void* prt = new void*;
-	prt = &f;
-	
-	FPSTimer = new Timer(this);	
-	FPSTimer->SetFunction( &Display, prt, 0, 0 );
-	FPSTimer->SetRuntime( 5000 );
+	FPSTimer = new Timer<void, Display>(this);
+	int i = 1000; 
+	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, 1000 ) );
+	//FPSTimer->SetParameters( 1, 100 );
+	FPSTimer->SetRuntime( 500 );
 	FPSTimer->Start();
-
+	
 	//MouseTimer = new Timer;
 	//MouseTimer->SetFunction
 }
 
-void Display::DrawFPS(void* data){
-	unsigned int* i = reinterpret_cast<unsigned int*>(data);
-	unsigned int a = i[1]; 
-
-	printf("FPS: %i %i\n", (*i) / 5, a );
-	FPSTimer->Start();
+void Display::DrawFPS(unsigned int data){
+	printf( "here!!! %i\n", data );
+	//FPSTimer->Start();
 }
 
 void Display::Start(){
@@ -172,11 +166,9 @@ void Display::ProcessMessages(){
 			case INPUT_KEYPRESS:
 				gui->HandelKeyPress( ((unsigned short*)temp->parameters)[0] );//, ((int*)temp->parameters)[1] );
 				break;
-			case FUNCTION:{
-					Timer_RetData* data = reinterpret_cast<Timer_RetData*>(temp->parameters);
-					boost::function2<void, Display*, void*>* f = reinterpret_cast< boost::function2<void, Display*, void*>* >(data->Function);
-					(*f)(this, (reinterpret_cast<void*>(&data->Ticks)));
-			}break;
+			case TIMER_DONE:
+				((Timer<void, Display>*)temp->parameters)->RunCommand();
+				break;
 			default:
 #ifdef _DEBUG_
 				printf( "ERROR: unknown event id (%i) recived.\n", temp->ID );

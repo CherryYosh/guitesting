@@ -23,7 +23,7 @@ public:
 	void Start();
 	void ProcessMessages();
 
-	void DrawFPS(void*);
+	void DrawFPS(unsigned int);
 	
 	void Render();
 	void Resize( unsigned int width, unsigned int height );
@@ -35,8 +35,9 @@ private:
 	void InitTimers();
 
 	Camera *camera;
-	Timer *FPSTimer;
-	Timer *MouseTimer;
+	Timer< void, Display > *FPSTimer;
+	//Timer *FPSTimer;
+	//Timer *MouseTimer;
 	GUI *gui;
 };
 
