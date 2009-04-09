@@ -9,6 +9,8 @@
 #include "fontmgr.h"
 #include "shader.h"
 
+#include <boost/function.hpp>
+
 Shader guiShader;
 Shader textShader;
 
@@ -68,7 +70,6 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
 	gui = new GUI( ptEngine );
-	timer = new Timer(this);
 	camera = new Camera();
 	
 	gui->CreateWindowConsole( 50, 50 );
@@ -87,27 +88,54 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 
 	LoadShaders();
 	Mouse_Init();
+	InitTimers();
 }
 
 Display::~Display(){
 	//TODO
 	delete gui;
-	delete timer;
+	delete FPSTimer;
 	delete camera;
 	Mouse_Die();
+}
+
+void Display::InitTimers(){
+	boost::function2<void, Display*, void*> f;
+	f = &Display::DrawFPS;
+	void* prt = new void*;
+	prt = &f;
+	
+	FPSTimer = new Timer(this);	
+	FPSTimer->SetFunction( &Display, prt, 0, 0 );
+	FPSTimer->SetRuntime( 5000 );
+	FPSTimer->Start();
+
+	//MouseTimer = new Timer;
+	//MouseTimer->SetFunction
+}
+
+void Display::DrawFPS(void* data){
+	unsigned int* i = reinterpret_cast<unsigned int*>(data);
+	unsigned int a = i[1]; 
+
+	printf("FPS: %i %i\n", (*i) / 5, a );
+	FPSTimer->Start();
 }
 
 void Display::Start(){
 	running = true;
 	unsigned char MouseUpdate;
 
+
 	while( running ){
+		FPSTimer->Tick();
+
 		Render();
 
 		ProcessMessages();
 		
 		if( (MouseUpdate = Mouse_SetState()) != 0 ){
-			if( MouseUpdate & 0x01 ) OnMouseButtonChange();
+			//if( MouseUpdate & 0x01 ) OnMouseButtonChange();
 			if( MouseUpdate & 0x02 ) OnMouseMotion();
 		}
 	
@@ -144,12 +172,11 @@ void Display::ProcessMessages(){
 			case INPUT_KEYPRESS:
 				gui->HandelKeyPress( ((unsigned short*)temp->parameters)[0] );//, ((int*)temp->parameters)[1] );
 				break;
-			case FUNCTION:
-				//FEAR ME!!!! MUAHAHAHAHAAHAH
-				//((void(*)(void*))temp->parameters) -- gets a pointer to a function
-				//(void*)((char*)temp->parameters)[sizeof(void(*)(void*))-1] -- passes in the data
-				((void(*)(void*))temp->parameters)((void*)((char*)temp->parameters)[sizeof(void(*)(void*))-1]);
-				break;
+			case FUNCTION:{
+					Timer_RetData* data = reinterpret_cast<Timer_RetData*>(temp->parameters);
+					boost::function2<void, Display*, void*>* f = reinterpret_cast< boost::function2<void, Display*, void*>* >(data->Function);
+					(*f)(this, (reinterpret_cast<void*>(&data->Ticks)));
+			}break;
 			default:
 #ifdef _DEBUG_
 				printf( "ERROR: unknown event id (%i) recived.\n", temp->ID );
@@ -157,8 +184,7 @@ void Display::ProcessMessages(){
 				break;
 		}
 
-//is this causing a memory leak??
-//                if( temp->parameters != NULL )
+ //              if( temp->parameters != NULL )
 //			delete [] temp->parameters;
 		delete temp;
                 temp = next;

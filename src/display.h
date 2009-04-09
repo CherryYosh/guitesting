@@ -23,6 +23,8 @@ public:
 	void Start();
 	void ProcessMessages();
 
+	void DrawFPS(void*);
+	
 	void Render();
 	void Resize( unsigned int width, unsigned int height );
 
@@ -30,8 +32,11 @@ public:
 	void OnMouseMotion();
 protected:
 private:
+	void InitTimers();
+
 	Camera *camera;
-	Timer *timer;
+	Timer *FPSTimer;
+	Timer *MouseTimer;
 	GUI *gui;
 };
 

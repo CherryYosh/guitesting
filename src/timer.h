@@ -15,19 +15,27 @@
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
 
+
+struct Timer_RetData{
+	void* Function;
+ 	unsigned int Ticks;
+	unsigned int Steps;
+
+};
+
 class Timer{
 public:
         Timer( System* );
 	~Timer();
 
-	void Start();
-	void Stop();
-	void Restart();
+	bool Start();
+	void Stop(bool);
+	void Restart(bool);
 	void Tick();
 	void Step();
 
-	void SetFunction( void(*)(void*), void* );
-
+	void SetFunction( void*, void*, void*, int );
+	void SetRuntime( unsigned int );
 
 private:
 	void WaistTime();
@@ -39,8 +47,11 @@ private:
 	unsigned int Steps;
 
 	bool Running;
-	void (*Function)(void*);
+	bool SendData;
+
+	void* Function;
 	void* Parameters;
+	int NumParameters;
 	
 	boost::thread Thread;
 	boost::mutex Mutex;
