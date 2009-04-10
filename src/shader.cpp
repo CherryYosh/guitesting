@@ -28,6 +28,7 @@ bool Shader::Load( std::string shaderName ){
 	s2 = SHADERPATH + shaderName + ".frag";
 
 	id = glslLoadShaderProgram( s1.c_str(), s2.c_str() );
+	return true;
 }
 
 void Shader::Bind(){
@@ -38,12 +39,12 @@ void Shader::Unbind(){
 	glUseProgram( 0 );
 }
 
-void Shader::GetUniformLoc( GLuint uID, char* name ){
-	uniform[uID] = glGetUniformLocation( id, name );
+void Shader::GetUniformLoc( GLuint uID, std::string name ){
+	uniform[uID] = glGetUniformLocation( id, name.c_str() );
 }
 
-void Shader::GetAttributeLoc( GLuint uID, char* name ){
-        attribute[uID] = glGetAttribLocation( id, name );
+void Shader::GetAttributeLoc( GLuint uID, std::string name ){
+        attribute[uID] = glGetAttribLocation( id, name.c_str() );
 }
 
 void Shader::SetProjection( float m[16] ){

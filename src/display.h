@@ -9,21 +9,21 @@
 #include <GL/glu.h>
 #include <SDL/SDL.h>
 
-#include "timer.h"
 #include "mouse.h" 
+#include "timer.h"
 #include "system.h"
 #include "camera.h"
 #include "gui.h"
 
 class Display : public System {
 public:
-	Display( Engine *ptEngine );
+	Display();
 	~Display();
 
 	void Start();
 	void ProcessMessages();
 
-	void DrawFPS(unsigned int);
+	void DrawFPS(unsigned int*);
 	
 	void Render();
 	void Resize( unsigned int width, unsigned int height );
@@ -35,9 +35,7 @@ private:
 	void InitTimers();
 
 	Camera *camera;
-	Timer< void, Display > *FPSTimer;
-	//Timer *FPSTimer;
-	//Timer *MouseTimer;
+	Timer<void> *FPSTimer;
 	GUI *gui;
 };
 

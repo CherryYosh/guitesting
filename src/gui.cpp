@@ -6,7 +6,7 @@
 #include "thememgr.h"
 #include "engine.h"
 
-GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
+GUI::GUI() : System(){
 	ActiveWindow = NULL;
 	isRecevingInput = false;
 	numIndices = 0;	
@@ -19,6 +19,9 @@ GUI::GUI( Engine* ptEngine ) : System( ptEngine ){
 }
 
 GUI::~GUI(){
+	Windows.clear();
+	delete [] ActiveWindow;
+	delete Screen;
 }
 
 void GUI::Render( Shader* shader ){
@@ -68,7 +71,7 @@ void GUI::HitTest( int x, int y ){
 		}	
 	}
 
-	//ActiveWindow = NULL;
+	ActiveWindow = NULL;
 }
 
 void GUI::Move( int x, int y ){

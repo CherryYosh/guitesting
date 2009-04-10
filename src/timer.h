@@ -10,17 +10,18 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-
-#include <SDL/SDL.h>
+#include "engine.h"
 #include "system.h"
-#include <boost/thread/thread.hpp>
+#include <SDL/SDL.h>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
+#include <boost/thread/thread.hpp>
 
-template<class R, class C>
+template< typename R >
 class Timer{
 public:
 	Timer( System* );
+	Timer( int );
 	~Timer();
 
 	bool Start();
@@ -29,13 +30,16 @@ public:
 	void Tick();
 	void Step();
 
-	void SetFunction( boost::function<R()> );//boost::function<R (C*,ARGS...) > );
+	void SetFunction( boost::function<R()> );
 	void SetRuntime( unsigned int );
 
 	//use with care
 	void RunCommand();
 
 	unsigned int* GetTicksPtr();
+	unsigned int* GetStepsPtr();
+	unsigned int GetTicks();
+	unsigned int GetSteps();
 
 private:
 	void WaistTime();
@@ -43,28 +47,43 @@ private:
 	unsigned int CurTicks;
 	unsigned int StopTicks;
 	unsigned int RunTime;
-	unsigned int Ticks; 
+	unsigned int Ticks;
 	unsigned int Steps;
 
 	bool Running;
 	bool SendData;
 
-	boost::function<R()> Function;//boost::function<R (C*, ARGS...)> Function;
-
-	unsigned int NumArgs;
+	boost::function<R()> Function;
 
 	boost::thread Thread;
 	boost::mutex Mutex;
 
+	//the systems to send the message too...
 	System* Owner;
+	int OwnerID;
 };
 
 //=============================================================
 
-template<class R, class C>
-Timer<R,C>::Timer( System* system){
+template< typename R >
+Timer<R>::Timer( System* system ){
 	Owner = system;
 	Running = false;
+	SendData = false;
+	CurTicks = 0;
+	StopTicks = 0;
+	RunTime = 1000;
+	Ticks = 0;
+	Steps = 0;
+	OwnerID = 0;
+}
+
+template< typename R >
+Timer<R>::Timer( int id ){
+	Owner = NULL;
+	OwnerID = id;
+	Running = false;
+	SendData = false;
 	CurTicks = 0;
 	StopTicks = 0;
 	RunTime = 1000;
@@ -72,36 +91,41 @@ Timer<R,C>::Timer( System* system){
 	Steps = 0;
 }
 
-template<class R, class C>
-Timer<R,C>::~Timer(){
+template< typename R >
+Timer<R>::~Timer(){
+	Thread.join();
 }
 
-template<class R, class C>
-bool Timer<R,C>::Start(){
+template< typename R >
+bool Timer<R>::Start(){
 	//a check to make sure its not started
 	Mutex.lock();
 		if( Running )
 			return false;
 	Mutex.unlock();
 
+	//set up the timer
 	Running = true;
 	CurTicks = SDL_GetTicks();
 	StopTicks = CurTicks + RunTime;
-	Ticks = 16;
+	
+	//zero out the data
+	Ticks = 0;
 	Steps = 0;
 
-	boost::thread(boost::bind( &Timer::WaistTime, this )).swap(Thread);
+	//this line SHOULD prevent thread creation overhead.. not sure
+	//boost::thread(boost::bind( &Timer<R>::WaistTime, this )).swap(Thread);
 	return true;
 }
 
-template<class R, class C>
-void Timer<R,C>::WaistTime(){
-		Mutex.lock();
+template< typename R >
+void Timer<R>::WaistTime(){
+	Mutex.lock();
 	while( Running && CurTicks < StopTicks ){
 		Mutex.unlock();
-			boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 		Mutex.lock();
-			CurTicks = SDL_GetTicks();
+		CurTicks = SDL_GetTicks();
 	}
 
 	if( !Running && !SendData ){
@@ -109,21 +133,25 @@ void Timer<R,C>::WaistTime(){
 		return;
 	}
 
-	Owner->ReceiveMessage( TIMER_DONE, (void*)this );
-	Running = false;
+	
 	Mutex.unlock();
+	if( Owner != NULL )
+		Owner->ReceiveMessage( TIMER_DONE, (void*)this );
+	else
+		engine->ReceiveMessage( OwnerID, TIMER_DONE, (void*)this );
+	Running = false;
 }
 
-template<class R, class C>
-void Timer<R,C>::Stop( bool data ){
+template< typename R >
+void Timer<R>::Stop( bool data ){
 	Mutex.lock();
 		Running = false;
 		SendData = data;
 	Mutex.unlock();
 }
 
-template<class R, class C>
-void Timer<R,C>::Restart( bool reset ){
+template< typename R >
+void Timer<R>::Restart( bool reset ){
 	Mutex.lock();
 		StopTicks = SDL_GetTicks() + RunTime;
 		
@@ -131,44 +159,61 @@ void Timer<R,C>::Restart( bool reset ){
 			Ticks = 0;
 			Steps = 0;
 		}
+
 	Mutex.unlock();
 }
 
-template<class R, class C>
-void Timer<R,C>::Tick(){
+template< typename R >
+void Timer<R>::Tick(){
 	Mutex.lock();
 		Ticks++;
 	Mutex.unlock();
 }
 
-template<class R, class C>
-void Timer<R,C>::Step(){
+template< typename R >
+void Timer<R>::Step(){
 	Mutex.lock();
 		Steps++;
 	Mutex.unlock();
 }
 
-template<class R, class C>
-void Timer<R,C>::SetFunction( boost::function<R()> function){//boost::function<R (C*, ARGS...)> function ){
+template< typename R >
+void Timer<R>::SetFunction( boost::function<R()> function){
 	Mutex.lock();
 		Function = function;
 	Mutex.unlock();
 }
 
-template<class R, class C>
-void Timer<R,C>::RunCommand(){
-	//NOTE:This should NEVER be called via the timer's thread
-	Function();//std::forward<ARGS>(ArgsList)...);
+template< typename R >
+void Timer<R>::RunCommand(){
+	Function();
 }
 
-template<class R, class C>
-void Timer<R,C>::SetRuntime( unsigned int time ){
+template< typename R >
+void Timer<R>::SetRuntime( unsigned int time ){
+	//NOTE: this doesnt need to be locked, not used by the timer thread
 	RunTime = time;
 }
 
-template<class R, class C>
-unsigned int* Timer<R,C>::GetTicksPtr(){
+template< typename R >
+unsigned int* Timer<R>::GetTicksPtr(){
 	return &Ticks;
 }
+
+template< typename R >
+unsigned int* Timer<R>::GetStepsPtr(){
+	return &Steps;
+}
+
+template< typename R >
+unsigned int Timer<R>::GetTicks(){
+	return Ticks;
+}
+
+template< typename R >
+unsigned int Timer<R>::GetSteps(){
+	return Steps;
+}
+
 
 #endif

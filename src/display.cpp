@@ -9,8 +9,6 @@
 #include "fontmgr.h"
 #include "shader.h"
 
-#include <boost/function.hpp>
-
 Shader guiShader;
 Shader textShader;
 
@@ -44,7 +42,7 @@ void SetupSDL(){
 	SDL_WM_SetCaption( "Untitled Project", NULL );
 }
 
-Display::Display( Engine *ptEngine ) : System( ptEngine ){
+Display::Display() : System(){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
 		printf( "Unable to init SDL: %s\n", SDL_GetError() );
 		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
@@ -69,7 +67,7 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 	FontMgr_LoadFont( 0, "/usr/share/fonts/corefonts/arial.ttf", 16 );
 	
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
-	gui = new GUI( ptEngine );
+	gui = new GUI();
 	camera = new Camera();
 	
 	gui->CreateWindowConsole( 50, 50 );
@@ -92,28 +90,25 @@ Display::Display( Engine *ptEngine ) : System( ptEngine ){
 }
 
 Display::~Display(){
+	
 	//TODO
-	delete gui;
-	//delete FPSTimer;
+	running = false;
+	delete FPSTimer;
 	delete camera;
+	delete gui;
 	Mouse_Die();
 }
 
 void Display::InitTimers(){
-	FPSTimer = new Timer<void, Display>(this);
-	int i = 1000; 
-	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, 1000 ) );
-	//FPSTimer->SetParameters( 1, 100 );
-	FPSTimer->SetRuntime( 500 );
-	FPSTimer->Start();
-	
-	//MouseTimer = new Timer;
-	//MouseTimer->SetFunction
+	FPSTimer = new Timer<void>(this);
+	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
+	FPSTimer->SetRuntime( 5000 );
+	//FPSTimer->Start();
 }
 
-void Display::DrawFPS(unsigned int data){
-	printf( "here!!! %i\n", data );
-	//FPSTimer->Start();
+void Display::DrawFPS(unsigned int* data){
+	printf( "FPS: %i\n", *data/5 );
+	FPSTimer->Start();
 }
 
 void Display::Start(){
@@ -139,17 +134,20 @@ void Display::Start(){
 void Display::ProcessMessages(){
         msg_mutex.lock();
 
-        MessageList *temp = msgList;
-        msgList = NULL;
+	std::vector<SYS_Message*>* temp = Messages;
+        Messages = NULL;
 
         msg_mutex.unlock();
 
-        MessageList *next;
+	if( temp == NULL )
+		return;
 
-	while( temp ){
-                next = temp->next;
+	SYS_Message* msg;
+	unsigned int size = temp[0].size();
+	for( unsigned int i = 0; i < size; i++ ){
+                msg = temp[0][i];
 
-                switch( temp->ID ){
+                switch( msg->id ){
 			case QUIT:
                                 running = false;
                                 break;
@@ -158,30 +156,29 @@ void Display::ProcessMessages(){
 				OnMouseButtonChange();
 				break;
 			case WINDOW_RESIZE:
-				Resize( ((int*)temp->parameters)[0], ((int*)temp->parameters)[1] );
+				Resize( ((int*)msg->parameters)[0], ((int*)msg->parameters)[1] );
 				break;
 			case CAMERA_MOVE:
-				camera->Move( ((double*)temp->parameters)[0], ((double*)temp->parameters)[1], ((double*)temp->parameters)[2] );
+				camera->Move( ((double*)msg->parameters)[0], ((double*)msg->parameters)[1], ((double*)msg->parameters)[2] );
 				break;
 			case INPUT_KEYPRESS:
-				gui->HandelKeyPress( ((unsigned short*)temp->parameters)[0] );//, ((int*)temp->parameters)[1] );
+				gui->HandelKeyPress( ((unsigned short*)msg->parameters)[0] );
 				break;
 			case TIMER_DONE:
-				((Timer<void, Display>*)temp->parameters)->RunCommand();
+				//NOTE: the line might be UD with the forcing of <void> but as that is not needed with RunCommand, it shouldnt matter...
+				((Timer<void>*)msg->parameters)->RunCommand();
 				break;
 			default:
 #ifdef _DEBUG_
-				printf( "ERROR: unknown event id (%i) recived.\n", temp->ID );
+				printf( "ERROR: unknown event id (%i) recived.\n", msg->id );
 #endif
 				break;
 		}
 
- //              if( temp->parameters != NULL )
-//			delete [] temp->parameters;
-		delete temp;
-                temp = next;
         }
 
+	temp->clear();
+	delete [] temp;
 }
 
 void Display::Render(){	

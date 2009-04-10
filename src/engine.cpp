@@ -3,13 +3,16 @@
 #endif
 
 #include "engine.h"
+#include "input.h"
+#include "display.h"
 
 Engine::Engine(){
-	list = NULL;
-	
+	Messages = NULL;
+	engine = this;
+
 	//TODO: INIT all engines..
-	input = new Input(this);
-	display = new Display(this);
+	input = new Input();
+	display = new Display();
 
 	input->BindAction( "default", SYSTEM_ENGINE, "QUIT", true, QUIT, NULL );
 	input->BindKey( "default", SDLK_q, KMOD_LCTRL, "QUIT" );
@@ -45,12 +48,12 @@ Engine::Engine(){
 }
 
 Engine::~Engine(){
+	engine = NULL;
 	delete input;
 	delete display;
 }
 
 void Engine::Quit(){
-	//TODO
 	running = false;
 }
 
@@ -71,49 +74,50 @@ void Engine::Start(){
 
 	//all drawing must be made on the main thread... :/
 	display->Start();
+
+	printf( "balh!\n" );
+	engine_thread.join();
+	input_thread.join();
+	printf( "here!\n" );
 }
 
 //NOTE: this function is called from a outside thread..
 //TODO: create a tail list..
 void Engine::ReceiveMessage( short classID, int messageID, void *parameters){
-	eMessageList *temp = new eMessageList;
+	Engine_Message* temp = new Engine_Message;
         temp->classID = classID;
 	temp->messageID = messageID;
         temp->parameters = parameters;
-        temp->next = NULL;
 
         msg_mutex.lock();
-        //check to see if there is one
-        if( list == NULL ){
-                list = temp;
-                msg_mutex.unlock();
-		return;
-        }
 
-        //we loop to the bottom and add
-        while( list->next )
-                list = list->next;
+	if( Messages == NULL )
+		Messages = new std::vector<Engine_Message*>;
 
-        list->next = temp;
+	Messages[0].push_back( temp );
 
         msg_mutex.unlock();
 }
 
 void Engine::ProcessMessages(){
 	msg_mutex.lock();
-        	eMessageList *temp = list;	
-		list = NULL;
+		std::vector<Engine_Message*>* temp = Messages;	
+		Messages = NULL;
         msg_mutex.unlock();
 
-        eMessageList *next;
+	if( temp == NULL )
+		return;
 
-	
-        while( temp != NULL ){
-		next = temp->next;
-		switch( temp->classID ){
+        Engine_Message* msg;
+	unsigned int size = temp[0].size();	
+        for( unsigned int i = 0; i < size; i++ ){
+		msg = temp[0][i];
+		switch( msg->classID ){
 			case SYSTEM_ENGINE: //this class so we do a bit more...
-				switch( temp->messageID ){
+				printf ("here\n" );
+				switch( msg->messageID ){
 					case QUIT: //quit
+						printf( "here 5\n" );
 						input->ReceiveMessage( QUIT, NULL ); //no need for check for parameters with a quit message
 						display->ReceiveMessage( QUIT, NULL );
 						Quit();
@@ -121,19 +125,19 @@ void Engine::ProcessMessages(){
 				}
 				break;
 			case SYSTEM_INPUT:
-				input->ReceiveMessage( temp->messageID, temp->parameters );
+				input->ReceiveMessage( msg->messageID, msg->parameters );
 				break;
 			case SYSTEM_DISPLAY:
-				display->ReceiveMessage( temp->messageID, temp->parameters );
+				display->ReceiveMessage( msg->messageID, msg->parameters );
 				break;
 			default:
 #ifdef _DEBUG_
-				printf("ERROR: Unknown class id %i, cannot send message %i\n", temp->classID, temp->messageID );
+				printf("ERROR: Unknown class id %i, cannot send message %i\n", msg->classID, msg->messageID );
 #endif
 				break;
 		}
-
-		delete temp;
-                temp = next;
         }
+
+	temp[0].clear();
+	delete [] temp;
 }

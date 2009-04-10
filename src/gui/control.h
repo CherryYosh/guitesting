@@ -48,7 +48,6 @@ public:
 	virtual float GetHeight();
 	virtual float GetDepth();
 
-	//unsigned int TextureOffset;
 	unsigned int VertexOffset; 
 
 	float x, y;

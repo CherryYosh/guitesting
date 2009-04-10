@@ -55,7 +55,7 @@ bool Window::HitTest( int mx, int my ){
 		mx -= x;
 		my -= y;
 		size_t size = Children.size();
-		for( int i = 0; i < size; i++ ){
+		for( unsigned int i = 0; i < size; i++ ){
 			if(Children[i]->HitTest(mx, my))
 				return true;
 		}

@@ -33,7 +33,7 @@ struct Input_ProfileDataT{
 
 class Input : public System {
 public:
-	Input( Engine *ptEngine );
+	Input();
 	~Input();
 
 	void Start();

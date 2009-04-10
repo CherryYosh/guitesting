@@ -5,21 +5,21 @@
 #include <stdio.h>
 #endif
 
+#include <vector>
 #include <boost/thread/mutex.hpp>
 
 #include "defines.h"
 
-struct MessageList{
-	int ID; //the id of the message (used to find what fuinction to call
-	void *parameters; //options to use..
-	MessageList *next;
+class Engine; 
+
+struct SYS_Message{
+	int id; //the id of the message (used to find what fuinction to call
+	void* parameters; //options to use..
 };
-//#include "engine.h"
-class Engine; //circular..
 
 class System{
 public:
-	System( Engine *ptEngine );
+	System(); 
 	virtual ~System();
 
 	virtual void Start();
@@ -27,9 +27,8 @@ public:
 	virtual void ReceiveMessage( int messageID, void *parameters );
 protected:
 	bool running;
-	Engine *engine;
 	boost::mutex msg_mutex;
-	MessageList* msgList;
+	std::vector<SYS_Message*>* Messages;
 private:
 };
 

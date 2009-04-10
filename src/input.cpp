@@ -15,7 +15,7 @@
 #include "engine.h"
 
 
-Input::Input( Engine *ptEngine ) : System(ptEngine){
+Input::Input() : System(){
 	//create a few empty profiles
 	Input_ProfileDataT* temp = new Input_ProfileDataT;
 	temp->Name = "default";
@@ -29,7 +29,9 @@ Input::Input( Engine *ptEngine ) : System(ptEngine){
 }
 
 Input::~Input(){
-	//TODO
+	running = false;
+	Profiles.clear();
+	delete ActiveProfile;
 }
 
 /*
@@ -41,6 +43,9 @@ void Input::Start(){
 	running = true;
 
 	while( running ){
+		ProcessInput();
+		ProcessMessages();
+		
 		while( SDL_PollEvent( &keyevent ) ){
 			switch( keyevent.type ){
 				case SDL_KEYDOWN:
@@ -50,10 +55,10 @@ void Input::Start(){
 					ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_PRESS, NULL );
+					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_PRESS, NULL );
 					break;
 				case SDL_MOUSEBUTTONUP:
-					engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_RELEASE, NULL );
+					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_RELEASE, NULL );
 					break;
 				case SDL_MOUSEMOTION:
 					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_MOTION, NULL );
@@ -71,8 +76,9 @@ void Input::Start(){
 					}break;
 				case SDL_QUIT:
 					running = false;
+					printf( "1\n");
 					engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
-					break;
+					return;
 				default:
 #ifdef _DEBUG_
 					printf( "ERROR: Unkown sdl event type %i presented to Input\n", keyevent.type );
@@ -80,43 +86,41 @@ void Input::Start(){
 					break;
 			}
 		}
-	
-		ProcessInput();
-		ProcessMessages();
 	}
 }
 
 void Input::ProcessMessages(){
 	//this should be farily fast (not so blocking) 
 	msg_mutex.lock();
-		MessageList *temp = msgList;
-		msgList = NULL;
+		std::vector<SYS_Message*>* temp = Messages;
+		Messages = NULL;
 	msg_mutex.unlock();
 
-	MessageList *next;
-
-	while( temp ){
-		next = temp->next;
+	if( temp == NULL )
+		return;	
+	
+	SYS_Message* msg;
+	unsigned int size = temp[0].size();
+	for( unsigned int i = 0; i < size; i++ ){
+		msg = temp[0][i];
 		
-		switch( temp->ID ){
+		switch( msg->id ){
 			case QUIT: //quit
 				running = false;
+				printf( "2\n" ); 
 				break;
 			case INPUT_CHANGE_PROFILE:
-				SetProfile( ((std::string*)temp->parameters)[0] );
+				SetProfile( ((std::string*)msg->parameters)[0] );
 				break;
 			default:
 #ifdef _DEBUG_
-				printf( "ERROR: Unknown message id (%i) presented to input!\n", temp->ID );
+				printf( "ERROR: Unknown message id (%i) presented to input!\n", msg->id );
 #endif
 				break;
 		}
-
-		if( temp->parameters != NULL )
-			delete [] (char*)temp->parameters;
-		delete temp;
-		temp = next;
 	}
+	temp->clear();
+	delete [] temp;
 }
 
 //binds the action to a classid and a function
@@ -177,9 +181,11 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod 
 	for( unsigned int i = 0; i < size; i++ ){
 		//				this allows use to have caps / numlock on while typeing
 		if( keys[i]->Key == sym.sym && ( sym.mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
+			printf ("here 109\n" );
 			if( pressed )
 				keys[i]->Action->Count++;
 			else{
+				printf( "here\n" );
 				if( keys[i]->Action->Count > 0 )
 					keys[i]->Action->Count--;
 				//reset the handeld flag if no keys are down
@@ -187,6 +193,7 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod 
 					keys[i]->Action->Handled = false;
 			}
 			//auidios.. 
+			printf( "dfds\n" );
 			return;
 		}
 	}

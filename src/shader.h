@@ -19,8 +19,8 @@ public:
 	bool Load( std::string shaderName );
 	void Bind();
 	void Unbind();
-	void GetUniformLoc( GLuint uID, char* name );
-	void GetAttributeLoc( GLuint uID, char* name );
+	void GetUniformLoc( GLuint uID, std::string name );
+	void GetAttributeLoc( GLuint uID, std::string name );
 	void SetProjection( float m[16] );
 	void SetModelview( float m[16] );
 	GLuint GetID();

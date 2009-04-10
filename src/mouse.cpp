@@ -37,11 +37,14 @@ void Mouse_Die(){
 }
 
 unsigned char Mouse_SetState(){
+	
 	unsigned char ret = 0;
+	/*
 	if(Mouse_SetButtonState())
 		ret = 1;
 	if( Mouse_SetPosition())
 		ret = ret | 0x02;
+	*/
 	return ret;
 }
 

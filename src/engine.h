@@ -1,15 +1,16 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <boost/bind.hpp>
+#include <vector>
 #include <boost/thread/thread.hpp>
 
 #include "defines.h"
-#include "input.h"
-#include "display.h"
 
-class Engine// : public System
-{
+class Display;
+class Input;
+
+
+class Engine{
 public:
 	Engine();
 	~Engine();
@@ -30,15 +31,18 @@ private:
 	boost::thread input_thread;
 	boost::thread gui_thread;
 
-	struct eMessageList{
+	struct Engine_Message{
 		short classID;
 		int messageID;
 		void* parameters;
-		eMessageList *next;
-	} *list;
+	};
+
+	std::vector<Engine_Message*>* Messages;
 
 	Input *input;
 	Display *display;
 };
+
+static Engine* engine;
 
 #endif

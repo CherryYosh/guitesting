@@ -1,20 +1,14 @@
 #include "system.h"
 
-System::System( Engine *ptEngine ){
-	engine = ptEngine;
-	msgList = NULL;
+System::System(){
+	Messages = NULL;
+	running = false;
 }
 
 System::~System(){
-	MessageList *temp;
-
-	while( msgList ){
-		temp = msgList->next;
-
-		delete msgList;
-
-		msgList = temp;
-	}
+	running = false;
+	Messages->clear();
+	delete Messages;
 }
 
 void System::Start(){
@@ -25,24 +19,17 @@ void System::ProcessMessages(){
 }
 
 void System::ReceiveMessage( int messageID, void *parameters ){
-	MessageList *temp = new MessageList;
-	temp->ID = messageID;
-	temp->parameters = parameters;
-	temp->next = NULL;
+	SYS_Message* msg = new SYS_Message;
+	msg->id = messageID;
+	msg->parameters = parameters;
 
-	msg_mutex.lock(); //TODO: find a better way, or atleast make sure lock() is the best way
-	//check to see if there is one
-	if( !msgList ){
-		msgList = temp;
-		msg_mutex.unlock();
-		return;
-	}
 	
-	//we loop to the bottom and add
-	while( msgList->next )
-		msgList = msgList->next;
-
-	msgList->next = temp;
+	msg_mutex.lock(); 
+	
+	if( Messages == NULL )
+		Messages = new std::vector<SYS_Message*>;
+	
+	Messages[0].push_back( msg );
 
 	msg_mutex.unlock();
 }

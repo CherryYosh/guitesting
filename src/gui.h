@@ -15,7 +15,7 @@
 
 class GUI : public System {
 public:
-	GUI( Engine *ptEngine );
+	GUI();
 	~GUI();
 
 	void Render( Shader* );
