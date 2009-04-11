@@ -230,6 +230,7 @@ void Window::RebuildVBO(){
 		if( VertexPositionIsSet ) //if its set we need to copy everything after it
 			memcpy( &newData[ VertexPosition + length ], &ptr[ VertexPosition + VertexLength  ], abs(size - (length + VertexPosition)) );
 
+		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glBufferData( GL_ARRAY_BUFFER, size + ( length - VertexLength ), newData, GL_STREAM_DRAW ); 
 		VertexLength = length;
 		VertexPositionIsSet = true;
