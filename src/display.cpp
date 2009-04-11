@@ -4,10 +4,10 @@
 
 #include "defines.h"
 #include "engine.h"
-
 #include "image.h"
 #include "fontmgr.h"
 #include "shader.h"
+#include "timer.h"
 
 Shader guiShader;
 Shader textShader;
@@ -34,7 +34,7 @@ void LoadShaders(){
 }
 
 void SetupSDL(){
-	 SDL_EnableUNICODE(true);
+	SDL_EnableUNICODE(true);
 
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
@@ -92,44 +92,31 @@ Display::Display() : System(){
 }
 
 Display::~Display(){
-	
-	//TODO
-	display = NULL;
-	//delete FPSTimer;
 	delete camera;
+	delete FPSTimer;
 	delete gui;
 	Mouse_Die();
+	display = NULL;
 }
 
 void Display::InitTimers(){
-	//FPSTimer = new Timer<void>(this);
-	//FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
-	//FPSTimer->SetRuntime( 5000 );
-	//FPSTimer->Start();
+	FPSTimer = new Timer();
+	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
+	FPSTimer->SetRuntime( 5000 );
+	FPSTimer->Start();
+	
+	timers.AddTimer( FPSTimer, true, false );
 }
 
 void Display::DrawFPS(unsigned int* data){
-	printf( "FPS: %i\n", *data/5 );
-	//FPSTimer->Start();
+	printf( "FPS: %f\n", *data/5.0 );
+	FPSTimer->Start();
 }
 
 void Display::Start(){
-	unsigned char MouseUpdate;
+	timers.Update();
 
-
-	//while( running ){
-	//	FPSTimer->Tick();
-
-		Render();
-
-	//	ProcessMessages();
-		
-		if( (MouseUpdate = Mouse_SetState()) != 0 ){
-			//if( MouseUpdate & 0x01 ) OnMouseButtonChange();
-			if( MouseUpdate & 0x02 ) OnMouseMotion();
-		}
-	
-	//}
+	Render();
 }
 
 void Display::Render(){	
@@ -146,12 +133,20 @@ void Display::Resize( unsigned int width, unsigned int height ){
 }
 
 void Display::OnMouseButtonChange(){
+	Mouse_SetButtonState();
+	
 	if( Mouse_GetButtonState( 0 ) )
 		gui->HitTest( Mouse_GetX(), Mouse_GetY() );
 }
 
 void Display::OnMouseMotion(){
+	Mouse_SetPosition();
+
 	if( Mouse_GetButtonState(0) ){ //dragging
 		gui->Move( Mouse_GetChangeX(), Mouse_GetChangeY() );
 	}
+}
+
+void Display::OnKeyPress( SDL_keysym sym ){
+	gui->HandelKeyPress( sym.unicode );
 }

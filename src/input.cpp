@@ -1,10 +1,11 @@
 /*   James Stevenson 09/27/08
  *******************************************************************
- * A full function, threaded, SDL input class including mouse support
+ * A full function, !threaded, SDL input class including mouse support
  * A action is bound before a key is bound to that action, including 
- * a optional mod key.
+ * a optional mod key and default actions if the key is not bound.
  * multipul keys may be bound to a single action without fear
  * key may be rebound without need to restart, actions however cant
+ * be changed without modifying the source
  ******************************************************************
  * TODO: add unicode controler support, along with support for the 
  * odditys found in some key boards / OS's (no ctrls in OSX, ) also
@@ -13,7 +14,7 @@
 
 #include "input.h"
 #include "engine.h"
-
+#include "display.h"
 
 Input::Input() : System(){
 	input = this;
@@ -21,10 +22,12 @@ Input::Input() : System(){
 	//create a few empty profiles
 	Input_ProfileDataT* temp = new Input_ProfileDataT;
 	temp->Name = "default";
+	temp->DefaultFunction = NULL;
 	Profiles.push_back( temp );
 
 	temp = new Input_ProfileDataT;
 	temp->Name = "typing";
+	temp->DefaultFunction = std::bind1st( std::mem_fun(&Display::OnKeyPress), display );
 	Profiles.push_back( temp );
 
 	SetProfile( "default" );
@@ -43,64 +46,54 @@ Input::~Input(){
 void Input::Start(){
 	SDL_Event keyevent;
 
-	//while( running ){
-		ProcessInput();
-		//ProcessMessages();
+	ProcessInput();
 		
-		while( SDL_PollEvent( &keyevent ) ){
-			switch( keyevent.type ){
-				case SDL_KEYDOWN:
-					ProcessKey( true, keyevent.key.keysym );//, keyevent.key.keysym.mod );
-					break;
-				case SDL_KEYUP:
-					ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
-					break;
-				case SDL_MOUSEBUTTONDOWN:
-					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_PRESS, NULL );
-					break;
-				case SDL_MOUSEBUTTONUP:
-					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_RELEASE, NULL );
-					break;
-				case SDL_MOUSEMOTION:
-					//engine->ReceiveMessage( SYSTEM_DISPLAY, MOUSE_MOTION, NULL );
-					break;
-				case SDL_ACTIVEEVENT:
-					break;
-				case SDL_VIDEOEXPOSE:
-					//NOTE: we dont need to do anything here becouse the screen will be redrawn pretty fast anyways..
-					break;
-				case SDL_VIDEORESIZE:{ //note the { to allow varible creation
-					unsigned int* data = new unsigned int[2];
-					data[0] = keyevent.resize.w;
-					data[1] = keyevent.resize.h;
-					//engine->ReceiveMessage( SYSTEM_DISPLAY, WINDOW_RESIZE, (void*)data );
-					}break;
-				case SDL_QUIT:
-						if( Engine::engine == NULL ) { printf( "gah\n" ); return; }
-						Engine::engine->Quit();
-					return;
-				default:
+	while( SDL_PollEvent( &keyevent ) ){
+		switch( keyevent.type ){
+			case SDL_KEYDOWN:
+				ProcessKey( true, keyevent.key.keysym );//, keyevent.key.keysym.mod );
+				break;
+			case SDL_KEYUP:
+				ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				display->OnMouseButtonChange();
+				break;
+			case SDL_MOUSEBUTTONUP:
+				display->OnMouseButtonChange();
+				break;
+			case SDL_MOUSEMOTION:
+				display->OnMouseMotion();
+				break;
+			case SDL_ACTIVEEVENT:
+				break;
+			case SDL_VIDEOEXPOSE:
+				break;
+			case SDL_VIDEORESIZE:
+				display->Resize( keyevent.resize.w, keyevent.resize.h );
+				break;
+			case SDL_QUIT:
+				Engine::engine->Quit();
+				return;
+			default:
 #ifdef _DEBUG_
-					printf( "ERROR: Unkown sdl event type %i presented to Input\n", keyevent.type );
+				printf( "ERROR: Unkown sdl event type %i presented to Input\n", keyevent.type );
 #endif
-					break;
-			}
+				break;
 		}
-	//}
+	}	
 }
 
 //binds the action to a classid and a function
 //NOTE: cannot be rebound, and there is no check for multipul calls
-void Input::BindAction( std::string profile, short id, std::string action, bool useOnce, int functionID, void* parameters){
+void Input::BindAction( std::string profile, std::string action, bool useOnce, boost::function<void()> function){
 	Input_ActionDataT *newAction = new Input_ActionDataT;
 
-	newAction->id = id;
 	newAction->Name = action;
 	newAction->Count = 0;
 	newAction->UseOnce = useOnce;
 	newAction->Handled = false;
-	newAction->FunctionID = functionID;
-	newAction->Parameters = parameters;
+	newAction->Function = function;
 
 	//get the profile
 	size_t size = Profiles.size();
@@ -165,12 +158,9 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod 
 		}
 	}
 
-	//else we do this
-	if( pressed && ActiveProfile->Name == "typing" ){
-		unsigned short* data = new unsigned short[1];
-		data[0] = sym.unicode;
-		//data[1] = mod;
-		//engine->ReceiveMessage( SYSTEM_DISPLAY, INPUT_KEYPRESS, (void*)data );
+	//else we do the default action
+	if( pressed && ActiveProfile->DefaultFunction != NULL ){
+		ActiveProfile->DefaultFunction(sym);
 	}
 }
 
@@ -182,12 +172,7 @@ void Input::ProcessInput(){
 	for( unsigned int i = 0; i < size; i++ ){
 		action = actions[i];
 		if( action->Count > 0 && !action->Handled ){
-			//just a little sanity check, not sure why this would happen
-			if( action->id == SYSTEM_INPUT ){
-				//this->ReceiveMessage( action->FunctionID, action->Parameters );
-			} else {
-			//	engine->ReceiveMessage( action->id, action->FunctionID, action->Parameters );
-			}
+			action->Function();
 
 			if( action->UseOnce )
 				action->Handled = true;

@@ -16,9 +16,10 @@ public:
 	virtual ~System();
 
 	virtual void Start();
-protected:
+	
 	static Input* input;
 	static Display* display;
+protected:
 private:
 };
 

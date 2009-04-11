@@ -11,16 +11,14 @@ Engine* Engine::engine;
 Engine::Engine(){
 	engine = this;
 
-	printf( "engine is!!! %p\n", engine );
-	
-	input = new Input();
 	display = new Display();
+	input = new Input();
 
-	input->BindAction( "default", SYSTEM_ENGINE, "QUIT", true, QUIT, NULL );
+	input->BindAction( "default", "QUIT", true, boost::bind<void>( &Engine::Quit, Engine::engine ) );
 	input->BindKey( "default", SDLK_q, KMOD_LCTRL, "QUIT" );
 	input->BindKey( "default", SDLK_q, KMOD_NONE, "QUIT" );
 
-	input->BindAction( "typing", SYSTEM_ENGINE, "QUIT", true, QUIT, NULL );
+	input->BindAction( "typing", "QUIT", true, boost::bind<void>( &Engine::Quit, Engine::engine ) );
 	input->BindKey( "typing", SDLK_q, KMOD_LCTRL, "QUIT" );
 	
 
@@ -28,29 +26,22 @@ Engine::Engine(){
 // all this does is set up the basic
 // keyboard functions... waistful memory :[
 // TODO: find a better way???
-	double* data = new double[ 3 ];
-	data[0] = 0.0; data[1] = 0.0; data[2] =-1.0;
+/*
 	input->BindAction( "default", SYSTEM_DISPLAY, "CAMERA_MOVEFORWARD", true, CAMERA_MOVE, (void*)data );
 	input->BindKey( "default", SDLK_w, KMOD_NONE, "CAMERA_MOVEFORWARD" );
 
-	data = new double[3]; //seems waistful dont it -_-
-	data[0] = 0.0; data[1]=0.0; data[2] = 1.0;
 	input->BindAction( "default", SYSTEM_DISPLAY, "CAMERA_MOVEBACKWARDS", true, CAMERA_MOVE, (void*)data );
 	input->BindKey( "default", SDLK_s, KMOD_NONE, "CAMERA_MOVEBACKWARDS" );
 
-        data = new double[3];
-        data[0] = -1.0; data[1]=0.0; data[2] = 0.0;
         input->BindAction( "default", SYSTEM_DISPLAY, "CAMERA_MOVELEFT", true, CAMERA_MOVE, (void*)data );
         input->BindKey( "default", SDLK_a, KMOD_NONE, "CAMERA_MOVELEFT" );
 
-        data = new double[3];
-        data[0] = 1.0; data[1]=0.0; data[2] = 0.0;
         input->BindAction( "default", SYSTEM_DISPLAY, "CAMERA_MOVERIGHT", true, CAMERA_MOVE, (void*)data );
         input->BindKey( "default", SDLK_d, KMOD_NONE, "CAMERA_MOVERIGHT" );
+*/
 }
 
 Engine::~Engine(){
-	printf( "deleting engine\n" );
 	delete input;
 	delete display;
 	engine = NULL;

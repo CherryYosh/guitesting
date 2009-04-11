@@ -2,7 +2,7 @@
 #include "../fontmgr.h"
 
 
-Editbox::Editbox( std::string t, int x, int y ) : Textbox( t, x, y ){
+Editbox::Editbox( std::string t, int x, int y ) : Label( t, x, y ){
 	FlashCaret = true;
 	Editable = true;
 	Multiline = true;
@@ -12,11 +12,10 @@ Editbox::~Editbox(){
 	//nothing right now
 }
 
-bool Editbox::HitTest( int mX, int mY ){
-	
+bool Editbox::HitTest( int mX, int mY ){	
 	if( mX > x && mX < x + Width 
 			&& mY > y && mY < y + Height ){
-		
+	
 		//tell if they clicked a line
 		short size = lines.size();
 		short height = FontMgr_GetLineHeight( font );
@@ -42,13 +41,13 @@ bool Editbox::HitTest( int mX, int mY ){
 	return false;
 }
 
-void Editbox::onKeyPress( unsigned short unicode ){ 
+void Editbox::OnKeyPress( unsigned short unicode ){ 
 	if( unicode > 31 && unicode < 126 && NumCharacters < MaxCharacters){
-		//WARNING: Error might occure with the wunicode
 		
+		//WARNING: Error might occure with the wunicode
 		lines[CaretLine].insert( CaretPos++, (const char*)&unicode );
 		NumCharacters++;
-	
+
 		//find a better way to do this check.. ?
 		if( TextWidth < FontMgr_GetStringWidth( font, lines[CaretLine].c_str() )){
 			lines[CaretLine].erase( CaretPos-1 );
@@ -95,7 +94,7 @@ void Editbox::onKeyPress( unsigned short unicode ){
 	}
 
 	if( Multiline ){
-		if( unicode == 13 /* && LineCount < MaxLineCount */ ){
+		if( unicode == 13  /*&& LineCount < MaxLineCount*/  ){ //enter
 			lines.push_back( "" );
 
 			if( BottomLine == CaretLine )
@@ -108,14 +107,15 @@ void Editbox::onKeyPress( unsigned short unicode ){
 	}
 }
 
+/*
 void Editbox::Render(){
 }
-
-void Editbox::onKeyRelease( int key, int mod ){
+*/
+void Editbox::OnKeyRelease( int key, int mod ){
 }
 
-void Editbox::onMousePress( int button ){
+void Editbox::OnMousePress( int button ){
 }
 
-void Editbox::onMouseRelease( int button ){
+void Editbox::OnMouseRelease( int button ){
 }

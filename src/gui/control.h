@@ -7,15 +7,12 @@
 #define NULL 0
 #endif //null
 
-#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glext.h>
 
 #include <string>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-
-#include "../shader.h"
 
 struct CTRL_GUIDataT{
 	std::string type;
@@ -29,12 +26,12 @@ public:
 	Control( std::string t, float x, float y );
 	virtual ~Control();
 	virtual void Activate(); //called when ever the control becomes active
-	virtual void Render();
+	//virtual void Render();
 	virtual bool HitTest( int mouseX, int mouseY );
-	virtual void onMousePress( int button );
-	virtual void onMouseRelease( int button );
-	virtual void onKeyPress( unsigned short ); 
-	virtual void onKeyRelease( int key, int mod );
+	virtual void OnMousePress( int button );
+	virtual void OnMouseRelease( int button );
+	virtual void OnKeyPress( unsigned short ); 
+	virtual void OnKeyRelease( int key, int mod );
 	virtual void Move( float x, float y );
 	virtual void SetCallback( boost::function<int()> callback );
 	virtual void SetWidth( float );
@@ -53,8 +50,8 @@ public:
 	float x, y;
 	float s, t, s2, t2;
 
-	static Shader* GUIShader;
-	static Shader* TextShader;
+	//static Shader* GUIShader;
+	//static Shader* TextShader;
 	static GLuint GUI_vbo;
 protected:
 	float Depth;

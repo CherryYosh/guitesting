@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <vector>
 #include <string>
+#include <boost/function.hpp>
 
 #include "system.h"
 
@@ -13,9 +14,7 @@ struct Input_ActionDataT{
 	bool UseOnce; //only handle once per press?
 	bool Handled; //has it been handled yet?
 	short Count; //number of keys being pressed
-	short id; //the ID of the engine 
-	int FunctionID; //the ID of the function to be called (will used by the target class
-	void *Parameters; //the parameters to be passed to the function	
+	boost::function<void()> Function;
 };
 
 struct Input_KeyDataT{
@@ -28,6 +27,7 @@ struct Input_ProfileDataT{
 	std::string Name;
 	std::vector<Input_ActionDataT*> Actions;
 	std::vector<Input_KeyDataT*> Keys;
+	boost::function<void (SDL_keysym)> DefaultFunction;
 };
 
 
@@ -38,7 +38,7 @@ public:
 
 	void Start();
 	
-	void BindAction( std::string, short, std::string, bool, int, void* ); 
+	void BindAction( std::string, std::string, bool, boost::function<void()> ); 
 	void BindKey( std::string, SDLKey, SDLMod, std::string );
 	void ProcessKey( bool, SDL_keysym );//SDLKey, SDLMod );
 	void ProcessInput();

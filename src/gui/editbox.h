@@ -2,18 +2,18 @@
 #define EDITBOX_H
 
 //#include "control.h"
-#include "textbox.h"
+#include "label.h"
 
-class Editbox : public Textbox{
+class Editbox : public Label{
 public:
 	Editbox( std::string, int, int );
 	~Editbox();
-	void Render();
+	//void Render();
 	bool HitTest( int, int );
-	void onKeyPress( unsigned short );
-	void onKeyRelease( int, int );
-	void onMousePress( int );
-	void onMouseRelease( int );
+	void OnKeyPress( unsigned short );
+	void OnKeyRelease( int, int );
+	void OnMousePress( int );
+	void OnMouseRelease( int );
 private:
 protected:
 };

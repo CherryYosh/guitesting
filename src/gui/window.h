@@ -26,9 +26,11 @@ public:
 	virtual void Close();
 	virtual void Render();
 	virtual void UpdateVBO();
+	virtual void OnKeyPress( unsigned short );
 	virtual bool HitTest( int, int );
 
 	float width, height;
+	bool ReciveInput;
 protected:
 private:
 	virtual void RebuildVBO();
@@ -37,6 +39,7 @@ private:
 	std::vector<Control*> Children;
 	unsigned int VertexPosition, VertexLength; 
 	bool VertexPositionIsSet;
+	Control* ActiveChild;
 };
 
 #endif

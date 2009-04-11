@@ -21,7 +21,7 @@ public:
 	void Render( Shader* );
 	void RenderText( Shader* );
 
-	void HitTest( int, int );
+	bool HitTest( int, int );
 	void Move( int, int );
 	void HandelKeyPress( unsigned short ); 
 	
@@ -32,7 +32,7 @@ protected:
 	Window* ActiveWindow;
 	unsigned int numIndices;
 private:
-	bool isRecevingInput;
+	bool IsRecevingInput;
 	Camera* Screen;
 };
 

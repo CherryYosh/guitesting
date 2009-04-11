@@ -5,10 +5,11 @@
 #include "gui.h"
 #include "thememgr.h"
 #include "engine.h"
+#include "input.h"
 
 GUI::GUI() : System(){
 	ActiveWindow = NULL;
-	isRecevingInput = false;
+	IsRecevingInput = false;
 	numIndices = 0;	
 
 	Screen = new Camera();
@@ -20,7 +21,7 @@ GUI::GUI() : System(){
 
 GUI::~GUI(){
 	Windows.clear();
-	delete [] ActiveWindow;
+	delete ActiveWindow;
 	delete Screen;
 }
 
@@ -40,7 +41,7 @@ void GUI::Render( Shader* shader ){
 
 
 	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(NULL + 2 * sizeof(float)) );
+	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
 
 	//this draws our whole table! wooo :P
 	glDrawArrays( GL_QUADS, 0, numIndices );	
@@ -53,25 +54,36 @@ void GUI::Render( Shader* shader ){
 }
 
 void GUI::RenderText( Shader* shader ){
-//	test->RenderText();
 }
 
 
-void GUI::HitTest( int x, int y ){
+bool GUI::HitTest( int x, int y ){
 	//this is a quick excape.. most clicks SHOULD happen on the active window
 	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y ) ){
-		return;
+		return true;
 	}
-
+	
 	size_t size = Windows.size();
-	for( int i = 0; i < size; i++ ){
+	for( unsigned int i = 0; i < size; i++ ){
 		if( Windows[i]->HitTest( x, y ) ){
 			ActiveWindow = Windows[i];
-			return;
+			
+			if( IsRecevingInput != ActiveWindow->ReciveInput ){
+				IsRecevingInput = !IsRecevingInput;
+				input->SetProfile( IsRecevingInput ? "typing" : "default" );
+			}
+
+			return true;
 		}	
 	}
 
+	if( IsRecevingInput ){
+		input->SetProfile( "default" );
+		IsRecevingInput = false;
+	}
+
 	ActiveWindow = NULL;
+	return false;
 }
 
 void GUI::Move( int x, int y ){
@@ -80,9 +92,9 @@ void GUI::Move( int x, int y ){
 }
 
 void GUI::HandelKeyPress( unsigned short unicode ){ 
+	if( ActiveWindow != NULL )
+		ActiveWindow->OnKeyPress( unicode );
 }
-
-//TODO: Create a theme file for windows!!!
 
 void GUI::CreateWindowConsole( float x, float y ){
 	Window* window = new Window;
@@ -92,7 +104,7 @@ void GUI::CreateWindowConsole( float x, float y ){
 	Rule* lsidebar = new Rule( "sidebar", 0, 0 );
 	Rule* rsidebar = new Rule( "sidebar", 0, 0 );
 	Rule* bottombar = new Rule( "bottombar", 0, 0 );
-	Textbox* textarea = new Textbox( "textarea", 0, 0 );
+	Label* textarea = new Label( "textarea", 0, 0 );
 	Editbox* inputarea = new Editbox( "textinput", 0, 0 );
 
 	//now to position them

@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include "control.h"
 #include "../thememgr.h"
 
@@ -83,27 +84,29 @@ void Control::Activate(){
 	//nothing needs to be done
 }
 
+/*
 void Control::Render(){
 	//NOTE: This is left over, no reasion to be called
 }
+*/
 
 bool Control::HitTest( int mouseX, int mouseY ){
 	return false;
 }
 
-void Control::onMousePress( int button ){
+void Control::OnMousePress( int button ){
 	//called by input
 }
 
-void Control::onMouseRelease( int button ){
+void Control::OnMouseRelease( int button ){
 	//called by input
 }
 
-void Control::onKeyPress( unsigned short unicode ){ 
+void Control::OnKeyPress( unsigned short unicode ){ 
 	//called by input
 }
 
-void Control::onKeyRelease( int key, int mod ){
+void Control::OnKeyRelease( int key, int mod ){
 	//called by input
 }
 

@@ -11,6 +11,7 @@
 
 #include "mouse.h" 
 #include "timer.h"
+#include "timerpool.h"
 #include "system.h"
 #include "camera.h"
 #include "gui.h"
@@ -29,12 +30,14 @@ public:
 
 	void OnMouseButtonChange();
 	void OnMouseMotion();
+	void OnKeyPress( SDL_keysym );
 protected:
 private:
 	void InitTimers();
 
 	Camera *camera;
-	//Timer<void> *FPSTimer;
+	Timer *FPSTimer;
+	timerpool timers;
 	GUI *gui;
 };
 

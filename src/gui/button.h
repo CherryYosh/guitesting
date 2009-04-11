@@ -10,7 +10,7 @@ public:
 	~Button();
 
 	bool HitTest( int mouseX, int mouseY );
-	void onMousePress( int button );
+	void OnMousePress( int button );
 protected:
 private:
 };

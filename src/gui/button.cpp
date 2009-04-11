@@ -27,7 +27,7 @@ bool Button::HitTest( int mouseX, int mouseY ){
 	return false;
 }
 
-void Button::onMousePress( int button ){
+void Button::OnMousePress( int button ){
 	if( button == 1 && m_Callback ) //left mouse click, TODO: enable multi buttons
 		m_Callback();
 }

@@ -14,9 +14,14 @@ Window::Window(){
 	VertexPosition = 0;
 	VertexLength = 0;
 	VertexPositionIsSet = false;
+	ReciveInput = false;
+	ActiveChild = NULL;
+
 }
 
 Window::~Window(){
+	ActiveChild = NULL;
+	Children.clear();
 }
 
 void Window::AddChild( Control *child, int depth, bool rebuild ){
@@ -56,13 +61,17 @@ bool Window::HitTest( int mx, int my ){
 		my -= y;
 		size_t size = Children.size();
 		for( unsigned int i = 0; i < size; i++ ){
-			if(Children[i]->HitTest(mx, my))
+			if(Children[i]->HitTest(mx, my)){
+				ActiveChild = Children[i];
+				ReciveInput = ActiveChild->HasAttrib( CTRL_INPUT );
 				return true;
+			}
 		}
 
 		
 		return true;
 	}
+	ActiveChild = NULL;
 	return false;
 }
 
@@ -232,4 +241,9 @@ void Window::RebuildVBO(){
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	delete [] data;
 	delete [] newData;
+}
+
+void Window::OnKeyPress( unsigned short key ){
+	if( ActiveChild != NULL )
+		ActiveChild->OnKeyPress( key );
 }
