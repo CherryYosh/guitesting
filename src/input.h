@@ -37,7 +37,6 @@ public:
 	~Input();
 
 	void Start();
-	void ProcessMessages();
 	
 	void BindAction( std::string, short, std::string, bool, int, void* ); 
 	void BindKey( std::string, SDLKey, SDLMod, std::string );

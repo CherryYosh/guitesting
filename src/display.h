@@ -21,7 +21,6 @@ public:
 	~Display();
 
 	void Start();
-	void ProcessMessages();
 
 	void DrawFPS(unsigned int*);
 	
@@ -35,7 +34,7 @@ private:
 	void InitTimers();
 
 	Camera *camera;
-	Timer<void> *FPSTimer;
+	//Timer<void> *FPSTimer;
 	GUI *gui;
 };
 

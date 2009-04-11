@@ -16,6 +16,8 @@
 
 
 Input::Input() : System(){
+	input = this;
+
 	//create a few empty profiles
 	Input_ProfileDataT* temp = new Input_ProfileDataT;
 	temp->Name = "default";
@@ -29,9 +31,9 @@ Input::Input() : System(){
 }
 
 Input::~Input(){
-	running = false;
 	Profiles.clear();
 	delete ActiveProfile;
+	input = NULL;
 }
 
 /*
@@ -40,11 +42,10 @@ Input::~Input(){
  */
 void Input::Start(){
 	SDL_Event keyevent;
-	running = true;
 
-	while( running ){
+	//while( running ){
 		ProcessInput();
-		ProcessMessages();
+		//ProcessMessages();
 		
 		while( SDL_PollEvent( &keyevent ) ){
 			switch( keyevent.type ){
@@ -72,12 +73,11 @@ void Input::Start(){
 					unsigned int* data = new unsigned int[2];
 					data[0] = keyevent.resize.w;
 					data[1] = keyevent.resize.h;
-					engine->ReceiveMessage( SYSTEM_DISPLAY, WINDOW_RESIZE, (void*)data );
+					//engine->ReceiveMessage( SYSTEM_DISPLAY, WINDOW_RESIZE, (void*)data );
 					}break;
 				case SDL_QUIT:
-					running = false;
-					printf( "1\n");
-					engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
+						if( Engine::engine == NULL ) { printf( "gah\n" ); return; }
+						Engine::engine->Quit();
 					return;
 				default:
 #ifdef _DEBUG_
@@ -86,41 +86,7 @@ void Input::Start(){
 					break;
 			}
 		}
-	}
-}
-
-void Input::ProcessMessages(){
-	//this should be farily fast (not so blocking) 
-	msg_mutex.lock();
-		std::vector<SYS_Message*>* temp = Messages;
-		Messages = NULL;
-	msg_mutex.unlock();
-
-	if( temp == NULL )
-		return;	
-	
-	SYS_Message* msg;
-	unsigned int size = temp[0].size();
-	for( unsigned int i = 0; i < size; i++ ){
-		msg = temp[0][i];
-		
-		switch( msg->id ){
-			case QUIT: //quit
-				running = false;
-				printf( "2\n" ); 
-				break;
-			case INPUT_CHANGE_PROFILE:
-				SetProfile( ((std::string*)msg->parameters)[0] );
-				break;
-			default:
-#ifdef _DEBUG_
-				printf( "ERROR: Unknown message id (%i) presented to input!\n", msg->id );
-#endif
-				break;
-		}
-	}
-	temp->clear();
-	delete [] temp;
+	//}
 }
 
 //binds the action to a classid and a function
@@ -175,17 +141,19 @@ void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string ac
 }
 
 void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod ){
+	if( ActiveProfile == NULL ){
+		return;
+	}
+
 	std::vector<Input_KeyDataT*> keys = ActiveProfile->Keys;
 
 	size_t size = keys.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		//				this allows use to have caps / numlock on while typeing
 		if( keys[i]->Key == sym.sym && ( sym.mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
-			printf ("here 109\n" );
 			if( pressed )
 				keys[i]->Action->Count++;
 			else{
-				printf( "here\n" );
 				if( keys[i]->Action->Count > 0 )
 					keys[i]->Action->Count--;
 				//reset the handeld flag if no keys are down
@@ -193,7 +161,6 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod 
 					keys[i]->Action->Handled = false;
 			}
 			//auidios.. 
-			printf( "dfds\n" );
 			return;
 		}
 	}
@@ -203,7 +170,7 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod 
 		unsigned short* data = new unsigned short[1];
 		data[0] = sym.unicode;
 		//data[1] = mod;
-		engine->ReceiveMessage( SYSTEM_DISPLAY, INPUT_KEYPRESS, (void*)data );
+		//engine->ReceiveMessage( SYSTEM_DISPLAY, INPUT_KEYPRESS, (void*)data );
 	}
 }
 
@@ -217,9 +184,9 @@ void Input::ProcessInput(){
 		if( action->Count > 0 && !action->Handled ){
 			//just a little sanity check, not sure why this would happen
 			if( action->id == SYSTEM_INPUT ){
-				this->ReceiveMessage( action->FunctionID, action->Parameters );
+				//this->ReceiveMessage( action->FunctionID, action->Parameters );
 			} else {
-				engine->ReceiveMessage( action->id, action->FunctionID, action->Parameters );
+			//	engine->ReceiveMessage( action->id, action->FunctionID, action->Parameters );
 			}
 
 			if( action->UseOnce )

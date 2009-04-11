@@ -10,6 +10,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 
+/*
+
 #include "engine.h"
 #include "system.h"
 #include <SDL/SDL.h>
@@ -114,7 +116,7 @@ bool Timer<R>::Start(){
 	Steps = 0;
 
 	//this line SHOULD prevent thread creation overhead.. not sure
-	//boost::thread(boost::bind( &Timer<R>::WaistTime, this )).swap(Thread);
+	boost::thread(boost::bind( &Timer<R>::WaistTime, this )).swap(Thread);
 	return true;
 }
 
@@ -135,11 +137,16 @@ void Timer<R>::WaistTime(){
 
 	
 	Mutex.unlock();
+	/*
 	if( Owner != NULL )
 		Owner->ReceiveMessage( TIMER_DONE, (void*)this );
 	else
 		engine->ReceiveMessage( OwnerID, TIMER_DONE, (void*)this );
-	Running = false;
+	*/
+/*
+	printf( "FPS: %i\n", Ticks / 5 );
+	//WaistTime();
+	//Running = false;
 }
 
 template< typename R >
@@ -215,5 +222,5 @@ unsigned int Timer<R>::GetSteps(){
 	return Steps;
 }
 
-
+*/
 #endif

@@ -45,17 +45,17 @@ void SetupSDL(){
 Display::Display() : System(){
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
 		printf( "Unable to init SDL: %s\n", SDL_GetError() );
-		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
+		Engine::engine->Quit();
 	}
 
 	if( SDL_SetVideoMode( 640, 480, 0, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE ) == NULL ){
 		printf( "Unable to init OpenGL: %s\n", SDL_GetError() );
-		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
+		Engine::engine->Quit();
 	}
 
 	if( !InitImage() ){
 		printf( "Unable to init Image libary, closing!\n" );
-		engine->ReceiveMessage( SYSTEM_ENGINE, QUIT, NULL );
+		Engine::engine->Quit();
 	}
 
 	SetupSDL();
@@ -87,98 +87,49 @@ Display::Display() : System(){
 	LoadShaders();
 	Mouse_Init();
 	InitTimers();
+
+	display = this;
 }
 
 Display::~Display(){
 	
 	//TODO
-	running = false;
-	delete FPSTimer;
+	display = NULL;
+	//delete FPSTimer;
 	delete camera;
 	delete gui;
 	Mouse_Die();
 }
 
 void Display::InitTimers(){
-	FPSTimer = new Timer<void>(this);
-	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
-	FPSTimer->SetRuntime( 5000 );
+	//FPSTimer = new Timer<void>(this);
+	//FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
+	//FPSTimer->SetRuntime( 5000 );
 	//FPSTimer->Start();
 }
 
 void Display::DrawFPS(unsigned int* data){
 	printf( "FPS: %i\n", *data/5 );
-	FPSTimer->Start();
+	//FPSTimer->Start();
 }
 
 void Display::Start(){
-	running = true;
 	unsigned char MouseUpdate;
 
 
-	while( running ){
-		FPSTimer->Tick();
+	//while( running ){
+	//	FPSTimer->Tick();
 
 		Render();
 
-		ProcessMessages();
+	//	ProcessMessages();
 		
 		if( (MouseUpdate = Mouse_SetState()) != 0 ){
 			//if( MouseUpdate & 0x01 ) OnMouseButtonChange();
 			if( MouseUpdate & 0x02 ) OnMouseMotion();
 		}
 	
-	}
-}
-
-void Display::ProcessMessages(){
-        msg_mutex.lock();
-
-	std::vector<SYS_Message*>* temp = Messages;
-        Messages = NULL;
-
-        msg_mutex.unlock();
-
-	if( temp == NULL )
-		return;
-
-	SYS_Message* msg;
-	unsigned int size = temp[0].size();
-	for( unsigned int i = 0; i < size; i++ ){
-                msg = temp[0][i];
-
-                switch( msg->id ){
-			case QUIT:
-                                running = false;
-                                break;
-                	case MOUSE_PRESS:
-			case MOUSE_RELEASE:
-				OnMouseButtonChange();
-				break;
-			case WINDOW_RESIZE:
-				Resize( ((int*)msg->parameters)[0], ((int*)msg->parameters)[1] );
-				break;
-			case CAMERA_MOVE:
-				camera->Move( ((double*)msg->parameters)[0], ((double*)msg->parameters)[1], ((double*)msg->parameters)[2] );
-				break;
-			case INPUT_KEYPRESS:
-				gui->HandelKeyPress( ((unsigned short*)msg->parameters)[0] );
-				break;
-			case TIMER_DONE:
-				//NOTE: the line might be UD with the forcing of <void> but as that is not needed with RunCommand, it shouldnt matter...
-				((Timer<void>*)msg->parameters)->RunCommand();
-				break;
-			default:
-#ifdef _DEBUG_
-				printf( "ERROR: unknown event id (%i) recived.\n", msg->id );
-#endif
-				break;
-		}
-
-        }
-
-	temp->clear();
-	delete [] temp;
+	//}
 }
 
 void Display::Render(){	
