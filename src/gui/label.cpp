@@ -5,7 +5,14 @@ Label::Label( std::string t, int x, int y ) : Control(t,x,y){
 	TextWidth = Width;
 	TextHeight = Height / FontMgr_GetLineHeight( font ); 
 	Multiline = false;
-	lines.push_back( "" );
+	
+	//FontString s;
+	//s.font = 0;
+	//s.Start = 0;
+	//s.Length = 0;
+	//s.Size = 0;
+	//lines.push_back( s );
+	
 	BottomLine = 0;
 	CaretPos = 0;
 	CaretLine = 0;

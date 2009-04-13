@@ -19,24 +19,31 @@ bool Editbox::HitTest( int mX, int mY ){
 		//tell if they clicked a line
 		short size = lines.size();
 		short height = FontMgr_GetLineHeight( font );
+		FontString line;
 		for( unsigned short i = 0; i < size; i++ ){
 			//first a check to get the line
 			if( mY < y + ( height * ( TextHeight - i ) ) ){
 				CaretLine = i;
-				std::string line = lines[i];
-				for( unsigned short j = line.length(); j >= 0; j-- ){
-					line.erase( j );
-					if( mX > x + ( FontMgr_GetStringWidth(font, line.c_str() ))){
+				line = lines[i];
+				
+				std::list<FontChar>::iterator it;
+				unsigned int j = line.Size;
+				for( it=line.Text.end(); it != line.Text.begin(); it--){
+					if( mX > x + ((FontChar)*it).x ){
 						CaretPos = j;
 						return true;
 					}
+					
+					j--;
 				}
-				//so if we atr here its in the line, but not the text sooo....
-				CaretPos = line.length();
+				
+				//so if we are here its in the line, but not the text sooo....
+				CaretPos = line.Size;
 				return true;
 			}
 		}
-		return true; //didnt click the text, but still clicked it..
+		//So that bastard doesnt want text!!!
+		return true;
 	}
 	return false;
 }
@@ -45,12 +52,23 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 	if( unicode > 31 && unicode < 126 && NumCharacters < MaxCharacters){
 		
 		//WARNING: Error might occure with the wunicode
-		lines[CaretLine].insert( CaretPos++, (const char*)&unicode );
+		FontChar c;
+		c.c = unicode;
+		c.r = 0.0;
+		c.g = 0.0;
+		c.b = 1.0;
+		c.a = 1.0;
+		c.x = x + lines[CaretLine].Width;
+		FontMgr_GetCharData( lines[CaretLine].font, unicode, c.s, c.t, c.s2, c.t2, lines[CaretLine].Width );
+		
+		std::list<FontChar>::iterator it = lines[CaretLine].Text.begin();
+		std::advance( it, CaretPos++ );
+		lines[CaretLine].Text.insert( it, c );
 		NumCharacters++;
-
+/*
 		//find a better way to do this check.. ?
-		if( TextWidth < FontMgr_GetStringWidth( font, lines[CaretLine].c_str() )){
-			lines[CaretLine].erase( CaretPos-1 );
+		if( TextWidth < FontMgr_GetStringWidth( font, lines[CaretLine].Text.c_str() )){
+			lines[CaretLine].Text.erase( CaretPos-1 );
 			
 			//dont add if we dont have the 
 			//NOTE: is here rather then the if statement becouse we still need to remove the last character
@@ -68,8 +86,9 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 			NumLines++;
 			return;
 		}
+*/
 	}
-
+/*
 	if( unicode == 8 && CaretPos > 0){ //backspace
 		lines[CaretLine].erase( --CaretPos );
 		NumCharacters--;
@@ -94,7 +113,7 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 	}
 
 	if( Multiline ){
-		if( unicode == 13  /*&& LineCount < MaxLineCount*/  ){ //enter
+		if( unicode == 13 ){ //enter
 			lines.push_back( "" );
 
 			if( BottomLine == CaretLine )
@@ -105,6 +124,7 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 			return;
 		}
 	}
+*/
 }
 
 /*

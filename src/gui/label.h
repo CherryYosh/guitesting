@@ -2,9 +2,27 @@
 #define TEXTBOX_H
 
 #include "control.h"
+#include "../fontmgr.h"
 
 #include <string>
 #include <vector>
+#include <list>
+
+struct FontChar{
+	char c;		//the actual char
+	float r,g,b,a;	//colors
+	float s,t,s2,t2;//texcoords
+	float x;	//vertex position
+};
+struct FontString{
+	unsigned short font;		//the font id
+	unsigned short Size;		//the number of characters
+	unsigned int Start; 		//the first position in the VBO
+	unsigned int Length;		//the length (in bytes) we occupy in the vbo
+	float y;			//the y coord wont change inside of a string 
+	unsigned int Width, Height;	//the current width of the string (used to find the x of the next char) and the height (needed?)
+	std::list<FontChar> Text;
+};
 
 class Label : public Control {
 public:
@@ -29,12 +47,13 @@ protected:
 	unsigned short BottomLine; //the index of the bottome line
 	unsigned short NumCharacters, NumLines;
 	unsigned short MaxCharacters, MaxLines;
+	unsigned int TextPosition, TextLength;
 	bool Multiline;
 	bool FlashCaret;
 	bool ShowingCaret;
 	bool Editable;
 	unsigned char font; 		//fixed at 0 right now
-	std::vector<std::string> lines;
+	std::vector<FontString> lines;
 private:
 };
 
