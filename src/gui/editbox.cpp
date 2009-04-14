@@ -49,6 +49,7 @@ bool Editbox::HitTest( int mX, int mY ){
 }
 
 void Editbox::OnKeyPress( unsigned short unicode ){ 
+	FontString* line = &lines[CaretLine];
 	if( unicode > 31 && unicode < 126 && NumCharacters < MaxCharacters){
 		
 		//WARNING: Error might occure with the wunicode
@@ -58,35 +59,51 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 		c.g = 0.0;
 		c.b = 1.0;
 		c.a = 1.0;
-		c.x = x + lines[CaretLine].Width;
-		FontMgr_GetCharData( lines[CaretLine].font, unicode, c.s, c.t, c.s2, c.t2, lines[CaretLine].Width );
-		
-		std::list<FontChar>::iterator it = lines[CaretLine].Text.begin();
-		std::advance( it, CaretPos++ );
-		lines[CaretLine].Text.insert( it, c );
-		NumCharacters++;
-/*
-		//find a better way to do this check.. ?
-		if( TextWidth < FontMgr_GetStringWidth( font, lines[CaretLine].Text.c_str() )){
-			lines[CaretLine].Text.erase( CaretPos-1 );
-			
-			//dont add if we dont have the 
-			//NOTE: is here rather then the if statement becouse we still need to remove the last character
-			//TODO: a better way?
+		char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
+		float h;
+		FontMgr_GetCharData( line->font, p, h, c );
+
+
+		//check if the new chara needs to go on a new line
+		if( TextWidth < line->Width + c.width ){
+			//dont add if we dont have the space 
 			if( NumLines >= MaxLines )
 				return;
 
 			//only move down if we are at the bottom
 			if( BottomLine == CaretLine )
 				BottomLine++;
-
-			lines.push_back( (const char*)&unicode );
+/*
+			FontString s;
+			s.font = 0;
+			s.Start = line->Start + line->Length;
+			s.Length = 0;
+			s.Size = 1;
+			s.y = line->y + line->Height;
+			s.Width = c.width;
+			s.Height = FontMgr_GetLineHeight( s.font );
+			s.Text.push_back( c );
+*/
+//			line->.push_back( s );
 			CaretLine++;
 			CaretPos = 1; //needs to be once because we added the last value..
 			NumLines++;
+			NumCharacters++;
+
+			//RebuildVBO();
 			return;
 		}
-*/
+		
+		//otherwise we can add it to the end of the line
+		ReplaceCharVBO( c );
+		line->Width += /*c.width +*/ h;
+		std::list<FontChar>::iterator it = line->Text.begin();
+		std::advance( it, CaretPos++ );
+		line->Text.insert(it, c);
+		NumCharacters++;
+
+		//RebuildVBO();
+		return;
 	}
 /*
 	if( unicode == 8 && CaretPos > 0){ //backspace

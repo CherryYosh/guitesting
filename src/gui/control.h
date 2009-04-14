@@ -1,7 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#define CTRL_INPUT (1) >> 1 //does the control allow input
+#define CTRL_INPUT 0x1 //does the control allow input
 
 #ifndef NULL
 #define NULL 0

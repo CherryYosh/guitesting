@@ -9,6 +9,7 @@
  */
 #include <GL/glew.h>
 #include "window.h"
+#include "controls.h"
 
 Window::Window(){
 	VertexPosition = 0;
@@ -48,6 +49,15 @@ void Window::Close(){
 }
 
 void Window::Render(){
+}
+
+void Window::RenderText( int v, int t, int c ){
+	size_t size = Children.size();
+	for( unsigned int i = 0; i < size; i++ ){
+		if( Children[i]->HasAttrib( CTRL_INPUT )){
+			((Label*)Children[i])->RenderText( v, t, x );
+		}
+	}
 }
 
 bool Window::HitTest( int mx, int my ){
@@ -136,13 +146,12 @@ void Window::UpdateVBO(){
 	if( ptr != NULL ){
 		memcpy( ptr, data, VertexLength );
 		//NOTE: Do a check here to make sure Unmap returns GL_TRUE :P
-		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glFlushMappedBufferRange( GL_ARRAY_BUFFER_ARB, VertexPosition, VertexLength );
+		glUnmapBuffer( GL_ARRAY_BUFFER );
 	} else {
 		GLenum error = glGetError();
 		printf( "Error: Could not update vbo! %i\n", error );
 	}
-
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	delete [] data;
@@ -227,8 +236,8 @@ void Window::RebuildVBO(){
 		memcpy( newData, ptr, VertexPositionIsSet ? VertexPosition : (VertexPosition = size) );
 		memcpy( &newData[ VertexPosition ], data, length );
 		
-		if( VertexPositionIsSet ) //if its set we need to copy everything after it
-			memcpy( &newData[ VertexPosition + length ], &ptr[ VertexPosition + VertexLength  ], abs(size - (length + VertexPosition)) );
+		//if( VertexPositionIsSet ) //if its set we need to copy everything after it
+		//	memcpy( &newData[ VertexPosition + length ], &ptr[ VertexPosition + VertexLength  ], abs(size - (length + VertexPosition)) );
 
 		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glBufferData( GL_ARRAY_BUFFER, size + ( length - VertexLength ), newData, GL_STREAM_DRAW ); 

@@ -25,6 +25,7 @@ public:
 	virtual void Move( float, float );
 	virtual void Close();
 	virtual void Render();
+	virtual void RenderText( int, int, int );
 	virtual void UpdateVBO();
 	virtual void OnKeyPress( unsigned short );
 	virtual bool HitTest( int, int );
