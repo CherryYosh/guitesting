@@ -55,7 +55,7 @@ void Window::RenderText( int v, int t, int c ){
 	size_t size = Children.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		if( Children[i]->HasAttrib( CTRL_INPUT )){
-			((Label*)Children[i])->RenderText( v, t, x );
+			((Label*)Children[i])->RenderText( v, t, c );
 		}
 	}
 }
