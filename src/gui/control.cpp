@@ -30,6 +30,7 @@ void Control_Init( const char* path ){
                 temp->type = theme->data[i]->type;
                 temp->width = theme->data[i]->x2 - theme->data[i]->x;
                 temp->height = theme->data[i]->y2 - theme->data[i]->y;
+		
 		//set up the uv
 		temp->s = x;
 		temp->s2 = x2;

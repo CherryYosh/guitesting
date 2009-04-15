@@ -46,19 +46,6 @@ void Label::RenderText( int vert, int text, int color ){
 	}
 }
 
-/*
-void Label::UpdateVAO( int vert, int text, int color ){
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-
-	for( unsigned int i = 0; i < MaxLines; i++ ){
-		glBindVertexArray( lines[i].vao );
-		{
-			//glEnableVertex
-		}
-	}
-}
-*/
-
 void Label::AddStringsToVBO(){
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 	GLint size; glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
@@ -66,7 +53,9 @@ void Label::AddStringsToVBO(){
 	float* ptr = (float*)glMapBuffer( GL_ARRAY_BUFFER, GL_READ_ONLY );
 
 	if( ptr != NULL ){
-		float* newData = new float[ size + (( 4 * sizeof( LABEL_VBOVertex)) * ( MaxLines * MaxCharacters )) ];
+		TextPosition = size;
+		TextLength = (( 4 * sizeof( LABEL_VBOVertex)) * ( MaxLines * MaxCharacters ));
+		float* newData = new float[ size + TextLength ];
 		memcpy( newData, ptr, size );
 		glUnmapBuffer( GL_ARRAY_BUFFER );
 
@@ -74,12 +63,11 @@ void Label::AddStringsToVBO(){
 		FontString s;
 		s.font = 0;
 		s.Size = 0;
-		s.y = y;
+		s.y = Height;
 		s.Width = 0;
 		s.Height = FontMgr_GetLineHeight( 0 );
 		
 		for( unsigned int i = 0; i < MaxLines; i++ ){
-			s.y += s.Height;
 			s.Start = position;
 			lines.push_back( s );
 
@@ -90,6 +78,8 @@ void Label::AddStringsToVBO(){
 				memset( &newData[position], 0, 4 * sizeof( LABEL_VBOVertex ));
 				position += 4 * sizeof( LABEL_VBOVertex );
 			}
+			
+			s.y -= s.Height;
 		}
 
 		glBufferData( GL_ARRAY_BUFFER, position, newData, GL_STREAM_DRAW );
@@ -175,34 +165,38 @@ void Label::ReplaceCharVBO( FontChar c ){
 }
 
 void Label::UpdateVBO(){
-	//NOTE:FIX THIS CODE
+	if( TextLength == 0 || TextPosition == 0 ){
+		printf( "%i %i\n", TextLength, TextPosition );
+		return;
+	}
 
 
-	size_t size = lines.size();
-	FontString line;
-	//here to require only 1 update (fewer api calls)
+	size_t numLines = lines.size();
 	LABEL_VBOVertex* data = new LABEL_VBOVertex[ NumCharacters * 4 ];
+	FontString line;
 	unsigned int slot = 0;
+	FontChar c;
+	float vx,vx2,vy,vy2;	//vertex data, prevent redundant cals
+	float vs,vs2,vt,vt2;
+	float r,g,b,a;
+	std::list<FontChar>::iterator it;
 	
-	for( unsigned int i = 0;i < size; i++ ){
+	for( unsigned int i = 0;i < numLines; i++ ){
 		line = lines[i];
 
-		FontChar c;
-		float vx,vx2,vy,vy2;	//vertex data, prevent redundant cals
-		float vs,vs2,vt,vt2;
-		float r,g,b,a;
-		std::list<FontChar>::iterator it;
+		line.Width = 0;
 		for( it = line.Text.begin(); it != line.Text.end(); it++ ){
 			c = *it;
 			
 			//note sure if this helps much, 
 			//but does make the code look cleaner :P
 			//and im hoping this will allow the compiler to make it into SSA
-			vx = x + c.x;
-			vx2= x + (c.x + c.width);
-			vy = y + line.y;
-			vy2= y + (line.y + line.Height);
-
+			vx = c.x + x + line.Width;
+			vx2= c.x + x + ( line.Width + c.width );
+			vy = c.y + y + line.y;
+			vy2= c.y + y + ( line.y + c.height );
+			line.Width += c.advance;
+			
 			vs = c.s;
 			vs2= c.s2;
 			vt = c.t;
@@ -257,44 +251,29 @@ void Label::UpdateVBO(){
 		}
 	}
 	
-	unsigned int length = ( NumCharacters * 4 * sizeof( LABEL_VBOVertex ));
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	GLint vbosize;
-	glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &vbosize );
 
-	//TODO: throw a runtime error on size == 0
-	if( TextPosition == 0 )
-		TextPosition = vbosize;
-	
-	float* ptr = NULL;
-
-	if( TextLength != length ){ //we need to add data
-		ptr = (float*)glMapBuffer( GL_ARRAY_BUFFER, GL_READ_ONLY );
-	} else { //just map the range
-		printf( "UNSUPPORTED!!!\n" );
-		return; //NOTE: HACK!! lol fix this nao!
-		//		ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, TextPosition, TextLength, GL_MAP_READ_BIT );
-	}
-
-	float* newData = new float[ vbosize + ( length - TextLength ) ];
+	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, TextPosition, TextLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
 	if( ptr != NULL ){
-		memcpy( newData, ptr, TextPosition );
-		memcpy( &newData[ TextPosition ], data, length );
-		
-		//if( TextPosition != size );
-			//memcpy( &newData[ TextPosition + length], &ptr[ TextPosition ], abs( vbosize - ( length + TextPosition )));
+		FontString line;
+		unsigned int pos = 0;
+		for(unsigned int i = 0; i < numLines; i++){
+			line = lines[i];
+			if( line.Text.size() > 0 ){
+				memcpy( &ptr[ line.Start - TextPosition ], &data[pos], (line.Text.size() * 4) * sizeof( LABEL_VBOVertex ));
+				pos += (line.Text.size() * 4);
+			}
+		}
 
 		glUnmapBuffer( GL_ARRAY_BUFFER );
-		glBufferData( GL_ARRAY_BUFFER, vbosize + ( length - TextLength ), newData, GL_STREAM_DRAW );
-		printf( "wooo added data! new size %i\n", vbosize );
+		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0, TextLength );
 	} else {
 		printf( "ERROR: could not rebuild text vbo! %i\n", glGetError() );
 	}
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	delete [] data;
-	delete [] newData;
 }
 
 void Label::onMousePress( int button ){
@@ -325,4 +304,11 @@ void Label::SetWidth( unsigned short w){
 void Label::SetHeight( unsigned short h){
 	Height = h;
 	TextHeight = Height / FontMgr_GetLineHeight( font );
+}
+
+void Label::Move( float cx, float cy ){
+	x += cx;
+	y += cy;
+
+	UpdateVBO();
 }

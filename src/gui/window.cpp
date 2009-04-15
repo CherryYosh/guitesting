@@ -37,6 +37,11 @@ void Window::Move( float xChange, float yChange ){
 	x += xChange;
 	y += yChange;
 
+	size_t size = Children.size();
+	for( unsigned int i = 0; i < size; i++ ){
+		Children[i]->Move( xChange, yChange );
+	}
+
 	UpdateVBO();
 }
 
@@ -65,10 +70,6 @@ bool Window::HitTest( int mx, int my ){
 	if( mx > x && mx < x + width &&
 			my > y && my < y + height ){
 		//now we test the controls
-		//remove the windows position from the mouse click..
-		//due to the fact that the children are based on the window's position
-		mx -= x;
-		my -= y;
 		size_t size = Children.size();
 		for( unsigned int i = 0; i < size; i++ ){
 			if(Children[i]->HitTest(mx, my)){
@@ -101,10 +102,10 @@ void Window::UpdateVBO(){
 		slot = i * 4;
 		child = Children[i];
 		
-		vx = x + child->x;
-		vx2 = x + ( child->x + child->GetWidth() );
-		vy = y + child->y;
-		vy2 = y + ( child->y + child->GetHeight() );
+		vx =  child->x;
+		vx2 = ( child->x + child->GetWidth() );
+		vy = child->y;
+		vy2 = ( child->y + child->GetHeight() );
 
 		vs = child->s;
 		vs2 = child->s2;

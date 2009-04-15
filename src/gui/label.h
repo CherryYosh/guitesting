@@ -14,6 +14,7 @@ struct FontChar{
 	float s,t,s2,t2;//texcoords
 	float x,y;	//vertex position
 	float width,height;	//width of the texture
+	float advance;
 };
 struct FontString{
 	unsigned short font;		//the font id
@@ -38,6 +39,8 @@ public:
 
 	virtual void onKeyPress( unsigned short unicode ); 
 	virtual void onKeyRelease( int key, int mod );
+
+	virtual void Move( float, float );
 
 	virtual void SetFont( unsigned char f );
 	virtual void SetWidth( unsigned short );
