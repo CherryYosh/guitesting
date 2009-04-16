@@ -49,6 +49,7 @@ public:
 	virtual void UpdateVBO();
 	virtual void AddStringsToVBO();
 	virtual void ReplaceCharVBO( FontChar );
+	virtual void RebuildVBOLine( FontString* s );
 protected:
 	unsigned short TextWidth, TextHeight;
 	unsigned short CaretPos, CaretLine;

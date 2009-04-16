@@ -155,13 +155,99 @@ void Label::ReplaceCharVBO( FontChar c ){
 	if( ptr != NULL ){
 		memcpy( ptr, verts, 4 * sizeof( LABEL_VBOVertex ) );
 		
-		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0,  4 * sizeof( LABEL_VBOVertex ) );
+		glUnmapBuffer( GL_ARRAY_BUFFER );
 	} else {
 		printf( "Error could not update character! %i\n", glGetError() );	
 	}
 	
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+}
+
+void Label::RebuildVBOLine( FontString* s ){
+	unsigned int slot = 0;
+	float vx,vx2,vy,vy2;    //vertex data, prevent redundant cals
+	float vs,vs2,vt,vt2;
+	
+	FontChar c;
+	s->Width = 0;
+	std::list<FontChar>::iterator it;
+	LABEL_VBOVertex* data = new LABEL_VBOVertex[ s->Text.size() * 4 ];
+
+	for( it = s->Text.begin(); it != s->Text.end(); it++ ){
+		c = *it;
+		
+		vx = c.x + x + s->Width;
+		vx2= c.x + x + ( s->Width + c.width );
+		vy = c.y + y + s->y;
+		vy2= c.y + y + ( s->y + c.height );
+
+		s->Width += c.advance;
+		
+		vs = c.s;
+		vs2= c.s2;
+		vt = c.t;
+		vt2= c.t2;
+
+		//top left
+		data[slot+0].x = vx;
+		data[slot+0].y = vy;
+		data[slot+0].s = vs;
+		data[slot+0].t = vt;
+		data[slot+0].r = c.r;
+		data[slot+0].g = c.g;
+		data[slot+0].b = c.b;
+		data[slot+0].a = c.a;
+
+		//top right
+		data[slot+1].x = vx2;
+		data[slot+1].y = vy;
+		data[slot+1].s = vs2;
+		data[slot+1].t = vt;
+		data[slot+1].r = c.r;
+		data[slot+1].g = c.g;
+		data[slot+1].b = c.b;
+		data[slot+1].a = c.a;
+
+		//bottom right
+		data[slot+2].x = vx2;
+		data[slot+2].y = vy2;
+		data[slot+2].s = vs2;
+		data[slot+2].t = vt2;
+		data[slot+2].r = c.r;
+		data[slot+2].g = c.g;
+		data[slot+2].b = c.b;
+		data[slot+2].a = c.a;
+
+		//bottom left
+		data[slot+3].x = vx;
+		data[slot+3].y = vy2;
+		data[slot+3].s = vs;
+		data[slot+3].t = vt2;
+		data[slot+3].r = c.r;
+		data[slot+3].g = c.g;
+		data[slot+3].b = c.b;
+		data[slot+3].a = c.a;
+
+		slot += 4;
+	}
+
+        glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+	unsigned int length =  (s->Text.size() * 4) * sizeof( LABEL_VBOVertex );
+
+	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, s->Start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+	
+        if( ptr != NULL ){
+                memcpy( ptr, data, length );
+
+		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0, length );
+		glUnmapBuffer( GL_ARRAY_BUFFER );
+	} else {
+                printf( "ERROR: could not rebuild text line vbo! %i\n", glGetError() );
+        }
+
+        glBindBuffer( GL_ARRAY_BUFFER, 0 );
+        delete [] data;
 }
 
 void Label::UpdateVBO(){
@@ -266,8 +352,8 @@ void Label::UpdateVBO(){
 			}
 		}
 
-		glUnmapBuffer( GL_ARRAY_BUFFER );
 		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0, TextLength );
+		glUnmapBuffer( GL_ARRAY_BUFFER );
 	} else {
 		printf( "ERROR: could not rebuild text vbo! %i\n", glGetError() );
 	}

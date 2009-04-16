@@ -27,13 +27,15 @@ bool Editbox::HitTest( int mX, int mY ){
 				line = lines[i];
 
 				std::list<FontChar>::iterator it;
-				unsigned int j = line.Size;
+				unsigned int j = line.Text.size();
+				unsigned int width = line.Width;
 				for( it=line.Text.end(); it != line.Text.begin(); it--){
-					if( mX > x + ((FontChar)*it).x ){
+					if( mX > x + width ){
 						CaretPos = j;
 						return true;
 					}
 
+					width -= ((FontChar)*it).advance;
 					j--;
 				}
 
@@ -59,11 +61,11 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 		c.g = 0.0;
 		c.b = 1.0;
 		c.a = 1.0;
-		char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
+		char p = 0;//char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
 		FontMgr_GetCharData( line->font, p, c );
 
-
 		//check if the new chara needs to go on a new line
+/*
 		if( TextWidth < line->Width + c.width ){
 			//dont add if we dont have the space
 			if( NumLines >= MaxLines )
@@ -80,14 +82,21 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 
 			line = &lines[CaretLine];
 		}
-
+*/
 		//otherwise we can add it to the end of the line
-		ReplaceCharVBO( c );
-		line->Width += c.advance;
-		std::list<FontChar>::iterator it = line->Text.begin();
-		std::advance( it, CaretPos++ );
-		line->Text.insert(it, c);
 		NumCharacters++;
+
+		if( CaretPos == line->Text.size() ){
+			ReplaceCharVBO( c );
+			line->Width += c.advance;
+			line->Text.push_back( c );
+			CaretPos++;
+		} else {
+			std::list<FontChar>::iterator it = line->Text.begin();
+			std::advance( it, CaretPos++ );
+			line->Text.insert(it, c);
+			RebuildVBOLine( line );
+                }
 
 		return;
 	}
