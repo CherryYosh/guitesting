@@ -64,66 +64,30 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 		char p = 0;//char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
 		FontMgr_GetCharData( line->font, p, c );
 
-		//check if the new chara needs to go on a new line
-/*
-		if( TextWidth < line->Width + c.width ){
-			//dont add if we dont have the space
-			if( NumLines >= MaxLines )
-				return;
+		AddChar( c, true );
+		return;
+	}
 
-			//only move down if we are at the bottom
-			if( BottomLine == CaretLine )
-				BottomLine++;
-
-			CaretLine++;
-			CaretPos = 0;
-			NumLines++;
-			NumCharacters++;
-
-			line = &lines[CaretLine];
-		}
-*/
-		//otherwise we can add it to the end of the line
-		NumCharacters++;
-
-		if( CaretPos == line->Text.size() ){
-			ReplaceCharVBO( c );
-			line->Width += c.advance;
-			line->Text.push_back( c );
-			CaretPos++;
-		} else {
+	if( unicode == 8 ){ //backspace
+		if( CaretPos > 0){ //just remove one char
 			std::list<FontChar>::iterator it = line->Text.begin();
-			std::advance( it, CaretPos++ );
-			line->Text.insert(it, c);
-			RebuildVBOLine( line );
-                }
-
-		return;
+			std::advance( it, --CaretPos );
+			line->Width -= (*it).advance;
+			line->Text.erase( it );
+			NumCharacters--;
+			return;
+		} else if( Multiline && CaretLine > 0 ){
+			//backspaced pressed at the end of the line..
+			//all this does and delet the current line, moving its
+			//content to the new line ( after the cursor )
+			CaretPos = line[CaretLine -1].Text.size();
+			if( line->Text.size() > 0 ){
+				AppendString( CaretLine-1, CaretPos, *line );
+			}
+			return;
+		}
 	}
 /*
-	if( unicode == 8 && CaretPos > 0){ //backspace
-		//line.erase( --CaretPos );
-		NumCharacters--;
-		return;
-	} else if( Multiline && CaretLine > 0 ){
-		//backspaced pressed at the end of the line..
-		//all this does and delet the current line, moving its
-		//content to the new line ( after the cursor )
-		CaretPos = lines[CaretLine -1].length();
-		if( lines[CaretLine].size() > 0 ){
-			//lines[CaretLine -1].append( lines[CaretLine] );
-		}
-
-		if( BottomLine == CaretLine )
-			BottomLine--;
-
-		std::vector<std::string>::iterator iter = lines.begin();
-		iter += CaretLine--;
-		lines.erase( iter );
-		NumLines--;
-		return;
-	}
-
 	if( Multiline ){
 		if( unicode == 13 ){ //enter
 			lines.push_back( "" );

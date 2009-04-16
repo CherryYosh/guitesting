@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS= -g -D_DEBUG_ -Wall -DILUT_USE_OPENGL -I/usr/include/freetype2
-LDFLAGS= -pg -lSDL -lGL -lGLU -lGLEW -lIL -lILU -lILUT -lboost_thread -lfreetype
+LDFLAGS= -pg -lSDL -lGL -lGLU -lGLEW -lIL -lILU -lILUT -lfreetype
 
 SRCDIR= src
 

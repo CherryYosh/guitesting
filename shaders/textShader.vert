@@ -11,12 +11,15 @@ precision mediump float;
 uniform mat4 projection;
 uniform mat4 modelview;
 
-in vec4 vertex;
+in vec2 vertex;
 in vec2 tcoord;
+in vec4 tcolor;
 
 centroid out vec2 texCoord;
+centroid out vec4 texColor;
 
 void main(){
 	texCoord = tcoord;
-	gl_Position = projection * modelview * vertex;//vec4( vec3(vertex), 1.0 );
+	texColor = tcolor;
+	gl_Position = projection * modelview * vec4(vertex, 0.0, 1.0 );
 }

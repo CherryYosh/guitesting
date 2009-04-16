@@ -23,18 +23,17 @@
 
 FT_Library library;
 static FT_Face faces[12];
-
 struct Glyph {
-	unsigned int index;
-	float x;
-	float y;
-	float x2;
-	float y2;
-	int width;
-	int height;
-	int advance;
-	int bearingX;
-	int bearingY;
+        unsigned int index;
+        float x;
+        float y;
+        float x2;
+        float y2;
+        int width;
+        int height;
+        int advance;
+        int bearingX;
+        int bearingY;
 };
 struct Font {
 	Glyph glyphs[128]; // Fast path ASCII
@@ -45,6 +44,20 @@ struct Font {
 	void *vertexdata;
 	void *tcoordptr;
 	void *indexdata;
+};
+struct Font_VBOData{
+	float x, y;
+	float s, t;
+	float r,g,b,a;
+};
+//note a copy of the struct at label.h to keep from needing a include 
+struct FontChar{
+	char c;
+	float r,g,b,a;
+	float s,t,s2,t2;
+	float x,y;
+	float width,height;
+	float advance;
 };
 static Font* fonts[12];
 
@@ -229,6 +242,27 @@ void FontMgr_glDrawText(int fontID, int tx, int ty, Shader* shader, const char *
 	glDisableVertexAttribArray( shader->attribute[1] );
 }
 
+//get the character data used in FontChar
+void FontMgr_GetCharData( int font, char p, FontChar& c ){
+	Glyph g = fonts[font]->glyphs[c.c];
+
+	FT_Vector kdelta;
+	FT_Get_Kerning( faces[font], g.index, fonts[font]->glyphs[p].index, FT_KERNING_DEFAULT, &kdelta);
+	
+	if( p == 0 )
+		kdelta.x = 0;
+
+	c.s = g.x;
+	c.t = g.y;
+	c.s2 = g.x2;
+	c.t2 = g.y2;
+	c.height = g.height;
+	c.width = g.width;
+	c.x = g.bearingX;
+	c.y = -g.bearingY;
+	c.advance = g.advance + (kdelta.x >> 6);
+}
+
 int FontMgr_GetFontAscender(int fontID)
 {
 	if(fonts[fontID] != NULL)
@@ -270,6 +304,10 @@ unsigned int FontMgr_GetStringWidth(int fontID, const char *text)
 	}
 	else
 		return 0;
+}
+
+unsigned int FontMgr_GetImage( int fontID ){
+	return fonts[fontID]->textureID;
 }
 
 // Immediate mode drawing deprecated

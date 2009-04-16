@@ -22,7 +22,7 @@ Label::Label( std::string t, int x, int y ) : Control(t,x,y){
 	Editable = false;
 	NumCharacters = 0;
 	MaxCharacters = 100;
-	NumLines = 1;
+	NumLines = 0;
 	MaxLines = 8;
 
 	TextPosition = 0;
@@ -46,11 +46,123 @@ void Label::RenderText( int vert, int text, int color ){
 	}
 }
 
+void Label::AddChar( FontChar c, bool update ){
+	if( NumLines == 0 )
+		NumLines++;
+
+	FontString* line = &lines[CaretLine];
+
+	if( line->Text.size() > MaxCharacters)
+		return;
+
+	if( TextWidth < line->Width + c.advance ){
+
+		if( !Multiline )
+			return;
+
+		//quick check just to see if we only need to add it to a new line
+		if( CaretPos == line->Text.size() ){
+			//if we are at the last line, we need to add one
+			if( NumLines - 1 == CaretLine ){
+				if( NumLines < MaxLines )
+				    NumLines++;
+				else
+					return; //we dont do anything , were at the end
+			}
+			CaretLine++;
+			CaretPos = 0;
+			line->Width += c.advance;
+			//restart with the new line
+			AddChar( c, update );
+			return;
+		}
+
+		//otherwise we are insterting a character, and deleteing the last
+		FontChar old = (FontChar)(*--line->Text.end());
+		line->Width -= old.advance;
+		line->Text.pop_back();
+
+		std::list<FontChar>::iterator it;
+		it = line->Text.begin();
+		std::advance(it, CaretPos++);
+		line->Text.insert( it, c );
+		line->Width += c.advance;
+
+		if( update )
+		    RebuildVBOLine( *line );
+
+		//check to see if we are at the last line, need to add a new one
+		if( NumLines - 1 == CaretLine ){
+				if( NumLines < MaxLines ){
+				    NumLines++;
+				} else {
+					return;
+				}
+		}
+
+		//now we pop the last char to a new line
+		//store temp values
+		unsigned int cp = CaretPos;
+
+		CaretLine++;
+		CaretPos = 0;
+
+		AddChar( old, update );
+
+		CaretLine--;
+		CaretPos = cp;
+
+		return;
+	}
+	
+	//else we can just insert
+	if( CaretPos == line->Text.size() ){
+		line->Text.push_back( c );
+
+		if( update )
+		    ReplaceCharVBO( c );
+	} else {
+		std::list<FontChar>::iterator it;
+		it = line->Text.begin();
+		std::advance(it, CaretPos);
+		line->Text.insert( it, c );
+
+		if( update )
+		    RebuildVBOLine( *line );
+	}
+	
+	NumCharacters++;
+	line->Width += c.advance;
+	CaretPos++;
+}
+
+
+void Label::AppendString( unsigned int lineNum, unsigned int position, FontString string ){
+	//first make sure there is really a need to do anything
+	if( string.Text.size() == 0 )
+		return;
+
+	unsigned int tpos = CaretPos;
+	unsigned int tline = CaretLine;
+
+	CaretPos = position;
+	CaretLine = lineNum;
+
+	std::list<FontChar>::iterator it;
+	for( it = string.Text.begin(); it != string.Text.end() ; it++ ){
+		AddChar( *it, false );
+	}
+
+	CaretPos = tpos;
+	CaretLine = tline;
+
+	UpdateVBO();
+}
 void Label::AddStringsToVBO(){
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 	GLint size; glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
 
-	float* ptr = (float*)glMapBuffer( GL_ARRAY_BUFFER, GL_READ_ONLY );
+	char* ptr = (char*)glMapBuffer( GL_ARRAY_BUFFER, GL_READ_ONLY );
 
 	if( ptr != NULL ){
 		TextPosition = size;
@@ -67,6 +179,7 @@ void Label::AddStringsToVBO(){
 		s.Width = 0;
 		s.Height = FontMgr_GetLineHeight( 0 );
 		
+		//TODO, clean this up? make it so tha only a single memset is called
 		for( unsigned int i = 0; i < MaxLines; i++ ){
 			s.Start = position;
 			lines.push_back( s );
@@ -150,7 +263,7 @@ void Label::ReplaceCharVBO( FontChar c ){
 	unsigned int pos = lines[CaretLine].Start + ( CaretPos * 4 * sizeof( LABEL_VBOVertex ) );
 	
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, pos, 4 * sizeof( LABEL_VBOVertex), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, pos, 4 * sizeof( LABEL_VBOVertex), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
 	if( ptr != NULL ){
 		memcpy( ptr, verts, 4 * sizeof( LABEL_VBOVertex ) );
@@ -164,25 +277,25 @@ void Label::ReplaceCharVBO( FontChar c ){
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
-void Label::RebuildVBOLine( FontString* s ){
+void Label::RebuildVBOLine( FontString s ){
 	unsigned int slot = 0;
 	float vx,vx2,vy,vy2;    //vertex data, prevent redundant cals
 	float vs,vs2,vt,vt2;
 	
 	FontChar c;
-	s->Width = 0;
+	s.Width = 0;
 	std::list<FontChar>::iterator it;
-	LABEL_VBOVertex* data = new LABEL_VBOVertex[ s->Text.size() * 4 ];
+	LABEL_VBOVertex* data = new LABEL_VBOVertex[ s.Text.size() * 4 ];
 
-	for( it = s->Text.begin(); it != s->Text.end(); it++ ){
+	for( it = s.Text.begin(); it != s.Text.end(); it++ ){
 		c = *it;
 		
-		vx = c.x + x + s->Width;
-		vx2= c.x + x + ( s->Width + c.width );
-		vy = c.y + y + s->y;
-		vy2= c.y + y + ( s->y + c.height );
+		vx = c.x + x + s.Width;
+		vx2= c.x + x + ( s.Width + c.width );
+		vy = c.y + y + s.y;
+		vy2= c.y + y + ( s.y + c.height );
 
-		s->Width += c.advance;
+		s.Width += c.advance;
 		
 		vs = c.s;
 		vs2= c.s2;
@@ -233,9 +346,9 @@ void Label::RebuildVBOLine( FontString* s ){
 	}
 
         glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	unsigned int length =  (s->Text.size() * 4) * sizeof( LABEL_VBOVertex );
+	unsigned int length =  (s.Text.size() * 4) * sizeof( LABEL_VBOVertex );
 
-	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, s->Start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, s.Start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 	
         if( ptr != NULL ){
                 memcpy( ptr, data, length );
@@ -251,25 +364,24 @@ void Label::RebuildVBOLine( FontString* s ){
 }
 
 void Label::UpdateVBO(){
-	if( TextLength == 0 || TextPosition == 0 ){
-		printf( "%i %i\n", TextLength, TextPosition );
+	if( TextLength == 0 || TextPosition == 0 || NumLines == 0 ){
 		return;
 	}
-
 
 	size_t numLines = lines.size();
 	LABEL_VBOVertex* data = new LABEL_VBOVertex[ NumCharacters * 4 ];
 	FontString line;
+
 	unsigned int slot = 0;
-	FontChar c;
 	float vx,vx2,vy,vy2;	//vertex data, prevent redundant cals
 	float vs,vs2,vt,vt2;
 	float r,g,b,a;
+
+	FontChar c;
 	std::list<FontChar>::iterator it;
 	
-	for( unsigned int i = 0;i < numLines; i++ ){
+	for( unsigned int i = 0; i < numLines; i++ ){
 		line = lines[i];
-
 		line.Width = 0;
 		for( it = line.Text.begin(); it != line.Text.end(); it++ ){
 			c = *it;
@@ -281,6 +393,7 @@ void Label::UpdateVBO(){
 			vx2= c.x + x + ( line.Width + c.width );
 			vy = c.y + y + line.y;
 			vy2= c.y + y + ( line.y + c.height );
+
 			line.Width += c.advance;
 			
 			vs = c.s;
@@ -339,16 +452,17 @@ void Label::UpdateVBO(){
 	
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 
-	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, TextPosition, TextLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, TextPosition, TextLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
 	if( ptr != NULL ){
-		FontString line;
 		unsigned int pos = 0;
+		unsigned int size = 0;
 		for(unsigned int i = 0; i < numLines; i++){
 			line = lines[i];
 			if( line.Text.size() > 0 ){
-				memcpy( &ptr[ line.Start - TextPosition ], &data[pos], (line.Text.size() * 4) * sizeof( LABEL_VBOVertex ));
-				pos += (line.Text.size() * 4);
+				size = (line.Text.size() * 4);
+				memcpy( &ptr[ line.Start - TextPosition ], &data[pos], size * sizeof( LABEL_VBOVertex ));
+				pos += size;
 			}
 		}
 

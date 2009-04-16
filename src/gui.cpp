@@ -6,6 +6,9 @@
 #include "thememgr.h"
 #include "engine.h"
 #include "input.h"
+#include "fontmgr.h"
+
+Editbox* test;
 
 GUI::GUI() : System(){
 	ActiveWindow = NULL;
@@ -54,6 +57,42 @@ void GUI::Render( Shader* shader ){
 }
 
 void GUI::RenderText( Shader* shader ){
+	shader->Bind();
+	shader->SetProjection( Screen->GetOrtho() );
+	shader->SetModelview( Screen->GetModelview() );
+
+	glActiveTexture( GL_TEXTURE0 );
+	glBindTexture( GL_TEXTURE_2D, FontMgr_GetImage( 0 ) );
+
+	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+	glEnableVertexAttribArray(shader->attribute[0]);
+	glEnableVertexAttribArray(shader->attribute[1]);
+	glEnableVertexAttribArray(shader->attribute[2]);
+
+	//for( unsigned int i = 0; i < Windows.size(); i++ ){
+	//	if( Windows[i]->HasAttrib( CTRL_INPUT )){
+	//		printf( "drawing text %i\n", i );
+	//		((Label*)Windows[i])->RenderText( shader->attribute[0], shader->attribute[1] );
+	//	}
+	//}
+	
+	size_t size = Windows.size();
+	for( unsigned int i = 0; i < size; i++ ){
+		Windows[i]->RenderText( shader->attribute[0], shader->attribute[1], shader->attribute[2] );
+	}
+/*	
+	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float)) );
+	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float) + 2*sizeof(float)) );
+	glVertexAttribPointer( shader->attribute[2], 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float) + 4*sizeof(float)) );
+
+	glDrawArrays( GL_QUADS, 0, 16 );
+*/
+	glDisableVertexAttribArray( shader->attribute[0]);
+	glDisableVertexAttribArray( shader->attribute[1]);
+	glDisableVertexAttribArray( shader->attribute[2]);
+
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	shader->Unbind();
 }
 
 
@@ -121,9 +160,11 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->AddChild( bottombar, WINDOW_BOTTOM, false );
 	window->AddChild( lsidebar, WINDOW_BOTTOM, false );
 	window->AddChild( rsidebar, WINDOW_BOTTOM, false );
-	window->AddChild( close, WINDOW_TOP, false );
+	window->AddChild( close, WINDOW_TOP, true );
 	window->AddChild( textarea, WINDOW_TOP, false );
 	window->AddChild( inputarea, WINDOW_TOP, true );
+
+	test = inputarea;
 
 	numIndices += 4 * 7;
 	
@@ -132,4 +173,7 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->height = topbar->GetHeight() + lsidebar->GetHeight();
 	window->Move( x, y );
 	Windows.push_back( window );
+	
+	textarea->AddStringsToVBO();
+	inputarea->AddStringsToVBO();
 }

@@ -27,7 +27,8 @@ void LoadShaders(){
 	textShader.GetUniformLoc( 2, "tex0" );
 	textShader.GetAttributeLoc( 0, "vertex" );
 	textShader.GetAttributeLoc( 1, "tcoord" );
-	
+	textShader.GetAttributeLoc( 2, "tcolor" );
+
 	guiShader.Bind();
 		glUniform1i( guiShader.uniform[2], 0 );
 	guiShader.Unbind();
@@ -123,6 +124,7 @@ void Display::Render(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	gui->Render( &guiShader );
+	gui->RenderText( &textShader );
 
 	SDL_GL_SwapBuffers();
 }
