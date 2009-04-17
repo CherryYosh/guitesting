@@ -3,6 +3,10 @@
 
 #include "control.h"
 
+#include "../shader.h"
+#include "../nvMatrix.h"
+#include "../nvVector.h"
+
 #include <vector>
 
 //defines for the depth
@@ -24,7 +28,7 @@ public:
 	virtual void AddChild( Control*, int, bool );
 	virtual void Move( float, float );
 	virtual void Close();
-	virtual void Render();
+	virtual void Render( Shader* );
 	virtual void RenderText( int, int, int );
 	virtual void UpdateVBO();
 	virtual void OnKeyPress( unsigned short );
@@ -41,6 +45,7 @@ private:
 	unsigned int VertexPosition, VertexLength; 
 	bool VertexPositionIsSet;
 	Control* ActiveChild;
+	nv::matrix4<float> Modelview;
 };
 
 #endif

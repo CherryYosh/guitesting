@@ -17,7 +17,8 @@ Window::Window(){
 	VertexPositionIsSet = false;
 	ReciveInput = false;
 	ActiveChild = NULL;
-
+	Modelview.make_identity();
+	Modelview._43 = -1.0; //z value
 }
 
 Window::~Window(){
@@ -37,12 +38,16 @@ void Window::Move( float xChange, float yChange ){
 	x += xChange;
 	y += yChange;
 
+	Modelview._array[12] += xChange;
+	Modelview._array[13] += yChange;
+/*
 	size_t size = Children.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		Children[i]->Move( xChange, yChange );
 	}
 
 	UpdateVBO();
+ */
 }
 
 void Window::Close(){
@@ -53,7 +58,13 @@ void Window::Close(){
 	delete this;
 }
 
-void Window::Render(){
+void Window::Render( Shader* shader ){
+	shader->SetModelview( Modelview._array );
+	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
+	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
+
+	//this draws our whole table! wooo :P
+	glDrawArrays( GL_QUADS, 0, 4*7 );
 }
 
 void Window::RenderText( int v, int t, int c ){

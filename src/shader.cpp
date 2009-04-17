@@ -4,21 +4,20 @@
 
 
 #include <fstream>
-#include <stdlib.h>
-
+#include <cstdlib>
+#include <cstring>
 
 Shader::Shader(){
 	name = "noname";
 
-	for( int i = 0; i < 12; i++ )
-		uniform[i] = 0;
+	//set the values, since we might wind up doing 1000's of these
+	//I figure memset will be faster then a for loop
+	memset( uniform, 0x00, 12 * sizeof( GLuint ));
+	memset( attribute, 0x00, 12 * sizeof( GLuint ));
 }
 
 Shader::~Shader(){
-//	delete [] name;
 }
-
-//GLuint glslLoadShaderProgram( const char* vertex, const char* fragment );
 
 bool Shader::Load( std::string shaderName ){
 	name = shaderName;
@@ -48,11 +47,11 @@ void Shader::GetAttributeLoc( GLuint uID, std::string name ){
 }
 
 void Shader::SetProjection( float m[16] ){
-	glUniformMatrix4fv( uniform[0], 1, false, m );
+	glUniformMatrix4fv( uniform[0], 1, 0, m );
 }
 
 void Shader::SetModelview( float m[16] ){
-	 glUniformMatrix4fv( uniform[1], 1, false, m );
+	 glUniformMatrix4fv( uniform[1], 1, 0, m );
 }
 
 

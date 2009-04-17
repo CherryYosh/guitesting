@@ -31,7 +31,7 @@ GUI::~GUI(){
 void GUI::Render( Shader* shader ){
 	shader->Bind();
 	shader->SetProjection( Screen->GetOrtho() );
-	shader->SetModelview( Screen->GetModelview() );
+	//shader->SetModelview( Screen->GetModelview() );
 
 
 	//We bind the theme image
@@ -42,13 +42,12 @@ void GUI::Render( Shader* shader ){
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 
-
-	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
-
-	//this draws our whole table! wooo :P
-	glDrawArrays( GL_QUADS, 0, numIndices );	
+//	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
+//	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
 	
+	for( unsigned int i = 0; i < Windows.size(); i++ ){
+		Windows[i]->Render( shader );
+	}
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
 
@@ -68,25 +67,12 @@ void GUI::RenderText( Shader* shader ){
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
-
-	//for( unsigned int i = 0; i < Windows.size(); i++ ){
-	//	if( Windows[i]->HasAttrib( CTRL_INPUT )){
-	//		printf( "drawing text %i\n", i );
-	//		((Label*)Windows[i])->RenderText( shader->attribute[0], shader->attribute[1] );
-	//	}
-	//}
 	
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		Windows[i]->RenderText( shader->attribute[0], shader->attribute[1], shader->attribute[2] );
 	}
-/*	
-	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float)) );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float) + 2*sizeof(float)) );
-	glVertexAttribPointer( shader->attribute[2], 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*)(numIndices*sizeof(float) + 4*sizeof(float)) );
 
-	glDrawArrays( GL_QUADS, 0, 16 );
-*/
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
 	glDisableVertexAttribArray( shader->attribute[2]);
@@ -126,6 +112,9 @@ bool GUI::HitTest( int x, int y ){
 }
 
 void GUI::Move( int x, int y ){
+	if( x == 0 && y == 0 )
+		return;
+
 	if( ActiveWindow != NULL )
 		ActiveWindow->Move( x, y );
 }
@@ -160,7 +149,7 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->AddChild( bottombar, WINDOW_BOTTOM, false );
 	window->AddChild( lsidebar, WINDOW_BOTTOM, false );
 	window->AddChild( rsidebar, WINDOW_BOTTOM, false );
-	window->AddChild( close, WINDOW_TOP, true );
+	window->AddChild( close, WINDOW_TOP, false );
 	window->AddChild( textarea, WINDOW_TOP, false );
 	window->AddChild( inputarea, WINDOW_TOP, true );
 

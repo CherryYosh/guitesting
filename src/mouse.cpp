@@ -11,7 +11,7 @@
  * 	none.. ^^
  *
  *
- * James Stevenson @ 09/30/08
+ * James Stevenson @ 04/17/09
  */
 
 #include "mouse.h"
@@ -19,7 +19,7 @@
 
 unsigned char NumClicks;
 bool* Buttons;
-unsigned int x, y, oldx, oldy;
+int x, y, oldx, oldy;
 unsigned int ClickTimeout;
 unsigned int ClickTime;
 
@@ -33,43 +33,34 @@ void Mouse_Init(){
 }
 
 void Mouse_Die(){
-	delete Buttons;
+	delete [] Buttons;
 }
 
-unsigned char Mouse_SetState(){
-	
-	unsigned char ret = 0;
-	/*
-	if(Mouse_SetButtonState())
-		ret = 1;
-	if( Mouse_SetPosition())
-		ret = ret | 0x02;
-	*/
-	return ret;
+void Mouse_SetState(){
+	oldx = x;
+	oldy = y;
+
+	unsigned int value = SDL_GetMouseState( &x, &y );
+	Buttons[0] = value & SDL_BUTTON(1);
+	Buttons[1] = value & SDL_BUTTON(2);
 }
 
-bool Mouse_SetButtonState(){
-	bool old[2];
-	old[0] = Buttons[0];
-	old[1] = Buttons[1];
+void Mouse_SetButtonState(){
+	unsigned int value = SDL_GetMouseState( NULL, NULL );
 	
 	//left
-	Buttons[0] =  ( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(1) );
+	Buttons[0] = value & SDL_BUTTON(1);
 	
 	//right
-	Buttons[1] =  ( SDL_GetMouseState( NULL, NULL ) & SDL_BUTTON(2) );
-
-	return !( old[1] == Buttons[0] && old[2] == Buttons[2] );
+	Buttons[1] = value & SDL_BUTTON(2);
 }
 
-bool Mouse_SetPosition(){
+void Mouse_SetPosition(){
 	//used for change
 	oldx = x;
 	oldy = y;
 
-	SDL_GetMouseState( (int*)&x, (int*)&y );
-	
-	return !(oldx == x && oldy == y);
+	SDL_GetMouseState( &x, &y );
 }
 
 void Mouse_SetTimeout(int timeout ){
@@ -86,23 +77,24 @@ bool Mouse_GetButtonState( int key ){
 
 }
 
-void Mouse_GetPosition( unsigned int *retx, unsigned int *rety ){
+void Mouse_GetPosition( int *retx, int *rety ){
 	retx = &x;
 	rety = &y;
 }
 
-unsigned int Mouse_GetX(){
+int Mouse_GetX(){
 	return x;
 }
 
-unsigned int Mouse_GetY(){
+int Mouse_GetY(){
 	return y;
 }
 
-unsigned int Mouse_GetChangeX(){
+int Mouse_GetChangeX(){
 	return x - oldx;
 }
-unsigned int Mouse_GetChangeY(){
+
+int Mouse_GetChangeY(){
 	return y - oldy;
 }
 

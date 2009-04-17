@@ -57,8 +57,6 @@ void Input::Start(){
 				ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				display->OnMouseButtonChange();
-				break;
 			case SDL_MOUSEBUTTONUP:
 				display->OnMouseButtonChange();
 				break;

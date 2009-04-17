@@ -24,7 +24,7 @@ public:
 	virtual void SetWidth( unsigned short );
 	virtual void SetHeight( unsigned short );
 
-	static Shader* _TextShader;
+//	static Shader* _TextShader;
 protected:
 	unsigned short TextWidth, TextHeight;
 	unsigned short CaretPos, CaretLine;

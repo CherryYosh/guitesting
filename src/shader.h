@@ -1,11 +1,6 @@
 //a opengl shader wrapper..
-
 #ifndef SHADER_H
 #define SHADER_H
-
-//#define GL_GLEXT_PROTOTYPES
-//#include <GL/gl.h>
-//#include <GL/glext.h>
 
 #include <string>
 

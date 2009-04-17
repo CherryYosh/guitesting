@@ -4,18 +4,18 @@
 void Mouse_Init();
 void Mouse_Die();
 
-unsigned char Mouse_SetState();
-bool Mouse_SetButtonState();
-bool Mouse_SetPosition(); 
+void Mouse_SetState();
+void Mouse_SetButtonState();
+void Mouse_SetPosition();
 void Mouse_SetClickTimeout( unsigned int );
 void Mouse_SetClickValue( bool* );
 
 bool Mouse_GetButtonState( int );
-void Mouse_GetMousePosition( unsigned int*, unsigned int* );
+void Mouse_GetMousePosition( int*, int* );
 	
-unsigned int Mouse_GetX();
-unsigned int Mouse_GetY();
-unsigned int Mouse_GetChangeX();
-unsigned int Mouse_GetChangeY();
+int Mouse_GetX();
+int Mouse_GetY();
+int Mouse_GetChangeX();
+int Mouse_GetChangeY();
 
 #endif
