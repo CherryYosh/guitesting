@@ -42,11 +42,12 @@ public:
 	Window();
 	~Window();
 
-	virtual void AddChild( Control*, int, bool );
+	virtual void AddChild( Control*, int, bool = true );
 	virtual void Move( float, float );
-	virtual void Close();
+	virtual int Close();
 	virtual void UpdateVBO();
 	virtual void OnKeyPress( unsigned short );
+	virtual void OnMousePress( unsigned short );
 	virtual bool HitTest( int, int );
 
 	virtual void Render( Shader* );

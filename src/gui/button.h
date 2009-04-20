@@ -11,7 +11,8 @@ public:
 
 	bool HitTest( int mouseX, int mouseY );
 	void OnMousePress( int button );
-	void OnMouseOver();
+	void OnMouseEnter();
+	void OnMouseLeave();
 
 protected:
 private:

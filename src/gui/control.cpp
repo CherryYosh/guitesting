@@ -87,12 +87,6 @@ void Control::Activate(){
 	//nothing needs to be done
 }
 
-/*
-void Control::Render(){
-	//NOTE: This is left over, no reasion to be called
-}
-*/
-
 bool Control::HitTest( int mouseX, int mouseY ){
 	return false;
 }
@@ -114,32 +108,8 @@ void Control::OnKeyRelease( int key, int mod ){
 }
 
 void Control::Move( float cx, float cy ){
-
 	x += cx;
 	y += cy;
-
-	//NOTE: Move will be batched, this is just for data..
-/*
-	float* data = new float[8];
-	data[0] = x;
-	data[1] = y;
-
-	data[2] = x + width;
-	data[3] = y;
-
-	data[4] = x + width;
-	data[5] = y + height;
-
-	data[6] = x;
-	data[7] = y + height;
-
-	glBindBuffer( GL_ARRAY_BUFFER, GUIBO );
-
-	glBufferSubData( GL_ARRAY_BUFFER, vertexOffset, 8 * sizeof(float), data );
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-	delete [] data;
-*/
 }
 
 void Control::SetEnabled( bool value ){
@@ -208,4 +178,10 @@ float* Control::GetColorv(){
 
 void Control::SetAnimated( bool v ){
 	isAnimated = true;
+}
+
+void Control::OnMouseEnter(){
+}
+
+void Control::OnMouseLeave(){
 }

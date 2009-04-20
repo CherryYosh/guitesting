@@ -145,7 +145,7 @@ void Display::OnMouseButtonChange(){
 	Mouse_SetButtonState();
 
 	if( Mouse_GetButtonState( 0 ) )
-		gui->HitTest( Mouse_GetX(), Mouse_GetY() );
+		gui->HandelMousePress( 0 );
 }
 
 void Display::OnMouseMotion(){
@@ -153,6 +153,8 @@ void Display::OnMouseMotion(){
 
 	if( Mouse_GetButtonState(0) ){ //dragging
 		gui->Move( Mouse_GetChangeX(), Mouse_GetChangeY() );
+	} else {
+		gui->HitTest( Mouse_GetX(), Mouse_GetY() );
 	}
 }
 

@@ -31,12 +31,17 @@ public:
 	Control( Window*, std::string, float, float );
 	virtual ~Control();
 	virtual void Activate(); //called when ever the control becomes active
-	//virtual void Render();
+
 	virtual bool HitTest( int, int );
+
 	virtual void OnMousePress( int );
 	virtual void OnMouseRelease( int );
+	virtual void OnMouseEnter();
+	virtual void OnMouseLeave();
+
 	virtual void OnKeyPress( unsigned short );
 	virtual void OnKeyRelease( int, int );
+
 	virtual void Move( float, float );
 	virtual void SetCallback( boost::function<int()> callback );
 	virtual void SetWidth( float );

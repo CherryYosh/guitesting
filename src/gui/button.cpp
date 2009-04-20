@@ -29,11 +29,16 @@ bool Button::HitTest( int mouseX, int mouseY ){
 }
 
 void Button::OnMousePress( int button ){
-	if( button == 1 && m_Callback ) //left mouse click, TODO: enable multi buttons
+	if( button == 0 && m_Callback )
 		m_Callback();
 }
 
-void Button::OnMouseOver(){
+void Button::OnMouseEnter(){
 	Parent->Animate( RGBACHANNEL, nv::vec4<float>(1.0, 1.0, 0.0, 0.0), 0, 500, LINEAR, this );
 	isAnimated = true;
+}
+
+void Button::OnMouseLeave(){
+	SetColor( 0, 0, 0, 0 );
+	isAnimated = false;
 }

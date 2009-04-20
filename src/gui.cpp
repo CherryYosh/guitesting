@@ -142,6 +142,11 @@ void GUI::HandelKeyPress( unsigned short unicode ){
 		ActiveWindow->OnKeyPress( unicode );
 }
 
+void GUI::HandelMousePress( unsigned short button ){
+	if( ActiveWindow != NULL )
+			ActiveWindow->OnMousePress( button );
+}
+
 void GUI::CreateWindowConsole( float x, float y ){
 	Window* window = new Window;
 
@@ -153,6 +158,8 @@ void GUI::CreateWindowConsole( float x, float y ){
 	Label* textarea = new Label( window, "textarea", 0, 0 );
 	Editbox* inputarea = new Editbox( window, "textinput", 0, 0 );
 
+	close->SetCallback( boost::bind<int>(&Window::Close, window ) );
+
 	//now to position them
 	//NOTE: top bar is positioned..
 	close->Move( topbar->GetWidth() - (close->GetWidth() * 1.5 ),  topbar->GetHeight() * 0.25 );
@@ -163,13 +170,13 @@ void GUI::CreateWindowConsole( float x, float y ){
 	inputarea->Move( lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight() );
 
 	//now add them all
-	window->AddChild( topbar, WINDOW_BOTTOM, false );
-	window->AddChild( bottombar, WINDOW_BOTTOM, false );
-	window->AddChild( lsidebar, WINDOW_BOTTOM, false );
-	window->AddChild( rsidebar, WINDOW_BOTTOM, false );
-	window->AddChild( close, WINDOW_TOP, false );
-	window->AddChild( textarea, WINDOW_TOP, false );
-	window->AddChild( inputarea, WINDOW_TOP, true );
+	window->AddChild( topbar, 	WINDOW_BOTTOM, 	false 	);
+	window->AddChild( bottombar,WINDOW_BOTTOM, 	false 	);
+	window->AddChild( lsidebar, WINDOW_BOTTOM, 	false 	);
+	window->AddChild( rsidebar, WINDOW_BOTTOM, 	false 	);
+	window->AddChild( close, 	WINDOW_TOP, 	false 	);
+	window->AddChild( textarea, WINDOW_TOP, 	false 	);
+	window->AddChild( inputarea,WINDOW_TOP,  	true	);
 
 	test = inputarea;
 

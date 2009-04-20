@@ -22,9 +22,9 @@ Window::Window(){
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
 
-	Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
-	Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
-	Animate( ROTATEZ, 360.0, 500, 5000, LINEAR );
+	//Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
+	//Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
+	//Animate( ROTATEZ, 360.0, 500, 5000, LINEAR );
 }
 
 Window::~Window(){
@@ -48,12 +48,13 @@ void Window::Move( float xChange, float yChange ){
 	Modelview._array[13] += yChange;
 }
 
-void Window::Close(){
+int Window::Close(){
 	/*TODO
 	 * Allow saving, so upon reopening the buttons do not need to be reloaded
 	 * will need a GC to truly delete the window after x seconds..
 	 */
 	delete this;
+	return 1;
 }
 
 void Window::Render( Shader* shader ){
@@ -94,18 +95,37 @@ bool Window::HitTest( int mx, int my ){
 	//TODO: make this faster :P
 	if( mx > x && mx < x + Width &&
 			my > y && my < y + Height ){
+
+			//make the origin at the box
+			mx -= x;
+			my -= y;
+
+			if( ActiveChild != NULL && ActiveChild->HitTest( mx, my ) ){
+				return true;
+			}
+
+			if( ActiveChild != NULL )
+				ActiveChild->OnMouseLeave();
+
 		//now we test the controls
 		size_t size = Children.size();
-		for( unsigned int i = 0; i < size; i++ ){
-			if(Children[i]->HitTest(mx, my)){
+		//TODO: Fix this hack, used to make sure the top item is found first
+		//assumes the top items where added last
+		for( unsigned int i = size-1; i > 0; i-- ){
+			if(Children[i] != ActiveChild && Children[i]->HitTest(mx, my)){
 				ActiveChild = Children[i];
+				ActiveChild->OnMouseEnter();
 				ReciveInput = ActiveChild->HasAttrib( CTRL_INPUT );
 				return true;
 			}
 		}
-
+		ActiveChild = NULL;
 		return true;
 	}
+
+	if( ActiveChild != NULL )
+		ActiveChild->OnMouseLeave();
+
 	ActiveChild = NULL;
 	return false;
 }
@@ -279,6 +299,12 @@ void Window::RebuildVBO(){
 void Window::OnKeyPress( unsigned short key ){
 	if( ActiveChild != NULL )
 		ActiveChild->OnKeyPress( key );
+}
+
+void Window::OnMousePress( unsigned short button ){
+	if( ActiveChild != NULL ){
+		ActiveChild->OnMousePress( button );
+	}
 }
 
 void Window::Animate( int type, float value, unsigned int start, unsigned int duration, int interpolation , Control* ptr ){

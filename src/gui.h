@@ -25,6 +25,7 @@ public:
 	bool HitTest( int, int );
 	void Move( int, int );
 	void HandelKeyPress( unsigned short );
+	void HandelMousePress( unsigned short );
 
 	void CreateWindowConsole( float, float );
 
