@@ -3,7 +3,7 @@
 
 #include "rule.h"
 
-Rule::Rule( std::string t, int x, int y ) : Control(t,x,y) {
+Rule::Rule( Window* p, std::string t, int x, int y ) : Control(p,t,x,y) {
 }
 
 Rule::~Rule(){

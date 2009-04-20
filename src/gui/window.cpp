@@ -24,7 +24,6 @@ Window::Window(){
 
 	Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
 	Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
-	Animate( REDCHANNEL, 2.0, 1000, 3000, LINEAR );
 	Animate( ROTATEZ, 360.0, 500, 5000, LINEAR );
 }
 
@@ -260,7 +259,7 @@ void Window::RebuildVBO(){
 		memcpy( newData, ptr, VertexPositionIsSet ? VertexPosition : (VertexPosition = size) );
 		memcpy( &newData[ VertexPosition ], data, length );
 
-		if( size > length + VertexPosition ) //if its set we need to copy everything after it
+		if( size > (length + VertexPosition) ) //if its set we need to copy everything after it
 			memcpy( &newData[ VertexPosition + length ], &ptr[ VertexPosition + VertexLength  ], size - (length + VertexPosition) );
 
 		glUnmapBuffer( GL_ARRAY_BUFFER );
@@ -282,29 +281,29 @@ void Window::OnKeyPress( unsigned short key ){
 		ActiveChild->OnKeyPress( key );
 }
 
-void Window::Animate( int type, float value, unsigned int start, unsigned int duration, int interpolation ){
-	Animate( type, nv::vec4<float>( value, 0, 0, 0), start, duration, interpolation );
+void Window::Animate( int type, float value, unsigned int start, unsigned int duration, int interpolation , Control* ptr ){
+	Animate( type, nv::vec4<float>( value, 0, 0, 0), start, duration, interpolation, ptr );
 }
 
-void Window::Animate( int type, nv::vec2<float> value, unsigned int start, unsigned int duration, int interpolation ){
-	Animate( type, nv::vec4<float>( value.x, value.y, 0, 0), start, duration, interpolation );
+void Window::Animate( int type, nv::vec2<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
+	Animate( type, nv::vec4<float>( value.x, value.y, 0, 0), start, duration, interpolation, ptr );
 }
 
-void Window::Animate( int type, nv::vec3<float> value, unsigned int start, unsigned int duration, int interpolation ){
+void Window::Animate( int type, nv::vec3<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
 	if( type == ORIGIN ){
 		AnimationOrigin = value;
 		return;
 	}
-		Animate( type, nv::vec4<float>( value.x, value.y, value.z, 0), start, duration, interpolation );
+		Animate( type, nv::vec4<float>( value.x, value.y, value.z, 0), start, duration, interpolation, ptr );
 }
 
-void Window::Animate( int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation ){
+void Window::Animate( int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
 	unsigned int ticks = SDL_GetTicks();
 
 	AnimationType ani;
 	ani.Type = type;
 	ani.Interpolation = interpolation;
-	ani.id = 0;
+	ani.Object = ptr;
 	ani.Duration = duration;
 	ani.StartTicks = ticks + start;
 	ani.LastTicks = ticks + start;
@@ -341,6 +340,7 @@ void Window::StepAnimation(){
 
 				//Translation
 				switch( (it->Type & TRANSLATEXYZ) ){
+					case 0:													break;
 					case TRANSLATEX: 	Move( data.x, 0 );					break;
 					case TRANSLATEY: 	Move( 0, data.x );					break;
 					case TRANSLATEXY: 	Move( data.x, data.y ); 			break;
@@ -354,8 +354,9 @@ void Window::StepAnimation(){
 
 				//color
 				if( (it->Type & RGBACHANNEL )){
-					Children[1]->AddColor( data );
-					Children[1]->SetAnimated( true );
+					if( it->Object != NULL ){
+						it->Object->AddColor( data );
+					}
 				}
 			}
 

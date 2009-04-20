@@ -16,6 +16,9 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
+//#include "window.h"
+class Window;
+
 struct CTRL_GUIDataT{
 	std::string type;
 	float s,t, s2,t2; //the uv coords
@@ -25,22 +28,22 @@ struct CTRL_GUIDataT{
 //the basic control class of all GUI objects
 class Control{
 public:
-	Control( std::string t, float x, float y );
+	Control( Window*, std::string, float, float );
 	virtual ~Control();
 	virtual void Activate(); //called when ever the control becomes active
 	//virtual void Render();
-	virtual bool HitTest( int mouseX, int mouseY );
-	virtual void OnMousePress( int button );
-	virtual void OnMouseRelease( int button );
+	virtual bool HitTest( int, int );
+	virtual void OnMousePress( int );
+	virtual void OnMouseRelease( int );
 	virtual void OnKeyPress( unsigned short );
-	virtual void OnKeyRelease( int key, int mod );
-	virtual void Move( float x, float y );
+	virtual void OnKeyRelease( int, int );
+	virtual void Move( float, float );
 	virtual void SetCallback( boost::function<int()> callback );
 	virtual void SetWidth( float );
 	virtual void SetHeight( float );
 	virtual bool HasAttrib( unsigned short );
-	virtual void SetEnabled( bool value );
-	virtual void SetFocus( bool value);
+	virtual void SetEnabled( bool );
+	virtual void SetFocus( bool );
 	virtual void SetDepth( float );
 
 	virtual void SetColor( float, float, float, float );
@@ -65,14 +68,16 @@ protected:
 	float Depth;
 	float Width, Height;
 	unsigned short Attributes;
-	std::string Type; //CLOSE, etc
 	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
+	Window* Parent;
+	bool isAnimated;
 private:
 	void GetControlData();
 
 	bool hasFocus, isEnabled;
-	bool isAnimated;
 	nv::vec4<float> Color;
+
+	std::string Type;
 };
 
 void Control_Init( const char* );

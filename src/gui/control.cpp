@@ -65,7 +65,7 @@ void Control::GetControlData(){
 	}
 }
 
-Control::Control( std::string t, float ix, float iy ){
+Control::Control( Window* p, std::string t, float ix, float iy ){
 	isEnabled = true;
 	hasFocus = false;
 	Type = t;
@@ -76,6 +76,7 @@ Control::Control( std::string t, float ix, float iy ){
 	Attributes = 0;
 	isAnimated = false;
 	GetControlData();
+	Parent = p;
 }
 
 Control::~Control(){

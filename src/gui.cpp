@@ -145,13 +145,13 @@ void GUI::HandelKeyPress( unsigned short unicode ){
 void GUI::CreateWindowConsole( float x, float y ){
 	Window* window = new Window;
 
-	Button* close = new Button( "close", 0, 0 );
-	Rule* topbar = 	new Rule( "topbar", 0, 0 );
-	Rule* lsidebar = new Rule( "sidebar", 0, 0 );
-	Rule* rsidebar = new Rule( "sidebar", 0, 0 );
-	Rule* bottombar = new Rule( "bottombar", 0, 0 );
-	Label* textarea = new Label( "textarea", 0, 0 );
-	Editbox* inputarea = new Editbox( "textinput", 0, 0 );
+	Button* close = new Button( window, "close", 0, 0 );
+	Rule* topbar = 	new Rule( window, "topbar", 0, 0 );
+	Rule* lsidebar = new Rule( window, "sidebar", 0, 0 );
+	Rule* rsidebar = new Rule( window, "sidebar", 0, 0 );
+	Rule* bottombar = new Rule( window, "bottombar", 0, 0 );
+	Label* textarea = new Label( window, "textarea", 0, 0 );
+	Editbox* inputarea = new Editbox( window, "textinput", 0, 0 );
 
 	//now to position them
 	//NOTE: top bar is positioned..

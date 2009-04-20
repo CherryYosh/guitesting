@@ -2,9 +2,9 @@
 
 #include "../fontmgr.h"
 
-Textbox::Textbox( std::string t, int x, int y ) : Control(t,x,y){
+Textbox::Textbox( Window* p, std::string t, int x, int y ) : Control(p, t,x,y){
 	TextWidth = 0;
-	TextHeight = 0; 
+	TextHeight = 0;
 	Multiline = false;
 	lines.push_back( "" );
 	BottomLine = 0;
@@ -16,7 +16,7 @@ Textbox::Textbox( std::string t, int x, int y ) : Control(t,x,y){
 	Editable = false;
 	NumCharacters = 0;
 	MaxCharacters = 255;
-	NumLines = 1; 
+	NumLines = 1;
 	MaxLines = 8;
 	Attributes |= CTRL_INPUT;
 }
@@ -35,7 +35,7 @@ void Textbox::RenderText(){
 	short line = BottomLine;
 	for( short i = TextHeight; i > 0; i-- ){
 		if( line >= 0 )
-			FontMgr_glDrawText( font, x, y + ( FontMgr_GetLineHeight(font) * i), _TextShader, lines[line--].c_str() ); 
+			FontMgr_glDrawText( font, x, y + ( FontMgr_GetLineHeight(font) * i), _TextShader, lines[line--].c_str() );
 		else
 			return;
 	}
@@ -50,7 +50,7 @@ void Textbox::onMouseRelease( int button ){
 	//needed?
 }
 
-void Textbox::onKeyPress( unsigned short unicode ){ 
+void Textbox::onKeyPress( unsigned short unicode ){
 }
 
 void Textbox::onKeyRelease( int key, int mod ){

@@ -1,14 +1,14 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "control.h"
-
 #include "../shader.h"
 #include "../nvMatrix.h"
 #include "../nvVector.h"
 
 #include <vector>
 #include <list>
+
+class Control;
 
 struct WINDOW_VBOVertex{
 	float x, y;
@@ -23,7 +23,7 @@ struct AnimationType{
 	unsigned int StartTicks;
 	unsigned int LastTicks;
 	unsigned int Duration; //end - start
-	unsigned short id;
+	Control* Object;
 	nv::vec4<float> data;
 };
 
@@ -53,10 +53,10 @@ public:
 	virtual void RenderAnimation( Shader* );
 	virtual void RenderText( int, int, int );
 
-	virtual void Animate( int, float, unsigned int, unsigned int, int );
-	virtual void Animate( int, nv::vec2<float>, unsigned int, unsigned int, int );
-	virtual void Animate( int, nv::vec3<float>, unsigned int, unsigned int, int );
-	virtual void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int );
+	virtual void Animate( int, float, unsigned int, unsigned int, int, Control* = NULL );
+	virtual void Animate( int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL );
+	virtual void Animate( int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL );
+	virtual void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL );
 
 	virtual void StepAnimation();
 

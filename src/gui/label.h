@@ -21,7 +21,7 @@ struct FontString{
 	unsigned short Size;		//the number of characters
 	unsigned int Start; 		//the first position in the VBO
 	unsigned int Length;		//the length (in bytes) we occupy in the vbo
-	float y;			//the y coord wont change inside of a string 
+	float y;			//the y coord wont change inside of a string
 	unsigned int Width, Height;	//the current width of the string (used to find the x of the next char) and the height (needed?)
 	std::list<FontChar> Text;
 	unsigned int vao;
@@ -29,7 +29,7 @@ struct FontString{
 
 class Label : public Control {
 public:
-	Label( std::string t, int x, int y );
+	Label( Window* p, std::string t, int x, int y );
 	~Label();
 
 	virtual void RenderText( int, int, int );
@@ -37,7 +37,7 @@ public:
 	virtual void onMousePress( int button );
 	virtual void onMouseRelease( int button );
 
-	virtual void onKeyPress( unsigned short unicode ); 
+	virtual void onKeyPress( unsigned short unicode );
 	virtual void onKeyRelease( int key, int mod );
 
 	virtual void Move( float, float );

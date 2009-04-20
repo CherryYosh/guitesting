@@ -8,7 +8,7 @@
 
 class Textbox : public Control {
 public:
-	Textbox( std::string t, int x, int y );
+	Textbox( Window* p, std::string t, int x, int y );
 	~Textbox();
 
 	virtual void Render(); //we will do nothing here
@@ -17,7 +17,7 @@ public:
 	virtual void onMousePress( int button );
 	virtual void onMouseRelease( int button );
 
-	virtual void onKeyPress( unsigned short unicode ); 
+	virtual void onKeyPress( unsigned short unicode );
 	virtual void onKeyRelease( int key, int mod );
 
 	virtual void SetFont( unsigned char f );

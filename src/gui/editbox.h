@@ -6,7 +6,7 @@
 
 class Editbox : public Label{
 public:
-	Editbox( std::string, int, int );
+	Editbox( Window* p, std::string, int, int );
 	~Editbox();
 	//void Render();
 	bool HitTest( int, int );

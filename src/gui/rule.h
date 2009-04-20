@@ -5,7 +5,7 @@
 
 class Rule : public Control {
 public:
-	Rule( std::string t, int x, int y );
+	Rule( Window* p, std::string t, int x, int y );
 	~Rule();
 
 	bool HitTest( int mouseX, int mouseY );

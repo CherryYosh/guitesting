@@ -8,11 +8,11 @@ struct LABEL_VBOVertex{
 	float r,g,b,a;
 };
 
-Label::Label( std::string t, int x, int y ) : Control(t,x,y){
+Label::Label( Window* p, std::string t, int x, int y ) : Control(p,t,x,y){
 	TextWidth = Width;
-	TextHeight = Height / FontMgr_GetLineHeight( font ); 
+	TextHeight = Height / FontMgr_GetLineHeight( font );
 	Multiline = false;
-	
+
 	BottomLine = 0;
 	CaretPos = 0;
 	CaretLine = 0;
@@ -114,7 +114,7 @@ void Label::AddChar( FontChar c, bool update ){
 
 		return;
 	}
-	
+
 	//else we can just insert
 	if( CaretPos == line->Text.size() ){
 		line->Text.push_back( c );
@@ -130,7 +130,7 @@ void Label::AddChar( FontChar c, bool update ){
 		if( update )
 		    RebuildVBOLine( *line );
 	}
-	
+
 	NumCharacters++;
 	line->Width += c.advance;
 	CaretPos++;
@@ -178,7 +178,7 @@ void Label::AddStringsToVBO(){
 		s.y = Height;
 		s.Width = 0;
 		s.Height = FontMgr_GetLineHeight( 0 );
-		
+
 		//TODO, clean this up? make it so tha only a single memset is called
 		for( unsigned int i = 0; i < MaxLines; i++ ){
 			s.Start = position;
@@ -191,7 +191,7 @@ void Label::AddStringsToVBO(){
 				memset( &newData[position], 0, 4 * sizeof( LABEL_VBOVertex ));
 				position += 4 * sizeof( LABEL_VBOVertex );
 			}
-			
+
 			s.y -= s.Height;
 		}
 
@@ -200,7 +200,7 @@ void Label::AddStringsToVBO(){
 	} else {
 		printf( "ERROR could not add strings to vbo! %i\n", glGetError() );
 	}
-	
+
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
@@ -261,19 +261,19 @@ void Label::ReplaceCharVBO( FontChar c ){
 
 	//This will replace the character at the CURRENT carret pos
 	unsigned int pos = lines[CaretLine].Start + ( CaretPos * 4 * sizeof( LABEL_VBOVertex ) );
-	
+
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, pos, 4 * sizeof( LABEL_VBOVertex), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
 	if( ptr != NULL ){
 		memcpy( ptr, verts, 4 * sizeof( LABEL_VBOVertex ) );
-		
+
 		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0,  4 * sizeof( LABEL_VBOVertex ) );
 		glUnmapBuffer( GL_ARRAY_BUFFER );
 	} else {
-		printf( "Error could not update character! %i\n", glGetError() );	
+		printf( "Error could not update character! %i\n", glGetError() );
 	}
-	
+
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
@@ -281,7 +281,7 @@ void Label::RebuildVBOLine( FontString s ){
 	unsigned int slot = 0;
 	float vx,vx2,vy,vy2;    //vertex data, prevent redundant cals
 	float vs,vs2,vt,vt2;
-	
+
 	FontChar c;
 	s.Width = 0;
 	std::list<FontChar>::iterator it;
@@ -289,14 +289,14 @@ void Label::RebuildVBOLine( FontString s ){
 
 	for( it = s.Text.begin(); it != s.Text.end(); it++ ){
 		c = *it;
-		
+
 		vx = c.x + x + s.Width;
 		vx2= c.x + x + ( s.Width + c.width );
 		vy = c.y + y + s.y;
 		vy2= c.y + y + ( s.y + c.height );
 
 		s.Width += c.advance;
-		
+
 		vs = c.s;
 		vs2= c.s2;
 		vt = c.t;
@@ -349,7 +349,7 @@ void Label::RebuildVBOLine( FontString s ){
 	unsigned int length =  (s.Text.size() * 4) * sizeof( LABEL_VBOVertex );
 
 	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, s.Start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
-	
+
         if( ptr != NULL ){
                 memcpy( ptr, data, length );
 
@@ -379,14 +379,14 @@ void Label::UpdateVBO(){
 
 	FontChar c;
 	std::list<FontChar>::iterator it;
-	
+
 	for( unsigned int i = 0; i < numLines; i++ ){
 		line = lines[i];
 		line.Width = 0;
 		for( it = line.Text.begin(); it != line.Text.end(); it++ ){
 			c = *it;
-			
-			//note sure if this helps much, 
+
+			//note sure if this helps much,
 			//but does make the code look cleaner :P
 			//and im hoping this will allow the compiler to make it into SSA
 			vx = c.x + x + line.Width;
@@ -395,17 +395,17 @@ void Label::UpdateVBO(){
 			vy2= c.y + y + ( line.y + c.height );
 
 			line.Width += c.advance;
-			
+
 			vs = c.s;
 			vs2= c.s2;
 			vt = c.t;
 			vt2= c.t2;
-			
+
 			r = c.r;
 			g = c.g;
 			b = c.b;
 			a = c.a;
-			
+
 			//top left
 			data[slot+0].x = vx;
 			data[slot+0].y = vy;
@@ -417,39 +417,39 @@ void Label::UpdateVBO(){
 			data[slot+0].a = a;
 
 			//top right
-			data[slot+1].x = vx2;                                               
-                        data[slot+1].y = vy;                                               
-                        data[slot+1].s = vs2;                                               
-                        data[slot+1].t = vt;                                               
+			data[slot+1].x = vx2;
+                        data[slot+1].y = vy;
+                        data[slot+1].s = vs2;
+                        data[slot+1].t = vt;
                         data[slot+1].r = r;
                         data[slot+1].g = g;
-                        data[slot+1].b = b;                                                
+                        data[slot+1].b = b;
                         data[slot+1].a = a;
 
 			//bottom right
-                 	data[slot+2].x = vx2;                                               
-                        data[slot+2].y = vy2;                                               
-                        data[slot+2].s = vs2;                                               
-                        data[slot+2].t = vt2;                                               
+                 	data[slot+2].x = vx2;
+                        data[slot+2].y = vy2;
+                        data[slot+2].s = vs2;
+                        data[slot+2].t = vt2;
                         data[slot+2].r = r;
                         data[slot+2].g = g;
-                        data[slot+2].b = b;                                                
+                        data[slot+2].b = b;
                         data[slot+2].a = a;
-	                
+
 			//bottom left
-			data[slot+3].x = vx;                                               
-                        data[slot+3].y = vy2;                                               
-                        data[slot+3].s = vs;                                               
-                        data[slot+3].t = vt2;                                               
+			data[slot+3].x = vx;
+                        data[slot+3].y = vy2;
+                        data[slot+3].s = vs;
+                        data[slot+3].t = vt2;
                         data[slot+3].r = r;
                         data[slot+3].g = g;
-                        data[slot+3].b = b;                                                
+                        data[slot+3].b = b;
                         data[slot+3].a = a;
 
 			slot += 4;
 		}
 	}
-	
+
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 
 	char* ptr = (char*)glMapBufferRange( GL_ARRAY_BUFFER, TextPosition, TextLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
@@ -484,7 +484,7 @@ void Label::onMouseRelease( int button ){
 	//needed?
 }
 
-void Label::onKeyPress( unsigned short unicode ){ 
+void Label::onKeyPress( unsigned short unicode ){
 }
 
 void Label::onKeyRelease( int key, int mod ){
