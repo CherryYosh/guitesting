@@ -7,14 +7,14 @@ std::vector<CTRL_GUIDataT*> guiData;
 GLuint Control::GUI_vbo;
 
 //Sets up the guiData so the controls can be created corectly
-//IN: 
+//IN:
 //	vbo = id of the vbo to send the texture data too
 //	path = the name of the default theme to load
 //OUT: none
 void Control_Init( const char* path ){
 	unsigned int size = ThemeMgr_LoadTheme( path );
         ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
-                
+
         for( unsigned int i = 0; i < size; i++ ){
                 //textrue data
                 float x = (float)(theme->data[i]->x) / (float)theme->width;
@@ -23,14 +23,14 @@ void Control_Init( const char* path ){
 
                 float x2 =  (float)theme->data[i]->x2 / (float)theme->width;
                 float y2 = (float)( theme->height - theme->data[i]->y2 )/ (float)theme->height;
-                
+
                 //add the data so it can get looked up
                 CTRL_GUIDataT* temp = new CTRL_GUIDataT;
-                
+
                 temp->type = theme->data[i]->type;
                 temp->width = theme->data[i]->x2 - theme->data[i]->x;
                 temp->height = theme->data[i]->y2 - theme->data[i]->y;
-		
+
 		//set up the uv
 		temp->s = x;
 		temp->s2 = x2;
@@ -54,7 +54,7 @@ void Control::GetControlData(){
 		if( Type == guiData[i]->type ){
 			Width = guiData[i]->width;
 			Height = guiData[i]->height;
-			
+
 			s = guiData[i]->s;
 			s2 = guiData[i]->s2;
 			t = guiData[i]->t;
@@ -74,6 +74,7 @@ Control::Control( std::string t, float ix, float iy ){
 	VertexOffset = 0;
 
 	Attributes = 0;
+	isAnimated = false;
 	GetControlData();
 }
 
@@ -103,7 +104,7 @@ void Control::OnMouseRelease( int button ){
 	//called by input
 }
 
-void Control::OnKeyPress( unsigned short unicode ){ 
+void Control::OnKeyPress( unsigned short unicode ){
 	//called by input
 }
 
@@ -116,7 +117,7 @@ void Control::Move( float cx, float cy ){
 	x += cx;
 	y += cy;
 
-	//NOTE: Move will be batched, this is just for data..	
+	//NOTE: Move will be batched, this is just for data..
 /*
 	float* data = new float[8];
 	data[0] = x;
@@ -132,7 +133,7 @@ void Control::Move( float cx, float cy ){
 	data[7] = y + height;
 
 	glBindBuffer( GL_ARRAY_BUFFER, GUIBO );
-	
+
 	glBufferSubData( GL_ARRAY_BUFFER, vertexOffset, 8 * sizeof(float), data );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
@@ -179,4 +180,31 @@ float Control::GetHeight(){
 
 float Control::GetDepth(){
 	return Depth;
+}
+
+bool Control::IsAnimated(){
+	return isAnimated;
+}
+
+void Control::SetColor(float r, float g, float b, float a ){
+	Color[0] = r;
+	Color[1] = g;
+	Color[2] = b;
+	Color[3] = a;
+}
+
+void Control::SetColor( nv::vec4<float> c ){
+	Color = c;
+}
+
+void Control::AddColor( nv::vec4<float> c ){
+	Color += c;
+}
+
+float* Control::GetColorv(){
+	return Color._array;
+}
+
+void Control::SetAnimated( bool v ){
+	isAnimated = true;
 }

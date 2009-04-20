@@ -13,7 +13,7 @@ Editbox* test;
 GUI::GUI() : System(){
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
-	numIndices = 0;	
+	numIndices = 0;
 
 	Screen = new Camera();
 	Screen->SetOrtho( 0, 640, 480, 0, 1, 20 );
@@ -31,8 +31,6 @@ GUI::~GUI(){
 void GUI::Render( Shader* shader ){
 	shader->Bind();
 	shader->SetProjection( Screen->GetOrtho() );
-	//shader->SetModelview( Screen->GetModelview() );
-
 
 	//We bind the theme image
 	glActiveTexture( GL_TEXTURE0 );
@@ -42,11 +40,31 @@ void GUI::Render( Shader* shader ){
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 
-//	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
-//	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
-	
 	for( unsigned int i = 0; i < Windows.size(); i++ ){
+		Windows[i]->StepAnimation();
 		Windows[i]->Render( shader );
+	}
+	glDisableVertexAttribArray( shader->attribute[0]);
+	glDisableVertexAttribArray( shader->attribute[1]);
+
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	shader->Unbind();
+}
+
+void GUI::RenderAnimation( Shader* shader ){
+	shader->Bind();
+	shader->SetProjection( Screen->GetOrtho() );
+
+	//We bind the theme image
+	glActiveTexture( GL_TEXTURE0 );
+	glBindTexture( GL_TEXTURE_2D, ThemeMgr_GetImage() );
+
+	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+	glEnableVertexAttribArray(shader->attribute[0]);
+	glEnableVertexAttribArray(shader->attribute[1]);
+
+	for( unsigned int i = 0; i < Windows.size(); i++ ){
+		Windows[i]->RenderAnimation( shader );
 	}
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
@@ -67,7 +85,7 @@ void GUI::RenderText( Shader* shader ){
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
-	
+
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		Windows[i]->RenderText( shader->attribute[0], shader->attribute[1], shader->attribute[2] );
@@ -87,19 +105,19 @@ bool GUI::HitTest( int x, int y ){
 	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y ) ){
 		return true;
 	}
-	
+
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		if( Windows[i]->HitTest( x, y ) ){
 			ActiveWindow = Windows[i];
-			
+
 			if( IsRecevingInput != ActiveWindow->ReciveInput ){
 				IsRecevingInput = !IsRecevingInput;
 				input->SetProfile( IsRecevingInput ? "typing" : "default" );
 			}
 
 			return true;
-		}	
+		}
 	}
 
 	if( IsRecevingInput ){
@@ -119,7 +137,7 @@ void GUI::Move( int x, int y ){
 		ActiveWindow->Move( x, y );
 }
 
-void GUI::HandelKeyPress( unsigned short unicode ){ 
+void GUI::HandelKeyPress( unsigned short unicode ){
 	if( ActiveWindow != NULL )
 		ActiveWindow->OnKeyPress( unicode );
 }
@@ -156,13 +174,13 @@ void GUI::CreateWindowConsole( float x, float y ){
 	test = inputarea;
 
 	numIndices += 4 * 7;
-	
+
 	//now we move it (and all its children) and make it build its vbo
-	window->width = topbar->GetWidth();
-	window->height = topbar->GetHeight() + lsidebar->GetHeight();
+	window->Width = topbar->GetWidth();
+	window->Height = topbar->GetHeight() + lsidebar->GetHeight();
 	window->Move( x, y );
 	Windows.push_back( window );
-	
+
 	textarea->AddStringsToVBO();
 	inputarea->AddStringsToVBO();
 }

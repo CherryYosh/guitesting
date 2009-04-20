@@ -1,11 +1,13 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#define CTRL_INPUT 0x1 //does the control allow input
+#define CTRL_INPUT 1 //does the control allow input
 
 #ifndef NULL
 #define NULL 0
 #endif //null
+
+#include "../nvVector.h"
 
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -30,7 +32,7 @@ public:
 	virtual bool HitTest( int mouseX, int mouseY );
 	virtual void OnMousePress( int button );
 	virtual void OnMouseRelease( int button );
-	virtual void OnKeyPress( unsigned short ); 
+	virtual void OnKeyPress( unsigned short );
 	virtual void OnKeyRelease( int key, int mod );
 	virtual void Move( float x, float y );
 	virtual void SetCallback( boost::function<int()> callback );
@@ -41,17 +43,23 @@ public:
 	virtual void SetFocus( bool value);
 	virtual void SetDepth( float );
 
+	virtual void SetColor( float, float, float, float );
+	virtual void SetColor( nv::vec4<float> );
+	virtual void AddColor( nv::vec4<float> );
+	virtual float* GetColorv();
+
 	virtual float GetWidth();
 	virtual float GetHeight();
 	virtual float GetDepth();
 
-	unsigned int VertexOffset; 
+	virtual bool IsAnimated();
+	virtual void SetAnimated( bool );
+
+	unsigned int VertexOffset;
 
 	float x, y;
 	float s, t, s2, t2;
 
-	//static Shader* GUIShader;
-	//static Shader* TextShader;
 	static GLuint GUI_vbo;
 protected:
 	float Depth;
@@ -63,6 +71,8 @@ private:
 	void GetControlData();
 
 	bool hasFocus, isEnabled;
+	bool isAnimated;
+	nv::vec4<float> Color;
 };
 
 void Control_Init( const char* );

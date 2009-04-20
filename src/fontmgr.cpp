@@ -50,7 +50,7 @@ struct Font_VBOData{
 	float s, t;
 	float r,g,b,a;
 };
-//note a copy of the struct at label.h to keep from needing a include 
+//note a copy of the struct at label.h to keep from needing a include
 struct FontChar{
 	char c;
 	float r,g,b,a;
@@ -220,21 +220,21 @@ void FontMgr_glDrawText(int fontID, int tx, int ty, Shader* shader, const char *
 
 	glEnableVertexAttribArray( shader->attribute[0] );
 	glEnableVertexAttribArray( shader->attribute[1] );
-	
+
 	glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, 0, font->vertexdata);
 	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 0, font->tcoordptr);
-	
+
 	int vindex;
 	size_t length = strlen(text);
 	for( unsigned int i = 0; i < length; i++ ){
 		vindex = text[i] << 2;
 
 		shader->SetModelview( m._array );
-	
+
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_SHORT, (unsigned short *)font->indexdata+vindex);
 
 		FT_Get_Kerning( faces[fontID], font->glyphs[*(text+i)].index, font->glyphs[*(text+i+1)].index, FT_KERNING_DEFAULT, &kdelta);
-		
+
 		m._41 += font->glyphs[*(text+i)].advance + (kdelta.x >> 6);
 	}
 
@@ -247,19 +247,20 @@ void FontMgr_GetCharData( int font, char p, FontChar& c ){
 	Glyph g = fonts[font]->glyphs[c.c];
 
 	FT_Vector kdelta;
-	FT_Get_Kerning( faces[font], g.index, fonts[font]->glyphs[p].index, FT_KERNING_DEFAULT, &kdelta);
-	
+
 	if( p == 0 )
 		kdelta.x = 0;
+	else
+		FT_Get_Kerning( faces[font], g.index, fonts[font]->glyphs[p].index, FT_KERNING_DEFAULT, &kdelta);
 
-	c.s = g.x;
-	c.t = g.y;
-	c.s2 = g.x2;
-	c.t2 = g.y2;
-	c.height = g.height;
-	c.width = g.width;
-	c.x = g.bearingX;
-	c.y = -g.bearingY;
+	c.s = 		g.x;
+	c.t = 		g.y;
+	c.s2 = 		g.x2;
+	c.t2 = 		g.y2;
+	c.height = 	g.height;
+	c.width = 	g.width;
+	c.x = 		g.bearingX;
+	c.y = 		-g.bearingY;
 	c.advance = g.advance + (kdelta.x >> 6);
 }
 

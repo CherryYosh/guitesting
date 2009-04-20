@@ -29,7 +29,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,8 +41,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -50,6 +50,10 @@
 
 #ifndef NV_MATRIX_H
 #define NV_MATRIX_H
+
+#include <math.h> //for cos and sin
+
+#define PI 3.14159265
 
 namespace nv {
 
@@ -70,7 +74,7 @@ public:
 
     matrix4() { make_identity(); }
 
-    matrix4( T t ) 
+    matrix4( T t )
     { set_value(t); }
 
     matrix4( const T * m )
@@ -114,11 +118,11 @@ public:
     void make_identity() {
         element(0,0) = 1.0;
         element(0,1) = 0.0;
-        element(0,2) = 0.0; 
+        element(0,2) = 0.0;
         element(0,3) = 0.0;
 
         element(1,0) = 0.0;
-        element(1,1) = 1.0; 
+        element(1,1) = 1.0;
         element(1,2) = 0.0;
         element(1,3) = 0.0;
 
@@ -127,8 +131,8 @@ public:
         element(2,2) = 1.0;
         element(2,3) = 0.0;
 
-        element(3,0) = 0.0; 
-        element(3,1) = 0.0; 
+        element(3,0) = 0.0;
+        element(3,1) = 0.0;
         element(3,2) = 0.0;
         element(3,3) = 1.0;
     }
@@ -156,6 +160,87 @@ public:
     void set_column(int c, const vec4<T> & t) {
         for (int i = 0; i < 4; i++) element(i,c) = t[i];
     }
+
+	void rotateScreen( T angle, T x, T y, T z, vec3<T> origin ){
+		T c = cos( angle * PI / 180.0 );
+		T s = sin( angle * PI / 180.0 );
+		matrix4<T> mat; mat.make_identity();
+
+		matrix4<T> org; org.make_identity();
+		org.set_translate( vec3<T>(origin.x - _41, origin.y - _42, -1 ) );
+
+		/*( xx(1-c)+c	xy(1-c)-zs  xz(1-c)+ys	 0  )
+		  | yx(1-c)+zs	yy(1-c)+c   yz(1-c)-xs	 0  |
+		  | xz(1-c)-ys	yz(1-c)+xs  zz(1-c)+c	 0  |
+		  (	 0	     	0		 	0	 		 1  ) */
+
+		mat._11 = ( x * x ) * ( 1 - c ) +  (  c   );
+		mat._12 = ( y * x ) * ( 1 - c ) + ( z * s );
+		mat._13 = ( z * x ) * ( 1 - c ) - ( y * s );
+
+		mat._21 = ( x * y ) * ( 1 - c ) - ( z * s );
+		mat._22 = ( y * y ) * ( 1 - c ) + (   c   );
+		mat._23 = ( z * y ) * ( 1 - c ) + ( x * s );
+
+		mat._31 = ( x * z ) * ( 1 - c ) + ( y * s );
+		mat._32 = ( y * z ) * ( 1 - c ) - ( x * s );
+		mat._33 = ( z * z ) * ( 1 - c ) + (   c   );
+
+		(*this) *= org * mat * inverse(org);
+	}
+
+	void rotateOrigin( T angle, T x, T y, T z, vec3<T> origin ){
+		T c = cos( angle * PI / 180.0 );
+		T s = sin( angle * PI / 180.0 );
+		matrix4<T> mat; mat.make_identity();
+
+		matrix4<T> org; org.make_identity();
+		org.set_translate( origin );
+
+		/*( xx(1-c)+c	xy(1-c)-zs  xz(1-c)+ys	 0  )
+		  | yx(1-c)+zs	yy(1-c)+c   yz(1-c)-xs	 0  |
+		  | xz(1-c)-ys	yz(1-c)+xs  zz(1-c)+c	 0  |
+		  (	 0	     	0		 	0	 		 1  ) */
+
+		mat._11 = ( x * x ) * ( 1 - c ) +  (  c   );
+		mat._12 = ( y * x ) * ( 1 - c ) + ( z * s );
+		mat._13 = ( z * x ) * ( 1 - c ) - ( y * s );
+
+		mat._21 = ( x * y ) * ( 1 - c ) - ( z * s );
+		mat._22 = ( y * y ) * ( 1 - c ) + (   c   );
+		mat._23 = ( z * y ) * ( 1 - c ) + ( x * s );
+
+		mat._31 = ( x * z ) * ( 1 - c ) + ( y * s );
+		mat._32 = ( y * z ) * ( 1 - c ) - ( x * s );
+		mat._33 = ( z * z ) * ( 1 - c ) + (   c   );
+
+		(*this) *= org * mat * inverse(org);
+	}
+
+	void rotate( T angle, T x, T y, T z ){
+		T c = cos( angle * PI / 180.0 );
+		T s = sin( angle * PI / 180.0 );
+		matrix4<T> mat; mat.make_identity();
+
+		/*( xx(1-c)+c	xy(1-c)-zs  xz(1-c)+ys	 0  )
+		  | yx(1-c)+zs	yy(1-c)+c   yz(1-c)-xs	 0  |
+		  | xz(1-c)-ys	yz(1-c)+xs  zz(1-c)+c	 0  |
+		  (	 0	     	0		 	0	 		 1  ) */
+
+		mat._11 = ( x * x ) * ( 1 - c ) +  (  c   );
+		mat._12 = ( y * x ) * ( 1 - c ) + ( z * s );
+		mat._13 = ( z * x ) * ( 1 - c ) - ( y * s );
+
+		mat._21 = ( x * y ) * ( 1 - c ) - ( z * s );
+		mat._22 = ( y * y ) * ( 1 - c ) + (   c   );
+		mat._23 = ( z * y ) * ( 1 - c ) + ( x * s );
+
+		mat._31 = ( x * z ) * ( 1 - c ) + ( y * s );
+		mat._32 = ( y * z ) * ( 1 - c ) - ( x * s );
+		mat._33 = ( z * z ) * ( 1 - c ) + (   c   );
+
+		(*this) *= mat;
+	}
 
     vec4<T> get_row(int r) const {
         vec4<T> v;
@@ -234,7 +319,7 @@ public:
         // Now we have an upper triangular matrix.
         //
         //  x x x x | y y y y
-        //  0 x x x | y y y y 
+        //  0 x x x | y y y y
         //  0 0 x x | y y y y
         //  0 0 0 x | y y y y
         //
@@ -243,7 +328,7 @@ public:
         //  1 0 0 0 | z z z z
         //  0 1 0 0 | z z z z
         //  0 0 1 0 | z z z z
-        //  0 0 0 1 | z z z z 
+        //  0 0 0 1 | z z z z
         //
 
         T mij;
@@ -268,7 +353,7 @@ public:
 
         for(int i=0;i<4;i++)
             for(int j=0;j<4;j++)
-                mtrans(i,j) = m.element(j,i);		
+                mtrans(i,j) = m.element(j,i);
         return mtrans;
     }
 
@@ -347,7 +432,7 @@ public:
         return *this;
     }
 
-    
+
     friend bool operator == ( const matrix4 & lhs, const matrix4 & rhs ) {
         bool r = true;
         for (int i = 0; i < 16; i++)

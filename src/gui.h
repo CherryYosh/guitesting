@@ -19,12 +19,13 @@ public:
 	~GUI();
 
 	void Render( Shader* );
+	void RenderAnimation( Shader* );
 	void RenderText( Shader* );
 
 	bool HitTest( int, int );
 	void Move( int, int );
-	void HandelKeyPress( unsigned short ); 
-	
+	void HandelKeyPress( unsigned short );
+
 	void CreateWindowConsole( float, float );
 
 protected:
