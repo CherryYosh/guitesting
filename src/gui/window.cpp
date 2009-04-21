@@ -22,9 +22,9 @@ Window::Window(){
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
 
-	//Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
-	//Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
-	//Animate( ROTATEZ, 360.0, 500, 5000, LINEAR );
+	Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
+	Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
+	Animate( ROTATEZ, 90.0, 0, 1, LINEAR );
 }
 
 Window::~Window(){
@@ -375,7 +375,13 @@ void Window::StepAnimation(){
 
 				//rotation
 				if( (it->Type & ROTATEZ )){
-					Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+					Modelview.rotate( data.x, 0.0, 0.0, 1.0 );
+				}
+				if( (it->Type & ROTATEORGZ )){
+									Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+				}
+				if( (it->Type & ROTATESCREENZ )){
+									Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
 				}
 
 				//color
