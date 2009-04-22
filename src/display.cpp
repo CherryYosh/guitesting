@@ -154,7 +154,7 @@ void Display::OnMouseMotion(){
 	if( Mouse_GetButtonState(0) ){ //dragging
 		gui->Move( Mouse_GetChangeX(), Mouse_GetChangeY() );
 	} else {
-		gui->HitTest( Mouse_GetX(), Mouse_GetY() );
+		gui->HitTest( (float)Mouse_GetX(), (float)Mouse_GetY() );
 	}
 }
 

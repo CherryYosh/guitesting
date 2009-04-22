@@ -53,7 +53,7 @@ public:
 	virtual void UpdateVBO();
 	virtual void OnKeyPress( unsigned short );
 	virtual void OnMousePress( unsigned short );
-	virtual bool HitTest( int, int );
+	virtual bool HitTest( float, float, float* );
 
 	virtual void Render( Shader* );
 	virtual void RenderAnimation( Shader* );
@@ -65,6 +65,9 @@ public:
 	virtual void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL );
 
 	virtual void StepAnimation();
+
+	virtual void Unproject( float, float, float*, int*, float*, float*);
+
 
 	float Width, Height;
 	bool ReciveInput;

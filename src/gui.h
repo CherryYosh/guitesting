@@ -22,7 +22,7 @@ public:
 	void RenderAnimation( Shader* );
 	void RenderText( Shader* );
 
-	bool HitTest( int, int );
+	bool HitTest( float, float );
 	void Move( int, int );
 	void HandelKeyPress( unsigned short );
 	void HandelMousePress( unsigned short );

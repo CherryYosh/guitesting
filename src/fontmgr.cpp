@@ -1,3 +1,9 @@
+/*
+ * A font manage class using freetype,
+ * All code except for portions of glDrawFont and GetCharData, and FONT_VBOData By RJ
+ * Rest by Brandon
+ */
+
 #include <GL/glew.h>
 
 // Windows/OpenGL
@@ -45,6 +51,7 @@ struct Font {
 	void *tcoordptr;
 	void *indexdata;
 };
+
 struct Font_VBOData{
 	float x, y;
 	float s, t;

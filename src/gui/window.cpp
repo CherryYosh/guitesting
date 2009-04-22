@@ -24,7 +24,7 @@ Window::Window(){
 
 	Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
 	Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
-	Animate( ROTATEZ, 90.0, 0, 1, LINEAR );
+	Animate( ROTATEZ, 90.0, 50, 10000, LINEAR );
 }
 
 Window::~Window(){
@@ -91,14 +91,22 @@ void Window::RenderText( int v, int t, int c ){
 	}
 }
 
-bool Window::HitTest( int mx, int my ){
-	//TODO: make this faster :P
-	if( mx > x && mx < x + Width &&
-			my > y && my < y + Height ){
+bool Window::HitTest( float mx, float my, float* p ){
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
 
+	//float tx,ty;
+
+	Unproject( mx, my, p, viewport, &mx, &my );
+	//mx = tx;
+	//my = ty;
+
+	//TODO: make this faster :P
+	if( mx < Width &&
+			my < Height ){
 			//make the origin at the box
-			mx -= x;
-			my -= y;
+			//mx -= x;
+			//my -= y;
 
 			if( ActiveChild != NULL && ActiveChild->HitTest( mx, my ) ){
 				return true;
@@ -398,4 +406,23 @@ void Window::StepAnimation(){
 	for( unsigned int i = 0; i < toDel.size(); i++ ){
 		Animations.erase( toDel[i] );
 	}
+}
+
+void Window::Unproject( float winx, float winy, float* p, int* view, float* ox, float* oy ){
+	nv::vec4<float> in = nv::vec4<float>(	((winx - view[0]) * 2.0) / view[2] - 1.0,
+											-(((winy - view[1]) * 2.0) / view[3] - 1.0),
+											-1.0,
+											1.0 );
+
+	nv::matrix4<float> proj;
+	proj.set_value( p );
+	proj *= Modelview;
+
+	nv::vec4<float> ret = inverse( proj ) * in;
+
+	if( ret.w == 0.0 )
+		return;
+
+	*ox = ret.x / ret.w;
+	*oy = ret.y / ret.w;
 }

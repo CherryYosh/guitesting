@@ -8,8 +8,6 @@
 #include "input.h"
 #include "fontmgr.h"
 
-Editbox* test;
-
 GUI::GUI() : System(){
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
@@ -100,15 +98,15 @@ void GUI::RenderText( Shader* shader ){
 }
 
 
-bool GUI::HitTest( int x, int y ){
+bool GUI::HitTest( float x, float y ){
 	//this is a quick excape.. most clicks SHOULD happen on the active window
-	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y ) ){
+	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y, Screen->GetOrtho() ) ){
 		return true;
 	}
 
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
-		if( Windows[i]->HitTest( x, y ) ){
+		if( Windows[i]->HitTest( x, y, Screen->GetOrtho() ) ){
 			ActiveWindow = Windows[i];
 
 			if( IsRecevingInput != ActiveWindow->ReciveInput ){
@@ -177,8 +175,6 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->AddChild( close, 	WINDOW_TOP, 	false 	);
 	window->AddChild( textarea, WINDOW_TOP, 	false 	);
 	window->AddChild( inputarea,WINDOW_TOP,  	true	);
-
-	test = inputarea;
 
 	numIndices += 4 * 7;
 
