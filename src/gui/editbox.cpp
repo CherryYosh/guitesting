@@ -34,16 +34,17 @@ bool Editbox::HitTest( int mX, int mY ){
 	return false;
 }
 
+//TODO: FIX THIS
 void Editbox::OnMousePress( unsigned short button, int mX, int mY ){
 	if( button == 0 ){
 		//tell if they clicked a line
 		short size = lines.size();
-		short height = FontMgr_GetLineHeight( font );
+		short height = FontMgr_GetLineHeight( 0 );
 		FontString line;
 
 		for( unsigned short i = 0; i < size; i++ ){
 			//first a check to get the line
-			if( mY < y + ( height * ( TextHeight - i ) ) ){
+			if( mY < y + ( height * ( NumLines - i ) ) ){
 				CaretLine = i;
 				line = lines[i];
 

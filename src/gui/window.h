@@ -25,24 +25,8 @@
 #define BITSHIFT(x) 1 << x
 #define BITSHIFT2(x,y)x << y
 
+struct AnimationType;
 class Control;
-
-struct WINDOW_VBOVertex{
-	float x, y;
-	float s, t;
-	float spacer[4]; //keep it aligned in 32 bits
-};
-
-struct AnimationType{
-	unsigned int Type;
-	unsigned int Interpolation;
-	unsigned int EndTicks;
-	unsigned int StartTicks;
-	unsigned int LastTicks;
-	unsigned int Duration; //end - start
-	Control* Object;
-	nv::vec4<float> data;
-};
 
 //enums used for window Depth
 enum{ WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM };
@@ -82,7 +66,7 @@ public:
 
 	virtual void StepAnimation();
 
-	virtual void Unproject( float, float, float*, int*, float*, float*);
+	virtual void Unproject( float, float, float*, float*, float*);
 
 
 	float Width, Height;
@@ -90,7 +74,6 @@ public:
 protected:
 private:
 	virtual void RebuildVBO();
-	float Depth;
 	float x, y;
 
 	std::vector<Control*> Children;
@@ -98,6 +81,7 @@ private:
 
 	unsigned int VertexPosition, VertexLength;
 	bool VertexPositionIsSet;
+	Control* MouseOverChild;
 	Control* ActiveChild;
 
 	nv::matrix4<float> Modelview;

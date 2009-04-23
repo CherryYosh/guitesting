@@ -56,7 +56,6 @@ public:
 
 	virtual void Move( float, float );
 
-	virtual void SetFont( unsigned char f );
 	virtual void SetWidth( unsigned short );
 	virtual void SetHeight( unsigned short );
 
@@ -68,7 +67,7 @@ public:
 	virtual	void AddChar( FontChar, bool );
 	virtual void AppendString( unsigned int, unsigned int, FontString );
 protected:
-	unsigned short TextWidth, TextHeight;
+	unsigned short TextWidth;
 	unsigned short CaretPos, CaretLine;
 	unsigned short BottomLine; //the index of the bottome line
 	unsigned short NumCharacters, NumLines;
@@ -78,7 +77,6 @@ protected:
 	bool FlashCaret;
 	bool ShowingCaret;
 	bool Editable;
-	unsigned char font; 		//fixed at 0 right now
 	std::vector<FontString> lines;
 private:
 };

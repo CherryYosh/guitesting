@@ -24,26 +24,40 @@
 #include <GL/glew.h>
 
 #include "window.h"
+
 #include "controls.h"
 #include <SDL/SDL.h>
+
+struct WINDOW_VBOVertex{
+	float x, y;
+	float s, t;
+	float spacer[4]; //keep it aligned in 32 bits
+};
+
+struct AnimationType{
+	unsigned int Type;
+	unsigned int Interpolation;
+	unsigned int EndTicks;
+	unsigned int StartTicks;
+	unsigned int LastTicks;
+	unsigned int Duration; //end - start
+	Control* Object;
+	nv::vec4<float> data;
+};
 
 Window::Window(){
 	VertexPosition = 0;
 	VertexLength = 0;
 	VertexPositionIsSet = false;
 	ReciveInput = false;
-	ActiveChild = NULL;
+	MouseOverChild = NULL;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
-
-	Animate( TRANSLATEXY, 100, 500, 10000, LINEAR );
-	Animate( ORIGIN, nv::vec3<float>( 10, 10, 0 ), 0, 0, LINEAR );
-	Animate( ROTATEZ, 90.0, 50, 10000, LINEAR );
 }
 
 Window::~Window(){
-	ActiveChild = NULL;
+	MouseOverChild = NULL;
 	Children.clear();
 }
 
@@ -72,14 +86,15 @@ int Window::Close(){
 	return 0;
 }
 
+//TODO: Find a better way to do the rendering
 void Window::Render( Shader* shader ){
-
 	shader->SetModelview( Modelview._array );
 	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
 	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
 
 	//this draws our whole table! wooo :P
-	for( unsigned int i = 0; i < Children.size(); i++ )
+	size_t size = Children.size();
+	for( unsigned int i = 0; i < size; i++ )
 		if( !Children[i]->IsAnimated() )
 				glDrawArrays( GL_QUADS, 4*i, 4 );
 }
@@ -90,7 +105,8 @@ void Window::RenderAnimation( Shader* shader ){
 	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
 
 	//this draws our whole table! wooo :P
-	for( unsigned int i = 0; i < Children.size(); i++ )
+	size_t size = Children.size();
+	for( unsigned int i = 0; i < size; i++ )
 		if( Children[i]->IsAnimated() ){
 				glUniform4fv( shader->uniform[3], 1, Children[i]->GetColorv() );
 				glDrawArrays( GL_QUADS, 4*i, 4 );
@@ -107,49 +123,36 @@ void Window::RenderText( int v, int t, int c ){
 }
 
 bool Window::HitTest( float mx, float my, float* p ){
-	GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
+	Unproject( mx, my, p, &mx, &my );
 
-	//float tx,ty;
+	if( mx < Width && my < Height ){
 
-	Unproject( mx, my, p, viewport, &mx, &my );
-	//mx = tx;
-	//my = ty;
-
-	//TODO: make this faster :P
-	if( mx < Width &&
-			my < Height ){
-			//make the origin at the box
-			//mx -= x;
-			//my -= y;
-
-			if( ActiveChild != NULL && ActiveChild->HitTest( mx, my ) ){
+			if( MouseOverChild != NULL && MouseOverChild->HitTest( mx, my ) ){
 				return true;
 			}
 
-			if( ActiveChild != NULL )
-				ActiveChild->OnMouseLeave();
+			if( MouseOverChild != NULL )
+				MouseOverChild->OnMouseLeave();
 
 		//now we test the controls
 		size_t size = Children.size();
 		//TODO: Fix this hack, used to make sure the top item is found first
 		//assumes the top items where added last
 		for( unsigned int i = size-1; i > 0; i-- ){
-			if(Children[i] != ActiveChild && Children[i]->HitTest(mx, my)){
-				ActiveChild = Children[i];
-				ActiveChild->OnMouseEnter();
-				ReciveInput = ActiveChild->HasAttrib( CTRL_INPUT );
+			if(Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)){
+				MouseOverChild = Children[i];
+				MouseOverChild->OnMouseEnter();
 				return true;
 			}
 		}
-		ActiveChild = NULL;
+		MouseOverChild = NULL;
 		return true;
 	}
 
-	if( ActiveChild != NULL )
-		ActiveChild->OnMouseLeave();
+	if( MouseOverChild != NULL )
+		MouseOverChild->OnMouseLeave();
 
-	ActiveChild = NULL;
+	MouseOverChild = NULL;
 	return false;
 }
 
@@ -325,8 +328,10 @@ void Window::OnKeyPress( unsigned short key ){
 }
 
 void Window::OnMousePress( unsigned short button, int mx, int my ){
-	if( ActiveChild != NULL ){
+	if( MouseOverChild != NULL ){
+		ActiveChild = MouseOverChild;
 		ActiveChild->OnMousePress( button, mx, my );
+		ReciveInput = ActiveChild->HasAttrib( CTRL_INPUT );
 	}
 }
 
@@ -424,7 +429,10 @@ void Window::StepAnimation(){
 	}
 }
 
-void Window::Unproject( float winx, float winy, float* p, int* view, float* ox, float* oy ){
+void Window::Unproject( float winx, float winy, float* p, float* ox, float* oy ){
+	GLint view[4];
+	glGetIntegerv(GL_VIEWPORT, view);
+
 	nv::vec4<float> in = nv::vec4<float>(	((winx - view[0]) * 2.0) / view[2] - 1.0,
 											-(((winy - view[1]) * 2.0) / view[3] - 1.0),
 											-1.0,

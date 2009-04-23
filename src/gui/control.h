@@ -15,11 +15,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#define CTRL_INPUT 1 //does the control allow input
-
-#ifndef NULL
-#define NULL 0
-#endif //null
+#define CTRL_INPUT (1) << 0 //does the control allow input
 
 #include "../nvVector.h"
 
@@ -30,7 +26,6 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
-//#include "window.h"
 class Window;
 
 struct CTRL_GUIDataT{

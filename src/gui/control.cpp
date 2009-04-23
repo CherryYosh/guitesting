@@ -22,7 +22,6 @@ GLuint Control::GUI_vbo;
 
 //Sets up the guiData so the controls can be created corectly
 //IN:
-//	vbo = id of the vbo to send the texture data too
 //	path = the name of the default theme to load
 //OUT: none
 void Control_Init( const char* path ){

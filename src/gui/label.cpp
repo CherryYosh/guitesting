@@ -24,13 +24,11 @@ struct LABEL_VBOVertex{
 
 Label::Label( Window* p, std::string t, int x, int y ) : Control(p,t,x,y){
 	TextWidth = Width;
-	TextHeight = Height / FontMgr_GetLineHeight( font );
 	Multiline = false;
 
 	BottomLine = 0;
 	CaretPos = 0;
 	CaretLine = 0;
-	font = 0;
 	FlashCaret = false;
 	ShowingCaret = false;
 	Editable = false;
@@ -49,6 +47,7 @@ Label::~Label(){
 	//nothing
 }
 
+//TODO: Find a better way
 void Label::RenderText( int vert, int text, int color ){
 	size_t size = lines.size();
 	for( unsigned int i = 0; i < size; i++ ){
@@ -505,11 +504,6 @@ void Label::onKeyRelease( int key, int mod ){
 	//needed?
 }
 
-void Label::SetFont( unsigned char f ){
-	font = f;
-	TextHeight = Height / FontMgr_GetLineHeight( font );
-}
-
 void Label::SetWidth( unsigned short w){
 	Width = w;
 	TextWidth = Width;
@@ -517,7 +511,6 @@ void Label::SetWidth( unsigned short w){
 
 void Label::SetHeight( unsigned short h){
 	Height = h;
-	TextHeight = Height / FontMgr_GetLineHeight( font );
 }
 
 void Label::Move( float cx, float cy ){

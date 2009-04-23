@@ -24,8 +24,8 @@ Rule::~Rule(){
 }
 
 bool Rule::HitTest( int mouseX, int mouseY ){
-	if( mouseX > x && mouseX < x + Width &&
-		mouseY > y && mouseY < y + Height ){
+	if( mouseX > x && mouseY > y  &&
+			mouseX < x + Width &&  mouseY < y + Height ){
 		return true;
 	}
 	return false;
