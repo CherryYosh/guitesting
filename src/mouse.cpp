@@ -18,7 +18,7 @@
  *
  * TODO: double clicks, more then 3
  * Buttons support, isure proper touch
- * pad support... 
+ * pad support...
  *
  *
  * KNOWN BUGS:
@@ -37,12 +37,13 @@ int x, y, oldx, oldy;
 unsigned int ClickTimeout;
 unsigned int ClickTime;
 
-void Mouse_Init(){	
+void Mouse_Init(){
 	Buttons = new bool[3];
 	x = 0;
 	y = 0;
 	ClickTime = 0;
 	ClickTimeout = 1000; //1second
+
 	Mouse_SetState();
 }
 
@@ -61,10 +62,10 @@ void Mouse_SetState(){
 
 void Mouse_SetButtonState(){
 	unsigned int value = SDL_GetMouseState( NULL, NULL );
-	
+
 	//left
 	Buttons[0] = value & SDL_BUTTON(1);
-	
+
 	//right
 	Buttons[1] = value & SDL_BUTTON(2);
 }
@@ -83,7 +84,6 @@ void Mouse_SetTimeout(int timeout ){
 
 bool Mouse_GetButtonState( int key ){
 	//out of bounds check
-	//TODO: remove magic number
 	if( key > 2 )
 		return false;
 
@@ -112,6 +112,3 @@ int Mouse_GetChangeY(){
 	return y - oldy;
 }
 
-//int Mouse::GetClicks(){
-//	return clicks;
-//}

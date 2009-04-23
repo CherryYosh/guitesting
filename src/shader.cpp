@@ -16,10 +16,21 @@
 
 #include "shader.h"
 
-
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
+
+#define SHADERPATH "./shaders/" //for ease
+
+//reading and loading
+char* ReadShaderFile( std::string filename );
+GLuint glslLoadShaderProgram( std::string vertex, std::string fragment );
+
+//debugging
+void printShaderLog( GLuint shader );
+void printProgramLog( GLuint program );
+const char* getErrorString( GLenum error );
+
 
 Shader::Shader(){
 	name = "noname";
@@ -35,7 +46,7 @@ Shader::~Shader(){
 
 bool Shader::Load( std::string shaderName ){
 	name = shaderName;
-	
+
 	std::string s1, s2;
 	s1 = SHADERPATH + shaderName + ".vert";
 	s2 = SHADERPATH + shaderName + ".frag";
@@ -75,14 +86,14 @@ GLuint Shader::GetID(){
 //===========================================================================
 //out of class functions
 
-char* ReadShaderFile( const char* filename ){
-        std::fstream file( filename, std::fstream::in );
+char* ReadShaderFile( std::string filename ){
+        std::fstream file( filename.c_str(), std::fstream::in );
         std::size_t size; //size of the file
         char* file_data; //the shader data
 
         if( file == NULL ){
 #ifdef _DEBUG_
-                printf( "FATIAL: Could not read shader file %s\n", filename );
+                printf( "FATIAL: Could not read shader file %s\n", filename.c_str() );
 #endif
                 return NULL;
         }
@@ -103,11 +114,10 @@ char* ReadShaderFile( const char* filename ){
 }
 
 //loades the shaders into a program, retruning the programs id
-GLuint glslLoadShaderProgram( const char* vertex, const char* fragment ){
+GLuint glslLoadShaderProgram( std::string vertex, std::string fragment ){
 	//a quick check
-	if( vertex == NULL  || fragment == NULL ){
+	if( vertex.empty() || fragment.empty() ){
 		printf( "ERROR: Unable to load programs, program defined as NULL" );
-		//exit(-1);
 		return 0;
 	}
 
@@ -129,7 +139,7 @@ GLuint glslLoadShaderProgram( const char* vertex, const char* fragment ){
 	glShaderSource( fsID, 1, &fragment_data, NULL );
 	glCompileShader( fsID );
 	printShaderLog( fsID );
-	
+
 	delete [] fragment_data;
 
 	//make and link the program
@@ -145,33 +155,7 @@ GLuint glslLoadShaderProgram( const char* vertex, const char* fragment ){
 	//and return, best of luck
 	return program;
 }
-/*
-//loads and compiles a shader, returning it's id
-//type is eithe GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
-GLuint glslLoadShader( char* shader, GLenum type ){
-	GLuint id;
-	const char * data = ReadShaderFile( shader );
-	id = glCreateShader( type );
-	glShaderSource( id, 1, &data, NULL );
-	glCompileShader( id );
-	printShaderLog( id );
 
-	//remeber stop the zombie infestation at its source
-	delete [] data;
-	return id;
-}
-
-//same as glAttachShader, here just for formality
-void glslAttachShader( GLuint program, GLuint shader ){ 
-	glAttachShader( program, shader );
-}
-
-//same as glLinkProgram, here just for formality
-void glslLinkProgram( GLuint program ){
-	glLinkProgram( program );
-	printProgramLog( program );
-}
-*/
 /***********************************************
  * 		debugging shaders              *
  **********************************************/
@@ -180,7 +164,7 @@ void printShaderLog( GLuint shader ){
         int length;
         char *log;
 
-	glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &length );
+        glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &length );
 
         if( length <= 0 )
                 return;
@@ -208,20 +192,20 @@ void printProgramLog( GLuint program ){
     	}
 }
 
-char* getErrorString( GLenum error ){
-	if ( error == GL_INVALID_ENUM ){ 
-		return "Invalid Enum."; 
-	}else if ( error == GL_INVALID_VALUE ){ 
-		return "Invalid Value."; 
-	}else if ( error == GL_INVALID_OPERATION ){ 
-		return "Invalid Operation."; 
-	}else if ( error == GL_STACK_OVERFLOW ){ 
-		return "Stack Overflow."; 
-	}else if ( error == GL_STACK_UNDERFLOW ){ 
-		return "Stack Underflow."; 
-	}else if ( error == GL_OUT_OF_MEMORY ){ 
-		return "Out of memory."; 
-	} else { 
-		return "Undefined."; 
+const char* getErrorString( GLenum error ){
+	if ( error == GL_INVALID_ENUM ){
+		return "Invalid Enum.";
+	}else if ( error == GL_INVALID_VALUE ){
+		return "Invalid Value.";
+	}else if ( error == GL_INVALID_OPERATION ){
+		return "Invalid Operation.";
+	}else if ( error == GL_STACK_OVERFLOW ){
+		return "Stack Overflow.";
+	}else if ( error == GL_STACK_UNDERFLOW ){
+		return "Stack Underflow.";
+	}else if ( error == GL_OUT_OF_MEMORY ){
+		return "Out of memory.";
+	} else {
+		return "Undefined.";
 	}
 }

@@ -35,10 +35,12 @@ public:
 
 	bool Start();
 	void Stop();
-	void Restart(bool);
+	void Restart(bool=true);
 	void Tick();
 	void Step();
+
 	void Update();
+	void Update(unsigned int);
 
 	void SetFunction( boost::function<void()> );
 	void SetRuntime( unsigned int );

@@ -26,7 +26,7 @@ public:
 	bool HitTest( int, int );
 	void OnKeyPress( unsigned short );
 	void OnKeyRelease( int, int );
-	void OnMousePress( int );
+	void OnMousePress( unsigned short, int, int );
 	void OnMouseRelease( int );
 private:
 protected:

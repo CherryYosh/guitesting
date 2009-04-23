@@ -22,6 +22,9 @@ timerpool::~timerpool(){
 }
 
 void timerpool::AddTimer( Timer* timer, bool tick = false, bool step = false ){
+	if( timer == NULL )
+		return;
+
 	timerpool_Data data;
 	data.timer = timer;
 	data.tick = tick;
@@ -33,9 +36,11 @@ void timerpool::AddTimer( Timer* timer, bool tick = false, bool step = false ){
 void timerpool::Update(){
 	size_t size = timers.size();
 	timerpool_Data data;
+	unsigned int ticks = SDL_GetTicks();
 	for( unsigned int i = 0; i < size; i++ ){
 		data = timers[i];
 
+		//TODO: Fix it so this wont happen
 		if( data.timer == NULL )
 			break;
 
@@ -43,6 +48,7 @@ void timerpool::Update(){
 			data.timer->Tick();
 		if( data.step )
 			data.timer->Step();
-		data.timer->Update();
+
+		data.timer->Update(ticks);
 	}
 }

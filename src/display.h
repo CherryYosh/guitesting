@@ -19,16 +19,14 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include "system.h"
+
 #include <SDL/SDL.h>
 
-#include "mouse.h" 
-#include "timer.h"
-#include "timerpool.h"
-#include "system.h"
-#include "camera.h"
 #include "gui.h"
+#include "timer.h"
+#include "camera.h"
+#include "timerpool.h"
 
 class Display : public System {
 public:
@@ -38,13 +36,16 @@ public:
 	void Start();
 
 	void DrawFPS(unsigned int*);
-	
+
 	void Render();
 	void Resize( unsigned int width, unsigned int height );
 
 	void OnMouseButtonChange();
 	void OnMouseMotion();
 	void OnKeyPress( SDL_keysym );
+
+	float* GetCameraProjection();
+	float* GetCameraOrtho();
 protected:
 private:
 	void InitTimers();

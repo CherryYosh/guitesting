@@ -13,16 +13,19 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 #include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include<boost/bind.hpp>
 
 #include "display.h"
 
-#include "defines.h"
-#include "engine.h"
 #include "image.h"
-#include "fontmgr.h"
+#include "mouse.h"
+#include "engine.h"
 #include "shader.h"
-#include "timer.h"
+#include "fontmgr.h"
 
+//TODO: clean up?
 Shader guiShader;
 Shader textShader;
 Shader guiAnimationColorShader;
@@ -64,6 +67,8 @@ void SetupSDL(){
 }
 
 Display::Display() : System(){
+	display = this;
+
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0 ){
 		printf( "Unable to init SDL: %s\n", SDL_GetError() );
 		Engine::engine->Quit();
@@ -74,7 +79,7 @@ Display::Display() : System(){
 		Engine::engine->Quit();
 	}
 
-	if( !InitImage() ){
+	if( !Image_Init() ){
 		printf( "Unable to init Image libary, closing!\n" );
 		Engine::engine->Quit();
 	}
@@ -108,8 +113,6 @@ Display::Display() : System(){
 	LoadShaders();
 	Mouse_Init();
 	InitTimers();
-
-	display = this;
 }
 
 Display::~Display(){
@@ -143,6 +146,7 @@ void Display::Start(){
 void Display::Render(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//here we draw the gui
 	gui->Render( &guiShader );
 	gui->RenderAnimation( &guiAnimationColorShader );
 	gui->RenderText( &textShader );
@@ -153,13 +157,14 @@ void Display::Render(){
 void Display::Resize( unsigned int width, unsigned int height ){
 	glViewport( 0, 0, width, height );
 	camera->SetProjection( camera->fov, width / height, camera->zNear, camera->zFar );
+	camera->SetOrtho( 0, width, height, 0, 1, 20 );
 }
 
 void Display::OnMouseButtonChange(){
 	Mouse_SetButtonState();
 
 	if( Mouse_GetButtonState( 0 ) )
-		gui->HandelMousePress( 0 );
+		gui->OnMousePress( 0, Mouse_GetX(), Mouse_GetY() );
 }
 
 void Display::OnMouseMotion(){
@@ -173,5 +178,13 @@ void Display::OnMouseMotion(){
 }
 
 void Display::OnKeyPress( SDL_keysym sym ){
-	gui->HandelKeyPress( sym.unicode );
+	gui->OnKeyPress( sym.unicode );
+}
+
+float* Display::GetCameraProjection(){
+	return camera->GetProjection();
+}
+
+float* Display::GetCameraOrtho(){
+	return camera->GetOrtho();
 }

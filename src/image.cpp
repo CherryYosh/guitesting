@@ -14,9 +14,12 @@
  */
 #include "image.h"
 
+#include <IL/ilu.h>
+#include <IL/ilut.h>
+
 //a quick check to make sure we're using the same verson
 //if this returns false they need to update devIL and recompile this
-bool InitImage(){
+bool Image_Init(){
 	//taken from the site
 	if( ilGetInteger( IL_VERSION_NUM ) < IL_VERSION ||
 		iluGetInteger( ILU_VERSION_NUM ) < ILU_VERSION ||
@@ -41,7 +44,7 @@ bool InitImage(){
 }
 
 //loads a image returning the IL id for it
-ILuint LoadNewImage( const char* filename, bool unbind ){
+ILuint Image_LoadImage( const char* filename, bool unbind ){
 	ILuint id;
 	ilGenImages( 1, &id );
 	ilBindImage( id );
@@ -49,7 +52,7 @@ ILuint LoadNewImage( const char* filename, bool unbind ){
 	if( ilLoadImage( filename ) == false ){
 		ILenum error = ilGetError();
 		printf("ERROR:: DevIL error (%d) %s\n", error, iluErrorString(error));
-		
+
 		//BRRRAAAAAIIIINNNS
 		ilDeleteImages( 1,  &id );
 		return 0;
@@ -60,55 +63,45 @@ ILuint LoadNewImage( const char* filename, bool unbind ){
 	return id;
 }
 
-//use this with caustion
-bool LoadImage( char* filename ){
-	if( ilLoadImage( filename ) == false ){
-		ILenum error = ilGetError();
-		printf("ERROR:: DevIL error (%d) %s\n", error, iluErrorString(error));
-		return false;
-	}
-	return true;
-}
-
-ILuint GetImageHeight(){
+ILuint Image_GetImageHeight(){
 	return ilGetInteger( IL_IMAGE_HEIGHT );
 }
 
-ILuint GetImageWidth(){
+ILuint Image_GetImageWidth(){
 	return ilGetInteger( IL_IMAGE_WIDTH );
 }
 
-ILuint GetImageFormat(){
+ILuint Image_GetImageFormat(){
 	return ilGetInteger( IL_IMAGE_FORMAT );
 }
 
-ILuint GetBPP(){
+ILuint Image_GetBPP(){
 	return ilGetInteger( IL_IMAGE_BPP );
 }
 
-ILuint GetBitsPerPixel(){
+ILuint Image_GetBitsPerPixel(){
 	return ilGetInteger( IL_IMAGE_BITS_PER_PIXEL );
 }
 
-ILubyte* GetImageData(){
+ILubyte* Image_GetImageData(){
 	return ilGetData();
 }
 
-GLuint GetGLTexture(){
+GLuint Image_GetGLTexture(){
 	return ilutGLBindTexImage();
 }
 
-GLuint GetGLTexture( const char* filename, unsigned int* width, unsigned int* height ){
+GLuint Image_GetGLTexture( const char* filename, unsigned int* width, unsigned int* height ){
 	ILuint temp;
-	if( (temp = LoadNewImage( filename, false )) == 0 )
+	if( (temp = Image_LoadImage( filename, false )) == 0 )
 		return 0; //nothing else to do
 
 	GLuint id = ilutGLBindTexImage();
-	
+
 	if(width != NULL )
-		*width = GetImageWidth();
+		*width = Image_GetImageWidth();
 	if(height != NULL )
-		*height = GetImageHeight();
+		*height = Image_GetImageHeight();
 
 	ilBindImage( 0 );
 	ilDeleteImages( 1, &temp );
@@ -116,10 +109,10 @@ GLuint GetGLTexture( const char* filename, unsigned int* width, unsigned int* he
 	return id;
 }
 
-void BindImage( ILuint id ){
+void Image_BindImage( ILuint id ){
 	ilBindImage( 0 );
 }
 
-void DeleteImage( ILuint id ){
+void Image_DeleteImage( ILuint id ){
 	ilDeleteImages( 1, &id );
 }

@@ -22,6 +22,7 @@
  *
  */
 #include <GL/glew.h>
+
 #include "window.h"
 #include "controls.h"
 #include <SDL/SDL.h>
@@ -67,8 +68,8 @@ int Window::Close(){
 	 * Allow saving, so upon reopening the buttons do not need to be reloaded
 	 * will need a GC to truly delete the window after x seconds..
 	 */
-	delete this;
-	return 1;
+	//delete this;
+	return 0;
 }
 
 void Window::Render( Shader* shader ){
@@ -323,9 +324,9 @@ void Window::OnKeyPress( unsigned short key ){
 		ActiveChild->OnKeyPress( key );
 }
 
-void Window::OnMousePress( unsigned short button ){
+void Window::OnMousePress( unsigned short button, int mx, int my ){
 	if( ActiveChild != NULL ){
-		ActiveChild->OnMousePress( button );
+		ActiveChild->OnMousePress( button, mx, my );
 	}
 }
 
@@ -342,7 +343,8 @@ void Window::Animate( int type, nv::vec3<float> value, unsigned int start, unsig
 		AnimationOrigin = value;
 		return;
 	}
-		Animate( type, nv::vec4<float>( value.x, value.y, value.z, 0), start, duration, interpolation, ptr );
+
+	Animate( type, nv::vec4<float>( value.x, value.y, value.z, 0), start, duration, interpolation, ptr );
 }
 
 void Window::Animate( int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
@@ -416,7 +418,7 @@ void Window::StepAnimation(){
 
 	}
 
-	//TODO: This this so there is no bug here
+	//TODO: check for bugs
 	for( unsigned int i = 0; i < toDel.size(); i++ ){
 		Animations.erase( toDel[i] );
 	}

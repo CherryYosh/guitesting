@@ -35,7 +35,7 @@ bool Timer::Start(){
 	Running = true;
 	CurTicks = SDL_GetTicks();
 	StopTicks = CurTicks + RunTime;
-	
+
 	//zero out the data
 	Ticks = 0;
 	Steps = 0;
@@ -49,7 +49,7 @@ void Timer::Stop(){
 
 void Timer::Restart( bool reset ){
 	StopTicks = SDL_GetTicks() + RunTime;
-	
+
 	if( reset ){
 		Ticks = 0;
 		Steps = 0;
@@ -63,7 +63,19 @@ void Timer::Update(){
 	CurTicks = SDL_GetTicks();
 
 	if( CurTicks >= StopTicks ){
-		Running = false; //NOTE: This has to be aboce RunCommand, so the command can correctly restart if it needs to
+		Running = false; //NOTE: This has to be above RunCommand, so the command can correctly restart if it needs to
+		RunCommand();
+	}
+}
+
+void Timer::Update( unsigned int ticks ){
+	if( !Running )
+		return;
+
+	CurTicks = ticks;
+
+	if( CurTicks >= StopTicks ){
+		Running = false; //NOTE: This has to be above RunCommand, so the command can correctly restart if it needs to
 		RunCommand();
 	}
 }

@@ -29,11 +29,18 @@ Editbox::~Editbox(){
 bool Editbox::HitTest( int mX, int mY ){
 	if( mX > x && mX < x + Width
 			&& mY > y && mY < y + Height ){
+		return true;
+	}
+	return false;
+}
 
+void Editbox::OnMousePress( unsigned short button, int mX, int mY ){
+	if( button == 0 ){
 		//tell if they clicked a line
 		short size = lines.size();
 		short height = FontMgr_GetLineHeight( font );
 		FontString line;
+
 		for( unsigned short i = 0; i < size; i++ ){
 			//first a check to get the line
 			if( mY < y + ( height * ( TextHeight - i ) ) ){
@@ -46,7 +53,7 @@ bool Editbox::HitTest( int mX, int mY ){
 				for( it=line.Text.end(); it != line.Text.begin(); it--){
 					if( mX > x + width ){
 						CaretPos = j;
-						return true;
+						return;
 					}
 
 					width -= ((FontChar)*it).advance;
@@ -55,13 +62,10 @@ bool Editbox::HitTest( int mX, int mY ){
 
 				//so if we are here its in the line, but not the text sooo....
 				CaretPos = line.Size;
-				return true;
+				return;
 			}
 		}
-		//So that bastard doesnt want text!!!
-		return true;
 	}
-	return false;
 }
 
 void Editbox::OnKeyPress( unsigned short unicode ){
@@ -118,9 +122,6 @@ void Editbox::OnKeyPress( unsigned short unicode ){
 }
 
 void Editbox::OnKeyRelease( int key, int mod ){
-}
-
-void Editbox::OnMousePress( int button ){
 }
 
 void Editbox::OnMouseRelease( int button ){

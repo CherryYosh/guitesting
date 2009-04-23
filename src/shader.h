@@ -16,15 +16,15 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <string>
+#include <GL/gl.h>
 
-#define SHADERPATH "./shaders/" //for ease
+#include <string>
 
 class Shader{
 public:
 	Shader();
 	~Shader();
-	
+
 	bool Load( std::string shaderName );
 	void Bind();
 	void Unbind();
@@ -33,21 +33,12 @@ public:
 	void SetProjection( float m[16] );
 	void SetModelview( float m[16] );
 	GLuint GetID();
-	
+
 	GLuint uniform[12];
 	GLuint attribute[12];
 private:
 	std::string name;
 	GLuint id;
 };
-
-//reading and loading
-char* ReadShaderFile( const char* filename );
-GLuint glslLoadShaderProgram( const char* vertex, const char* fragment );
-
-//debugging
-void printShaderLog( GLuint shader );
-void printProgramLog( GLuint program );
-char* getErrorString( GLenum error );
 
 #endif

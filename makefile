@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS= -g -D_DEBUG_ -Wall -DILUT_USE_OPENGL -I/usr/include/freetype2
+CFLAGS= -g -D_DEBUG_ -DGL_GLEXT_PROTOTYPES -Wall -DILUT_USE_OPENGL -I/usr/include/freetype2
 LDFLAGS= -pg -lSDL -lGL -lGLU -lGLEW -lIL -lILU -lILUT -lfreetype
 
 SRCDIR= src

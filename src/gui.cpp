@@ -12,37 +12,40 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-#ifdef _DEBUG_
-#include <stdio.h>
-#endif
+
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "gui.h"
-#include "thememgr.h"
-#include "engine.h"
+
 #include "input.h"
+#include "engine.h"
+#include "display.h"
 #include "fontmgr.h"
+#include "thememgr.h"
+#include "gui/controls.h"
+
 
 GUI::GUI() : System(){
+	MouseOverWindow = NULL;
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
-	numIndices = 0;
 
-	Screen = new Camera();
-	Screen->SetOrtho( 0, 640, 480, 0, 1, 20 );
-	Screen->Move( 0, 0, -1 );
 	//set up the control
 	Control_Init( "themes/default.theme" );
 }
 
 GUI::~GUI(){
 	Windows.clear();
+	delete MouseOverWindow;
 	delete ActiveWindow;
-	delete Screen;
 }
 
+
+//TODO: there has to be a better way to do this rendering
 void GUI::Render( Shader* shader ){
 	shader->Bind();
-	shader->SetProjection( Screen->GetOrtho() );
+	shader->SetProjection( display->GetCameraOrtho() );
 
 	//We bind the theme image
 	glActiveTexture( GL_TEXTURE0 );
@@ -65,7 +68,7 @@ void GUI::Render( Shader* shader ){
 
 void GUI::RenderAnimation( Shader* shader ){
 	shader->Bind();
-	shader->SetProjection( Screen->GetOrtho() );
+	shader->SetProjection( display->GetCameraOrtho() );
 
 	//We bind the theme image
 	glActiveTexture( GL_TEXTURE0 );
@@ -87,10 +90,10 @@ void GUI::RenderAnimation( Shader* shader ){
 
 void GUI::RenderText( Shader* shader ){
 	shader->Bind();
-	shader->SetProjection( Screen->GetOrtho() );
-	shader->SetModelview( Screen->GetModelview() );
+	shader->SetProjection( display->GetCameraOrtho() );
 
 	glActiveTexture( GL_TEXTURE0 );
+	//TODO: fix this hard coding, so that only 1 font is loaded at a time
 	glBindTexture( GL_TEXTURE_2D, FontMgr_GetImage( 0 ) );
 
 	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
@@ -111,33 +114,22 @@ void GUI::RenderText( Shader* shader ){
 	shader->Unbind();
 }
 
-
+//TODO: Change this!! active window is not what it used to be!
 bool GUI::HitTest( float x, float y ){
-	//this is a quick excape.. most clicks SHOULD happen on the active window
-	if( ActiveWindow != NULL && ActiveWindow->HitTest( x, y, Screen->GetOrtho() ) ){
+	//this is a quick excape..
+	if( MouseOverWindow != NULL && MouseOverWindow->HitTest( x, y, display->GetCameraOrtho() ) ){
 		return true;
 	}
 
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
-		if( Windows[i]->HitTest( x, y, Screen->GetOrtho() ) ){
-			ActiveWindow = Windows[i];
-
-			if( IsRecevingInput != ActiveWindow->ReciveInput ){
-				IsRecevingInput = !IsRecevingInput;
-				input->SetProfile( IsRecevingInput ? "typing" : "default" );
-			}
-
+		if( Windows[i]->HitTest( x, y, display->GetCameraOrtho() ) ){
+			MouseOverWindow = Windows[i];
 			return true;
 		}
 	}
 
-	if( IsRecevingInput ){
-		input->SetProfile( "default" );
-		IsRecevingInput = false;
-	}
-
-	ActiveWindow = NULL;
+	MouseOverWindow = NULL;
 	return false;
 }
 
@@ -149,16 +141,19 @@ void GUI::Move( int x, int y ){
 		ActiveWindow->Move( x, y );
 }
 
-void GUI::HandelKeyPress( unsigned short unicode ){
+void GUI::OnKeyPress( unsigned short unicode ){
 	if( ActiveWindow != NULL )
 		ActiveWindow->OnKeyPress( unicode );
 }
 
-void GUI::HandelMousePress( unsigned short button ){
-	if( ActiveWindow != NULL )
-			ActiveWindow->OnMousePress( button );
+void GUI::OnMousePress( unsigned short button, int mx, int my ){
+	if( MouseOverWindow != NULL ){
+			ActiveWindow = MouseOverWindow;
+			ActiveWindow->OnMousePress( button, mx, my );
+	}
 }
 
+//TODO: allow for used made themes
 void GUI::CreateWindowConsole( float x, float y ){
 	Window* window = new Window;
 
@@ -189,8 +184,6 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->AddChild( close, 	WINDOW_TOP, 	false 	);
 	window->AddChild( textarea, WINDOW_TOP, 	false 	);
 	window->AddChild( inputarea,WINDOW_TOP,  	true	);
-
-	numIndices += 4 * 7;
 
 	//now we move it (and all its children) and make it build its vbo
 	window->Width = topbar->GetWidth();

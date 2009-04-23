@@ -15,8 +15,8 @@
 #ifndef TIMERPOOL_H
 #define TIMERPOLL_H
 
-#include <vector>
 #include "timer.h"
+#include <vector>
 
 struct timerpool_Data{
 	Timer* timer;

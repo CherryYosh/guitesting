@@ -15,17 +15,12 @@
 #ifndef GUI_H
 #define GUI_H
 
-#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>
-#include <GL/glext.h>
-
-#include <string>
 #include <vector>
 
 #include "system.h"
+
 #include "shader.h"
-#include "camera.h"
-#include "gui/controls.h"
+#include "gui/window.h"
 
 class GUI : public System {
 public:
@@ -38,18 +33,18 @@ public:
 
 	bool HitTest( float, float );
 	void Move( int, int );
-	void HandelKeyPress( unsigned short );
-	void HandelMousePress( unsigned short );
+
+	void OnKeyPress( unsigned short );
+	void OnMousePress( unsigned short, int, int );
 
 	void CreateWindowConsole( float, float );
 
 protected:
 	std::vector<Window*> Windows;
+	Window* MouseOverWindow;
 	Window* ActiveWindow;
-	unsigned int numIndices;
 private:
 	bool IsRecevingInput;
-	Camera* Screen;
 };
 
 #endif

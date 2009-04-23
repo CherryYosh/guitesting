@@ -27,7 +27,7 @@ GLuint Control::GUI_vbo;
 //OUT: none
 void Control_Init( const char* path ){
 	unsigned int size = ThemeMgr_LoadTheme( path );
-        ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
+        const ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
 
         for( unsigned int i = 0; i < size; i++ ){
                 //textrue data
@@ -105,7 +105,7 @@ bool Control::HitTest( int mouseX, int mouseY ){
 	return false;
 }
 
-void Control::OnMousePress( int button ){
+void Control::OnMousePress( unsigned short button, int mx, int my ){
 	//called by input
 }
 

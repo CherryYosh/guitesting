@@ -17,25 +17,22 @@
 
 #include <GL/gl.h>
 #include <IL/il.h>
-#include <IL/ilu.h>
-#include <IL/ilut.h>
-#include <stdio.h>
 
-bool InitImage();
+bool Image_Init();
 
-ILuint LoadNewImage( const char* filename, bool unbind );
-bool LoadImage( char* filename );
+ILuint Image_LoadImage( const char*, bool = false );
 
-ILuint GetImageHeight();
-ILuint GetImageWidth();
-ILubyte* GetImageData();
-ILuint GetImageFormat();
-ILuint GetBPP();
-ILuint GetBitsPerPixel();
+ILuint Image_GetImageHeight();
+ILuint Image_GetImageWidth();
+ILubyte* Image_GetImageData();
+ILuint Image_GetImageFormat();
+ILuint Image_GetBPP();
+ILuint Image_GetBitsPerPixel();
 
-inline GLuint GetGLTexture();
-GLuint GetGLTexture( const char* filename, unsigned int* width, unsigned int* height );
+inline GLuint Image_GetGLTexture();
+GLuint Image_GetGLTexture( const char* filename, unsigned int* width, unsigned int* height );
 
-void BindImage( ILuint id );
-void DeleteImage( ILuint id );
+void Image_BindImage( ILuint id );
+void Image_DeleteImage( ILuint id );
+
 #endif

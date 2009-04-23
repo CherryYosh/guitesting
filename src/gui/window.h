@@ -46,6 +46,7 @@ struct AnimationType{
 
 //enums used for window Depth
 enum{ WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM };
+
 //enums used for animation
 enum{ 	TRANSLATEX = 	BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATEXYZ =BITSHIFT2(0x07,0), \
 		ROTATEX = 		BITSHIFT(3), ROTATEY = 			BITSHIFT(4), ROTATEXY = 		BITSHIFT2(0x03, 3), ROTATEZ = 		BITSHIFT(5), ROTATEXYZ = 		BITSHIFT2(0x07,3), \
@@ -53,6 +54,7 @@ enum{ 	TRANSLATEX = 	BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATE
 		ROTATESCREENX = BITSHIFT(9), ROTATESCREENY = 	BITSHIFT(10), ROTATESCREENXY = 	BITSHIFT2(0x03, 9), ROTATESCREENZ = BITSHIFT(11), ROTATESCREENXYZ = BITSHIFT2(0x07,9), \
 		REDCHANNEL = 	BITSHIFT(12), GREENCHANNEL = 	BITSHIFT(13), RGCHANNEL = 		BITSHIFT2(0x03,12), BLUECHANNEL = 	BITSHIFT(14), RGBCHANNEL = 		BITSHIFT2(0x07,12), ALPHACHANNEL = BITSHIFT(15), RGBACHANNEL = BITSHIFT2(0x0F,12), \
 		ORIGIN = 		BITSHIFT(16) };
+
 //interpolation types
 enum{ LINEAR = 0 };
 
@@ -66,7 +68,7 @@ public:
 	virtual int Close();
 	virtual void UpdateVBO();
 	virtual void OnKeyPress( unsigned short );
-	virtual void OnMousePress( unsigned short );
+	virtual void OnMousePress( unsigned short, int, int );
 	virtual bool HitTest( float, float, float* );
 
 	virtual void Render( Shader* );

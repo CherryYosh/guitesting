@@ -48,7 +48,7 @@ public:
 
 	virtual bool HitTest( int, int );
 
-	virtual void OnMousePress( int );
+	virtual void OnMousePress( unsigned short, int, int );
 	virtual void OnMouseRelease( int );
 	virtual void OnMouseEnter();
 	virtual void OnMouseLeave();

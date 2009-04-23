@@ -15,8 +15,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "defines.h"
-
 class Display;
 class Input;
 
@@ -33,7 +31,7 @@ public:
 protected:
 private:
 	bool running;
-	
+
 	Input *input;
 	Display *display;
 };

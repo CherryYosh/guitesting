@@ -24,10 +24,10 @@
 
 using namespace std;
 
-ThemeMgr_ThemeDataT theme; //needs to be visible to the gui
+ThemeMgr_ThemeDataT theme;
 
 //============== theme data is store like
-// image:default.png 
+// image:default.png
 // close:toprightX, toprightY, width, height, more!
 
 //MUST BE CALLED AFTER DEVIL_INIT
@@ -37,7 +37,6 @@ unsigned int ThemeMgr_LoadTheme( const char* themename ){
 	size_t  pos; //position in the search
 	size_t pos2; //the second pos
 	unsigned int count = 0;
-
 
 	ifstream file;
 	file.open( themename );
@@ -54,13 +53,13 @@ unsigned int ThemeMgr_LoadTheme( const char* themename ){
 
 		if( pos == string::npos )
 			return count;
-		
+
 		temp = line.substr( 0, pos ); //get from start to pos
-		
+
 		if( temp.compare( "image" ) == 0 ){
 			temp = line.substr( pos+1 ); //now we get the rest for the image name, add 1 to remove the :
 			temp.insert( 0, "themes/" ); //insert the code path, change to soft code??
-			theme.imageID = GetGLTexture( temp.c_str(), &theme.width, &theme.height );	
+			theme.imageID = Image_GetGLTexture( temp.c_str(), &theme.width, &theme.height );
 			continue;
 		} else { //the data is pretty simple and uniform right now..
 			ThemeMgr_ImageDataT* data = new ThemeMgr_ImageDataT;
@@ -75,24 +74,24 @@ unsigned int ThemeMgr_LoadTheme( const char* themename ){
 			pos = line.find( ",", pos2+1 );
 			temp = line.substr( pos2+1, pos - pos2 - 1 );
 			data->y = atoi( temp.c_str() );
-			
+
 			//get x2
 			pos2 = line.find( ",", pos+1 ); //find the first ','
 			temp = line.substr( pos+1, pos2 - pos - 1 ); //remove the : and get the string till the ,
 			data->x2 = atoi( temp.c_str() );
-			
+
 			//get y2
 			pos = line.find( ",", pos2+1 );
 			temp = line.substr( pos2+1, pos - pos2 - 1 );
 			data->y2 = atoi( temp.c_str() );
-			
+
 			theme.data.push_back( data );
-			
+
 			//keep count so we can get the size of the bufferes needed
 			count++;
 		}
 	}
-	
+
 	return count;
 }
 
@@ -100,7 +99,6 @@ unsigned int ThemeMgr_GetImage(){
 	return theme.imageID;
 }
 
-//WARNING!!!!! this gives you a pointer to the data!
-ThemeMgr_ThemeDataT* ThemeMgr_GetTheme(){
+const ThemeMgr_ThemeDataT* ThemeMgr_GetTheme(){
 	return &theme;
 }

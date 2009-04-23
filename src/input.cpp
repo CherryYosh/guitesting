@@ -12,23 +12,46 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
+
 /*   James Stevenson 09/27/08
  *******************************************************************
- * A full function, !threaded, SDL input class including mouse support
- * A action is bound before a key is bound to that action, including 
+ * A full function, SDL input class including mouse support
+ * A action is bound before a key is bound to that action, including
  * a optional mod key and default actions if the key is not bound.
  * multipul keys may be bound to a single action without fear
  * key may be rebound without need to restart, actions however cant
  * be changed without modifying the source
  ******************************************************************
- * TODO: add unicode controler support, along with support for the 
+ * TODO: add unicode controler support, along with support for the
  * odditys found in some key boards / OS's (no ctrls in OSX, ) also
- * support for additional mouse buttons.. 
+ * support for additional mouse buttons..
  */
 
 #include "input.h"
+
 #include "engine.h"
 #include "display.h"
+
+struct Input_ActionDataT{
+	std::string Name; //the name of the action (IE: MOVEUP)
+	bool UseOnce; //only handle once per press?
+	bool Handled; //has it been handled yet?
+	short Count; //number of keys being pressed
+	boost::function<void()> Function;
+};
+
+struct Input_KeyDataT{
+	SDLKey Key; //the key
+	SDLMod Mod;
+	Input_ActionDataT *Action;
+};
+
+struct Input_ProfileDataT{
+	std::string Name;
+	std::vector<Input_ActionDataT*> Actions;
+	std::vector<Input_KeyDataT*> Keys;
+	boost::function<void (SDL_keysym)> DefaultFunction;
+};
 
 Input::Input() : System(){
 	input = this;
@@ -61,14 +84,14 @@ void Input::Start(){
 	SDL_Event keyevent;
 
 	ProcessInput();
-		
+
 	while( SDL_PollEvent( &keyevent ) ){
 		switch( keyevent.type ){
 			case SDL_KEYDOWN:
-				ProcessKey( true, keyevent.key.keysym );//, keyevent.key.keysym.mod );
+				ProcessKey( true, keyevent.key.keysym );
 				break;
 			case SDL_KEYUP:
-				ProcessKey( false, keyevent.key.keysym );//.sym, keyevent.key.keysym.mod );
+				ProcessKey( false, keyevent.key.keysym );
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
@@ -93,11 +116,10 @@ void Input::Start(){
 #endif
 				break;
 		}
-	}	
+	}
 }
 
-//binds the action to a classid and a function
-//NOTE: cannot be rebound, and there is no check for multipul calls
+
 void Input::BindAction( std::string profile, std::string action, bool useOnce, boost::function<void()> function){
 	Input_ActionDataT *newAction = new Input_ActionDataT;
 
@@ -141,31 +163,34 @@ void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string ac
 	newKey->Key = key;
 	newKey->Mod = mod;
 	newKey->Action = a;
-	
+
 	prof->Keys.push_back( newKey );
 }
 
-void Input::ProcessKey( bool pressed, SDL_keysym sym ){//SDLKey key, SDLMod mod ){
+void Input::ProcessKey( bool pressed, SDL_keysym sym ){
 	if( ActiveProfile == NULL ){
 		return;
 	}
 
 	std::vector<Input_KeyDataT*> keys = ActiveProfile->Keys;
+	Input_ActionDataT* action;
 
 	size_t size = keys.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		//				this allows use to have caps / numlock on while typeing
 		if( keys[i]->Key == sym.sym && ( sym.mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
+			action = keys[i]->Action;
+
 			if( pressed )
-				keys[i]->Action->Count++;
+				action->Count++;
 			else{
-				if( keys[i]->Action->Count > 0 )
-					keys[i]->Action->Count--;
+				if( action->Count > 0 ) //wtf happens to make it == 0 when a key is still down??
+					action->Count--;
 				//reset the handeld flag if no keys are down
-				else if( keys[i]->Action->UseOnce )
-					keys[i]->Action->Handled = false;
+				if( action->Count == 0 && action->UseOnce )
+					action->Handled = false;
 			}
-			//auidios.. 
+			//auidios..
 			return;
 		}
 	}
@@ -183,6 +208,7 @@ void Input::ProcessInput(){
 	size_t size = actions.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		action = actions[i];
+
 		if( action->Count > 0 && !action->Handled ){
 			action->Function();
 
@@ -203,6 +229,7 @@ Input_ProfileDataT* Input::GetProfile( std::string name ){
 
 bool Input::SetProfile( std::string name ){
 	Input_ProfileDataT* profile = GetProfile( name );
+
 	if( profile != NULL ){
 		ActiveProfile = profile;
 		return true;

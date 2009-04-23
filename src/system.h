@@ -19,18 +19,16 @@
 #include <stdio.h>
 #endif
 
-#include "defines.h"
-
 class Input;
 class Display;
 
 class System{
 public:
-	System(); 
+	System();
 	virtual ~System();
 
 	virtual void Start();
-	
+
 	static Input* input;
 	static Display* display;
 protected:
