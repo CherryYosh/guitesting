@@ -26,6 +26,7 @@
 #include "window.h"
 
 #include "controls.h"
+#include "../gui.h"
 #include <SDL/SDL.h>
 
 struct WINDOW_VBOVertex{
@@ -45,7 +46,7 @@ struct AnimationType{
 	nv::vec4<float> data;
 };
 
-Window::Window(){
+Window::Window( GUI* p ){
 	VertexPosition = 0;
 	VertexLength = 0;
 	VertexPositionIsSet = false;
@@ -54,6 +55,9 @@ Window::Window(){
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
+	Parent = p;
+
+	Animate( ROTATEZ, 175.0, 0, 1000, LINEAR );
 }
 
 Window::~Window(){
@@ -96,7 +100,7 @@ void Window::Render( Shader* shader ){
 	size_t size = Children.size();
 	for( unsigned int i = 0; i < size; i++ )
 		if( !Children[i]->IsAnimated() )
-				glDrawArrays( GL_QUADS, 4*i, 4 );
+				glDrawArrays( GL_QUADS, i*4, 4 );
 }
 
 void Window::RenderAnimation( Shader* shader ){

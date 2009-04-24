@@ -38,7 +38,7 @@ public:
 	void DrawFPS(unsigned int*);
 
 	void Render();
-	void Resize( unsigned int width, unsigned int height );
+	void Resize( unsigned int, unsigned int );
 
 	void OnMouseButtonChange();
 	void OnMouseMotion();
@@ -51,7 +51,6 @@ private:
 	void InitTimers();
 
 	Camera *camera;
-	Timer *FPSTimer;
 	timerpool timers;
 	GUI *gui;
 };

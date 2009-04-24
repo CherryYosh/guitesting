@@ -58,7 +58,7 @@ void Engine::Run(){
 		//TODO: REMOVE THIS!!!
 		//NOTE: this is a hack to fix a trailing bug!
 #ifdef _DEBUG_
-		SDL_Delay( 10 );
+//		SDL_Delay( 10 );
 #endif
 	}
 }

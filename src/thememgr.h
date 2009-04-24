@@ -33,8 +33,8 @@ struct ThemeMgr_ThemeDataT{
 	unsigned int imageID;
 	unsigned int width;
 	unsigned int height;
-	std::string Name;
 
+	std::string Name;
 	std::vector< ThemeMgr_ImageDataT* > data;
 };
 

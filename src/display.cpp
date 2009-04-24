@@ -117,16 +117,14 @@ Display::Display() : System(){
 
 Display::~Display(){
 	delete camera;
-	delete FPSTimer;
 	delete gui;
 	Mouse_Die();
 	display = NULL;
 }
 
 void Display::InitTimers(){
-	FPSTimer = new Timer();
+	Timer* FPSTimer = new Timer( 5000, true );
 	FPSTimer->SetFunction( boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr() ) );
-	FPSTimer->SetRuntime( 5000 );
 	FPSTimer->Start();
 
 	timers.AddTimer( FPSTimer, true, false );
@@ -134,7 +132,6 @@ void Display::InitTimers(){
 
 void Display::DrawFPS(unsigned int* data){
 	printf( "FPS: %f\n", *data/5.0 );
-	FPSTimer->Start();
 }
 
 void Display::Start(){

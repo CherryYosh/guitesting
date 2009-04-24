@@ -31,6 +31,7 @@
 class Timer{
 public:
 	Timer();
+	Timer( unsigned int, bool = false );
 	~Timer();
 
 	bool Start();
@@ -60,6 +61,7 @@ private:
 	unsigned int Steps;
 
 	bool Running;
+	bool Contious;
 
 	boost::function<void()> Function;
 };

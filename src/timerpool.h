@@ -29,7 +29,7 @@ public:
 	timerpool();
 	~timerpool();
 
-	void AddTimer( Timer*, bool, bool );
+	void AddTimer( Timer*, bool = false, bool = false);
 	void Update();
 private:
 	std::vector< timerpool_Data > timers;

@@ -15,12 +15,17 @@
 #include "timer.h"
 
 Timer::Timer(){
+	Timer( 1000 );
+}
+
+Timer::Timer( unsigned int runtime, bool cont ){
 	Running = false;
 	CurTicks = 0;
 	StopTicks = 0;
-	RunTime = 1000;
+	RunTime = runtime;
 	Ticks = 0;
 	Steps = 0;
+	Contious = cont;
 }
 
 Timer::~Timer(){
@@ -63,8 +68,16 @@ void Timer::Update(){
 	CurTicks = SDL_GetTicks();
 
 	if( CurTicks >= StopTicks ){
-		Running = false; //NOTE: This has to be above RunCommand, so the command can correctly restart if it needs to
+		if( !Contious ){
+			Running = false;
+		} else {
+			StopTicks += RunTime;
+		}
+
 		RunCommand();
+
+		Ticks = 0;
+		Steps = 0;
 	}
 }
 
@@ -75,8 +88,16 @@ void Timer::Update( unsigned int ticks ){
 	CurTicks = ticks;
 
 	if( CurTicks >= StopTicks ){
-		Running = false; //NOTE: This has to be above RunCommand, so the command can correctly restart if it needs to
+		if( !Contious ){
+			Running = false;
+		} else {
+			StopTicks += RunTime;
+		}
+
 		RunCommand();
+
+		Ticks = 0;
+		Steps = 0;
 	}
 }
 

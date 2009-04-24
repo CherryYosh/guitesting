@@ -1,12 +1,6 @@
 //James Brandon Stevenson
-//
-//
-//
-//
-#version 130
 
-//this is needed to fix ATI bugs
-precision mediump float;
+#version 130
 
 uniform mat4 projection;
 uniform mat4 modelview;

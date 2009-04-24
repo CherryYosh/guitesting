@@ -27,6 +27,7 @@
 
 struct AnimationType;
 class Control;
+class GUI;
 
 //enums used for window Depth
 enum{ WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM };
@@ -44,7 +45,7 @@ enum{ LINEAR = 0 };
 
 class Window {
 public:
-	Window();
+	Window( GUI* );
 	~Window();
 
 	virtual void AddChild( Control*, int, bool = true );
@@ -83,6 +84,7 @@ private:
 	bool VertexPositionIsSet;
 	Control* MouseOverChild;
 	Control* ActiveChild;
+	GUI* Parent;
 
 	nv::matrix4<float> Modelview;
 	nv::vec3<float> AnimationOrigin;

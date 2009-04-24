@@ -54,7 +54,7 @@ void Control_Init( const char* path ){
         }
 
         //time to gen the VBO's data
-	glGenBuffers( 1, &Control::GUI_vbo );
+        glGenBuffers( 1, &Control::GUI_vbo );
         glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
         glBufferData( GL_ARRAY_BUFFER, 0, 0, GL_STREAM_DRAW );
         glBindBuffer( GL_ARRAY_BUFFER, 0 );

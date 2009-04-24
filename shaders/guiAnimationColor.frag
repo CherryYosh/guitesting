@@ -1,8 +1,7 @@
 #version 130
 
 //this reall does nothing, according to the API
-//need for ES compatiblity, and to fix a odd (and annoyign) bug in ATI
-precision mediump float;
+precision highp float;
 
 uniform sampler2D tex0;
 uniform vec4 color;

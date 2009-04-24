@@ -59,6 +59,7 @@ void GUI::Render( Shader* shader ){
 		Windows[i]->StepAnimation();
 		Windows[i]->Render( shader );
 	}
+
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
 
@@ -121,10 +122,14 @@ bool GUI::HitTest( float x, float y ){
 		return true;
 	}
 
+	//if( MouseOverWindow != NULL )
+	//	MouseOverWindow->OnMouseLeave();
+
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		if( Windows[i]->HitTest( x, y, display->GetCameraOrtho() ) ){
 			MouseOverWindow = Windows[i];
+			//MouseOverWindow->OnMouseEnter();
 			return true;
 		}
 	}
@@ -155,7 +160,7 @@ void GUI::OnMousePress( unsigned short button, int mx, int my ){
 
 //TODO: allow for used made themes
 void GUI::CreateWindowConsole( float x, float y ){
-	Window* window = new Window;
+	Window* window = new Window(this);
 
 	Button* close = new Button( window, "close", 0, 0 );
 	Rule* topbar = 	new Rule( window, "topbar", 0, 0 );
