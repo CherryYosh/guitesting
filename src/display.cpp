@@ -26,19 +26,11 @@
 #include "fontmgr.h"
 
 //TODO: clean up?
-Shader guiShader;
 Shader textShader;
-Shader guiAnimationColorShader;
+Shader guiAnimationShader;
 
 //TODO: clean up??
 void LoadShaders(){
-	guiShader.Load( "guiShader" );
-	guiShader.GetUniformLoc( 0, "projection" );
-	guiShader.GetUniformLoc( 1, "modelview" );
-	guiShader.GetUniformLoc( 2, "tex0" );
-	guiShader.GetAttributeLoc( 0, "vertex" );
-	guiShader.GetAttributeLoc( 1, "tcoord" );
-
 	textShader.Load( "textShader" );
 	textShader.GetUniformLoc( 0, "projection" );
 	textShader.GetUniformLoc( 1, "modelview" );
@@ -47,13 +39,13 @@ void LoadShaders(){
 	textShader.GetAttributeLoc( 1, "tcoord" );
 	textShader.GetAttributeLoc( 2, "tcolor" );
 
-	guiAnimationColorShader.Load( "guiAnimationColor" );
-	guiAnimationColorShader.GetUniformLoc( 0, "projection" );
-	guiAnimationColorShader.GetUniformLoc( 1, "modelview" );
-	guiAnimationColorShader.GetUniformLoc( 2, "tex0" );
-	guiAnimationColorShader.GetUniformLoc( 3, "color" );
-	guiAnimationColorShader.GetAttributeLoc( 0, "vertex" );
-	guiAnimationColorShader.GetAttributeLoc( 1, "tcoord" );
+	guiAnimationShader.Load( "guiAnimation" );
+	guiAnimationShader.GetUniformLoc( 0, "projection" );
+	guiAnimationShader.GetUniformLoc( 1, "modelview" );
+	guiAnimationShader.GetUniformLoc( 2, "tex0" );
+	guiAnimationShader.GetAttributeLoc( 0, "vertex" );
+	guiAnimationShader.GetAttributeLoc( 1, "tcoord" );
+	guiAnimationShader.GetAttributeLoc( 2, "tcolor" );
 }
 
 void SetupSDL(){
@@ -131,7 +123,7 @@ void Display::InitTimers(){
 }
 
 void Display::DrawFPS(unsigned int* data){
-	printf( "FPS: %f\n", *data/5.0 );
+	printf( "FPS: %f\n", (*data) * 0.2 );
 }
 
 void Display::Start(){
@@ -144,9 +136,8 @@ void Display::Render(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//here we draw the gui
-	gui->Render( &guiShader );
-	gui->RenderAnimation( &guiAnimationColorShader );
-	gui->RenderText( &textShader );
+	gui->Render( &guiAnimationShader );
+	//gui->RenderText( &textShader );
 
 	SDL_GL_SwapBuffers();
 }

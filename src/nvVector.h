@@ -488,12 +488,12 @@ public:
 
     // Default/scalar constructor
     vec4(const T & t = T()) {
-        for(int i = 0; i < size(); i++) _array[i] = t;
+        for(int i = 0; i < 4; i++) _array[i] = t;
     }
 
     // Construct from array
     vec4(const T * tp) {
-        for(int i = 0; i < size(); i++) _array[i] = tp[i];
+        for(int i = 0; i < 4; i++) _array[i] = tp[i];
     }
 
     // Construct from explicit values

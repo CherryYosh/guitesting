@@ -28,7 +28,6 @@ public:
 	~GUI();
 
 	void Render( Shader* );
-	void RenderAnimation( Shader* );
 	void RenderText( Shader* );
 
 	bool HitTest( float, float );

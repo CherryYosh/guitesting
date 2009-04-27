@@ -49,10 +49,10 @@ void Button::OnMousePress( int button ){
 
 void Button::OnMouseEnter(){
 	Parent->Animate( RGBACHANNEL, nv::vec4<float>(1.0, 1.0, 0.0, 0.0), 0, 500, LINEAR, this );
-	isAnimated = true;
 }
 
 void Button::OnMouseLeave(){
 	SetColor( 0, 0, 0, 0 );
-	isAnimated = false;
+	Parent->UpdateControl( this );
+	Parent->RemoveAnimation( this );
 }

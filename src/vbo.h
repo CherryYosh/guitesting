@@ -27,24 +27,28 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
-enum{ VBO_CREATE, VBO_REPLACE, VBO_INSERT };
-
-class vbo {
+class VBO {
 public:
-	vbo();
-	vbo( unsigned int, void* );
-	vbo(const vbo& orig);
-	virtual ~vbo();
+	VBO( GLenum = GL_STREAM_DRAW );
+	VBO( unsigned int, void*,GLenum = GL_STREAM_DRAW  );
+	virtual ~VBO();
 
 	void Bind();
 	void Unbind();
 
-	bool SetData( unsigned int, unsigned int, void*, unsigned int = VBO_REPLACE );
+	bool InitData( unsigned int, void* );
+	bool SetData( unsigned int, unsigned int, void* );
+	bool AddData( unsigned int, void*, unsigned int* = NULL );
+	bool InsertData( unsigned int, unsigned int, unsigned int, void * );
 
-	GLuint GetID();
+
+	const GLuint GetID();
+	const unsigned int GetSize();
 private:
 	GLuint id;
-	bool _isBound;
+	GLenum type;
+	bool isBound;
+	unsigned int size;
 };
 
 #endif	/* _VBO_H */

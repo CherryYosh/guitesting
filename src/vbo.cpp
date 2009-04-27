@@ -25,60 +25,125 @@
 #include <iostream>
 #include <cstring>
 
-vbo::vbo() {
-    _isBound = false;
-    glGenBuffers( 1, &id );
+VBO::VBO( GLenum t ) {
+	isBound = false;
+        size = 0;
+	type = t;
+	glGenBuffers( 1, &id );
 }
 
-vbo::vbo(unsigned int length, void* data ) {
-    _isBound = false;
-    glGenBuffers( 1, &id );
-
-    Bind();
-	SetData( 0, length, data, VBO_CREATE );
-    Unbind();
+VBO::VBO(unsigned int length, void* data, GLenum t ) {
+	isBound = false;
+        size = length;
+	type = t;
+	glGenBuffers( 1, &id );
+	
+	if( length != 0 ){
+	    Bind();
+		InitData( length, data );
+	    Unbind();
+	}
 }
 
-vbo::vbo(const vbo& orig){
+VBO::~VBO(){
+	glDeleteBuffers( 1, &id );
 }
 
-vbo::~vbo(){
+void VBO::Bind(){
+	glBindBuffer( GL_ARRAY_BUFFER, id );
+	isBound = true;
 }
 
-void vbo::Bind(){
-    glBindBuffer( GL_ARRAY_BUFFER, id );
-    _isBound = true;
+void VBO::Unbind(){
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	isBound = false;
 }
 
-void vbo::Unbind(){
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    _isBound = false;
+/* Sets the vbo data, only used if not set yet */
+bool VBO::InitData( unsigned int length, void* data ){	
+	glBufferData( GL_ARRAY_BUFFER, length, data, type );
+
+	size = length;
+	return true;
 }
 
-bool vbo::SetData(unsigned int start, unsigned int length, void* data, unsigned int type ){
-    if( !_isBound )
+/* Sets the existing portions of the vbo to data */
+bool VBO::SetData(unsigned int start, unsigned int length, void* data ){
+    if( !isBound )
 	    return false;
 
-    if( type == VBO_REPLACE ){
-	void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+    void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
 
-	if( ptr != NULL ){
-		memcpy( ptr, data, length );
+    if( ptr != NULL ){
+	    memcpy( ptr, data, length );
 
-		glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0,  length );
-		glUnmapBuffer( GL_ARRAY_BUFFER );
-	} else {
-		printf( "Error: VBO %i could not update! %i\n", id, glGetError() );
-		return false;
-	}
-    } else if( type == VBO_INSERT ){
-	return false;
-    } else if( type == VBO_CREATE ){
-	glBufferData( GL_ARRAY_BUFFER, length, data, GL_STREAM_DRAW );
-	return true;
+	    glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0,  length );
+	    glUnmapBuffer( GL_ARRAY_BUFFER );
+    } else {
+	    printf( "Error: VBO %i could not set data! %i\n", id, glGetError() );
+	    return false;
     }
 
     return true;
 }
 
-GLuint vbo::GetID(){ return id; }
+/* Adds length data to the end of the vbo, increasing the size by length after. */
+bool VBO::AddData( unsigned int length, void* data, unsigned int* position ){
+	if( !isBound )
+		return false;
+	
+	if( position != NULL )
+		*position = size;
+
+	if( size == 0 ){
+		return InitData( length, data );
+	}
+
+	char* tdata = new char[ size + length ];
+	void* ptr =  glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+
+	if( ptr != NULL ){
+		memcpy( tdata, ptr, size );
+		memcpy( &tdata[size], data, length );
+
+		glUnmapBuffer( GL_ARRAY_BUFFER );
+		glBufferData( GL_ARRAY_BUFFER, size + length, tdata, type );
+
+		size += length;
+	} else {
+	    printf( "Error: VBO %i could not add data! %i\n", id, glGetError() );
+	    return false;
+	}
+
+	return true;
+}
+
+/* Inserts data at a given position, with changing lengths. */
+bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int newLength, void* data ){
+	if( !isBound )
+		return false;
+
+	int change = newLength - oldLength;
+	void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+
+	if( ptr != NULL ){
+	    char* tdata = new char[size + change];
+
+	    memcpy( tdata, ptr, start );
+	    memcpy( &tdata[start], data, newLength );
+	    memcpy( &tdata[ start + newLength ], ptr, size - ( start + oldLength ));
+
+	    glUnmapBuffer( GL_ARRAY_BUFFER );
+	    glBufferData( GL_ARRAY_BUFFER, size + change, tdata, type );
+
+	    size += change;
+	} else {
+	    printf( "Error: VBO %i could not insert data! %i\n", id, glGetError() );
+	    return false;
+	}
+
+	return true;
+}
+
+const GLuint VBO::GetID(){ return id; }
+const unsigned int VBO::GetSize(){ return size; }

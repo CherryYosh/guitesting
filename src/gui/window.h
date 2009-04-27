@@ -48,33 +48,34 @@ public:
 	Window( GUI* );
 	~Window();
 
-	virtual void AddChild( Control*, int, bool = true );
-	virtual void Move( float, float );
-	virtual int Close();
-	virtual void UpdateVBO();
-	virtual void OnKeyPress( unsigned short );
-	virtual void OnMousePress( unsigned short, int, int );
-	virtual bool HitTest( float, float, float* );
+	void AddChild( Control*, int, bool = true );
+	void Move( float, float );
+	int Close();
+	void UpdateControl( Control* );
+	void UpdateVBO();
+	void OnKeyPress( unsigned short );
+	void OnMousePress( unsigned short, int, int );
+	bool HitTest( float, float, float* );
 
-	virtual void Render( Shader* );
-	virtual void RenderAnimation( Shader* );
-	virtual void RenderText( int, int, int );
+	void Render( Shader* );
+	void RenderText( int, int, int );
 
-	virtual void Animate( int, float, unsigned int, unsigned int, int, Control* = NULL );
-	virtual void Animate( int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL );
-	virtual void Animate( int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL );
-	virtual void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL );
+	void Animate( int, float, unsigned int, unsigned int, int, Control* = NULL );
+	void Animate( int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL );
+	void Animate( int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL );
+	void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL );
 
-	virtual void StepAnimation();
+	void StepAnimation();
+	void RemoveAnimation( Control* );
 
-	virtual void Unproject( float, float, float*, float*, float*);
+	void Unproject( float, float, float*, float*, float*);
 
 
 	float Width, Height;
 	bool ReciveInput;
 protected:
 private:
-	virtual void RebuildVBO();
+	void RebuildVBO();
 	float x, y;
 
 	std::vector<Control*> Children;

@@ -37,13 +37,13 @@ GUI::GUI() : System(){
 
 GUI::~GUI(){
 	Windows.clear();
-	delete MouseOverWindow;
-	delete ActiveWindow;
 }
 
 
 //TODO: there has to be a better way to do this rendering
 void GUI::Render( Shader* shader ){
+	Windows[0]->StepAnimation();
+
 	shader->Bind();
 	shader->SetProjection( display->GetCameraOrtho() );
 
@@ -51,41 +51,20 @@ void GUI::Render( Shader* shader ){
 	glActiveTexture( GL_TEXTURE0 );
 	glBindTexture( GL_TEXTURE_2D, ThemeMgr_GetImage() );
 
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+	Control::GUI_vbo->Bind();
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
+	glEnableVertexAttribArray(shader->attribute[2]);
 
 	for( unsigned int i = 0; i < Windows.size(); i++ ){
-		Windows[i]->StepAnimation();
 		Windows[i]->Render( shader );
 	}
 
 	glDisableVertexAttribArray( shader->attribute[0]);
 	glDisableVertexAttribArray( shader->attribute[1]);
+	glDisableVertexAttribArray( shader->attribute[2]);
 
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
-	shader->Unbind();
-}
-
-void GUI::RenderAnimation( Shader* shader ){
-	shader->Bind();
-	shader->SetProjection( display->GetCameraOrtho() );
-
-	//We bind the theme image
-	glActiveTexture( GL_TEXTURE0 );
-	glBindTexture( GL_TEXTURE_2D, ThemeMgr_GetImage() );
-
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	glEnableVertexAttribArray(shader->attribute[0]);
-	glEnableVertexAttribArray(shader->attribute[1]);
-
-	for( unsigned int i = 0; i < Windows.size(); i++ ){
-		Windows[i]->RenderAnimation( shader );
-	}
-	glDisableVertexAttribArray( shader->attribute[0]);
-	glDisableVertexAttribArray( shader->attribute[1]);
-
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	Control::GUI_vbo->Unbind();
 	shader->Unbind();
 }
 
@@ -97,7 +76,7 @@ void GUI::RenderText( Shader* shader ){
 	//TODO: fix this hard coding, so that only 1 font is loaded at a time
 	glBindTexture( GL_TEXTURE_2D, FontMgr_GetImage( 0 ) );
 
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+	Control::GUI_vbo->Bind();
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
@@ -118,18 +97,17 @@ void GUI::RenderText( Shader* shader ){
 //TODO: Change this!! active window is not what it used to be!
 bool GUI::HitTest( float x, float y ){
 	//this is a quick excape..
-	if( MouseOverWindow != NULL && MouseOverWindow->HitTest( x, y, display->GetCameraOrtho() ) ){
-		return true;
+	if( MouseOverWindow != NULL ) { 
+		if( MouseOverWindow->HitTest( x, y, display->GetCameraOrtho() ) ) {
+		    return true;
+		}
 	}
-
-	//if( MouseOverWindow != NULL )
-	//	MouseOverWindow->OnMouseLeave();
 
 	size_t size = Windows.size();
 	for( unsigned int i = 0; i < size; i++ ){
 		if( Windows[i]->HitTest( x, y, display->GetCameraOrtho() ) ){
 			MouseOverWindow = Windows[i];
-			//MouseOverWindow->OnMouseEnter();
+//			MouseOverWindow->OnMouseEnter();
 			return true;
 		}
 	}
@@ -196,6 +174,6 @@ void GUI::CreateWindowConsole( float x, float y ){
 	window->Move( x, y );
 	Windows.push_back( window );
 
-	textarea->AddStringsToVBO();
-	inputarea->AddStringsToVBO();
+	//textarea->AddStringsToVBO();
+	//inputarea->AddStringsToVBO();
 }

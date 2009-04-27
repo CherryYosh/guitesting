@@ -18,6 +18,7 @@
 #define CTRL_INPUT (1) << 0 //does the control allow input
 
 #include "../nvVector.h"
+#include "../vbo.h"
 
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -69,22 +70,18 @@ public:
 	virtual float GetHeight();
 	virtual float GetDepth();
 
-	virtual bool IsAnimated();
-	virtual void SetAnimated( bool );
-
 	unsigned int VertexOffset;
 
 	float x, y;
 	float s, t, s2, t2;
 
-	static GLuint GUI_vbo;
+	static VBO* GUI_vbo;
 protected:
 	float Depth;
 	float Width, Height;
 	unsigned short Attributes;
 	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
 	Window* Parent;
-	bool isAnimated;
 private:
 	void GetControlData();
 

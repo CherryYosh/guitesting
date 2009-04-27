@@ -172,7 +172,8 @@ void Label::AppendString( unsigned int lineNum, unsigned int position, FontStrin
 	UpdateVBO();
 }
 void Label::AddStringsToVBO(){
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
+/*
+	//glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
 	GLint size; glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
 
 	char* ptr = (char*)glMapBuffer( GL_ARRAY_BUFFER, GL_READ_ONLY );
@@ -215,9 +216,11 @@ void Label::AddStringsToVBO(){
 	}
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+ */
 }
 
 void Label::ReplaceCharVBO( FontChar c ){
+/*
 	LABEL_VBOVertex verts[4];
 	float vx, vx2, vy, vy2;
 	float vs, vs2, vt, vt2;
@@ -288,9 +291,11 @@ void Label::ReplaceCharVBO( FontChar c ){
 	}
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+ */
 }
 
 void Label::RebuildVBOLine( FontString s ){
+/*
 	unsigned int slot = 0;
 	float vx,vx2,vy,vy2;    //vertex data, prevent redundant cals
 	float vs,vs2,vt,vt2;
@@ -374,9 +379,11 @@ void Label::RebuildVBOLine( FontString s ){
 
         glBindBuffer( GL_ARRAY_BUFFER, 0 );
         delete [] data;
-}
+*/
+ }
 
 void Label::UpdateVBO(){
+/*
 	if( TextLength == 0 || TextPosition == 0 || NumLines == 0 ){
 		return;
 	}
@@ -487,6 +494,7 @@ void Label::UpdateVBO(){
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	delete [] data;
+ */
 }
 
 void Label::onMousePress( int button ){

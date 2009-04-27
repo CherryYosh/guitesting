@@ -54,12 +54,6 @@ void Engine::Run(){
 	while ( running ){
 		display->Start();
 		input->Start();
-
-		//TODO: REMOVE THIS!!!
-		//NOTE: this is a hack to fix a trailing bug!
-#ifdef _DEBUG_
-//		SDL_Delay( 10 );
-#endif
 	}
 }
 

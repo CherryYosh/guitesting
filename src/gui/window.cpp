@@ -32,7 +32,7 @@
 struct WINDOW_VBOVertex{
 	float x, y;
 	float s, t;
-	float spacer[4]; //keep it aligned in 32 bits
+	float r,g,b,a;
 };
 
 struct AnimationType{
@@ -82,10 +82,7 @@ void Window::Move( float xChange, float yChange ){
 }
 
 int Window::Close(){
-	/*TODO
-	 * Allow saving, so upon reopening the buttons do not need to be reloaded
-	 * will need a GC to truly delete the window after x seconds..
-	 */
+	/*TODO*/
 	//delete this;
 	return 0;
 }
@@ -95,26 +92,10 @@ void Window::Render( Shader* shader ){
 	shader->SetModelview( Modelview._array );
 	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
 	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
+	glVertexAttribPointer( shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(4 * sizeof(float)) );
 
-	//this draws our whole table! wooo :P
 	size_t size = Children.size();
-	for( unsigned int i = 0; i < size; i++ )
-		if( !Children[i]->IsAnimated() )
-				glDrawArrays( GL_QUADS, i*4, 4 );
-}
-
-void Window::RenderAnimation( Shader* shader ){
-	shader->SetModelview( Modelview._array );
-	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
-
-	//this draws our whole table! wooo :P
-	size_t size = Children.size();
-	for( unsigned int i = 0; i < size; i++ )
-		if( Children[i]->IsAnimated() ){
-				glUniform4fv( shader->uniform[3], 1, Children[i]->GetColorv() );
-				glDrawArrays( GL_QUADS, 4*i, 4 );
-		}
+	glDrawArrays( GL_QUADS, 0, size*4 );
 }
 
 void Window::RenderText( int v, int t, int c ){
@@ -130,20 +111,19 @@ bool Window::HitTest( float mx, float my, float* p ){
 	Unproject( mx, my, p, &mx, &my );
 
 	if( mx < Width && my < Height ){
-
-			if( MouseOverChild != NULL && MouseOverChild->HitTest( mx, my ) ){
-				return true;
-			}
-
-			if( MouseOverChild != NULL )
-				MouseOverChild->OnMouseLeave();
+		if( MouseOverChild != NULL ){
+			if( MouseOverChild->HitTest( mx, my ) )
+			    return true;
+			else
+			    MouseOverChild->OnMouseLeave();
+		}
 
 		//now we test the controls
 		size_t size = Children.size();
 		//TODO: Fix this hack, used to make sure the top item is found first
 		//assumes the top items where added last
 		for( unsigned int i = size-1; i > 0; i-- ){
-			if(Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)){
+			if( Children[i] != MouseOverChild && Children[i]->HitTest(mx, my) ){
 				MouseOverChild = Children[i];
 				MouseOverChild->OnMouseEnter();
 				return true;
@@ -153,11 +133,73 @@ bool Window::HitTest( float mx, float my, float* p ){
 		return true;
 	}
 
-	if( MouseOverChild != NULL )
-		MouseOverChild->OnMouseLeave();
-
 	MouseOverChild = NULL;
 	return false;
+}
+
+void Window::UpdateControl( Control* cont ){
+	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ 4 ];
+
+	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
+	float vs, vs2, vt, vt2;
+	float* c;
+
+	vx =  cont->x;
+	vx2 = ( cont->x + cont->GetWidth() );
+	vy = cont->y;
+	vy2 = ( cont->y + cont->GetHeight() );
+
+	vs = cont->s;
+	vs2 = cont->s2;
+	vt = cont->t;
+	vt2 = cont->t2;
+
+	//get the color
+	c = cont->GetColorv();
+
+	data[0].x = vx;
+	data[0].y = vy;
+	data[0].s = vs;
+	data[0].t = vt;
+	data[0].r = c[0];
+	data[0].g = c[1];
+	data[0].b = c[2];
+	data[0].a = c[3];
+
+	data[1].x = vx2;
+	data[1].y = vy;
+	data[1].s = vs2;
+	data[1].t = vt;
+	data[1].r = c[0];
+	data[1].g = c[1];
+	data[1].b = c[2];
+	data[1].a = c[3];
+
+	//bottom right
+	data[2].x = vx2;
+	data[2].y = vy2;
+	data[2].s = vs2;
+	data[2].t = vt2;
+	data[2].r = c[0];
+	data[2].g = c[1];
+	data[2].b = c[2];
+	data[2].a = c[3];
+
+	//bottom left
+	data[3].x = vx;
+	data[3].y = vy2;
+	data[3].s = vs;
+	data[3].t = vt2;
+	data[3].r = c[0];
+	data[3].g = c[1];
+	data[3].b = c[2];
+	data[3].a = c[3];
+
+	Control::GUI_vbo->Bind();
+	Control::GUI_vbo->SetData( VertexPosition + cont->VertexOffset, 4 * sizeof( WINDOW_VBOVertex ), data );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+	delete [] data;
 }
 
 void Window::UpdateVBO(){
@@ -170,6 +212,7 @@ void Window::UpdateVBO(){
 	unsigned int slot;
 	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
 	float vs, vs2, vt, vt2;
+	float* c;
 	for( unsigned int i = 0; i < numChildren; i++ ){
 		//NOTE: I am hoping this code will be made into SSE :]
 
@@ -186,49 +229,54 @@ void Window::UpdateVBO(){
 		vt = child->t;
 		vt2 = child->t2;
 
+		//get the color
+		c = child->GetColorv();
+
 		//top left
 		data[slot+0].x = vx;
 		data[slot+0].y = vy;
 		data[slot+0].s = vs;
 		data[slot+0].t = vt;
+		data[slot+0].r = c[0];
+		data[slot+0].g = c[1];
+		data[slot+0].b = c[2];
+		data[slot+0].a = c[3];
 
 		//top right
 		data[slot+1].x = vx2;
 		data[slot+1].y = vy;
 		data[slot+1].s = vs2;
 		data[slot+1].t = vt;
+		data[slot+1].r = c[0];
+		data[slot+1].g = c[1];
+		data[slot+1].b = c[2];
+		data[slot+1].a = c[3];
 
 		//bottom right
 		data[slot+2].x = vx2;
 		data[slot+2].y = vy2;
 		data[slot+2].s = vs2;
 		data[slot+2].t = vt2;
+		data[slot+2].r = c[0];
+		data[slot+2].g = c[1];
+		data[slot+2].b = c[2];
+		data[slot+2].a = c[3];
 
 		//bottom left
 		data[slot+3].x = vx;
 		data[slot+3].y = vy2;
 		data[slot+3].s = vs;
 		data[slot+3].t = vt2;
+		data[slot+3].r = c[0];
+		data[slot+3].g = c[1];
+		data[slot+3].b = c[2];
+		data[slot+3].a = c[3];
 	}
 
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-
-	GLint size;
-	glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
-
-	void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, VertexPosition, VertexLength, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
-
-	if( ptr != NULL ){
-		memcpy( ptr, data, VertexLength );
-		//NOTE: Do a check here to make sure Unmap returns GL_TRUE :P
-		glFlushMappedBufferRange( GL_ARRAY_BUFFER_ARB, VertexPosition, VertexLength );
-		glUnmapBuffer( GL_ARRAY_BUFFER );
-	} else {
-		GLenum error = glGetError();
-		printf( "Error: Could not update vbo! %i\n", error );
-	}
-
+	Control::GUI_vbo->Bind();
+	Control::GUI_vbo->SetData( VertexPosition, VertexLength, data );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	
 	delete [] data;
 }
 
@@ -243,10 +291,12 @@ void Window::RebuildVBO(){
         unsigned int slot;
         float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
         float vs, vs2, vt, vt2;
+	float* c;
 	for( unsigned int i = 0; i < numChildren; i++ ){
                 //NOTE: I am hoping this code will be made into SSE :]
                 slot = i * 4;
                 child = Children[i];
+		child->VertexOffset = slot * sizeof( WINDOW_VBOVertex );
 
                 vx = x + child->x;
                 vx2 = x + ( child->x + child->GetWidth() );
@@ -258,72 +308,56 @@ void Window::RebuildVBO(){
                 vt = child->t;
                 vt2 = child->t2;
 
+		c = child->GetColorv();
+
                 //top left
                 data[slot+0].x = vx;
                 data[slot+0].y = vy;
                 data[slot+0].s = vs;
                 data[slot+0].t = vt;
+		data[slot+0].r = c[0];
+		data[slot+0].g = c[1];
+		data[slot+0].b = c[2];
+		data[slot+0].a = c[3];
 
-                //top right
+		//top right
                 data[slot+1].x = vx2;
                 data[slot+1].y = vy;
                 data[slot+1].s = vs2;
                 data[slot+1].t = vt;
+		data[slot+1].r = c[0];
+		data[slot+1].g = c[1];
+		data[slot+1].b = c[2];
+		data[slot+1].a = c[3];
 
-                //bottom right
+		//bottom right
                 data[slot+2].x = vx2;
                 data[slot+2].y = vy2;
                 data[slot+2].s = vs2;
                 data[slot+2].t = vt2;
+		data[slot+2].r = c[0];
+		data[slot+2].g = c[1];
+		data[slot+2].b = c[2];
+		data[slot+2].a = c[3];
 
-                //bottom left
+		//bottom left
                 data[slot+3].x = vx;
                 data[slot+3].y = vy2;
                 data[slot+3].s = vs;
                 data[slot+3].t = vt2;
+		data[slot+3].r = c[0];
+		data[slot+3].g = c[1];
+		data[slot+3].b = c[2];
+		data[slot+3].a = c[3];
         }
 
-	unsigned int length = (numChildren * 4 * sizeof(WINDOW_VBOVertex));
-	glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-	GLint size;
-	glGetBufferParameteriv( GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size );
-
-	if( size == 0 ){
-		glBufferData( GL_ARRAY_BUFFER, length, data, GL_STREAM_DRAW );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-		VertexPositionIsSet = true;
-		VertexLength = length;
-
-		delete [] data;
-		return;
-	}
-
-	//alright so we have to get the full data
-	float* ptr = (float*)glMapBufferRange( GL_ARRAY_BUFFER, VertexPosition, VertexPositionIsSet ? VertexLength : size, GL_MAP_READ_BIT );
-
-	float* newData = new float[ ( size + ( length - VertexLength ))  ];
-
-	if( ptr != NULL ){
-		//build the new data
-		memcpy( newData, ptr, VertexPositionIsSet ? VertexPosition : (VertexPosition = size) );
-		memcpy( &newData[ VertexPosition ], data, length );
-
-		if( size > (length + VertexPosition) ) //if its set we need to copy everything after it
-			memcpy( &newData[ VertexPosition + length ], &ptr[ VertexPosition + VertexLength  ], size - (length + VertexPosition) );
-
-		glUnmapBuffer( GL_ARRAY_BUFFER );
-		glBufferData( GL_ARRAY_BUFFER, size + ( length - VertexLength ), newData, GL_STREAM_DRAW );
-		VertexLength = length;
-		VertexPositionIsSet = true;
-	} else {
-		GLenum error = glGetError();
-		printf( "ERROR: Could not rebuild gui vbo! %i\n", error );
-	}
-
+	VertexLength = (numChildren * 4 * sizeof(WINDOW_VBOVertex));
+	
+	Control::GUI_vbo->Bind();
+	Control::GUI_vbo->AddData( VertexLength, data, &VertexPosition );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	
 	delete [] data;
-	delete [] newData;
 }
 
 void Window::OnKeyPress( unsigned short key ){
@@ -399,10 +433,10 @@ void Window::StepAnimation(){
 
 				//Translation
 				switch( (it->Type & TRANSLATEXYZ) ){
-					case 0:													break;
-					case TRANSLATEX: 	Move( data.x, 0 );					break;
-					case TRANSLATEY: 	Move( 0, data.x );					break;
-					case TRANSLATEXY: 	Move( data.x, data.y ); 			break;
+					case 0:								break;
+					case TRANSLATEX: 	Move( data.x, 0 );			break;
+					case TRANSLATEY: 	Move( 0, data.x );			break;
+					case TRANSLATEXY: 	Move( data.x, data.y ); 		break;
 					default: break;
 				}
 
@@ -411,16 +445,17 @@ void Window::StepAnimation(){
 					Modelview.rotate( data.x, 0.0, 0.0, 1.0 );
 				}
 				if( (it->Type & ROTATEORGZ )){
-									Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+					Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
 				}
 				if( (it->Type & ROTATESCREENZ )){
-									Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+					Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
 				}
 
 				//color
 				if( (it->Type & RGBACHANNEL )){
 					if( it->Object != NULL ){
 						it->Object->AddColor( data );
+						UpdateControl( it->Object );
 					}
 				}
 			}
@@ -433,14 +468,26 @@ void Window::StepAnimation(){
 	}
 }
 
+//TODO: Change the way animations are handeld to make this cleaner
+//and faster
+void Window::RemoveAnimation( Control* c ){
+	std::list<AnimationType>::iterator it;
+	for( it = Animations.begin(); it != Animations.end(); it++ ){
+		if( it->Object == c ){
+			Animations.erase( it );
+			return;
+		}
+	}
+}
+
 void Window::Unproject( float winx, float winy, float* p, float* ox, float* oy ){
 	GLint view[4];
 	glGetIntegerv(GL_VIEWPORT, view);
 
 	nv::vec4<float> in = nv::vec4<float>(	((winx - view[0]) * 2.0) / view[2] - 1.0,
-											-(((winy - view[1]) * 2.0) / view[3] - 1.0),
-											-1.0,
-											1.0 );
+						-(((winy - view[1]) * 2.0) / view[3] - 1.0),
+						-1.0,
+						1.0 );
 
 	nv::matrix4<float> proj;
 	proj.set_value( p );

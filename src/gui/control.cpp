@@ -18,7 +18,7 @@
 
 
 std::vector<CTRL_GUIDataT*> guiData;
-GLuint Control::GUI_vbo;
+VBO* Control::GUI_vbo;
 
 //Sets up the guiData so the controls can be created corectly
 //IN:
@@ -54,10 +54,7 @@ void Control_Init( const char* path ){
         }
 
         //time to gen the VBO's data
-        glGenBuffers( 1, &Control::GUI_vbo );
-        glBindBuffer( GL_ARRAY_BUFFER, Control::GUI_vbo );
-        glBufferData( GL_ARRAY_BUFFER, 0, 0, GL_STREAM_DRAW );
-        glBindBuffer( GL_ARRAY_BUFFER, 0 );
+        Control::GUI_vbo = new VBO();
 }
 
 //This should only be called when a new theme has been loaded or when the control is initlized
@@ -86,8 +83,9 @@ Control::Control( Window* p, std::string t, float ix, float iy ){
 	y = iy;
 	VertexOffset = 0;
 
+	SetColor( nv::vec4<float>(0.0) );
+
 	Attributes = 0;
-	isAnimated = false;
 	GetControlData();
 	Parent = p;
 }
@@ -166,10 +164,6 @@ float Control::GetDepth(){
 	return Depth;
 }
 
-bool Control::IsAnimated(){
-	return isAnimated;
-}
-
 void Control::SetColor(float r, float g, float b, float a ){
 	Color[0] = r;
 	Color[1] = g;
@@ -187,10 +181,6 @@ void Control::AddColor( nv::vec4<float> c ){
 
 float* Control::GetColorv(){
 	return Color._array;
-}
-
-void Control::SetAnimated( bool v ){
-	isAnimated = true;
 }
 
 void Control::OnMouseEnter(){
