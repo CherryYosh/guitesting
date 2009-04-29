@@ -50,11 +50,13 @@ public:
 
 	void AddChild( Control*, int, bool = true );
 	void Move( float, float );
+
 	int Close();
+	
 	void UpdateControl( Control* );
-	void UpdateVBO();
 	void OnKeyPress( unsigned short );
 	void OnMousePress( unsigned short, int, int );
+	bool OnMouseClick( unsigned short, bool );
 	bool HitTest( float, float, float* );
 
 	void Render( Shader* );
@@ -75,6 +77,7 @@ public:
 	bool ReciveInput;
 protected:
 private:
+	void UpdateVBO();
 	void RebuildVBO();
 	float x, y;
 
@@ -82,7 +85,6 @@ private:
 	std::list<AnimationType> Animations;
 
 	unsigned int VertexPosition, VertexLength;
-	bool VertexPositionIsSet;
 	Control* MouseOverChild;
 	Control* ActiveChild;
 	GUI* Parent;

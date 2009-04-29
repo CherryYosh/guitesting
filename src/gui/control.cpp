@@ -110,6 +110,10 @@ void Control::OnMouseRelease( int button ){
 	//called by input
 }
 
+bool Control::OnMouseClick( unsigned short num, bool final ){
+	return false;
+}
+
 void Control::OnKeyPress( unsigned short unicode ){
 	//called by input
 }

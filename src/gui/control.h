@@ -48,6 +48,7 @@ public:
 	virtual void OnMouseRelease( int );
 	virtual void OnMouseEnter();
 	virtual void OnMouseLeave();
+	virtual bool OnMouseClick( unsigned short, bool );
 
 	virtual void OnKeyPress( unsigned short );
 	virtual void OnKeyRelease( int, int );

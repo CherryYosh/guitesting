@@ -28,7 +28,7 @@ Editbox::~Editbox(){
 
 bool Editbox::HitTest( int mX, int mY ){
 	if( mX > x && mX < x + Width
-			&& mY > y && mY < y + Height ){
+		&& mY > y && mY < y + Height ){
 		return true;
 	}
 	return false;

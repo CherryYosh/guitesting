@@ -40,6 +40,7 @@ public:
 	bool SetData( unsigned int, unsigned int, void* );
 	bool AddData( unsigned int, void*, unsigned int* = NULL );
 	bool InsertData( unsigned int, unsigned int, unsigned int, void * );
+	bool RemoveData( unsigned int, unsigned int );
 
 
 	const GLuint GetID();

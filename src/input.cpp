@@ -77,8 +77,7 @@ Input::~Input(){
 }
 
 /*
- * Starts the class, key and mouse events are polled and processed
- * before messages are sent out
+ * key events are polled and processed
  */
 void Input::Start(){
 	SDL_Event keyevent;
@@ -141,7 +140,7 @@ void Input::BindAction( std::string profile, std::string action, bool useOnce, b
 void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string action ){
 	Input_ProfileDataT* prof = GetProfile( profile );
 	std::vector<Input_ActionDataT*> actions = prof->Actions;
-	Input_ActionDataT* a;
+	Input_ActionDataT* a = NULL;
 
 	//make sure the action is bound, if it isnt we return
 	size_t size = actions.size();

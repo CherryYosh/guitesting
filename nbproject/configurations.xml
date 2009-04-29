@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="51">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="guitesting" displayName="guitesting" projectFiles="true">
+      <logicalFolder name="src" displayName="src" projectFiles="true">
+        <logicalFolder name="gui" displayName="gui" projectFiles="true">
+          <itemPath>src/gui/button.cpp</itemPath>
+          <itemPath>src/gui/button.h</itemPath>
+          <itemPath>src/gui/control.cpp</itemPath>
+          <itemPath>src/gui/control.h</itemPath>
+          <itemPath>src/gui/controls.h</itemPath>
+          <itemPath>src/gui/editbox.cpp</itemPath>
+          <itemPath>src/gui/editbox.h</itemPath>
+          <itemPath>src/gui/label.cpp</itemPath>
+          <itemPath>src/gui/label.h</itemPath>
+          <itemPath>src/gui/rule.cpp</itemPath>
+          <itemPath>src/gui/rule.h</itemPath>
+          <itemPath>src/gui/window.cpp</itemPath>
+          <itemPath>src/gui/window.h</itemPath>
+        </logicalFolder>
+        <itemPath>src/camera.cpp</itemPath>
+        <itemPath>src/camera.h</itemPath>
+        <itemPath>src/display.cpp</itemPath>
+        <itemPath>src/display.h</itemPath>
+        <itemPath>src/engine.cpp</itemPath>
+        <itemPath>src/engine.h</itemPath>
+        <itemPath>src/fontmgr.cpp</itemPath>
+        <itemPath>src/fontmgr.h</itemPath>
+        <itemPath>src/gui.cpp</itemPath>
+        <itemPath>src/gui.h</itemPath>
+        <itemPath>src/image.cpp</itemPath>
+        <itemPath>src/image.h</itemPath>
+        <itemPath>src/input.cpp</itemPath>
+        <itemPath>src/input.h</itemPath>
+        <itemPath>src/main.cpp</itemPath>
+        <itemPath>src/mouse.cpp</itemPath>
+        <itemPath>src/mouse.h</itemPath>
+        <itemPath>src/myext.h</itemPath>
+        <itemPath>src/nvMatrix.h</itemPath>
+        <itemPath>src/nvVector.h</itemPath>
+        <itemPath>src/shader.cpp</itemPath>
+        <itemPath>src/shader.h</itemPath>
+        <itemPath>src/system.cpp</itemPath>
+        <itemPath>src/system.h</itemPath>
+        <itemPath>src/thememgr.cpp</itemPath>
+        <itemPath>src/thememgr.h</itemPath>
+        <itemPath>src/timer.cpp</itemPath>
+        <itemPath>src/timer.h</itemPath>
+        <itemPath>src/timerpool.cpp</itemPath>
+        <itemPath>src/timerpool.h</itemPath>
+        <itemPath>src/vbo.cpp</itemPath>
+        <itemPath>src/vbo.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>guitesting-Makefile.mk</itemPath>
+      <itemPath>makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>guitesting-Makefile.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>make -f makefile</buildCommand>
+          <cleanCommand>make -f makefile clean</cleanCommand>
+          <executablePath>test</executablePath>
+        </makeTool>
+        <requiredProjects>
+        </requiredProjects>
+      </makefileType>
+      <item path="src/camera.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/camera.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/display.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost/utility</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/SDL</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/display.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/engine.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost/utility</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/engine.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/fontmgr.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/freetype2/freetype</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/fontmgr.h">
+        <itemExcluded>true</itemExcluded>
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost/utility</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/button.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/button.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/control.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/control.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/controls.h">
+        <itemExcluded>true</itemExcluded>
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/editbox.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/editbox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/label.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/label.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/rule.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/rule.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/window.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>src/gui</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/bind</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/gui/window.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/image.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/IL</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/image.h">
+        <itemExcluded>true</itemExcluded>
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/input.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/boost/utility</directoryPath>
+            <directoryPath>/usr/include/SDL</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/input.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/main.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/mouse.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/mouse.h">
+        <itemExcluded>true</itemExcluded>
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/myext.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/nvMatrix.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/nvVector.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/shader.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/shader.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/system.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/system.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/thememgr.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/thememgr.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/timer.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits/detail</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/timer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/timerpool.cpp">
+        <itemTool>1</itemTool>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>/usr/include/boost/function</directoryPath>
+            <directoryPath>/usr/include/boost/mpl/aux_</directoryPath>
+            <directoryPath>/usr/include/boost/mpl</directoryPath>
+            <directoryPath>/usr/include/boost/type_traits</directoryPath>
+            <directoryPath>src</directoryPath>
+            <directoryPath>.</directoryPath>
+            <directoryPath>/usr/include/boost/config</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <inheritPreValues>false</inheritPreValues>
+        </ccCompilerTool>
+      </item>
+      <item path="src/timerpool.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/vbo.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/vbo.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

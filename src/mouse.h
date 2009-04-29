@@ -15,7 +15,11 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-void Mouse_Init();
+#include "timer.h"
+
+class Display;
+
+void Mouse_Init( Display* );
 void Mouse_Die();
 
 void Mouse_SetState();
@@ -31,5 +35,11 @@ int Mouse_GetX();
 int Mouse_GetY();
 int Mouse_GetChangeX();
 int Mouse_GetChangeY();
+
+Timer* Mouse_GetTimer();
+unsigned short Mouse_GetClicks();
+unsigned short* Mouse_GetClicksPtr();
+
+void Mouse_StopTimer( bool = false );
 
 #endif

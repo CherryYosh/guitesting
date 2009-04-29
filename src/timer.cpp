@@ -26,6 +26,7 @@ Timer::Timer( unsigned int runtime, bool cont ){
 	Ticks = 0;
 	Steps = 0;
 	Contious = cont;
+	Function = NULL;
 }
 
 Timer::~Timer(){

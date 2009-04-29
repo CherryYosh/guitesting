@@ -24,7 +24,8 @@ public:
 	~Button();
 
 	bool HitTest( int mouseX, int mouseY );
-	void OnMousePress( int button );
+	bool OnMouseClick( unsigned short, bool );
+	void OnMousePress( unsigned short, int, int );
 	void OnMouseEnter();
 	void OnMouseLeave();
 

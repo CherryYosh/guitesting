@@ -15,6 +15,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <vector>
 
 #include "gui.h"
 
@@ -113,6 +114,7 @@ bool GUI::HitTest( float x, float y ){
 	}
 
 	MouseOverWindow = NULL;
+	ActiveWindow = NULL;
 	return false;
 }
 
@@ -134,6 +136,12 @@ void GUI::OnMousePress( unsigned short button, int mx, int my ){
 			ActiveWindow = MouseOverWindow;
 			ActiveWindow->OnMousePress( button, mx, my );
 	}
+}
+
+bool GUI::OnMouseClick( unsigned short num, bool final ){
+	if( ActiveWindow != NULL )
+		return ActiveWindow->OnMouseClick( num, final );
+	return false;
 }
 
 //TODO: allow for used made themes
@@ -176,4 +184,38 @@ void GUI::CreateWindowConsole( float x, float y ){
 
 	//textarea->AddStringsToVBO();
 	//inputarea->AddStringsToVBO();
+}
+
+//TODO: Delete this, temp function
+int GUI::CreateTW(){
+	printf( "here!\n" );
+
+	Window* window = new Window(this);
+
+	Button* b = new Button( window, "topbar", 0, 0 );
+
+	b->SetCallback( boost::bind<int>(&GUI::CreateTW, this ) );
+
+	window->AddChild( b, WINDOW_TOP, true );
+	window->Width = b->GetWidth();
+	window->Height = b->GetHeight();
+
+	Windows.push_back( window );
+
+	return 1;
+}
+
+//TODO: possibly a better way to do this, would need to change it from using a vector
+void GUI::CloseWindow( Window* w ){
+	ActiveWindow = NULL;
+	MouseOverWindow = NULL;
+
+	std::vector<Window*>::iterator it = Windows.begin();
+	while( it != Windows.end() ){
+		if( *it == w ){
+			Windows.erase( it );
+			return;
+		}
+		it++;
+	}
 }

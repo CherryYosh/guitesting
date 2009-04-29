@@ -42,9 +42,16 @@ bool Button::HitTest( int mouseX, int mouseY ){
 	return false;
 }
 
-void Button::OnMousePress( int button ){
-	if( button == 0 && m_Callback )
+void Button::OnMousePress( unsigned short button, int mx, int my ){
+}
+
+bool Button::OnMouseClick( unsigned short num, bool final ){
+	if( num == 1 && m_Callback ){
 		m_Callback();
+		return false; //cant handel any more
+	}
+
+	return false; //we dont do anything
 }
 
 void Button::OnMouseEnter(){

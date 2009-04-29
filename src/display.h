@@ -40,6 +40,7 @@ public:
 	void Render();
 	void Resize( unsigned int, unsigned int );
 
+	void OnMouseClick( unsigned short*, bool );
 	void OnMouseButtonChange();
 	void OnMouseMotion();
 	void OnKeyPress( SDL_keysym );

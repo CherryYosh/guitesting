@@ -35,8 +35,11 @@ public:
 
 	void OnKeyPress( unsigned short );
 	void OnMousePress( unsigned short, int, int );
+	bool OnMouseClick( unsigned short, bool );
 
 	void CreateWindowConsole( float, float );
+	int CreateTW();
+	void CloseWindow( Window* );
 
 protected:
 	std::vector<Window*> Windows;

@@ -89,6 +89,7 @@ Display::Display() : System(){
 	camera = new Camera();
 
 	gui->CreateWindowConsole( 50, 50 );
+	gui->CreateTW();
 
 	glViewport( 0, 0, 640, 480 );
 	camera->SetProjection( 45.0, 640.0/480.0, 1.0, 1000.0 );
@@ -103,7 +104,7 @@ Display::Display() : System(){
 	glClearColor( 0.0, 0.0, 0.0, 1.0 );
 
 	LoadShaders();
-	Mouse_Init();
+	Mouse_Init(this);
 	InitTimers();
 }
 
@@ -120,6 +121,7 @@ void Display::InitTimers(){
 	FPSTimer->Start();
 
 	timers.AddTimer( FPSTimer, true, false );
+	timers.AddTimer( Mouse_GetTimer() );
 }
 
 void Display::DrawFPS(unsigned int* data){
@@ -146,6 +148,12 @@ void Display::Resize( unsigned int width, unsigned int height ){
 	glViewport( 0, 0, width, height );
 	camera->SetProjection( camera->fov, width / height, camera->zNear, camera->zFar );
 	camera->SetOrtho( 0, width, height, 0, 1, 20 );
+}
+
+void Display::OnMouseClick( unsigned short* num, bool final ){
+	if( !gui->OnMouseClick( *num, final ) ){
+		Mouse_StopTimer();
+	}
 }
 
 void Display::OnMouseButtonChange(){

@@ -49,18 +49,16 @@ struct AnimationType{
 Window::Window( GUI* p ){
 	VertexPosition = 0;
 	VertexLength = 0;
-	VertexPositionIsSet = false;
 	ReciveInput = false;
 	MouseOverChild = NULL;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
 	Parent = p;
-
-	Animate( ROTATEZ, 175.0, 0, 1000, LINEAR );
 }
 
 Window::~Window(){
+	Parent->CloseWindow( this );
 	MouseOverChild = NULL;
 	Children.clear();
 }
@@ -82,8 +80,7 @@ void Window::Move( float xChange, float yChange ){
 }
 
 int Window::Close(){
-	/*TODO*/
-	//delete this;
+	delete this;
 	return 0;
 }
 
@@ -110,7 +107,8 @@ void Window::RenderText( int v, int t, int c ){
 bool Window::HitTest( float mx, float my, float* p ){
 	Unproject( mx, my, p, &mx, &my );
 
-	if( mx < Width && my < Height ){
+	if( mx > 0.0 && my > 0.0 &&
+		mx < Width && my < Height ){
 		if( MouseOverChild != NULL ){
 			if( MouseOverChild->HitTest( mx, my ) )
 			    return true;
@@ -119,16 +117,17 @@ bool Window::HitTest( float mx, float my, float* p ){
 		}
 
 		//now we test the controls
-		size_t size = Children.size();
-		//TODO: Fix this hack, used to make sure the top item is found first
-		//assumes the top items where added last
-		for( unsigned int i = size-1; i > 0; i-- ){
+		unsigned int i = Children.size();
+		while( 0 < i ){
+			i--;
+			
 			if( Children[i] != MouseOverChild && Children[i]->HitTest(mx, my) ){
 				MouseOverChild = Children[i];
 				MouseOverChild->OnMouseEnter();
 				return true;
 			}
-		}
+		} 
+		
 		MouseOverChild = NULL;
 		return true;
 	}
@@ -373,6 +372,17 @@ void Window::OnMousePress( unsigned short button, int mx, int my ){
 	}
 }
 
+/**
+ *
+ */
+bool Window::OnMouseClick( unsigned short num, bool final ){
+	if( ActiveChild != NULL ){
+		return ActiveChild->OnMouseClick( num, final );
+	}
+
+	return false;
+}
+
 void Window::Animate( int type, float value, unsigned int start, unsigned int duration, int interpolation , Control* ptr ){
 	Animate( type, nv::vec4<float>( value, 0, 0, 0), start, duration, interpolation, ptr );
 }
@@ -412,59 +422,60 @@ void Window::StepAnimation(){
 
 	unsigned int ticks = SDL_GetTicks();
 	unsigned int step = 0;
-	float scale;
-
-	std::list<AnimationType>::iterator it;
-	std::vector< std::list<AnimationType>::iterator > toDel;
 	nv::vec4<float> data;
-	for( it = Animations.begin(); it != Animations.end(); it++ ){
+	float scale;
+	bool del;
 
-			if( ticks > it->StartTicks ){
-				if( ticks > it->EndTicks ){
-					step = it->EndTicks - it->LastTicks;
-					toDel.push_back( it );
-				} else {
-					step = ticks - it->LastTicks;
-					it->LastTicks = ticks;
-				}
+	std::list<AnimationType>::iterator it = Animations.begin();
+	while( it != Animations.end() ){
+		del = false;
 
-				scale = float(step) / float(it->Duration);
-				data = it->data * scale;
-
-				//Translation
-				switch( (it->Type & TRANSLATEXYZ) ){
-					case 0:								break;
-					case TRANSLATEX: 	Move( data.x, 0 );			break;
-					case TRANSLATEY: 	Move( 0, data.x );			break;
-					case TRANSLATEXY: 	Move( data.x, data.y ); 		break;
-					default: break;
-				}
-
-				//rotation
-				if( (it->Type & ROTATEZ )){
-					Modelview.rotate( data.x, 0.0, 0.0, 1.0 );
-				}
-				if( (it->Type & ROTATEORGZ )){
-					Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
-				}
-				if( (it->Type & ROTATESCREENZ )){
-					Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
-				}
-
-				//color
-				if( (it->Type & RGBACHANNEL )){
-					if( it->Object != NULL ){
-						it->Object->AddColor( data );
-						UpdateControl( it->Object );
-					}
-				}
+		if( ticks > it->StartTicks ){
+			if( ticks > it->EndTicks ){
+				step = it->EndTicks - it->LastTicks;
+				del = true;
+			} else {
+				step = ticks - it->LastTicks;
+				it->LastTicks = ticks;
 			}
 
-	}
+			scale = float(step) / float(it->Duration);
+			data = it->data * scale;
 
-	//TODO: check for bugs
-	for( unsigned int i = 0; i < toDel.size(); i++ ){
-		Animations.erase( toDel[i] );
+			//Translation
+			switch( (it->Type & TRANSLATEXYZ) ){
+				case 0:								break;
+				case TRANSLATEX: 	Move( data.x, 0 );			break;
+				case TRANSLATEY: 	Move( 0, data.x );			break;
+				case TRANSLATEXY: 	Move( data.x, data.y ); 		break;
+				default: break;
+			}
+
+			//rotation
+			if( (it->Type & ROTATEZ )){
+				Modelview.rotate( data.x, 0.0, 0.0, 1.0 );
+			}
+			if( (it->Type & ROTATEORGZ )){
+				Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+			}
+			if( (it->Type & ROTATESCREENZ )){
+				Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+			}
+
+			//color
+			if( (it->Type & RGBACHANNEL )){
+				if( it->Object != NULL ){
+					it->Object->AddColor( data );
+					UpdateControl( it->Object );
+				}
+			}
+		}
+
+		if( del ){
+			it = Animations.erase( it );
+		} else {
+			it++;
+		}
 	}
 }
 

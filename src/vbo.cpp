@@ -110,6 +110,7 @@ bool VBO::AddData( unsigned int length, void* data, unsigned int* position ){
 		glBufferData( GL_ARRAY_BUFFER, size + length, tdata, type );
 
 		size += length;
+		delete [] tdata;
 	} else {
 	    printf( "Error: VBO %i could not add data! %i\n", id, glGetError() );
 	    return false;
@@ -139,6 +140,30 @@ bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int ne
 	    size += change;
 	} else {
 	    printf( "Error: VBO %i could not insert data! %i\n", id, glGetError() );
+	    return false;
+	}
+
+	return true;
+}
+
+bool VBO::RemoveData(unsigned int start, unsigned int length){
+	if( !isBound )
+		return false;
+
+	char* tdata = new char[ size - length ];
+	char* ptr =  (char*)glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+
+	if( ptr != NULL ){
+		memcpy( tdata, ptr, start );
+		memcpy( &tdata[start], &ptr[start+length], size - length - start );
+
+		glUnmapBuffer( GL_ARRAY_BUFFER );
+		glBufferData( GL_ARRAY_BUFFER, size - length, tdata, type );
+
+		size -= length;
+		delete [] tdata;
+	} else {
+	    printf( "Error: VBO %i could not remove data! %i\n", id, glGetError() );
 	    return false;
 	}
 
