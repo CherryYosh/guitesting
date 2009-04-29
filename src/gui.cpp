@@ -114,7 +114,6 @@ bool GUI::HitTest( float x, float y ){
 	}
 
 	MouseOverWindow = NULL;
-	ActiveWindow = NULL;
 	return false;
 }
 
@@ -135,6 +134,8 @@ void GUI::OnMousePress( unsigned short button, int mx, int my ){
 	if( MouseOverWindow != NULL ){
 			ActiveWindow = MouseOverWindow;
 			ActiveWindow->OnMousePress( button, mx, my );
+	} else {
+		ActiveWindow = NULL;
 	}
 }
 
@@ -188,8 +189,6 @@ void GUI::CreateWindowConsole( float x, float y ){
 
 //TODO: Delete this, temp function
 int GUI::CreateTW(){
-	printf( "here!\n" );
-
 	Window* window = new Window(this);
 
 	Button* b = new Button( window, "topbar", 0, 0 );
