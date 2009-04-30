@@ -26,56 +26,59 @@
 #include "thememgr.h"
 #include "gui/controls.h"
 
-
-GUI::GUI() : System(){
+GUI::GUI() : System() {
 	MouseOverWindow = NULL;
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
 
 	//set up the control
-	Control_Init( "themes/default.theme" );
+	Control_Init("themes/default.theme");
 }
 
-GUI::~GUI(){
+GUI::~GUI() {
 	Windows.clear();
 }
 
-
 //TODO: there has to be a better way to do this rendering
-void GUI::Render( Shader* shader ){
-	Windows[0]->StepAnimation();
+
+void GUI::Render(Shader* shader) {
+
+	//This must be dont before anything, as it possibly binds and unbinds a VBO
+	for (unsigned int i = 0; i < Windows.size(); i++) {
+		//Windows[i]->StepAnimation();
+	}
 
 	shader->Bind();
-	shader->SetProjection( display->GetCameraOrtho() );
+	shader->SetProjection(display->GetCameraOrtho());
 
 	//We bind the theme image
-	glActiveTexture( GL_TEXTURE0 );
-	glBindTexture( GL_TEXTURE_2D, ThemeMgr_GetImage() );
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, ThemeMgr_GetImage());
 
 	Control::GUI_vbo->Bind();
 	glEnableVertexAttribArray(shader->attribute[0]);
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
 
-	for( unsigned int i = 0; i < Windows.size(); i++ ){
-		Windows[i]->Render( shader );
+	for (unsigned int i = 0; i < Windows.size(); i++) {
+		Windows[i]->Render(shader);
 	}
 
-	glDisableVertexAttribArray( shader->attribute[0]);
-	glDisableVertexAttribArray( shader->attribute[1]);
-	glDisableVertexAttribArray( shader->attribute[2]);
+	glDisableVertexAttribArray(shader->attribute[0]);
+	glDisableVertexAttribArray(shader->attribute[1]);
+	glDisableVertexAttribArray(shader->attribute[2]);
 
 	Control::GUI_vbo->Unbind();
 	shader->Unbind();
 }
 
-void GUI::RenderText( Shader* shader ){
+void GUI::RenderText(Shader* shader) {
 	shader->Bind();
-	shader->SetProjection( display->GetCameraOrtho() );
+	shader->SetProjection(display->GetCameraOrtho());
 
-	glActiveTexture( GL_TEXTURE0 );
+	glActiveTexture(GL_TEXTURE0);
 	//TODO: fix this hard coding, so that only 1 font is loaded at a time
-	glBindTexture( GL_TEXTURE_2D, FontMgr_GetImage( 0 ) );
+	glBindTexture(GL_TEXTURE_2D, FontMgr_GetImage(0));
 
 	Control::GUI_vbo->Bind();
 	glEnableVertexAttribArray(shader->attribute[0]);
@@ -83,136 +86,134 @@ void GUI::RenderText( Shader* shader ){
 	glEnableVertexAttribArray(shader->attribute[2]);
 
 	size_t size = Windows.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		Windows[i]->RenderText( shader->attribute[0], shader->attribute[1], shader->attribute[2] );
+	for (unsigned int i = 0; i < size; i++) {
+		Windows[i]->RenderText(shader->attribute[0], shader->attribute[1], shader->attribute[2]);
 	}
 
-	glDisableVertexAttribArray( shader->attribute[0]);
-	glDisableVertexAttribArray( shader->attribute[1]);
-	glDisableVertexAttribArray( shader->attribute[2]);
+	glDisableVertexAttribArray(shader->attribute[0]);
+	glDisableVertexAttribArray(shader->attribute[1]);
+	glDisableVertexAttribArray(shader->attribute[2]);
 
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	shader->Unbind();
 }
 
 //TODO: Change this!! active window is not what it used to be!
-bool GUI::HitTest( float x, float y ){
+
+bool GUI::HitTest(float x, float y) {
 	//this is a quick excape..
-	if( MouseOverWindow != NULL ) { 
-		if( MouseOverWindow->HitTest( x, y, display->GetCameraOrtho() ) ) {
-		    return true;
+	if (MouseOverWindow != NULL) {
+		if (MouseOverWindow->HitTest(x, y, display->GetCameraOrtho())) {
+			return true;
+		} else {
+			MouseOverWindow = NULL;
 		}
 	}
 
 	size_t size = Windows.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( Windows[i]->HitTest( x, y, display->GetCameraOrtho() ) ){
+	for (unsigned int i = 0; i < size; i++) {
+		if (Windows[i]->HitTest(x, y, display->GetCameraOrtho())) {
 			MouseOverWindow = Windows[i];
-//			MouseOverWindow->OnMouseEnter();
 			return true;
 		}
 	}
 
-	MouseOverWindow = NULL;
 	return false;
 }
 
-void GUI::Move( int x, int y ){
-	if( x == 0 && y == 0 )
+void GUI::Move(int x, int y) {
+	if (x == 0 && y == 0)
 		return;
 
-	if( ActiveWindow != NULL )
-		ActiveWindow->Move( x, y );
+	if (ActiveWindow != NULL)
+		ActiveWindow->Move(x, y);
 }
 
-void GUI::OnKeyPress( unsigned short unicode ){
-	if( ActiveWindow != NULL )
-		ActiveWindow->OnKeyPress( unicode );
+void GUI::OnKeyPress(unsigned short unicode) {
+	if (ActiveWindow != NULL)
+		ActiveWindow->OnKeyPress(unicode);
 }
 
-void GUI::OnMousePress( unsigned short button, int mx, int my ){
-	if( MouseOverWindow != NULL ){
-			ActiveWindow = MouseOverWindow;
-			ActiveWindow->OnMousePress( button, mx, my );
+void GUI::OnMousePress(unsigned short button, int mx, int my) {
+	if (MouseOverWindow != NULL) {
+		ActiveWindow = MouseOverWindow;
+		ActiveWindow->OnMousePress(button, mx, my);
 	} else {
 		ActiveWindow = NULL;
 	}
 }
 
-bool GUI::OnMouseClick( unsigned short num, bool final ){
-	if( ActiveWindow != NULL )
-		return ActiveWindow->OnMouseClick( num, final );
+bool GUI::OnMouseClick(unsigned short num, bool final) {
+	if (ActiveWindow != NULL)
+		return ActiveWindow->OnMouseClick(num, final);
 	return false;
 }
 
 //TODO: allow for used made themes
-void GUI::CreateWindowConsole( float x, float y ){
+
+void GUI::CreateWindowConsole(float x, float y) {
 	Window* window = new Window(this);
 
-	Button* close = new Button( window, "close", 0, 0 );
-	Rule* topbar = 	new Rule( window, "topbar", 0, 0 );
-	Rule* lsidebar = new Rule( window, "sidebar", 0, 0 );
-	Rule* rsidebar = new Rule( window, "sidebar", 0, 0 );
-	Rule* bottombar = new Rule( window, "bottombar", 0, 0 );
-	Label* textarea = new Label( window, "textarea", 0, 0 );
-	Editbox* inputarea = new Editbox( window, "textinput", 0, 0 );
+	Rule* topbar = new Rule("topbar", window);
+	Rule* lsidebar = new Rule("sidebar", window);
+	Rule* rsidebar = new Rule("sidebar", window);
+	Rule* bottombar = new Rule("bottombar", window);
+	Label* textarea = new Label("textarea", window);
+	Editbox* inputarea = new Editbox("textinput", window);
+	Button* close = new Button("close", window, topbar);
 
-	close->SetCallback( boost::bind<int>(&Window::Close, window ) );
+	close->SetCallback(boost::bind<void>(&Window::Close, window));
 
 	//now to position them
-	//NOTE: top bar is positioned..
-	close->Move( topbar->GetWidth() - (close->GetWidth() * 1.5 ),  topbar->GetHeight() * 0.25 );
-	lsidebar->Move( 0, topbar->GetHeight() );
-	rsidebar->Move( topbar->GetWidth() - rsidebar->GetWidth(), topbar->GetHeight() );
-	bottombar->Move( lsidebar->GetWidth(), topbar->GetHeight() + lsidebar->GetHeight() - bottombar->GetHeight() );
-	textarea->Move( lsidebar->GetWidth(), topbar->GetHeight() );
-	inputarea->Move( lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight() );
+	close->Move(topbar->GetWidth() - (close->GetWidth() * 1.5), topbar->GetHeight() * 0.25);
+	lsidebar->Move(0, topbar->GetHeight());
+	rsidebar->Move(topbar->GetWidth() - rsidebar->GetWidth(), topbar->GetHeight());
+	bottombar->Move(lsidebar->GetWidth(), topbar->GetHeight() + lsidebar->GetHeight() - bottombar->GetHeight());
+	textarea->Move(lsidebar->GetWidth(), topbar->GetHeight());
+	inputarea->Move(lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight());
 
 	//now add them all
-	window->AddChild( topbar, 	WINDOW_BOTTOM, 	false 	);
-	window->AddChild( bottombar,WINDOW_BOTTOM, 	false 	);
-	window->AddChild( lsidebar, WINDOW_BOTTOM, 	false 	);
-	window->AddChild( rsidebar, WINDOW_BOTTOM, 	false 	);
-	window->AddChild( close, 	WINDOW_TOP, 	false 	);
-	window->AddChild( textarea, WINDOW_TOP, 	false 	);
-	window->AddChild( inputarea,WINDOW_TOP,  	true	);
+	window->AddChild(topbar, WINDOW_BOTTOM, false);
+	window->AddChild(bottombar, WINDOW_BOTTOM, false);
+	window->AddChild(lsidebar, WINDOW_BOTTOM, false);
+	window->AddChild(rsidebar, WINDOW_BOTTOM, false);
+	window->AddChild(close, WINDOW_TOP, false);
+	window->AddChild(textarea, WINDOW_TOP, false);
+	window->AddChild(inputarea, WINDOW_TOP, true);
 
 	//now we move it (and all its children) and make it build its vbo
 	window->Width = topbar->GetWidth();
 	window->Height = topbar->GetHeight() + lsidebar->GetHeight();
-	window->Move( x, y );
-	Windows.push_back( window );
-
-	//textarea->AddStringsToVBO();
-	//inputarea->AddStringsToVBO();
+	window->Move(x, y);
+	Windows.push_back(window);
 }
 
 //TODO: Delete this, temp function
-int GUI::CreateTW(){
+
+void GUI::CreateTW() {
 	Window* window = new Window(this);
 
-	Button* b = new Button( window, "topbar", 0, 0 );
+	Button* b = new Button("topbar", window);
 
-	b->SetCallback( boost::bind<int>(&GUI::CreateTW, this ) );
+	b->SetCallback(boost::bind<void>(&GUI::CreateTW, this));
 
-	window->AddChild( b, WINDOW_TOP, true );
+	window->AddChild(b, WINDOW_TOP, true);
 	window->Width = b->GetWidth();
 	window->Height = b->GetHeight();
 
-	Windows.push_back( window );
-
-	return 1;
+	Windows.push_back(window);
 }
 
 //TODO: possibly a better way to do this, would need to change it from using a vector
-void GUI::CloseWindow( Window* w ){
+
+void GUI::CloseWindow(Window* w) {
 	ActiveWindow = NULL;
 	MouseOverWindow = NULL;
 
 	std::vector<Window*>::iterator it = Windows.begin();
-	while( it != Windows.end() ){
-		if( *it == w ){
-			Windows.erase( it );
+	while (it != Windows.end()) {
+		if (*it == w) {
+			Windows.erase(it);
 			return;
 		}
 		it++;

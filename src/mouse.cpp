@@ -181,6 +181,18 @@ unsigned short* Mouse_GetClicksPtr(){
 	return ptNumClicks;
 }
 
+/** \brief stops the mouses timer
+ *
+ * This function will stop the timer, calling the function if told to.
+ *
+ *  Problems : None.
+ *
+ *  Threadsafe : No.
+ *
+ * @param call a boolean telling weather or not the ClickFunction should be called
+ * @returns none
+ * @throws Nothing
+ */
 void Mouse_StopTimer(bool call){
 	if( call ){
 		ClickFunction( true );

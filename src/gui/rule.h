@@ -19,10 +19,10 @@
 
 class Rule : public Control {
 public:
-	Rule( Window* p, std::string t, int x, int y );
+	Rule(std::string, Window*, Control* = NULL, float = 0, float = 0);
 	~Rule();
 
-	bool HitTest( int mouseX, int mouseY );
+	bool HitTest(int, int);
 protected:
 private:
 };

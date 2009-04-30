@@ -17,13 +17,12 @@
 
 #include "control.h"
 
-class Button : public Control
-{
+class Button : public Control {
 public:
-	Button( Window* p, std::string t, int x, int y );
+	Button(std::string, Window*, Control* = NULL, float = 0, float = 0);
 	~Button();
 
-	bool HitTest( int mouseX, int mouseY );
+	bool HitTest( int, int );
 	bool OnMouseClick( unsigned short, bool );
 	void OnMousePress( unsigned short, int, int );
 	void OnMouseEnter();

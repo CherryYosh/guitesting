@@ -28,7 +28,7 @@
 #include "button.h"
 #include "window.h"
 
-Button::Button( Window* p, std::string t, int x, int y ) : Control(p,t,x,y){
+Button::Button( std::string t, Window* p, Control* c, float x, float y ) : Control(t,p,c,x,y){
 }
 
 Button::~Button(){
@@ -46,7 +46,7 @@ void Button::OnMousePress( unsigned short button, int mx, int my ){
 }
 
 bool Button::OnMouseClick( unsigned short num, bool final ){
-	if( num == 1 && m_Callback ){
+	if( num == 1 && m_Callback != NULL ){
 		m_Callback();
 		return false; //cant handel any more
 	}
@@ -55,11 +55,11 @@ bool Button::OnMouseClick( unsigned short num, bool final ){
 }
 
 void Button::OnMouseEnter(){
-	Parent->Animate( RGBACHANNEL, nv::vec4<float>(1.0, 1.0, 0.0, 0.0), 0, 500, LINEAR, this );
+	Root->Animate( RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this );
 }
 
 void Button::OnMouseLeave(){
 	SetColor( 0, 0, 0, 0 );
-	Parent->UpdateControl( this );
-	Parent->RemoveAnimation( this );
+	Root->UpdateControl( this );
+	Root->RemoveAnimation( this );
 }

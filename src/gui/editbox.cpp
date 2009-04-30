@@ -16,7 +16,7 @@
 #include "../fontmgr.h"
 
 
-Editbox::Editbox( Window* p, std::string t, int x, int y ) : Label( p, t, x, y ){
+Editbox::Editbox(std::string t, Window* p, Control* c, float x, float y ) : Label(t,p,c,x,y){
 	FlashCaret = true;
 	Editable = true;
 	Multiline = true;

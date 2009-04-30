@@ -38,7 +38,7 @@ public:
 	bool OnMouseClick( unsigned short, bool );
 
 	void CreateWindowConsole( float, float );
-	int CreateTW();
+	void CreateTW();
 	void CloseWindow( Window* );
 
 protected:

@@ -29,13 +29,13 @@
 #include "../gui.h"
 #include <SDL/SDL.h>
 
-struct WINDOW_VBOVertex{
+struct WINDOW_VBOVertex {
 	float x, y;
 	float s, t;
-	float r,g,b,a;
+	float r, g, b, a;
 };
 
-struct AnimationType{
+struct AnimationType {
 	unsigned int Type;
 	unsigned int Interpolation;
 	unsigned int EndTicks;
@@ -46,7 +46,7 @@ struct AnimationType{
 	nv::vec4<float> data;
 };
 
-Window::Window( GUI* p ){
+Window::Window(GUI* p) : Control("", NULL) {
 	VertexPosition = 0;
 	VertexLength = 0;
 	ReciveInput = false;
@@ -54,24 +54,24 @@ Window::Window( GUI* p ){
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
-	Parent = p;
+	gui = p;
 }
 
-Window::~Window(){
-	Parent->CloseWindow( this );
+Window::~Window() {
+	gui->CloseWindow(this);
 	MouseOverChild = NULL;
 	Children.clear();
 }
 
-void Window::AddChild( Control *child, int depth, bool rebuild ){
-	child->SetDepth( depth );
-	Children.push_back( child );
+void Window::AddChild(Control *child, int depth, bool rebuild) {
+	child->SetDepth(depth);
+	Children.push_back(child);
 
-	if( rebuild )
+	if (rebuild)
 		RebuildVBO(); //rebuild the vbo too
 }
 
-void Window::Move( float xChange, float yChange ){
+void Window::Move(float xChange, float yChange) {
 	x += xChange;
 	y += yChange;
 
@@ -79,55 +79,78 @@ void Window::Move( float xChange, float yChange ){
 	Modelview._array[13] += yChange;
 }
 
-int Window::Close(){
+void Window::Close() {
 	delete this;
-	return 0;
+}
+
+unsigned int Window::GetNumChildren() {
+	return Children.size();
 }
 
 //TODO: Find a better way to do the rendering
-void Window::Render( Shader* shader ){
-	shader->SetModelview( Modelview._array );
-	glVertexAttribPointer( shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0 );
-	glVertexAttribPointer( shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(2 * sizeof(float)) );
-	glVertexAttribPointer( shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(4 * sizeof(float)) );
+
+void Window::Render(Shader* shader) {
+	shader->SetModelview(Modelview._array);
+
+	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0);
+	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (2 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (4 * sizeof(float)));
 
 	size_t size = Children.size();
-	glDrawArrays( GL_QUADS, 0, size*4 );
+	glDrawArrays(GL_QUADS, 0, size * 4);
 }
 
-void Window::RenderText( int v, int t, int c ){
+void Window::RenderText(int v, int t, int c) {
 	size_t size = Children.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( Children[i]->HasAttrib( CTRL_INPUT )){
-			((Label*)Children[i])->RenderText( v, t, c );
+	for (unsigned int i = 0; i < size; i++) {
+		if (Children[i]->HasAttrib(CTRL_INPUT)) {
+			((Label*) Children[i])->RenderText(v, t, c);
 		}
 	}
 }
 
-bool Window::HitTest( float mx, float my, float* p ){
-	Unproject( mx, my, p, &mx, &my );
+/** \brief Preforms a hit test on the window
+ *
+ * The functions finds the mouse coords in object space, thus working with 3d rotation,
+ * and figures out if they are inside the window.
+ *
+ *  Problems : None.
+ *
+ *  Threadsafe : No.
+ *
+ * @param mx the mouse's x coordinate
+ * @param my the mouse's y coordinate
+ * @param p  the projection matrix's array
+ * @returns true if the hit test was succful
+ * @throws nothing
+ */
+bool Window::HitTest(float mx, float my, float* p) {
+	Unproject(mx, my, p, &mx, &my);
 
-	if( mx > 0.0 && my > 0.0 &&
-		mx < Width && my < Height ){
-		if( MouseOverChild != NULL ){
-			if( MouseOverChild->HitTest( mx, my ) )
-			    return true;
-			else
-			    MouseOverChild->OnMouseLeave();
+	if (mx > 0.0 && my > 0.0 &&
+		mx < Width && my < Height) {
+		if (MouseOverChild != NULL) {
+			if (MouseOverChild->HitTest(mx, my)) {
+				return true;
+			} else {
+				MouseOverChild->OnMouseLeave();
+			}
 		}
 
-		//now we test the controls
+		//we iterate past the controls backwards so that we will get the top itmes
+		//FILO order
 		unsigned int i = Children.size();
-		while( 0 < i ){
+		while (0 < i) {
 			i--;
-			
-			if( Children[i] != MouseOverChild && Children[i]->HitTest(mx, my) ){
+
+			if (Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)) {
 				MouseOverChild = Children[i];
 				MouseOverChild->OnMouseEnter();
 				return true;
 			}
-		} 
-		
+		}
+
+		//wtf happen here?? how can it be inside the window but no buttons..
 		MouseOverChild = NULL;
 		return true;
 	}
@@ -136,17 +159,17 @@ bool Window::HitTest( float mx, float my, float* p ){
 	return false;
 }
 
-void Window::UpdateControl( Control* cont ){
+void Window::UpdateControl(Control* cont) {
 	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ 4 ];
 
 	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
 	float vs, vs2, vt, vt2;
 	float* c;
 
-	vx =  cont->x;
-	vx2 = ( cont->x + cont->GetWidth() );
+	vx = cont->x;
+	vx2 = (cont->x + cont->GetWidth());
 	vy = cont->y;
-	vy2 = ( cont->y + cont->GetHeight() );
+	vy2 = (cont->y + cont->GetHeight());
 
 	vs = cont->s;
 	vs2 = cont->s2;
@@ -195,13 +218,13 @@ void Window::UpdateControl( Control* cont ){
 	data[3].a = c[3];
 
 	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->SetData( VertexPosition + cont->VertexOffset, 4 * sizeof( WINDOW_VBOVertex ), data );
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	Control::GUI_vbo->SetData(VertexPosition + cont->VertexOffset, 4 * sizeof( WINDOW_VBOVertex), data);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	delete [] data;
 }
 
-void Window::UpdateVBO(){
+void Window::UpdateVBO() {
 	//NOTE: This is a lot like rebuild, only the end changes..
 
 	size_t numChildren = Children.size();
@@ -212,16 +235,16 @@ void Window::UpdateVBO(){
 	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
 	float vs, vs2, vt, vt2;
 	float* c;
-	for( unsigned int i = 0; i < numChildren; i++ ){
+	for (unsigned int i = 0; i < numChildren; i++) {
 		//NOTE: I am hoping this code will be made into SSE :]
 
 		slot = i * 4;
 		child = Children[i];
 
-		vx =  child->x;
-		vx2 = ( child->x + child->GetWidth() );
+		vx = child->x;
+		vx2 = (child->x + child->GetWidth());
 		vy = child->y;
-		vy2 = ( child->y + child->GetHeight() );
+		vy2 = (child->y + child->GetHeight());
 
 		vs = child->s;
 		vs2 = child->s2;
@@ -232,175 +255,172 @@ void Window::UpdateVBO(){
 		c = child->GetColorv();
 
 		//top left
-		data[slot+0].x = vx;
-		data[slot+0].y = vy;
-		data[slot+0].s = vs;
-		data[slot+0].t = vt;
-		data[slot+0].r = c[0];
-		data[slot+0].g = c[1];
-		data[slot+0].b = c[2];
-		data[slot+0].a = c[3];
+		data[slot + 0].x = vx;
+		data[slot + 0].y = vy;
+		data[slot + 0].s = vs;
+		data[slot + 0].t = vt;
+		data[slot + 0].r = c[0];
+		data[slot + 0].g = c[1];
+		data[slot + 0].b = c[2];
+		data[slot + 0].a = c[3];
 
 		//top right
-		data[slot+1].x = vx2;
-		data[slot+1].y = vy;
-		data[slot+1].s = vs2;
-		data[slot+1].t = vt;
-		data[slot+1].r = c[0];
-		data[slot+1].g = c[1];
-		data[slot+1].b = c[2];
-		data[slot+1].a = c[3];
+		data[slot + 1].x = vx2;
+		data[slot + 1].y = vy;
+		data[slot + 1].s = vs2;
+		data[slot + 1].t = vt;
+		data[slot + 1].r = c[0];
+		data[slot + 1].g = c[1];
+		data[slot + 1].b = c[2];
+		data[slot + 1].a = c[3];
 
 		//bottom right
-		data[slot+2].x = vx2;
-		data[slot+2].y = vy2;
-		data[slot+2].s = vs2;
-		data[slot+2].t = vt2;
-		data[slot+2].r = c[0];
-		data[slot+2].g = c[1];
-		data[slot+2].b = c[2];
-		data[slot+2].a = c[3];
+		data[slot + 2].x = vx2;
+		data[slot + 2].y = vy2;
+		data[slot + 2].s = vs2;
+		data[slot + 2].t = vt2;
+		data[slot + 2].r = c[0];
+		data[slot + 2].g = c[1];
+		data[slot + 2].b = c[2];
+		data[slot + 2].a = c[3];
 
 		//bottom left
-		data[slot+3].x = vx;
-		data[slot+3].y = vy2;
-		data[slot+3].s = vs;
-		data[slot+3].t = vt2;
-		data[slot+3].r = c[0];
-		data[slot+3].g = c[1];
-		data[slot+3].b = c[2];
-		data[slot+3].a = c[3];
+		data[slot + 3].x = vx;
+		data[slot + 3].y = vy2;
+		data[slot + 3].s = vs;
+		data[slot + 3].t = vt2;
+		data[slot + 3].r = c[0];
+		data[slot + 3].g = c[1];
+		data[slot + 3].b = c[2];
+		data[slot + 3].a = c[3];
 	}
 
 	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->SetData( VertexPosition, VertexLength, data );
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
-	
+	Control::GUI_vbo->SetData(VertexPosition, VertexLength, data);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	delete [] data;
 }
 
-void Window::RebuildVBO(){
+void Window::RebuildVBO() {
 	//alright so here we will clear out the old data (if there is any)
 	//and replace it with new data, even if we have more data..
 	//NOTE: This should only be called after adding or removing a child... Otherwise use Update
 	size_t numChildren = Children.size();
-        WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ numChildren * 4 ];
+	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ numChildren * 4 ];
 
-        Control* child;
-        unsigned int slot;
-        float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
-        float vs, vs2, vt, vt2;
+	Control* child;
+	unsigned int slot;
+	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
+	float vs, vs2, vt, vt2;
 	float* c;
-	for( unsigned int i = 0; i < numChildren; i++ ){
-                //NOTE: I am hoping this code will be made into SSE :]
-                slot = i * 4;
-                child = Children[i];
-		child->VertexOffset = slot * sizeof( WINDOW_VBOVertex );
+	for (unsigned int i = 0; i < numChildren; i++) {
+		//NOTE: I am hoping this code will be made into SSE :]
+		slot = i * 4;
+		child = Children[i];
+		child->VertexOffset = slot * sizeof( WINDOW_VBOVertex);
 
-                vx = x + child->x;
-                vx2 = x + ( child->x + child->GetWidth() );
-                vy = y + child->y;
-                vy2 = y + ( child->y + child->GetHeight() );
+		vx = x + child->x;
+		vx2 = x + (child->x + child->GetWidth());
+		vy = y + child->y;
+		vy2 = y + (child->y + child->GetHeight());
 
-                vs = child->s;
-                vs2 = child->s2;
-                vt = child->t;
-                vt2 = child->t2;
+		vs = child->s;
+		vs2 = child->s2;
+		vt = child->t;
+		vt2 = child->t2;
 
 		c = child->GetColorv();
 
-                //top left
-                data[slot+0].x = vx;
-                data[slot+0].y = vy;
-                data[slot+0].s = vs;
-                data[slot+0].t = vt;
-		data[slot+0].r = c[0];
-		data[slot+0].g = c[1];
-		data[slot+0].b = c[2];
-		data[slot+0].a = c[3];
+		//top left
+		data[slot + 0].x = vx;
+		data[slot + 0].y = vy;
+		data[slot + 0].s = vs;
+		data[slot + 0].t = vt;
+		data[slot + 0].r = c[0];
+		data[slot + 0].g = c[1];
+		data[slot + 0].b = c[2];
+		data[slot + 0].a = c[3];
 
 		//top right
-                data[slot+1].x = vx2;
-                data[slot+1].y = vy;
-                data[slot+1].s = vs2;
-                data[slot+1].t = vt;
-		data[slot+1].r = c[0];
-		data[slot+1].g = c[1];
-		data[slot+1].b = c[2];
-		data[slot+1].a = c[3];
+		data[slot + 1].x = vx2;
+		data[slot + 1].y = vy;
+		data[slot + 1].s = vs2;
+		data[slot + 1].t = vt;
+		data[slot + 1].r = c[0];
+		data[slot + 1].g = c[1];
+		data[slot + 1].b = c[2];
+		data[slot + 1].a = c[3];
 
 		//bottom right
-                data[slot+2].x = vx2;
-                data[slot+2].y = vy2;
-                data[slot+2].s = vs2;
-                data[slot+2].t = vt2;
-		data[slot+2].r = c[0];
-		data[slot+2].g = c[1];
-		data[slot+2].b = c[2];
-		data[slot+2].a = c[3];
+		data[slot + 2].x = vx2;
+		data[slot + 2].y = vy2;
+		data[slot + 2].s = vs2;
+		data[slot + 2].t = vt2;
+		data[slot + 2].r = c[0];
+		data[slot + 2].g = c[1];
+		data[slot + 2].b = c[2];
+		data[slot + 2].a = c[3];
 
 		//bottom left
-                data[slot+3].x = vx;
-                data[slot+3].y = vy2;
-                data[slot+3].s = vs;
-                data[slot+3].t = vt2;
-		data[slot+3].r = c[0];
-		data[slot+3].g = c[1];
-		data[slot+3].b = c[2];
-		data[slot+3].a = c[3];
-        }
+		data[slot + 3].x = vx;
+		data[slot + 3].y = vy2;
+		data[slot + 3].s = vs;
+		data[slot + 3].t = vt2;
+		data[slot + 3].r = c[0];
+		data[slot + 3].g = c[1];
+		data[slot + 3].b = c[2];
+		data[slot + 3].a = c[3];
+	}
 
 	VertexLength = (numChildren * 4 * sizeof(WINDOW_VBOVertex));
-	
+
 	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->AddData( VertexLength, data, &VertexPosition );
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
-	
+	Control::GUI_vbo->AddData(VertexLength, data, &VertexPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	delete [] data;
 }
 
-void Window::OnKeyPress( unsigned short key ){
-	if( ActiveChild != NULL )
-		ActiveChild->OnKeyPress( key );
+void Window::OnKeyPress(unsigned short key) {
+	if (ActiveChild != NULL)
+		ActiveChild->OnKeyPress(key);
 }
 
-void Window::OnMousePress( unsigned short button, int mx, int my ){
-	if( MouseOverChild != NULL ){
+void Window::OnMousePress(unsigned short button, int mx, int my) {
+	if (MouseOverChild != NULL) {
 		ActiveChild = MouseOverChild;
-		ActiveChild->OnMousePress( button, mx, my );
-		ReciveInput = ActiveChild->HasAttrib( CTRL_INPUT );
+		ActiveChild->OnMousePress(button, mx, my);
+		ReciveInput = ActiveChild->HasAttrib(CTRL_INPUT);
 	}
 }
 
-/**
- *
- */
-bool Window::OnMouseClick( unsigned short num, bool final ){
-	if( ActiveChild != NULL ){
-		return ActiveChild->OnMouseClick( num, final );
+bool Window::OnMouseClick(unsigned short num, bool final) {
+	if (ActiveChild != NULL) {
+		return ActiveChild->OnMouseClick(num, final);
 	}
 
 	return false;
 }
 
-void Window::Animate( int type, float value, unsigned int start, unsigned int duration, int interpolation , Control* ptr ){
-	Animate( type, nv::vec4<float>( value, 0, 0, 0), start, duration, interpolation, ptr );
+void Window::Animate(int type, float value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+	Animate(type, nv::vec4<float>(value, 0, 0, 0), start, duration, interpolation, ptr);
 }
 
-void Window::Animate( int type, nv::vec2<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
-	Animate( type, nv::vec4<float>( value.x, value.y, 0, 0), start, duration, interpolation, ptr );
+void Window::Animate(int type, nv::vec2<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+	Animate(type, nv::vec4<float>(value.x, value.y, 0, 0), start, duration, interpolation, ptr);
 }
 
-void Window::Animate( int type, nv::vec3<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
-	if( type == ORIGIN ){
+void Window::Animate(int type, nv::vec3<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+	if (type == ORIGIN) {
 		AnimationOrigin = value;
 		return;
 	}
 
-	Animate( type, nv::vec4<float>( value.x, value.y, value.z, 0), start, duration, interpolation, ptr );
+	Animate(type, nv::vec4<float>(value.x, value.y, value.z, 0), start, duration, interpolation, ptr);
 }
 
-void Window::Animate( int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr ){
+void Window::Animate(int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
 	unsigned int ticks = SDL_GetTicks();
 
 	AnimationType ani;
@@ -413,11 +433,11 @@ void Window::Animate( int type, nv::vec4<float> value, unsigned int start, unsig
 	ani.EndTicks = ticks + start + duration;
 	ani.data = value;
 
-	Animations.push_back( ani );
+	Animations.push_back(ani);
 }
 
-void Window::StepAnimation(){
-	if( Animations.size() == 0 )
+void Window::StepAnimation() {
+	if (Animations.size() == 0)
 		return;
 
 	unsigned int ticks = SDL_GetTicks();
@@ -427,11 +447,11 @@ void Window::StepAnimation(){
 	bool del;
 
 	std::list<AnimationType>::iterator it = Animations.begin();
-	while( it != Animations.end() ){
+	while (it != Animations.end()) {
 		del = false;
 
-		if( ticks > it->StartTicks ){
-			if( ticks > it->EndTicks ){
+		if (ticks > it->StartTicks) {
+			if (ticks > it->EndTicks) {
 				step = it->EndTicks - it->LastTicks;
 				del = true;
 			} else {
@@ -443,36 +463,39 @@ void Window::StepAnimation(){
 			data = it->data * scale;
 
 			//Translation
-			switch( (it->Type & TRANSLATEXYZ) ){
-				case 0:								break;
-				case TRANSLATEX: 	Move( data.x, 0 );			break;
-				case TRANSLATEY: 	Move( 0, data.x );			break;
-				case TRANSLATEXY: 	Move( data.x, data.y ); 		break;
-				default: break;
+			switch ((it->Type & TRANSLATEXYZ)) {
+			case 0: break;
+			case TRANSLATEX: Move(data.x, 0);
+				break;
+			case TRANSLATEY: Move(0, data.x);
+				break;
+			case TRANSLATEXY: Move(data.x, data.y);
+				break;
+			default: break;
 			}
 
 			//rotation
-			if( (it->Type & ROTATEZ )){
-				Modelview.rotate( data.x, 0.0, 0.0, 1.0 );
+			if ((it->Type & ROTATEZ)) {
+				Modelview.rotate(data.x, 0.0, 0.0, 1.0);
 			}
-			if( (it->Type & ROTATEORGZ )){
-				Modelview.rotateOrigin( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+			if ((it->Type & ROTATEORGZ)) {
+				Modelview.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 			}
-			if( (it->Type & ROTATESCREENZ )){
-				Modelview.rotateScreen( data.x, 0.0, 0.0, 1.0, AnimationOrigin );
+			if ((it->Type & ROTATESCREENZ)) {
+				Modelview.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 			}
 
 			//color
-			if( (it->Type & RGBACHANNEL )){
-				if( it->Object != NULL ){
-					it->Object->AddColor( data );
-					UpdateControl( it->Object );
+			if ((it->Type & RGBACHANNEL)) {
+				if (it->Object != NULL) {
+					it->Object->AddColor(data);
+					UpdateControl(it->Object);
 				}
 			}
 		}
 
-		if( del ){
-			it = Animations.erase( it );
+		if (del) {
+			it = Animations.erase(it);
 		} else {
 			it++;
 		}
@@ -481,32 +504,35 @@ void Window::StepAnimation(){
 
 //TODO: Change the way animations are handeld to make this cleaner
 //and faster
-void Window::RemoveAnimation( Control* c ){
+
+void Window::RemoveAnimation(Control* c) {
 	std::list<AnimationType>::iterator it;
-	for( it = Animations.begin(); it != Animations.end(); it++ ){
-		if( it->Object == c ){
-			Animations.erase( it );
+	for (it = Animations.begin(); it != Animations.end(); it++) {
+		if (it->Object == c) {
+			Animations.erase(it);
 			return;
 		}
 	}
 }
 
-void Window::Unproject( float winx, float winy, float* p, float* ox, float* oy ){
+//TODO: Optimize this, low proiody
+
+void Window::Unproject(float winx, float winy, float* p, float* ox, float* oy) {
 	GLint view[4];
 	glGetIntegerv(GL_VIEWPORT, view);
 
-	nv::vec4<float> in = nv::vec4<float>(	((winx - view[0]) * 2.0) / view[2] - 1.0,
-						-(((winy - view[1]) * 2.0) / view[3] - 1.0),
-						-1.0,
-						1.0 );
+	nv::vec4<float> in = nv::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
+		-(((winy - view[1]) * 2.0) / view[3] - 1.0),
+		-1.0,
+		1.0);
 
 	nv::matrix4<float> proj;
-	proj.set_value( p );
+	proj.set_value(p);
 	proj *= Modelview;
 
-	nv::vec4<float> ret = inverse( proj ) * in;
+	nv::vec4<float> ret = inverse(proj) * in;
 
-	if( ret.w == 0.0 )
+	if (ret.w == 0.0)
 		return;
 
 	*ox = ret.x / ret.w;

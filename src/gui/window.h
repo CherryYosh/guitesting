@@ -15,6 +15,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "control.h"
+
 #include "../shader.h"
 #include "../nvMatrix.h"
 #include "../nvVector.h"
@@ -23,71 +25,78 @@
 #include <list>
 
 #define BITSHIFT(x) 1 << x
-#define BITSHIFT2(x,y)x << y
+#define BITSHIFT2(x,y) x << y
 
 struct AnimationType;
 class Control;
 class GUI;
 
 //enums used for window Depth
-enum{ WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM };
+
+enum {
+	WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM
+};
 
 //enums used for animation
-enum{ 	TRANSLATEX = 	BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATEXYZ =BITSHIFT2(0x07,0), \
-		ROTATEX = 		BITSHIFT(3), ROTATEY = 			BITSHIFT(4), ROTATEXY = 		BITSHIFT2(0x03, 3), ROTATEZ = 		BITSHIFT(5), ROTATEXYZ = 		BITSHIFT2(0x07,3), \
-		ROTATEORGX = 	BITSHIFT(6), ROTATEORGY =  		BITSHIFT(7), ROTATEORGXY = 		BITSHIFT2(0x03, 6), ROTATEORGZ =  	BITSHIFT(8), ROTATEORGXYZ = 	BITSHIFT2(0x07,6), \
-		ROTATESCREENX = BITSHIFT(9), ROTATESCREENY = 	BITSHIFT(10), ROTATESCREENXY = 	BITSHIFT2(0x03, 9), ROTATESCREENZ = BITSHIFT(11), ROTATESCREENXYZ = BITSHIFT2(0x07,9), \
-		REDCHANNEL = 	BITSHIFT(12), GREENCHANNEL = 	BITSHIFT(13), RGCHANNEL = 		BITSHIFT2(0x03,12), BLUECHANNEL = 	BITSHIFT(14), RGBCHANNEL = 		BITSHIFT2(0x07,12), ALPHACHANNEL = BITSHIFT(15), RGBACHANNEL = BITSHIFT2(0x0F,12), \
-		ORIGIN = 		BITSHIFT(16) };
+
+enum {
+	TRANSLATEX = BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATEXYZ = BITSHIFT2(0x07, 0),   \
+	ROTATEX = BITSHIFT(3), ROTATEY = BITSHIFT(4), ROTATEXY = BITSHIFT2(0x03, 3), ROTATEZ = BITSHIFT(5), ROTATEXYZ = BITSHIFT2(0x07, 3),   \
+	ROTATEORGX = BITSHIFT(6), ROTATEORGY = BITSHIFT(7), ROTATEORGXY = BITSHIFT2(0x03, 6), ROTATEORGZ = BITSHIFT(8), ROTATEORGXYZ = BITSHIFT2(0x07, 6),   \
+	ROTATESCREENX = BITSHIFT(9), ROTATESCREENY = BITSHIFT(10), ROTATESCREENXY = BITSHIFT2(0x03, 9), ROTATESCREENZ = BITSHIFT(11), ROTATESCREENXYZ = BITSHIFT2(0x07, 9),   \
+	REDCHANNEL = BITSHIFT(12), GREENCHANNEL = BITSHIFT(13), RGCHANNEL = BITSHIFT2(0x03, 12), BLUECHANNEL = BITSHIFT(14), RGBCHANNEL = BITSHIFT2(0x07, 12), ALPHACHANNEL = BITSHIFT(15), RGBACHANNEL = BITSHIFT2(0x0F, 12),   \
+	ORIGIN = BITSHIFT(16)
+};
 
 //interpolation types
-enum{ LINEAR = 0 };
 
-class Window {
+enum {
+	LINEAR = 0
+};
+
+class Window : public Control {
 public:
-	Window( GUI* );
+	Window(GUI*);
 	~Window();
 
-	void AddChild( Control*, int, bool = true );
-	void Move( float, float );
+	void AddChild(Control*, int, bool = true);
+	void Move(float, float);
 
-	int Close();
-	
-	void UpdateControl( Control* );
-	void OnKeyPress( unsigned short );
-	void OnMousePress( unsigned short, int, int );
-	bool OnMouseClick( unsigned short, bool );
-	bool HitTest( float, float, float* );
+	void Close();
 
-	void Render( Shader* );
-	void RenderText( int, int, int );
+	unsigned int GetNumChildren();
 
-	void Animate( int, float, unsigned int, unsigned int, int, Control* = NULL );
-	void Animate( int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL );
-	void Animate( int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL );
-	void Animate( int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL );
+	void UpdateControl(Control*);
+	void OnKeyPress(unsigned short);
+	void OnMousePress(unsigned short, int, int);
+	bool OnMouseClick(unsigned short, bool);
+	bool HitTest(float, float, float*);
+
+	void Render(Shader*);
+	void RenderText(int, int, int);
+
+	void Animate(int, float, unsigned int, unsigned int, int, Control* = NULL);
+	void Animate(int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL);
+	void Animate(int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL);
+	void Animate(int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL);
 
 	void StepAnimation();
-	void RemoveAnimation( Control* );
+	void RemoveAnimation(Control*);
 
-	void Unproject( float, float, float*, float*, float*);
+	void Unproject(float, float, float*, float*, float*);
 
-
-	float Width, Height;
 	bool ReciveInput;
 protected:
 private:
 	void UpdateVBO();
 	void RebuildVBO();
-	float x, y;
 
-	std::vector<Control*> Children;
 	std::list<AnimationType> Animations;
 
 	unsigned int VertexPosition, VertexLength;
 	Control* MouseOverChild;
 	Control* ActiveChild;
-	GUI* Parent;
+	GUI* gui;
 
 	nv::matrix4<float> Modelview;
 	nv::vec3<float> AnimationOrigin;

@@ -17,16 +17,16 @@
 
 #include "label.h"
 
-class Editbox : public Label{
+class Editbox : public Label  {
 public:
-	Editbox( Window* p, std::string, int, int );
+	Editbox(std::string, Window*, Control* = NULL, float = 0, float = 0);
 	~Editbox();
 
-	bool HitTest( int, int );
-	void OnKeyPress( unsigned short );
-	void OnKeyRelease( int, int );
-	void OnMousePress( unsigned short, int, int );
-	void OnMouseRelease( int );
+	bool HitTest(int, int);
+	void OnKeyPress(unsigned short);
+	void OnKeyRelease(int, int);
+	void OnMousePress(unsigned short, int, int);
+	void OnMouseRelease(int);
 private:
 protected:
 };

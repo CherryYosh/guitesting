@@ -17,7 +17,7 @@
 
 #include "rule.h"
 
-Rule::Rule( Window* p, std::string t, int x, int y ) : Control(p,t,x,y) {
+Rule::Rule(std::string t, Window* p, Control* c, float x, float y ) : Control(t,p,c,x,y) {
 }
 
 Rule::~Rule(){
@@ -28,5 +28,6 @@ bool Rule::HitTest( int mouseX, int mouseY ){
 			mouseX < x + Width &&  mouseY < y + Height ){
 		return true;
 	}
+
 	return false;
 }

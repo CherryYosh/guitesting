@@ -23,49 +23,54 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
+#include <vector>
 #include <string>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
 class Window;
 
-struct CTRL_GUIDataT{
+struct CTRL_GUIDataT {
 	std::string type;
-	float s,t, s2,t2; //the uv coords
+	float s, t, s2, t2; //the uv coords
 	float width, height;
 };
 
 //the basic control class of all GUI objects
-class Control{
+
+class Control {
 public:
-	Control( Window*, std::string, float, float );
+	Control(std::string, Window*, Control* = NULL, float = 0, float = 0);
 	virtual ~Control();
+
 	virtual void Activate(); //called when ever the control becomes active
 
-	virtual bool HitTest( int, int );
+	virtual bool HitTest(int, int);
 
-	virtual void OnMousePress( unsigned short, int, int );
-	virtual void OnMouseRelease( int );
+	virtual void OnMousePress(unsigned short, int, int);
+	virtual void OnMouseRelease(int);
 	virtual void OnMouseEnter();
 	virtual void OnMouseLeave();
-	virtual bool OnMouseClick( unsigned short, bool );
+	virtual bool OnMouseClick(unsigned short, bool);
 
-	virtual void OnKeyPress( unsigned short );
-	virtual void OnKeyRelease( int, int );
+	virtual void OnKeyPress(unsigned short);
+	virtual void OnKeyRelease(int, int);
 
-	virtual void Move( float, float );
-	virtual void SetCallback( boost::function<int()> callback );
-	virtual void SetWidth( float );
-	virtual void SetHeight( float );
-	virtual bool HasAttrib( unsigned short );
-	virtual void SetEnabled( bool );
-	virtual void SetFocus( bool );
-	virtual void SetDepth( float );
+	virtual void Move(float, float);
+	virtual void SetCallback(boost::function<void()>);
+	virtual void SetWidth(float);
+	virtual void SetHeight(float);
+	virtual bool HasAttrib(unsigned short);
+	virtual void SetEnabled(bool);
+	virtual void SetFocus(bool);
+	virtual void SetDepth(float);
 
-	virtual void SetColor( float, float, float, float );
-	virtual void SetColor( nv::vec4<float> );
-	virtual void AddColor( nv::vec4<float> );
+	virtual void SetColor(float, float, float, float);
+	virtual void SetColor(nv::vec4<float>);
+	virtual void AddColor(nv::vec4<float>);
 	virtual float* GetColorv();
+
+	virtual void AddChild(Control*);
 
 	virtual float GetWidth();
 	virtual float GetHeight();
@@ -73,16 +78,18 @@ public:
 
 	unsigned int VertexOffset;
 
+	float Width, Height;
 	float x, y;
 	float s, t, s2, t2;
 
 	static VBO* GUI_vbo;
 protected:
 	float Depth;
-	float Width, Height;
 	unsigned short Attributes;
-	boost::function<int()> m_Callback; //the callback function //TODO: multipul callbacks?
-	Window* Parent;
+	boost::function<void() > m_Callback; //TODO: multipul callbacks?
+	Window* Root;
+	Control* Parent;
+	std::vector<Control*> Children;
 private:
 	void GetControlData();
 
@@ -92,5 +99,5 @@ private:
 	std::string Type;
 };
 
-void Control_Init( const char* );
+void Control_Init(const char*);
 #endif

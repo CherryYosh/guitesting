@@ -13,36 +13,33 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 #include <GL/glew.h>
-#include "control.h"
-#include "../thememgr.h"
 
+#include "control.h"
+
+#include "../thememgr.h"
 
 std::vector<CTRL_GUIDataT*> guiData;
 VBO* Control::GUI_vbo;
 
-//Sets up the guiData so the controls can be created corectly
-//IN:
-//	path = the name of the default theme to load
-//OUT: none
-void Control_Init( const char* path ){
-	unsigned int size = ThemeMgr_LoadTheme( path );
-        const ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
+void Control_Init(const char* path) {
+	unsigned int size = ThemeMgr_LoadTheme(path);
+	const ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
 
-        for( unsigned int i = 0; i < size; i++ ){
-                //textrue data
-                float x = (float)(theme->data[i]->x) / (float)theme->width;
-                //heigh - y, convertes it from image space, 0,0, being top left, to texture space , 0,0 being bottome left
-                float y =  (float)( theme->height - theme->data[i]->y ) / (float)theme->height;
+	for (unsigned int i = 0; i < size; i++) {
+		//textrue data
+		float x = (float) (theme->data[i]->x) / (float) theme->width;
+		//heigh - y, convertes it from image space, 0,0, being top left, to texture space , 0,0 being bottome left
+		float y = (float) (theme->height - theme->data[i]->y) / (float) theme->height;
 
-                float x2 =  (float)theme->data[i]->x2 / (float)theme->width;
-                float y2 = (float)( theme->height - theme->data[i]->y2 )/ (float)theme->height;
+		float x2 = (float) theme->data[i]->x2 / (float) theme->width;
+		float y2 = (float) (theme->height - theme->data[i]->y2) / (float) theme->height;
 
-                //add the data so it can get looked up
-                CTRL_GUIDataT* temp = new CTRL_GUIDataT;
+		//add the data so it can get looked up
+		CTRL_GUIDataT* temp = new CTRL_GUIDataT;
 
-                temp->type = theme->data[i]->type;
-                temp->width = theme->data[i]->x2 - theme->data[i]->x;
-                temp->height = theme->data[i]->y2 - theme->data[i]->y;
+		temp->type = theme->data[i]->type;
+		temp->width = theme->data[i]->x2 - theme->data[i]->x;
+		temp->height = theme->data[i]->y2 - theme->data[i]->y;
 
 		//set up the uv
 		temp->s = x;
@@ -50,18 +47,19 @@ void Control_Init( const char* path ){
 		temp->t = y;
 		temp->t2 = y2;
 
-                guiData.push_back( temp );
-        }
+		guiData.push_back(temp);
+	}
 
-        //time to gen the VBO's data
-        Control::GUI_vbo = new VBO();
+	//time to gen the VBO's data
+	Control::GUI_vbo = new VBO();
 }
 
 //This should only be called when a new theme has been loaded or when the control is initlized
-void Control::GetControlData(){
+
+void Control::GetControlData() {
 	size_t size = guiData.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( Type == guiData[i]->type ){
+	for (unsigned int i = 0; i < size; i++) {
+		if (Type == guiData[i]->type) {
 			Width = guiData[i]->width;
 			Height = guiData[i]->height;
 
@@ -75,7 +73,7 @@ void Control::GetControlData(){
 	}
 }
 
-Control::Control( Window* p, std::string t, float ix, float iy ){
+Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
 	isEnabled = true;
 	hasFocus = false;
 	Type = t;
@@ -83,112 +81,116 @@ Control::Control( Window* p, std::string t, float ix, float iy ){
 	y = iy;
 	VertexOffset = 0;
 
-	SetColor( nv::vec4<float>(0.0) );
+	SetColor(nv::vec4<float>(0.0));
 
 	Attributes = 0;
 	GetControlData();
 	Parent = p;
+	Root = r;
 }
 
-Control::~Control(){
+Control::~Control() {
 	//is there anything to do??
 }
 
-void Control::Activate(){
+void Control::Activate() {
 	//nothing needs to be done
 }
 
-bool Control::HitTest( int mouseX, int mouseY ){
+bool Control::HitTest(int mouseX, int mouseY) {
 	return false;
 }
 
-void Control::OnMousePress( unsigned short button, int mx, int my ){
+void Control::OnMousePress(unsigned short button, int mx, int my) {
 	//called by input
 }
 
-void Control::OnMouseRelease( int button ){
+void Control::OnMouseRelease(int button) {
 	//called by input
 }
 
-bool Control::OnMouseClick( unsigned short num, bool final ){
+bool Control::OnMouseClick(unsigned short num, bool final) {
 	return false;
 }
 
-void Control::OnKeyPress( unsigned short unicode ){
+void Control::OnKeyPress(unsigned short unicode) {
 	//called by input
 }
 
-void Control::OnKeyRelease( int key, int mod ){
+void Control::OnKeyRelease(int key, int mod) {
 	//called by input
 }
 
-void Control::Move( float cx, float cy ){
+void Control::Move(float cx, float cy) {
 	x += cx;
 	y += cy;
 }
 
-void Control::SetEnabled( bool value ){
+void Control::SetEnabled(bool value) {
 	isEnabled = value;
 }
 
-void Control::SetFocus( bool value ){
+void Control::SetFocus(bool value) {
 	hasFocus = value;
 }
 
-void Control::SetCallback( boost::function<int()> callback ){
+void Control::SetCallback(boost::function<void() > callback) {
 	m_Callback = callback;
 }
 
-void Control::SetWidth( float w ){
+void Control::SetWidth(float w) {
 	Width = w;
 }
 
-void Control::SetHeight( float h ){
+void Control::SetHeight(float h) {
 	Height = h;
 }
 
-bool Control::HasAttrib( unsigned short a ){
+bool Control::HasAttrib(unsigned short a) {
 	//will only return true if all the attributes are there
-	return a == ( Attributes & a );
+	return a == (Attributes & a);
 }
 
-void Control::SetDepth( float d ){
+void Control::SetDepth(float d) {
 	Depth = d;
 }
 
-float Control::GetWidth(){
+float Control::GetWidth() {
 	return Width;
 }
 
-float Control::GetHeight(){
+float Control::GetHeight() {
 	return Height;
 }
 
-float Control::GetDepth(){
+float Control::GetDepth() {
 	return Depth;
 }
 
-void Control::SetColor(float r, float g, float b, float a ){
+void Control::SetColor(float r, float g, float b, float a) {
 	Color[0] = r;
 	Color[1] = g;
 	Color[2] = b;
 	Color[3] = a;
 }
 
-void Control::SetColor( nv::vec4<float> c ){
+void Control::SetColor(nv::vec4<float> c) {
 	Color = c;
 }
 
-void Control::AddColor( nv::vec4<float> c ){
+void Control::AddColor(nv::vec4<float> c) {
 	Color += c;
 }
 
-float* Control::GetColorv(){
+float* Control::GetColorv() {
 	return Color._array;
 }
 
-void Control::OnMouseEnter(){
+void Control::OnMouseEnter() { }
+
+void Control::OnMouseLeave() { }
+
+void Control::AddChild(Control* c) {
+	Children.push_back(c);
 }
 
-void Control::OnMouseLeave(){
-}
