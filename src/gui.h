@@ -32,6 +32,7 @@ public:
 
 	bool HitTest( float, float );
 	void Move( int, int );
+	void MakeActive( Window* );
 
 	void OnKeyPress( unsigned short );
 	void OnMousePress( unsigned short, int, int );

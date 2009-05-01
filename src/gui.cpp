@@ -134,6 +134,27 @@ void GUI::Move(int x, int y) {
 		ActiveWindow->Move(x, y);
 }
 
+/**
+ * Makes the given window the active, also pops it to the top of the list
+ * @param w the window to be made active
+ * @returns TODO
+ */
+void GUI::MakeActive( Window* w ){
+	ActiveWindow = w;
+
+	if( w == NULL )
+		return;
+
+	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
+		if( *it == w ){
+			Windows.erase( it );
+			break;
+		}
+	}
+
+	Windows.push_back( w );
+}
+
 void GUI::OnKeyPress(unsigned short unicode) {
 	if (ActiveWindow != NULL)
 		ActiveWindow->OnKeyPress(unicode);
@@ -141,7 +162,7 @@ void GUI::OnKeyPress(unsigned short unicode) {
 
 void GUI::OnMousePress(unsigned short button, int mx, int my) {
 	if (MouseOverWindow != NULL) {
-		ActiveWindow = MouseOverWindow;
+		MakeActive( MouseOverWindow );
 		ActiveWindow->OnMousePress(button, mx, my);
 	} else {
 		ActiveWindow = NULL;
