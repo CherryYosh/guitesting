@@ -64,8 +64,6 @@ public:
 
 	void Close();
 
-	unsigned int GetNumChildren();
-
 	void UpdateControl(Control*);
 	void OnKeyPress(unsigned short);
 	void OnMousePress(unsigned short, int, int);
@@ -85,6 +83,8 @@ public:
 
 	void Unproject(float, float, float*, float*, float*);
 
+	unsigned int NumChildren();
+
 	bool ReciveInput;
 protected:
 private:
@@ -94,8 +94,6 @@ private:
 	std::list<AnimationType> Animations;
 
 	unsigned int VertexPosition, VertexLength;
-	Control* MouseOverChild;
-	Control* ActiveChild;
 	GUI* gui;
 
 	nv::matrix4<float> Modelview;

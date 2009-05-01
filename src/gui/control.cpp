@@ -79,7 +79,7 @@ Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
 	Type = t;
 	x = ix;
 	y = iy;
-	VertexOffset = 0;
+	VertexOffset = 1;
 
 	SetColor(nv::vec4<float>(0.0));
 
@@ -87,6 +87,9 @@ Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
 	GetControlData();
 	Parent = p;
 	Root = r;
+
+	MouseOverChild = NULL;
+	ActiveChild = NULL;
 }
 
 Control::~Control() {
@@ -97,12 +100,39 @@ void Control::Activate() {
 	//nothing needs to be done
 }
 
-bool Control::HitTest(int mouseX, int mouseY) {
+bool Control::HitTest(int mx, int my) {
+	if (mx > x && my > y &&
+		mx < x + Width && my < y + Height) {
+		if (MouseOverChild != NULL) {
+			if (MouseOverChild->HitTest(mx, my)) {
+				return true;
+			} else {
+				MouseOverChild->OnMouseLeave();
+			}
+		}
+
+		size_t size = Children.size();
+		for(unsigned int i = 0; i < size; i++) {
+			if (Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)) {
+				MouseOverChild = Children[i];
+				MouseOverChild->OnMouseEnter();
+				return true;
+			}
+		}
+
+		MouseOverChild = NULL;
+		return true;
+	}
+
+	MouseOverChild = NULL;
 	return false;
 }
 
 void Control::OnMousePress(unsigned short button, int mx, int my) {
-	//called by input
+	if (MouseOverChild != NULL) {
+		ActiveChild = MouseOverChild;
+		ActiveChild->OnMousePress(button, mx, my);
+	}
 }
 
 void Control::OnMouseRelease(int button) {
@@ -110,6 +140,10 @@ void Control::OnMouseRelease(int button) {
 }
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
+	if (ActiveChild != NULL) {
+		return ActiveChild->OnMouseClick(num, final);
+	}
+
 	return false;
 }
 
@@ -194,3 +228,14 @@ void Control::AddChild(Control* c) {
 	Children.push_back(c);
 }
 
+unsigned int Control::NumChildren() {
+	return Children.size();
+}
+
+Control* Control::GetChild( unsigned int num ){
+	if( num < Children.size() ){
+		return Children[num];
+	} else {
+		return NULL;
+	}
+}

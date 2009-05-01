@@ -25,150 +25,155 @@
 #include <iostream>
 #include <cstring>
 
-VBO::VBO( GLenum t ) {
+VBO::VBO(GLenum t) {
 	isBound = false;
-        size = 0;
+	size = 0;
 	type = t;
-	glGenBuffers( 1, &id );
+	glGenBuffers(1, &id);
 }
 
-VBO::VBO(unsigned int length, void* data, GLenum t ) {
+VBO::VBO(unsigned int length, void* data, GLenum t) {
 	isBound = false;
-        size = length;
+	size = length;
 	type = t;
-	glGenBuffers( 1, &id );
-	
-	if( length != 0 ){
-	    Bind();
-		InitData( length, data );
-	    Unbind();
+	glGenBuffers(1, &id);
+
+	if (length != 0) {
+		Bind();
+		InitData(length, data);
+		Unbind();
 	}
 }
 
-VBO::~VBO(){
-	glDeleteBuffers( 1, &id );
+VBO::~VBO() {
+	glDeleteBuffers(1, &id);
 }
 
-void VBO::Bind(){
-	glBindBuffer( GL_ARRAY_BUFFER, id );
+void VBO::Bind() {
+	glBindBuffer(GL_ARRAY_BUFFER, id);
 	isBound = true;
 }
 
-void VBO::Unbind(){
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+void VBO::Unbind() {
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	isBound = false;
 }
 
 /* Sets the vbo data, only used if not set yet */
-bool VBO::InitData( unsigned int length, void* data ){	
-	glBufferData( GL_ARRAY_BUFFER, length, data, type );
+bool VBO::InitData(unsigned int length, void* data) {
+	glBufferData(GL_ARRAY_BUFFER, length, data, type);
 
 	size = length;
 	return true;
 }
 
 /* Sets the existing portions of the vbo to data */
-bool VBO::SetData(unsigned int start, unsigned int length, void* data ){
-    if( !isBound )
-	    return false;
+bool VBO::SetData(unsigned int start, unsigned int length, void* data) {
+	if (!isBound)
+		return false;
 
-    void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT );
+	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 
-    if( ptr != NULL ){
-	    memcpy( ptr, data, length );
+	if (ptr != NULL) {
+		memcpy(ptr, data, length);
 
-	    glFlushMappedBufferRange( GL_ARRAY_BUFFER, 0,  length );
-	    glUnmapBuffer( GL_ARRAY_BUFFER );
-    } else {
-	    printf( "Error: VBO %i could not set data! %i\n", id, glGetError() );
-	    return false;
-    }
+		glFlushMappedBufferRange(GL_ARRAY_BUFFER, 0, length);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+	} else {
+		printf("Error: VBO %i could not set data! %i\n", id, glGetError());
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 /* Adds length data to the end of the vbo, increasing the size by length after. */
-bool VBO::AddData( unsigned int length, void* data, unsigned int* position ){
-	if( !isBound )
+bool VBO::AddData(unsigned int length, void* data, unsigned int* position) {
+	if (!isBound)
 		return false;
-	
-	if( position != NULL )
+
+	if (position != NULL)
 		*position = size;
 
-	if( size == 0 ){
-		return InitData( length, data );
+	if (size == 0) {
+		return InitData(length, data);
 	}
 
 	char* tdata = new char[ size + length ];
-	void* ptr =  glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
 
-	if( ptr != NULL ){
-		memcpy( tdata, ptr, size );
-		memcpy( &tdata[size], data, length );
+	if (ptr != NULL) {
+		memcpy(tdata, ptr, size);
+		memcpy(&tdata[size], data, length);
 
-		glUnmapBuffer( GL_ARRAY_BUFFER );
-		glBufferData( GL_ARRAY_BUFFER, size + length, tdata, type );
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBufferData(GL_ARRAY_BUFFER, size + length, tdata, type);
 
 		size += length;
 		delete [] tdata;
 	} else {
-	    printf( "Error: VBO %i could not add data! %i\n", id, glGetError() );
-	    return false;
+		printf("Error: VBO %i could not add data! %i\n", id, glGetError());
+		return false;
 	}
 
 	return true;
 }
 
 /* Inserts data at a given position, with changing lengths. */
-bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int newLength, void* data ){
-	if( !isBound )
+bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int newLength, void* data) {
+	if (!isBound)
 		return false;
 
 	int change = newLength - oldLength;
-	void* ptr = glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
 
-	if( ptr != NULL ){
-	    char* tdata = new char[size + change];
+	if (ptr != NULL) {
+		char* tdata = new char[size + change];
 
-	    memcpy( tdata, ptr, start );
-	    memcpy( &tdata[start], data, newLength );
-	    memcpy( &tdata[ start + newLength ], ptr, size - ( start + oldLength ));
+		memcpy(tdata, ptr, start);
+		memcpy(&tdata[start], data, newLength);
+		memcpy(&tdata[ start + newLength ], ptr, size - (start + oldLength));
 
-	    glUnmapBuffer( GL_ARRAY_BUFFER );
-	    glBufferData( GL_ARRAY_BUFFER, size + change, tdata, type );
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBufferData(GL_ARRAY_BUFFER, size + change, tdata, type);
 
-	    size += change;
+		size += change;
 	} else {
-	    printf( "Error: VBO %i could not insert data! %i\n", id, glGetError() );
-	    return false;
+		printf("Error: VBO %i could not insert data! %i\n", id, glGetError());
+		return false;
 	}
 
 	return true;
 }
 
-bool VBO::RemoveData(unsigned int start, unsigned int length){
-	if( !isBound )
+bool VBO::RemoveData(unsigned int start, unsigned int length) {
+	if (!isBound)
 		return false;
 
 	char* tdata = new char[ size - length ];
-	char* ptr =  (char*)glMapBufferRange( GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT );
+	char* ptr = (char*) glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
 
-	if( ptr != NULL ){
-		memcpy( tdata, ptr, start );
-		memcpy( &tdata[start], &ptr[start+length], size - length - start );
+	if (ptr != NULL) {
+		memcpy(tdata, ptr, start);
+		memcpy(&tdata[start], &ptr[start + length], size - length - start);
 
-		glUnmapBuffer( GL_ARRAY_BUFFER );
-		glBufferData( GL_ARRAY_BUFFER, size - length, tdata, type );
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBufferData(GL_ARRAY_BUFFER, size - length, tdata, type);
 
 		size -= length;
 		delete [] tdata;
 	} else {
-	    printf( "Error: VBO %i could not remove data! %i\n", id, glGetError() );
-	    return false;
+		printf("Error: VBO %i could not remove data! %i\n", id, glGetError());
+		return false;
 	}
 
 	return true;
 }
 
-const GLuint VBO::GetID(){ return id; }
-const unsigned int VBO::GetSize(){ return size; }
+const GLuint VBO::GetID() {
+	return id;
+}
+
+const unsigned int VBO::GetSize() {
+	return size;
+}

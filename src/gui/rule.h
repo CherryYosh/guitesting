@@ -21,8 +21,6 @@ class Rule : public Control {
 public:
 	Rule(std::string, Window*, Control* = NULL, float = 0, float = 0);
 	~Rule();
-
-	bool HitTest(int, int);
 protected:
 private:
 };

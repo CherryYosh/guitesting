@@ -47,10 +47,9 @@ struct AnimationType {
 };
 
 Window::Window(GUI* p) : Control("", NULL) {
-	VertexPosition = 0;
+	VertexPosition = 1;
 	VertexLength = 0;
 	ReciveInput = false;
-	MouseOverChild = NULL;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
 	Modelview._43 = -1.0; //z value
@@ -64,7 +63,18 @@ Window::~Window() {
 }
 
 void Window::AddChild(Control *child, int depth, bool rebuild) {
-	child->SetDepth(depth);
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		if (Children[i]->HitTest(child->x, child->y)) {
+			Children[i]->AddChild(child);
+
+			if (rebuild)
+				RebuildVBO();
+
+			return;
+		}
+	}
+
 	Children.push_back(child);
 
 	if (rebuild)
@@ -83,8 +93,13 @@ void Window::Close() {
 	delete this;
 }
 
-unsigned int Window::GetNumChildren() {
-	return Children.size();
+unsigned int Window::NumChildren() {
+	size_t size = Children.size();
+	unsigned int ret = size;
+	for (unsigned int i = 0; i < size; i++)
+		ret += Children[i]->NumChildren();
+
+	return ret;
 }
 
 //TODO: Find a better way to do the rendering
@@ -92,12 +107,11 @@ unsigned int Window::GetNumChildren() {
 void Window::Render(Shader* shader) {
 	shader->SetModelview(Modelview._array);
 
-	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), 0);
-	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (2 * sizeof(float)));
-	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (4 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(VertexPosition));
+	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (VertexPosition + 2 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (VertexPosition + 4 * sizeof(float)));
 
-	size_t size = Children.size();
-	glDrawArrays(GL_QUADS, 0, size * 4);
+	glDrawArrays(GL_QUADS, 0, NumChildren() * 4);
 }
 
 void Window::RenderText(int v, int t, int c) {
@@ -155,7 +169,11 @@ bool Window::HitTest(float mx, float my, float* p) {
 		return true;
 	}
 
-	MouseOverChild = NULL;
+	if( MouseOverChild != NULL ){
+	    MouseOverChild->OnMouseLeave();
+	    MouseOverChild = NULL;
+	}
+	
 	return false;
 }
 
@@ -227,72 +245,80 @@ void Window::UpdateControl(Control* cont) {
 void Window::UpdateVBO() {
 	//NOTE: This is a lot like rebuild, only the end changes..
 
-	size_t numChildren = Children.size();
-	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ numChildren * 4 ];
+	size_t size = Children.size();
+	size_t size2;
+	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ NumChildren() * 4 ];
 
 	Control* child;
-	unsigned int slot;
+	unsigned int slot = 0;
 	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
 	float vs, vs2, vt, vt2;
 	float* c;
-	for (unsigned int i = 0; i < numChildren; i++) {
+	unsigned int j;
+	for (unsigned int i = 0; i < size; i++) {
 		//NOTE: I am hoping this code will be made into SSE :]
-
-		slot = i * 4;
 		child = Children[i];
+		j = 0;
+		size2 = child->NumChildren();
+		
+		do {
+			vx = child->x;
+			vx2 = (child->x + child->GetWidth());
+			vy = child->y;
+			vy2 = (child->y + child->GetHeight());
 
-		vx = child->x;
-		vx2 = (child->x + child->GetWidth());
-		vy = child->y;
-		vy2 = (child->y + child->GetHeight());
+			vs = child->s;
+			vs2 = child->s2;
+			vt = child->t;
+			vt2 = child->t2;
 
-		vs = child->s;
-		vs2 = child->s2;
-		vt = child->t;
-		vt2 = child->t2;
+			//get the color
+			c = child->GetColorv();
 
-		//get the color
-		c = child->GetColorv();
+			//top left
+			data[slot + 0].x = vx;
+			data[slot + 0].y = vy;
+			data[slot + 0].s = vs;
+			data[slot + 0].t = vt;
+			data[slot + 0].r = c[0];
+			data[slot + 0].g = c[1];
+			data[slot + 0].b = c[2];
+			data[slot + 0].a = c[3];
 
-		//top left
-		data[slot + 0].x = vx;
-		data[slot + 0].y = vy;
-		data[slot + 0].s = vs;
-		data[slot + 0].t = vt;
-		data[slot + 0].r = c[0];
-		data[slot + 0].g = c[1];
-		data[slot + 0].b = c[2];
-		data[slot + 0].a = c[3];
+			//top right
+			data[slot + 1].x = vx2;
+			data[slot + 1].y = vy;
+			data[slot + 1].s = vs2;
+			data[slot + 1].t = vt;
+			data[slot + 1].r = c[0];
+			data[slot + 1].g = c[1];
+			data[slot + 1].b = c[2];
+			data[slot + 1].a = c[3];
 
-		//top right
-		data[slot + 1].x = vx2;
-		data[slot + 1].y = vy;
-		data[slot + 1].s = vs2;
-		data[slot + 1].t = vt;
-		data[slot + 1].r = c[0];
-		data[slot + 1].g = c[1];
-		data[slot + 1].b = c[2];
-		data[slot + 1].a = c[3];
+			//bottom right
+			data[slot + 2].x = vx2;
+			data[slot + 2].y = vy2;
+			data[slot + 2].s = vs2;
+			data[slot + 2].t = vt2;
+			data[slot + 2].r = c[0];
+			data[slot + 2].g = c[1];
+			data[slot + 2].b = c[2];
+			data[slot + 2].a = c[3];
 
-		//bottom right
-		data[slot + 2].x = vx2;
-		data[slot + 2].y = vy2;
-		data[slot + 2].s = vs2;
-		data[slot + 2].t = vt2;
-		data[slot + 2].r = c[0];
-		data[slot + 2].g = c[1];
-		data[slot + 2].b = c[2];
-		data[slot + 2].a = c[3];
+			//bottom left
+			data[slot + 3].x = vx;
+			data[slot + 3].y = vy2;
+			data[slot + 3].s = vs;
+			data[slot + 3].t = vt2;
+			data[slot + 3].r = c[0];
+			data[slot + 3].g = c[1];
+			data[slot + 3].b = c[2];
+			data[slot + 3].a = c[3];
 
-		//bottom left
-		data[slot + 3].x = vx;
-		data[slot + 3].y = vy2;
-		data[slot + 3].s = vs;
-		data[slot + 3].t = vt2;
-		data[slot + 3].r = c[0];
-		data[slot + 3].g = c[1];
-		data[slot + 3].b = c[2];
-		data[slot + 3].a = c[3];
+			child = GetChild( j );
+			slot += 4;
+			j++;
+		} while (j < size2);
 	}
 
 	Control::GUI_vbo->Bind();
@@ -303,77 +329,84 @@ void Window::UpdateVBO() {
 }
 
 void Window::RebuildVBO() {
-	//alright so here we will clear out the old data (if there is any)
-	//and replace it with new data, even if we have more data..
-	//NOTE: This should only be called after adding or removing a child... Otherwise use Update
-	size_t numChildren = Children.size();
-	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ numChildren * 4 ];
+	size_t size = Children.size();
+	size_t size2;
+	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ NumChildren() * 4 ];
 
+	Control* temp;
 	Control* child;
-	unsigned int slot;
+	unsigned int slot = 0;
 	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
 	float vs, vs2, vt, vt2;
 	float* c;
-	for (unsigned int i = 0; i < numChildren; i++) {
-		//NOTE: I am hoping this code will be made into SSE :]
-		slot = i * 4;
-		child = Children[i];
-		child->VertexOffset = slot * sizeof( WINDOW_VBOVertex);
+	unsigned int j;
+	for (unsigned int i = 0; i < size; i++) {
+		temp = child = Children[i];
+		j = 0;
+		size2 = child->NumChildren();
 
-		vx = x + child->x;
-		vx2 = x + (child->x + child->GetWidth());
-		vy = y + child->y;
-		vy2 = y + (child->y + child->GetHeight());
+		do {
+			vx = child->x;
+			vx2 = (child->x + child->GetWidth());
+			vy = child->y;
+			vy2 = (child->y + child->GetHeight());
 
-		vs = child->s;
-		vs2 = child->s2;
-		vt = child->t;
-		vt2 = child->t2;
+			vs = child->s;
+			vs2 = child->s2;
+			vt = child->t;
+			vt2 = child->t2;
 
-		c = child->GetColorv();
+			//get the color
+			c = child->GetColorv();
 
-		//top left
-		data[slot + 0].x = vx;
-		data[slot + 0].y = vy;
-		data[slot + 0].s = vs;
-		data[slot + 0].t = vt;
-		data[slot + 0].r = c[0];
-		data[slot + 0].g = c[1];
-		data[slot + 0].b = c[2];
-		data[slot + 0].a = c[3];
+			//top left
+			data[slot + 0].x = vx;
+			data[slot + 0].y = vy;
+			data[slot + 0].s = vs;
+			data[slot + 0].t = vt;
+			data[slot + 0].r = c[0];
+			data[slot + 0].g = c[1];
+			data[slot + 0].b = c[2];
+			data[slot + 0].a = c[3];
 
-		//top right
-		data[slot + 1].x = vx2;
-		data[slot + 1].y = vy;
-		data[slot + 1].s = vs2;
-		data[slot + 1].t = vt;
-		data[slot + 1].r = c[0];
-		data[slot + 1].g = c[1];
-		data[slot + 1].b = c[2];
-		data[slot + 1].a = c[3];
+			//top right
+			data[slot + 1].x = vx2;
+			data[slot + 1].y = vy;
+			data[slot + 1].s = vs2;
+			data[slot + 1].t = vt;
+			data[slot + 1].r = c[0];
+			data[slot + 1].g = c[1];
+			data[slot + 1].b = c[2];
+			data[slot + 1].a = c[3];
 
-		//bottom right
-		data[slot + 2].x = vx2;
-		data[slot + 2].y = vy2;
-		data[slot + 2].s = vs2;
-		data[slot + 2].t = vt2;
-		data[slot + 2].r = c[0];
-		data[slot + 2].g = c[1];
-		data[slot + 2].b = c[2];
-		data[slot + 2].a = c[3];
+			//bottom right
+			data[slot + 2].x = vx2;
+			data[slot + 2].y = vy2;
+			data[slot + 2].s = vs2;
+			data[slot + 2].t = vt2;
+			data[slot + 2].r = c[0];
+			data[slot + 2].g = c[1];
+			data[slot + 2].b = c[2];
+			data[slot + 2].a = c[3];
 
-		//bottom left
-		data[slot + 3].x = vx;
-		data[slot + 3].y = vy2;
-		data[slot + 3].s = vs;
-		data[slot + 3].t = vt2;
-		data[slot + 3].r = c[0];
-		data[slot + 3].g = c[1];
-		data[slot + 3].b = c[2];
-		data[slot + 3].a = c[3];
+			//bottom left
+			data[slot + 3].x = vx;
+			data[slot + 3].y = vy2;
+			data[slot + 3].s = vs;
+			data[slot + 3].t = vt2;
+			data[slot + 3].r = c[0];
+			data[slot + 3].g = c[1];
+			data[slot + 3].b = c[2];
+			data[slot + 3].a = c[3];
+
+			child->VertexOffset = slot * sizeof(WINDOW_VBOVertex);
+			child = temp->GetChild( j );
+			slot += 4;
+			j++;
+		} while (j <= size2);
 	}
 
-	VertexLength = (numChildren * 4 * sizeof(WINDOW_VBOVertex));
+	VertexLength = (NumChildren() * 4 * sizeof(WINDOW_VBOVertex));
 
 	Control::GUI_vbo->Bind();
 	Control::GUI_vbo->AddData(VertexLength, data, &VertexPosition);
@@ -391,7 +424,6 @@ void Window::OnMousePress(unsigned short button, int mx, int my) {
 	if (MouseOverChild != NULL) {
 		ActiveChild = MouseOverChild;
 		ActiveChild->OnMousePress(button, mx, my);
-		ReciveInput = ActiveChild->HasAttrib(CTRL_INPUT);
 	}
 }
 

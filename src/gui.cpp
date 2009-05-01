@@ -44,8 +44,9 @@ GUI::~GUI() {
 void GUI::Render(Shader* shader) {
 
 	//This must be dont before anything, as it possibly binds and unbinds a VBO
-	for (unsigned int i = 0; i < Windows.size(); i++) {
-		//Windows[i]->StepAnimation();
+	size_t size = Windows.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Windows[i]->StepAnimation();
 	}
 
 	shader->Bind();
@@ -60,7 +61,11 @@ void GUI::Render(Shader* shader) {
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
 
-	for (unsigned int i = 0; i < Windows.size(); i++) {
+	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 32, 0);
+	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*) (2 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*) (4 * sizeof(float)));
+
+	for (unsigned int i = 0; i < size; i++) {
 		Windows[i]->Render(shader);
 	}
 
@@ -193,7 +198,7 @@ void GUI::CreateWindowConsole(float x, float y) {
 void GUI::CreateTW() {
 	Window* window = new Window(this);
 
-	Button* b = new Button("topbar", window);
+	Button* b = new Button("sidebar", window);
 
 	b->SetCallback(boost::bind<void>(&GUI::CreateTW, this));
 

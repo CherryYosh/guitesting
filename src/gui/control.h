@@ -71,6 +71,9 @@ public:
 	virtual float* GetColorv();
 
 	virtual void AddChild(Control*);
+	virtual Control* GetChild( unsigned int);
+	virtual unsigned int NumChildren();
+
 
 	virtual float GetWidth();
 	virtual float GetHeight();
@@ -86,10 +89,12 @@ public:
 protected:
 	float Depth;
 	unsigned short Attributes;
-	boost::function<void() > m_Callback; //TODO: multipul callbacks?
 	Window* Root;
 	Control* Parent;
+	Control* MouseOverChild;
+	Control* ActiveChild;
 	std::vector<Control*> Children;
+	boost::function<void() > m_Callback;
 private:
 	void GetControlData();
 
