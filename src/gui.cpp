@@ -199,13 +199,13 @@ void GUI::CreateWindowConsole(float x, float y) {
 	inputarea->Move(lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight());
 
 	//now add them all
-	window->AddChild(topbar, WINDOW_BOTTOM, false);
-	window->AddChild(bottombar, WINDOW_BOTTOM, false);
-	window->AddChild(lsidebar, WINDOW_BOTTOM, false);
-	window->AddChild(rsidebar, WINDOW_BOTTOM, false);
-	window->AddChild(close, WINDOW_TOP, false);
-	window->AddChild(textarea, WINDOW_TOP, false);
-	window->AddChild(inputarea, WINDOW_TOP, true);
+	window->AddChild(topbar, false);
+	window->AddChild(bottombar, false);
+	window->AddChild(lsidebar, false);
+	window->AddChild(rsidebar, false);
+	window->AddChild(close, false);
+	window->AddChild(textarea, false);
+	window->AddChild(inputarea, true);
 
 	//now we move it (and all its children) and make it build its vbo
 	window->Width = topbar->GetWidth();
@@ -223,7 +223,7 @@ void GUI::CreateTW() {
 
 	b->SetCallback(boost::bind<void>(&GUI::CreateTW, this));
 
-	window->AddChild(b, WINDOW_TOP, true);
+	window->AddChild(b, true);
 	window->Width = b->GetWidth();
 	window->Height = b->GetHeight();
 

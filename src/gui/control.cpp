@@ -185,20 +185,12 @@ bool Control::HasAttrib(unsigned short a) {
 	return a == (Attributes & a);
 }
 
-void Control::SetDepth(float d) {
-	Depth = d;
-}
-
 float Control::GetWidth() {
 	return Width;
 }
 
 float Control::GetHeight() {
 	return Height;
-}
-
-float Control::GetDepth() {
-	return Depth;
 }
 
 void Control::SetColor(float r, float g, float b, float a) {

@@ -31,12 +31,6 @@ struct AnimationType;
 class Control;
 class GUI;
 
-//enums used for window Depth
-
-enum {
-	WINDOW_TOP, WINDOW_MIDDLE, WINDOW_BOTTOM
-};
-
 //enums used for animation
 
 enum {
@@ -59,7 +53,7 @@ public:
 	Window(GUI*);
 	~Window();
 
-	void AddChild(Control*, int, bool = true);
+	void AddChild(Control*, bool = true);
 	void Move(float, float);
 
 	void Close();

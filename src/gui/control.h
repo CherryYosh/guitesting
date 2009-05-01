@@ -63,7 +63,6 @@ public:
 	virtual bool HasAttrib(unsigned short);
 	virtual void SetEnabled(bool);
 	virtual void SetFocus(bool);
-	virtual void SetDepth(float);
 
 	virtual void SetColor(float, float, float, float);
 	virtual void SetColor(nv::vec4<float>);
@@ -77,7 +76,6 @@ public:
 
 	virtual float GetWidth();
 	virtual float GetHeight();
-	virtual float GetDepth();
 
 	unsigned int VertexOffset;
 
@@ -87,7 +85,6 @@ public:
 
 	static VBO* GUI_vbo;
 protected:
-	float Depth;
 	unsigned short Attributes;
 	Window* Root;
 	Control* Parent;

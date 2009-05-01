@@ -62,7 +62,7 @@ Window::~Window() {
 	Children.clear();
 }
 
-void Window::AddChild(Control *child, int depth, bool rebuild) {
+void Window::AddChild(Control *child, bool rebuild) {
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
 		if (Children[i]->HitTest(child->x, child->y)) {
