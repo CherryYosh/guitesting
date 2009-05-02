@@ -80,6 +80,7 @@ public:
 	unsigned int NumChildren();
 
 	bool ReciveInput;
+	unsigned int VertexPosition, VertexLength;
 protected:
 private:
 	void UpdateVBO();
@@ -87,7 +88,6 @@ private:
 
 	std::list<AnimationType> Animations;
 
-	unsigned int VertexPosition, VertexLength;
 	GUI* gui;
 
 	nv::matrix4<float> Modelview;

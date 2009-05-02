@@ -235,13 +235,21 @@ void GUI::CreateTW() {
 void GUI::CloseWindow(Window* w) {
 	ActiveWindow = NULL;
 	MouseOverWindow = NULL;
+	
+	unsigned int vp = w->VertexPosition;
+	unsigned int len = w->VertexLength;
 
 	std::vector<Window*>::iterator it = Windows.begin();
 	while (it != Windows.end()) {
 		if (*it == w) {
-			Windows.erase(it);
+			it = Windows.erase(it);
 			return;
+		} else {
+			if( (*it)->VertexPosition > vp ){
+				(*it)->VertexPosition -= len;
+			}
+
+			it++;
 		}
-		it++;
 	}
 }

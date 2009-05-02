@@ -57,6 +57,10 @@ Window::Window(GUI* p) : Control("", NULL) {
 }
 
 Window::~Window() {
+	Control::GUI_vbo->Bind();
+	Control::GUI_vbo->RemoveData( VertexPosition, VertexLength );
+	Control::GUI_vbo->Unbind();
+	
 	gui->CloseWindow(this);
 	MouseOverChild = NULL;
 	Children.clear();
