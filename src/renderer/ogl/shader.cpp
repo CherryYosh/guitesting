@@ -41,6 +41,11 @@ Shader::Shader(){
 	memset( attribute, 0x00, 12 * sizeof( GLuint ));
 }
 
+Shader::Shader(std::string name){
+	Shader();
+	Load(name);
+}
+
 Shader::~Shader(){
 }
 

@@ -17,7 +17,6 @@
 
 #include "control.h"
 
-#include "../shader.h"
 #include "../nvMatrix.h"
 #include "../nvVector.h"
 
@@ -26,6 +25,8 @@
 
 #define BITSHIFT(x) 1 << x
 #define BITSHIFT2(x,y) x << y
+
+class Shader;
 
 struct AnimationType;
 class Control;
@@ -77,6 +78,7 @@ public:
 
 	void Unproject(float, float, float*, float*, float*);
 
+	unsigned int TotalChildren();
 	unsigned int NumChildren();
 
 	bool ReciveInput;

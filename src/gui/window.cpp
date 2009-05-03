@@ -21,6 +21,7 @@
  * James Brandon Stevenson
  *
  */
+
 #include <GL/glew.h>
 
 #include "window.h"
@@ -57,13 +58,12 @@ Window::Window(GUI* p) : Control("", NULL) {
 }
 
 Window::~Window() {
-	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->RemoveData( VertexPosition, VertexLength );
-	Control::GUI_vbo->Unbind();
+//	Control::GUI_vbo->Bind();
+//	Control::GUI_vbo->RemoveData( VertexPosition, VertexLength );
+//	Control::GUI_vbo->Unbind();
 	
 	gui->CloseWindow(this);
 	MouseOverChild = NULL;
-	Children.clear();
 }
 
 void Window::AddChild(Control *child, bool rebuild) {
@@ -72,8 +72,8 @@ void Window::AddChild(Control *child, bool rebuild) {
 		if (Children[i]->HitTest(child->x, child->y)) {
 			Children[i]->AddChild(child);
 
-			if (rebuild)
-				RebuildVBO();
+//			if (rebuild)
+//				RebuildVBO();
 
 			return;
 		}
@@ -81,8 +81,8 @@ void Window::AddChild(Control *child, bool rebuild) {
 
 	Children.push_back(child);
 
-	if (rebuild)
-		RebuildVBO(); //rebuild the vbo too
+//	if (rebuild)
+//		RebuildVBO(); //rebuild the vbo too
 }
 
 void Window::Move(float xChange, float yChange) {
@@ -97,18 +97,23 @@ void Window::Close() {
 	delete this;
 }
 
-unsigned int Window::NumChildren() {
+unsigned int Window::TotalChildren() {
 	size_t size = Children.size();
 	unsigned int ret = size;
 	for (unsigned int i = 0; i < size; i++)
-		ret += Children[i]->NumChildren();
+		ret += Children[i]->TotalChildren();
 
 	return ret;
 }
 
-//TODO: Find a better way to do the rendering
+unsigned int Window::NumChildren(){ return Children.size(); }
 
+/**
+ * Renders all children in the window
+ * @param shader a pointer to the shader to use
+ */
 void Window::Render(Shader* shader) {
+/*
 	shader->SetModelview(Modelview._array);
 
 	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(VertexPosition));
@@ -116,6 +121,7 @@ void Window::Render(Shader* shader) {
 	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (VertexPosition + 4 * sizeof(float)));
 
 	glDrawArrays(GL_QUADS, 0, NumChildren() * 4);
+	*/
 }
 
 void Window::RenderText(int v, int t, int c) {
@@ -181,244 +187,6 @@ bool Window::HitTest(float mx, float my, float* p) {
 	return false;
 }
 
-void Window::UpdateControl(Control* cont) {
-	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ 4 ];
-
-	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
-	float vs, vs2, vt, vt2;
-	float* c;
-
-	vx = cont->x;
-	vx2 = (cont->x + cont->GetWidth());
-	vy = cont->y;
-	vy2 = (cont->y + cont->GetHeight());
-
-	vs = cont->s;
-	vs2 = cont->s2;
-	vt = cont->t;
-	vt2 = cont->t2;
-
-	//get the color
-	c = cont->GetColorv();
-
-	data[0].x = vx;
-	data[0].y = vy;
-	data[0].s = vs;
-	data[0].t = vt;
-	data[0].r = c[0];
-	data[0].g = c[1];
-	data[0].b = c[2];
-	data[0].a = c[3];
-
-	data[1].x = vx2;
-	data[1].y = vy;
-	data[1].s = vs2;
-	data[1].t = vt;
-	data[1].r = c[0];
-	data[1].g = c[1];
-	data[1].b = c[2];
-	data[1].a = c[3];
-
-	//bottom right
-	data[2].x = vx2;
-	data[2].y = vy2;
-	data[2].s = vs2;
-	data[2].t = vt2;
-	data[2].r = c[0];
-	data[2].g = c[1];
-	data[2].b = c[2];
-	data[2].a = c[3];
-
-	//bottom left
-	data[3].x = vx;
-	data[3].y = vy2;
-	data[3].s = vs;
-	data[3].t = vt2;
-	data[3].r = c[0];
-	data[3].g = c[1];
-	data[3].b = c[2];
-	data[3].a = c[3];
-
-	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->SetData(VertexPosition + cont->VertexOffset, 4 * sizeof( WINDOW_VBOVertex), data);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	delete [] data;
-}
-
-void Window::UpdateVBO() {
-	//NOTE: This is a lot like rebuild, only the end changes..
-
-	size_t size = Children.size();
-	size_t size2;
-	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ NumChildren() * 4 ];
-
-	Control* child;
-	unsigned int slot = 0;
-	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
-	float vs, vs2, vt, vt2;
-	float* c;
-	unsigned int j;
-	for (unsigned int i = 0; i < size; i++) {
-		//NOTE: I am hoping this code will be made into SSE :]
-		child = Children[i];
-		j = 0;
-		size2 = child->NumChildren();
-		
-		do {
-			vx = child->x;
-			vx2 = (child->x + child->GetWidth());
-			vy = child->y;
-			vy2 = (child->y + child->GetHeight());
-
-			vs = child->s;
-			vs2 = child->s2;
-			vt = child->t;
-			vt2 = child->t2;
-
-			//get the color
-			c = child->GetColorv();
-
-			//top left
-			data[slot + 0].x = vx;
-			data[slot + 0].y = vy;
-			data[slot + 0].s = vs;
-			data[slot + 0].t = vt;
-			data[slot + 0].r = c[0];
-			data[slot + 0].g = c[1];
-			data[slot + 0].b = c[2];
-			data[slot + 0].a = c[3];
-
-			//top right
-			data[slot + 1].x = vx2;
-			data[slot + 1].y = vy;
-			data[slot + 1].s = vs2;
-			data[slot + 1].t = vt;
-			data[slot + 1].r = c[0];
-			data[slot + 1].g = c[1];
-			data[slot + 1].b = c[2];
-			data[slot + 1].a = c[3];
-
-			//bottom right
-			data[slot + 2].x = vx2;
-			data[slot + 2].y = vy2;
-			data[slot + 2].s = vs2;
-			data[slot + 2].t = vt2;
-			data[slot + 2].r = c[0];
-			data[slot + 2].g = c[1];
-			data[slot + 2].b = c[2];
-			data[slot + 2].a = c[3];
-
-			//bottom left
-			data[slot + 3].x = vx;
-			data[slot + 3].y = vy2;
-			data[slot + 3].s = vs;
-			data[slot + 3].t = vt2;
-			data[slot + 3].r = c[0];
-			data[slot + 3].g = c[1];
-			data[slot + 3].b = c[2];
-			data[slot + 3].a = c[3];
-
-			child = GetChild( j );
-			slot += 4;
-			j++;
-		} while (j < size2);
-	}
-
-	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->SetData(VertexPosition, VertexLength, data);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	delete [] data;
-}
-
-void Window::RebuildVBO() {
-	size_t size = Children.size();
-	size_t size2;
-	WINDOW_VBOVertex* data = new WINDOW_VBOVertex[ NumChildren() * 4 ];
-
-	Control* temp;
-	Control* child;
-	unsigned int slot = 0;
-	float vx, vx2, vy, vy2; //the vertex values, prevent redundant calculations
-	float vs, vs2, vt, vt2;
-	float* c;
-	unsigned int j;
-	for (unsigned int i = 0; i < size; i++) {
-		temp = child = Children[i];
-		j = 0;
-		size2 = child->NumChildren();
-
-		do {
-			vx = child->x;
-			vx2 = (child->x + child->GetWidth());
-			vy = child->y;
-			vy2 = (child->y + child->GetHeight());
-
-			vs = child->s;
-			vs2 = child->s2;
-			vt = child->t;
-			vt2 = child->t2;
-
-			//get the color
-			c = child->GetColorv();
-
-			//top left
-			data[slot + 0].x = vx;
-			data[slot + 0].y = vy;
-			data[slot + 0].s = vs;
-			data[slot + 0].t = vt;
-			data[slot + 0].r = c[0];
-			data[slot + 0].g = c[1];
-			data[slot + 0].b = c[2];
-			data[slot + 0].a = c[3];
-
-			//top right
-			data[slot + 1].x = vx2;
-			data[slot + 1].y = vy;
-			data[slot + 1].s = vs2;
-			data[slot + 1].t = vt;
-			data[slot + 1].r = c[0];
-			data[slot + 1].g = c[1];
-			data[slot + 1].b = c[2];
-			data[slot + 1].a = c[3];
-
-			//bottom right
-			data[slot + 2].x = vx2;
-			data[slot + 2].y = vy2;
-			data[slot + 2].s = vs2;
-			data[slot + 2].t = vt2;
-			data[slot + 2].r = c[0];
-			data[slot + 2].g = c[1];
-			data[slot + 2].b = c[2];
-			data[slot + 2].a = c[3];
-
-			//bottom left
-			data[slot + 3].x = vx;
-			data[slot + 3].y = vy2;
-			data[slot + 3].s = vs;
-			data[slot + 3].t = vt2;
-			data[slot + 3].r = c[0];
-			data[slot + 3].g = c[1];
-			data[slot + 3].b = c[2];
-			data[slot + 3].a = c[3];
-
-			child->VertexOffset = slot * sizeof(WINDOW_VBOVertex);
-			child = temp->GetChild( j );
-			slot += 4;
-			j++;
-		} while (j <= size2);
-	}
-
-	VertexLength = (NumChildren() * 4 * sizeof(WINDOW_VBOVertex));
-
-	Control::GUI_vbo->Bind();
-	Control::GUI_vbo->AddData(VertexLength, data, &VertexPosition);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	delete [] data;
-}
-
 void Window::OnKeyPress(unsigned short key) {
 	if (ActiveChild != NULL)
 		ActiveChild->OnKeyPress(key);
@@ -456,6 +224,15 @@ void Window::Animate(int type, nv::vec3<float> value, unsigned int start, unsign
 	Animate(type, nv::vec4<float>(value.x, value.y, value.z, 0), start, duration, interpolation, ptr);
 }
 
+/**
+ * Creates a new animaion pushing it to the Animations list
+ * @param type a enum for the tpye of animation to use
+ * @param value	the values to use for the animation
+ * @param start how long to way untill you wish for the animation to start
+ * @param duration How long (in miliseconds) you wish the animation to take
+ * @param interpolation the interpolation type you wish to use.
+ * @param ptr (optional) the pointer of the object affected by the animtion, currently only supported for color
+ */
 void Window::Animate(int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
 	unsigned int ticks = SDL_GetTicks();
 
@@ -525,7 +302,7 @@ void Window::StepAnimation() {
 			if ((it->Type & RGBACHANNEL)) {
 				if (it->Object != NULL) {
 					it->Object->AddColor(data);
-					UpdateControl(it->Object);
+			//		UpdateControl(it->Object);
 				}
 			}
 		}
@@ -551,7 +328,6 @@ void Window::RemoveAnimation(Control* c) {
 	}
 }
 
-//TODO: Optimize this, low proiody
 
 void Window::Unproject(float winx, float winy, float* p, float* ox, float* oy) {
 	GLint view[4];

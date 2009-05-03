@@ -1,4 +1,3 @@
-
 /*   This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
@@ -13,44 +12,34 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-
-/* 
- * File:   vbo.h
- * Author: brandon
- *
- * Created on April 26, 2009, 8:00 PM
- */
-
-#ifndef VBO_H
-#define	VBO_H
+//a opengl shader wrapper..
+#ifndef SHADER_H
+#define SHADER_H
 
 #include <GL/gl.h>
-#include <GL/glext.h>
 
-class VBO {
+#include <string>
+
+class Shader{
 public:
-	VBO( GLenum = GL_STREAM_DRAW );
-	VBO( unsigned int, void*,GLenum = GL_STREAM_DRAW  );
-	virtual ~VBO();
+	Shader();
+	Shader(std::string);
+	~Shader();
 
+	bool Load( std::string shaderName );
 	void Bind();
 	void Unbind();
+	void GetUniformLoc( GLuint uID, std::string name );
+	void GetAttributeLoc( GLuint uID, std::string name );
+	void SetProjection( float m[16] );
+	void SetModelview( float m[16] );
+	GLuint GetID();
 
-	bool InitData( unsigned int, void* );
-	bool SetData( unsigned int, unsigned int, void* );
-	bool AddData( unsigned int, void*, unsigned int* = NULL );
-	bool InsertData( unsigned int, unsigned int, unsigned int, void * );
-	bool RemoveData( unsigned int, unsigned int );
-
-
-	const GLuint GetID();
-	const unsigned int GetSize();
+	GLuint uniform[12];
+	GLuint attribute[12];
 private:
+	std::string name;
 	GLuint id;
-	GLenum type;
-	bool isBound;
-	unsigned int size;
 };
 
-#endif	/* _VBO_H */
-
+#endif

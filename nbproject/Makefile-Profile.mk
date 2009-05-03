@@ -20,7 +20,7 @@ AS=
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Default
+CND_CONF=Profile
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -50,14 +50,14 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	cd . && make -f makefile
+	cd . && ${MAKE}
 
 # Subprojects
 .build-subprojects:
 
 # Clean Targets
 .clean-conf:
-	cd . && make -f makefile clean
+	cd . && ${MAKE} clean
 
 # Subprojects
 .clean-subprojects:

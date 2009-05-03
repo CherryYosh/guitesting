@@ -17,14 +17,14 @@
 
 #include <GL/gl.h>
 #include <GL/glext.h>
-#include "shader.h"
+//#include "shader.h"
+class Shader;
 
 struct FontChar;
 
 void FontMgr_Init();
 void FontMgr_Release();
 void FontMgr_LoadFont(int fontID, const char *fontname, int fontsize);
-void FontMgr_glDrawText(int fontID, int tx, int ty, Shader* shader, const char *text);
 void FontMgr_GetCharData( int font, char p, FontChar& c );
 int FontMgr_GetFontAscender(int fontID);
 int FontMgr_GetFontDescender(int fontID);

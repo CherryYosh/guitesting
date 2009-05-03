@@ -4,7 +4,7 @@ LDFLAGS= -pg -lSDL -lGL -lGLU -lGLEW -lIL -lILU -lILUT -lfreetype
 
 SRCDIR= src
 
-SRC= $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp) $(wildcard $(SRCDIR)/*/*.c)
+SRC= $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp) $(wildcard $(SRCDIR)/*/*/*.cpp)
 OBJS= $(patsubst %.cpp, %.o, $(SRC)) 
 
 PROG= test
@@ -28,4 +28,4 @@ debug:
 	gdb $(PROG)
 
 clean:
-	rm */*.o */*/*.o
+	rm */*.o */*/*.o */*/*/*.o

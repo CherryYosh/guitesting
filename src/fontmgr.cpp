@@ -35,7 +35,6 @@
 
 #include "nvMatrix.h"
 #include "nvVector.h"
-#include "shader.h"
 
 // FreeType 2
 #include <ft2build.h>
@@ -224,43 +223,6 @@ void FontMgr_LoadFont(int fontID, const char *fontname, int fontsize)
 	nFont->textureID = glTextureID;
 
 	fonts[fontID] = nFont;
-}
-
-// tx = left of text box
-// ty = bottom corner of text box
-// tw, th = clip box, text will wrap on tw, -1 = no clip
-void FontMgr_glDrawText(int fontID, int tx, int ty, Shader* shader, const char *text)
-{
-	nv::matrix4<float> m;
-	m.make_identity();
-	m.set_translate( nv::vec3<float>( tx, ty, -1.0 ) );
-
-	FT_Vector kdelta;
-	Font *font = fonts[fontID];
-	glBindTexture(GL_TEXTURE_2D, font->textureID);
-
-	glEnableVertexAttribArray( shader->attribute[0] );
-	glEnableVertexAttribArray( shader->attribute[1] );
-
-	glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, 0, font->vertexdata);
-	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 0, font->tcoordptr);
-
-	int vindex;
-	size_t length = strlen(text);
-	for( unsigned int i = 0; i < length; i++ ){
-		vindex = text[i] << 2;
-
-		shader->SetModelview( m._array );
-
-		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_SHORT, (unsigned short *)font->indexdata+vindex);
-
-		FT_Get_Kerning( faces[fontID], font->glyphs[*(text+i)].index, font->glyphs[*(text+i+1)].index, FT_KERNING_DEFAULT, &kdelta);
-
-		m._41 += font->glyphs[*(text+i)].advance + (kdelta.x >> 6);
-	}
-
-	glDisableVertexAttribArray( shader->attribute[0] );
-	glDisableVertexAttribArray( shader->attribute[1] );
 }
 
 //get the character data used in FontChar

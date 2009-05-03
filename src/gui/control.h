@@ -18,7 +18,6 @@
 #define CTRL_INPUT (1) << 0 //does the control allow input
 
 #include "../nvVector.h"
-#include "../vbo.h"
 
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -71,6 +70,7 @@ public:
 
 	virtual void AddChild(Control*);
 	virtual Control* GetChild( unsigned int);
+	virtual unsigned int TotalChildren();
 	virtual unsigned int NumChildren();
 
 
@@ -82,8 +82,6 @@ public:
 	float Width, Height;
 	float x, y;
 	float s, t, s2, t2;
-
-	static VBO* GUI_vbo;
 protected:
 	unsigned short Attributes;
 	Window* Root;

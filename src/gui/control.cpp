@@ -19,7 +19,6 @@
 #include "../thememgr.h"
 
 std::vector<CTRL_GUIDataT*> guiData;
-VBO* Control::GUI_vbo;
 
 void Control_Init(const char* path) {
 	unsigned int size = ThemeMgr_LoadTheme(path);
@@ -51,7 +50,7 @@ void Control_Init(const char* path) {
 	}
 
 	//time to gen the VBO's data
-	Control::GUI_vbo = new VBO();
+//	Control::GUI_vbo = new VBO();
 }
 
 //This should only be called when a new theme has been loaded or when the control is initlized
@@ -93,7 +92,7 @@ Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
 }
 
 Control::~Control() {
-	//is there anything to do??
+	Children.clear();
 }
 
 void Control::Activate() {
@@ -218,6 +217,10 @@ void Control::OnMouseLeave() { }
 
 void Control::AddChild(Control* c) {
 	Children.push_back(c);
+}
+
+unsigned int Control::TotalChildren() {
+	return Children.size();
 }
 
 unsigned int Control::NumChildren() {

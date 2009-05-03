@@ -18,8 +18,6 @@
 #include <vector>
 
 #include "system.h"
-
-#include "shader.h"
 #include "gui/window.h"
 
 class GUI : public System {
@@ -27,8 +25,7 @@ public:
 	GUI();
 	~GUI();
 
-	void Render( Shader* );
-	void RenderText( Shader* );
+	void Render();
 
 	bool HitTest( float, float );
 	void Move( int, int );

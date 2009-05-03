@@ -23,5 +23,6 @@
 #include "rule.h"
 #include "editbox.h"
 #include "label.h"
+#include "checkbox.h"
 
 #endif

@@ -60,6 +60,6 @@ void Button::OnMouseEnter(){
 
 void Button::OnMouseLeave(){
 	SetColor( 0, 0, 0, 0 );
-	Root->UpdateControl( this );
+//	Root->UpdateControl( this );
 	Root->RemoveAnimation( this );
 }

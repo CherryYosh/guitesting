@@ -99,10 +99,11 @@ bool VBO::AddData(unsigned int length, void* data, unsigned int* position) {
 		return InitData(length, data);
 	}
 
-	char* tdata = new char[ size + length ];
 	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
 
 	if (ptr != NULL) {
+		char* tdata = new char[ size + length ];
+
 		memcpy(tdata, ptr, size);
 		memcpy(&tdata[size], data, length);
 
@@ -150,10 +151,11 @@ bool VBO::RemoveData(unsigned int start, unsigned int length) {
 	if (!isBound)
 		return false;
 
-	char* tdata = new char[ size - length ];
 	char* ptr = (char*) glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
 
 	if (ptr != NULL) {
+		char* tdata = new char[ size - length ];
+
 		memcpy(tdata, ptr, start);
 		memcpy(&tdata[start], &ptr[start + length], size - length - start);
 

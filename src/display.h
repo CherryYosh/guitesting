@@ -47,11 +47,12 @@ public:
 
 	float* GetCameraProjection();
 	float* GetCameraOrtho();
+
+	Camera* camera;
 protected:
 private:
 	void InitTimers();
 
-	Camera *camera;
 	timerpool timers;
 	GUI *gui;
 };

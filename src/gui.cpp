@@ -25,11 +25,16 @@
 #include "fontmgr.h"
 #include "thememgr.h"
 #include "gui/controls.h"
+#include "renderer/ogl/oglWidgetRender.h"
+
+oglWidgetRender* renderer;
 
 GUI::GUI() : System() {
 	MouseOverWindow = NULL;
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
+	renderer = new oglWidgetRender;
+	renderer->SetCamera(display->camera);
 
 	//set up the control
 	Control_Init("themes/default.theme");
@@ -41,69 +46,9 @@ GUI::~GUI() {
 
 //TODO: there has to be a better way to do this rendering
 
-void GUI::Render(Shader* shader) {
-
-	//This must be dont before anything, as it possibly binds and unbinds a VBO
-	size_t size = Windows.size();
-	for (unsigned int i = 0; i < size; i++) {
-		Windows[i]->StepAnimation();
-	}
-
-	shader->Bind();
-	shader->SetProjection(display->GetCameraOrtho());
-
-	//We bind the theme image
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ThemeMgr_GetImage());
-
-	Control::GUI_vbo->Bind();
-	glEnableVertexAttribArray(shader->attribute[0]);
-	glEnableVertexAttribArray(shader->attribute[1]);
-	glEnableVertexAttribArray(shader->attribute[2]);
-
-	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, 32, 0);
-	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, 32, (GLvoid*) (2 * sizeof(float)));
-	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*) (4 * sizeof(float)));
-
-	for (unsigned int i = 0; i < size; i++) {
-		Windows[i]->Render(shader);
-	}
-
-	glDisableVertexAttribArray(shader->attribute[0]);
-	glDisableVertexAttribArray(shader->attribute[1]);
-	glDisableVertexAttribArray(shader->attribute[2]);
-
-	Control::GUI_vbo->Unbind();
-	shader->Unbind();
+void GUI::Render() {
+	renderer->Draw();
 }
-
-void GUI::RenderText(Shader* shader) {
-	shader->Bind();
-	shader->SetProjection(display->GetCameraOrtho());
-
-	glActiveTexture(GL_TEXTURE0);
-	//TODO: fix this hard coding, so that only 1 font is loaded at a time
-	glBindTexture(GL_TEXTURE_2D, FontMgr_GetImage(0));
-
-	Control::GUI_vbo->Bind();
-	glEnableVertexAttribArray(shader->attribute[0]);
-	glEnableVertexAttribArray(shader->attribute[1]);
-	glEnableVertexAttribArray(shader->attribute[2]);
-
-	size_t size = Windows.size();
-	for (unsigned int i = 0; i < size; i++) {
-		Windows[i]->RenderText(shader->attribute[0], shader->attribute[1], shader->attribute[2]);
-	}
-
-	glDisableVertexAttribArray(shader->attribute[0]);
-	glDisableVertexAttribArray(shader->attribute[1]);
-	glDisableVertexAttribArray(shader->attribute[2]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	shader->Unbind();
-}
-
-//TODO: Change this!! active window is not what it used to be!
 
 bool GUI::HitTest(float x, float y) {
 	//this is a quick excape..
@@ -212,6 +157,8 @@ void GUI::CreateWindowConsole(float x, float y) {
 	window->Height = topbar->GetHeight() + lsidebar->GetHeight();
 	window->Move(x, y);
 	Windows.push_back(window);
+
+	renderer->AddObject( window );
 }
 
 //TODO: Delete this, temp function
@@ -219,9 +166,7 @@ void GUI::CreateWindowConsole(float x, float y) {
 void GUI::CreateTW() {
 	Window* window = new Window(this);
 
-	Button* b = new Button("sidebar", window);
-
-	b->SetCallback(boost::bind<void>(&GUI::CreateTW, this));
+	Checkbox* b = new Checkbox("checkbox", window);
 
 	window->AddChild(b, true);
 	window->Width = b->GetWidth();

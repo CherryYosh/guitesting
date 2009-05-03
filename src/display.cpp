@@ -22,16 +22,16 @@
 #include "image.h"
 #include "mouse.h"
 #include "engine.h"
-#include "shader.h"
 #include "fontmgr.h"
 
 //TODO: clean up?
-Shader textShader;
-Shader guiAnimationShader;
+//Shader textShader;
+//Shader guiAnimationShader;
 
 //TODO: clean up??
 
 void LoadShaders() {
+/*
 	textShader.Load("textShader");
 	textShader.GetUniformLoc(0, "projection");
 	textShader.GetUniformLoc(1, "modelview");
@@ -46,7 +46,7 @@ void LoadShaders() {
 	guiAnimationShader.GetUniformLoc(2, "tex0");
 	guiAnimationShader.GetAttributeLoc(0, "vertex");
 	guiAnimationShader.GetAttributeLoc(1, "tcoord");
-	guiAnimationShader.GetAttributeLoc(2, "tcolor");
+	guiAnimationShader.GetAttributeLoc(2, "tcolor");*/
 }
 
 void SetupSDL() {
@@ -86,8 +86,8 @@ Display::Display() : System() {
 	FontMgr_LoadFont(0, "/usr/share/fonts/corefonts/arial.ttf", 16);
 
 	//moved these here to prevent issues with DevIL, also insures the contex is made by the time we get here
-	gui = new GUI();
 	camera = new Camera();
+	gui = new GUI();
 
 	gui->CreateWindowConsole(50, 50);
 	gui->CreateTW();
@@ -139,8 +139,7 @@ void Display::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//here we draw the gui
-	gui->Render(&guiAnimationShader);
-	//gui->RenderText( &textShader );
+	gui->Render();
 
 	SDL_GL_SwapBuffers();
 }
