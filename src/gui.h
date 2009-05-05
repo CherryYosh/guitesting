@@ -18,7 +18,8 @@
 #include <vector>
 
 #include "system.h"
-#include "gui/window.h"
+
+class Window;
 
 class GUI : public System {
 public:
@@ -27,17 +28,17 @@ public:
 
 	void Render();
 
-	bool HitTest( float, float );
-	void Move( int, int );
-	void MakeActive( Window* );
+	bool HitTest(float, float);
+	void Move(int, int);
+	void MakeActive(Window*);
 
-	void OnKeyPress( unsigned short );
-	void OnMousePress( unsigned short, int, int );
-	bool OnMouseClick( unsigned short, bool );
+	void OnKeyPress(unsigned short);
+	void OnMousePress(unsigned short, int, int);
+	bool OnMouseClick(unsigned short, bool);
 
-	void CreateWindowConsole( float, float );
+	void CreateWindowConsole(float, float);
 	void CreateTW();
-	void CloseWindow( Window* );
+	void CloseWindow(Window*);
 
 protected:
 	std::vector<Window*> Windows;

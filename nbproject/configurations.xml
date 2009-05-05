@@ -22,6 +22,8 @@
         </logicalFolder>
         <logicalFolder name="renderer" displayName="renderer" projectFiles="true">
           <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
+            <itemPath>src/renderer/ogl/image.cpp</itemPath>
+            <itemPath>src/renderer/ogl/image.h</itemPath>
             <itemPath>src/renderer/ogl/oglBase.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglBase.h</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.cpp</itemPath>
@@ -44,8 +46,6 @@
         <itemPath>src/fontmgr.h</itemPath>
         <itemPath>src/gui.cpp</itemPath>
         <itemPath>src/gui.h</itemPath>
-        <itemPath>src/image.cpp</itemPath>
-        <itemPath>src/image.h</itemPath>
         <itemPath>src/input.cpp</itemPath>
         <itemPath>src/input.h</itemPath>
         <itemPath>src/main.cpp</itemPath>
@@ -115,8 +115,6 @@
       <item path="src/fontmgr.h" ex="true" tool="3">
       </item>
       <item path="src/gui/controls.h" ex="true" tool="3">
-      </item>
-      <item path="src/image.h" ex="true" tool="3">
       </item>
       <item path="src/mouse.h" ex="true" tool="3">
       </item>

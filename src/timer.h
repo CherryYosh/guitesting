@@ -19,7 +19,7 @@
  * 	fps not caling right
  *
  * James Brandon Stevenson @ 10/05/2008
-*/
+ */
 
 #ifndef TIMER_H
 #define TIMER_H
@@ -28,23 +28,23 @@
 
 #include <boost/function.hpp>
 
-class Timer{
+class Timer {
 public:
 	Timer();
-	Timer( unsigned int, bool = false );
+	Timer(unsigned int, bool = false);
 	~Timer();
 
 	bool Start();
 	void Stop();
-	void Restart(bool=true);
+	void Restart(bool = true);
 	void Tick();
 	void Step();
 
 	void Update();
 	void Update(unsigned int);
 
-	void SetFunction( boost::function<void()> );
-	void SetRuntime( unsigned int );
+	void SetFunction(boost::function<void()>);
+	void SetRuntime(unsigned int);
 
 	unsigned int* GetTicksPtr();
 	unsigned int* GetStepsPtr();
@@ -63,6 +63,6 @@ private:
 	bool Running;
 	bool Contious;
 
-	boost::function<void()> Function;
+	boost::function<void() > Function;
 };
 #endif

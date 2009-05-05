@@ -18,7 +18,7 @@
 
 #include "display.h"
 
-#include "image.h"
+#include "renderer/ogl/image.h"
 #include "mouse.h"
 #include "engine.h"
 #include "fontmgr.h"

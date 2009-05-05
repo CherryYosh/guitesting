@@ -13,7 +13,7 @@
 
 #include <SDL/SDL.h>
 
-#include "../../image.h"
+#include "image.h"
 #include "../../camera.h"
 
 //Static varibles are here instead of in the class to make the code cleaner

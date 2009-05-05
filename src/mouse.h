@@ -19,18 +19,18 @@
 
 class Display;
 
-void Mouse_Init( Display* );
+void Mouse_Init(Display*);
 void Mouse_Die();
 
 void Mouse_SetState();
 void Mouse_SetButtonState();
 void Mouse_SetPosition();
-void Mouse_SetClickTimeout( unsigned int );
-void Mouse_SetClickValue( bool* );
+void Mouse_SetClickTimeout(unsigned int);
+void Mouse_SetClickValue(bool*);
 
-bool Mouse_GetButtonState( int );
-void Mouse_GetMousePosition( int*, int* );
-	
+bool Mouse_GetButtonState(int);
+void Mouse_GetMousePosition(int*, int*);
+
 int Mouse_GetX();
 int Mouse_GetY();
 int Mouse_GetChangeX();
@@ -40,6 +40,6 @@ Timer* Mouse_GetTimer();
 unsigned short Mouse_GetClicks();
 unsigned short* Mouse_GetClicksPtr();
 
-void Mouse_StopTimer( bool = false );
+void Mouse_StopTimer(bool = false);
 
 #endif

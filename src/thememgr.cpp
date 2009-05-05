@@ -14,7 +14,7 @@
  */
 #include "thememgr.h"
 
-#include "image.h"
+#include "renderer/ogl/image.h"
 
 #include <stdlib.h>
 

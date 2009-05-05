@@ -13,15 +13,7 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 
-#include <vector>
-
 #include "gui.h"
-
-#include "input.h"
-#include "engine.h"
-#include "display.h"
-#include "fontmgr.h"
-#include "thememgr.h"
 #include "gui/controls.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
 

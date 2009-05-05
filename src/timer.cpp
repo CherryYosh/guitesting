@@ -14,11 +14,11 @@
  */
 #include "timer.h"
 
-Timer::Timer(){
-	Timer( 1000 );
+Timer::Timer() {
+	Timer(1000);
 }
 
-Timer::Timer( unsigned int runtime, bool cont ){
+Timer::Timer(unsigned int runtime, bool cont) {
 	Running = false;
 	CurTicks = 0;
 	StopTicks = 0;
@@ -29,12 +29,11 @@ Timer::Timer( unsigned int runtime, bool cont ){
 	Function = NULL;
 }
 
-Timer::~Timer(){
-}
+Timer::~Timer() { }
 
-bool Timer::Start(){
+bool Timer::Start() {
 	//a check to make sure its not started
-	if( Running )
+	if (Running)
 		return false;
 
 	//set up the timer
@@ -49,27 +48,27 @@ bool Timer::Start(){
 	return true;
 }
 
-void Timer::Stop(){
+void Timer::Stop() {
 	Running = false;
 }
 
-void Timer::Restart( bool reset ){
+void Timer::Restart(bool reset) {
 	StopTicks = SDL_GetTicks() + RunTime;
 
-	if( reset ){
+	if (reset) {
 		Ticks = 0;
 		Steps = 0;
 	}
 }
 
-void Timer::Update(){
-	if( !Running )
+void Timer::Update() {
+	if (!Running)
 		return;
 
 	CurTicks = SDL_GetTicks();
 
-	if( CurTicks >= StopTicks ){
-		if( !Contious ){
+	if (CurTicks >= StopTicks) {
+		if (!Contious) {
 			Running = false;
 		} else {
 			StopTicks += RunTime;
@@ -82,14 +81,14 @@ void Timer::Update(){
 	}
 }
 
-void Timer::Update( unsigned int ticks ){
-	if( !Running )
+void Timer::Update(unsigned int ticks) {
+	if (!Running)
 		return;
 
 	CurTicks = ticks;
 
-	if( CurTicks >= StopTicks ){
-		if( !Contious ){
+	if (CurTicks >= StopTicks) {
+		if (!Contious) {
 			Running = false;
 		} else {
 			StopTicks += RunTime;
@@ -102,39 +101,39 @@ void Timer::Update( unsigned int ticks ){
 	}
 }
 
-void Timer::Tick(){
+void Timer::Tick() {
 	Ticks++;
 }
 
-void Timer::Step(){
+void Timer::Step() {
 	Steps++;
 }
 
-void Timer::SetFunction( boost::function<void()> function){
+void Timer::SetFunction(boost::function<void() > function) {
 	Function = function;
 }
 
-void Timer::RunCommand(){
+void Timer::RunCommand() {
 	Function();
 }
 
-void Timer::SetRuntime( unsigned int time ){
+void Timer::SetRuntime(unsigned int time) {
 	//NOTE: this doesnt need to be locked, not used by the timer thread
 	RunTime = time;
 }
 
-unsigned int* Timer::GetTicksPtr(){
+unsigned int* Timer::GetTicksPtr() {
 	return &Ticks;
 }
 
-unsigned int* Timer::GetStepsPtr(){
+unsigned int* Timer::GetStepsPtr() {
 	return &Steps;
 }
 
-unsigned int Timer::GetTicks(){
+unsigned int Timer::GetTicks() {
 	return Ticks;
 }
 
-unsigned int Timer::GetSteps(){
+unsigned int Timer::GetSteps() {
 	return Steps;
 }

@@ -18,18 +18,18 @@
 #include "timer.h"
 #include <vector>
 
-struct timerpool_Data{
+struct timerpool_Data {
 	Timer* timer;
 	bool tick; //do we tick on update
 	bool step; //do we step on update
 };
 
-class timerpool{
+class timerpool {
 public:
 	timerpool();
 	~timerpool();
 
-	void AddTimer( Timer*, bool = false, bool = false);
+	void AddTimer(Timer*, bool = false, bool = false);
 	void Update();
 private:
 	std::vector< timerpool_Data > timers;

@@ -41,10 +41,10 @@ unsigned int ClickTimeout;
 unsigned int ClickTime;
 bool timerRunning;
 bool possibleClick;
-boost::function<void (bool)> ClickFunction;
+boost::function<void (bool) > ClickFunction;
 Timer* timer;
 
-void Mouse_Init( Display* d ){
+void Mouse_Init(Display* d) {
 	Buttons = new bool[3];
 	x = 0;
 	y = 0;
@@ -52,28 +52,28 @@ void Mouse_Init( Display* d ){
 	ClickTime = 0;
 	ClickTimeout = 500;
 
-	timer = new Timer( ClickTimeout );
-	timer->SetFunction( boost::bind<void>(Mouse_StopTimer, true ) );
-	ClickFunction = boost::bind<void>(&Display::OnMouseClick, d, ptNumClicks, _1 );
+	timer = new Timer(ClickTimeout);
+	timer->SetFunction(boost::bind<void>(Mouse_StopTimer, true));
+	ClickFunction = boost::bind<void>(&Display::OnMouseClick, d, ptNumClicks, _1);
 
 	Mouse_SetState();
 }
 
-void Mouse_Die(){
+void Mouse_Die() {
 	delete [] Buttons;
 }
 
-void Mouse_SetState(){
+void Mouse_SetState() {
 	oldx = x;
 	oldy = y;
 
-	unsigned int value = SDL_GetMouseState( &x, &y );
+	unsigned int value = SDL_GetMouseState(&x, &y);
 	Buttons[0] = value & SDL_BUTTON(1);
 	Buttons[1] = value & SDL_BUTTON(2);
 }
 
-void Mouse_SetButtonState(){
-	unsigned int value = SDL_GetMouseState( NULL, NULL );
+void Mouse_SetButtonState() {
+	unsigned int value = SDL_GetMouseState(NULL, NULL);
 
 	bool old = Buttons[0];
 
@@ -83,41 +83,41 @@ void Mouse_SetButtonState(){
 	//right
 	Buttons[1] = value & SDL_BUTTON(2);
 
-	if( old && !Buttons[0] && possibleClick ){
+	if (old && !Buttons[0] && possibleClick) {
 		//we have a click and not a press
 		(*ptNumClicks)++;
 		ClickFunction(false);
 		possibleClick = false;
-		
-		if( timerRunning ){
-			timer->Restart( false );
+
+		if (timerRunning) {
+			timer->Restart(false);
 		} else {
 			timerRunning = true;
 			timer->Start();
 		}
-	} else if( Buttons[0] ){
+	} else if (Buttons[0]) {
 		possibleClick = true;
 	}
 }
 
-void Mouse_SetPosition(){
+void Mouse_SetPosition() {
 	//used for change
 	oldx = x;
 	oldy = y;
 
-	SDL_GetMouseState( &x, &y );
+	SDL_GetMouseState(&x, &y);
 
-	if( oldx != x || oldy != y ){
+	if (oldx != x || oldy != y) {
 		possibleClick = false;
 
-		if( timerRunning ){
-		    timerRunning = false;
-		    timer->Stop();
+		if (timerRunning) {
+			timerRunning = false;
+			timer->Stop();
 		}
 	}
 }
 
-void Mouse_SetTimeout(int timeout ){
+void Mouse_SetTimeout(int timeout) {
 	ClickTimeout = timeout;
 }
 
@@ -126,76 +126,60 @@ void Mouse_SetTimeout(int timeout ){
  * @param key the number of the key to get the button state, 0 = left, 1 = right
  * @returns true if the button is pressed;
  */
-bool Mouse_GetButtonState( int key ){
+bool Mouse_GetButtonState(int key) {
 	//out of bounds check
-	if( key > 2 )
+	if (key > 2)
 		return false;
 
 	return Buttons[key];
 
 }
 
-/** \brief gets the mouse position
- *
+/**
  * This function will set the parameters to the mouse's value
- *
- *  Problems : None.
- *
- *  Threadsafe : No.
- *
  * @param retx A pointer to the value where you want the Mouse X position to be sent
  * @param rety A pointer to the value where you want the Mouse Y position to be sent
- * @returns Nothing.
- * @throws Nothing.
  */
-void Mouse_GetPosition( int *retx, int *rety ){
+void Mouse_GetPosition(int *retx, int *rety) {
 	retx = &x;
 	rety = &y;
 }
 
-int Mouse_GetX(){
+int Mouse_GetX() {
 	return x;
 }
 
-int Mouse_GetY(){
+int Mouse_GetY() {
 	return y;
 }
 
-int Mouse_GetChangeX(){
+int Mouse_GetChangeX() {
 	return x - oldx;
 }
 
-int Mouse_GetChangeY(){
+int Mouse_GetChangeY() {
 	return y - oldy;
 }
 
-Timer* Mouse_GetTimer(){
+Timer* Mouse_GetTimer() {
 	return timer;
 }
 
-unsigned short Mouse_GetClicks(){
+unsigned short Mouse_GetClicks() {
 	return *ptNumClicks;
 }
 
-unsigned short* Mouse_GetClicksPtr(){
+unsigned short* Mouse_GetClicksPtr() {
 	return ptNumClicks;
 }
 
-/** \brief stops the mouses timer
- *
+/**
  * This function will stop the timer, calling the function if told to.
- *
- *  Problems : None.
- *
- *  Threadsafe : No.
- *
  * @param call a boolean telling weather or not the ClickFunction should be called
- * @returns none
- * @throws Nothing
  */
-void Mouse_StopTimer(bool call){
-	if( call ){
-		ClickFunction( true );
+void Mouse_StopTimer(bool call) {
+	if (call) {
+		ClickFunction(true);
 	}
 
 	*ptNumClicks = 0;
