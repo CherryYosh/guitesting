@@ -54,7 +54,7 @@ void oglWidgetRenderer::AddObject(void* obj) {
 	if (obj == NULL)
 		throw 19;
 
-	TotalObjects += static_cast<Control*> (obj)->TotalChildren();
+	TotalObjects += static_cast<Control*> (obj)->Size();
 	Objects.push_back(static_cast<Control*> (obj));
 	Update(obj, RENDERER_ADD);
 }
@@ -67,6 +67,7 @@ void oglWidgetRenderer::RemoveObject(void* obj) {
 	if (obj == NULL)
 		throw 20;
 
+	TotalObjects -= static_cast<Control*> (obj)->Size();
 	std::vector<Control*>::iterator it = Objects.begin();
 	while (it != Objects.end()) {
 		if (*it == obj) {

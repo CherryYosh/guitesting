@@ -30,7 +30,7 @@ GUI::GUI() : System() {
 }
 
 GUI::~GUI() {
-//	delete [] renderer;
+	//	delete [] renderer;
 	Windows.clear();
 }
 
@@ -77,20 +77,20 @@ void GUI::Move(int x, int y) {
  * @param w the window to be made active
  * @returns TODO
  */
-void GUI::MakeActive( Window* w ){
+void GUI::MakeActive(Window* w) {
 	ActiveWindow = w;
 
-	if( w == NULL )
+	if (w == NULL)
 		return;
 
 	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
-		if( *it == w ){
-			Windows.erase( it );
+		if (*it == w) {
+			Windows.erase(it);
 			break;
 		}
 	}
 
-	Windows.push_back( w );
+	Windows.push_back(w);
 }
 
 void GUI::OnKeyPress(unsigned short unicode) {
@@ -100,7 +100,7 @@ void GUI::OnKeyPress(unsigned short unicode) {
 
 void GUI::OnMousePress(unsigned short button, int mx, int my) {
 	if (MouseOverWindow != NULL) {
-		MakeActive( MouseOverWindow );
+		MakeActive(MouseOverWindow);
 		ActiveWindow->OnMousePress(button, mx, my);
 	} else {
 		ActiveWindow = NULL;
@@ -162,8 +162,15 @@ void GUI::CreateTW() {
 	window->Height = b->GetHeight();
 
 	Windows.push_back(window);
-	renderer->AddObject( window );
+	renderer->AddObject(window);
 }
 
 void GUI::CloseWindow(Window* w) {
+	std::vector<Window*>::iterator it = Windows.begin();
+	while(*it != w )
+		it++;
+	Windows.erase(it);
+
+	renderer->RemoveObject(w);
+	renderer->Refresh();
 }
