@@ -69,7 +69,11 @@ public:
 	virtual float* GetColorv();
 
 	virtual void AddChild(Control*);
-	virtual Control* GetChild( unsigned int);
+	virtual Control* GetChild(unsigned int);
+	virtual Control* IterateChild(unsigned int);
+	virtual int IterateChild(Control*);
+
+	virtual unsigned int Size();
 	virtual unsigned int TotalChildren();
 	virtual unsigned int NumChildren();
 
@@ -77,7 +81,8 @@ public:
 	virtual float GetWidth();
 	virtual float GetHeight();
 
-	unsigned int VertexOffset;
+	virtual bool IsRoot();
+	virtual bool IsLeaf();
 
 	float Width, Height;
 	float x, y;

@@ -13,8 +13,6 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <vector>
 
 #include "gui.h"
@@ -25,35 +23,38 @@
 #include "fontmgr.h"
 #include "thememgr.h"
 #include "gui/controls.h"
-#include "renderer/ogl/oglWidgetRender.h"
+#include "renderer/ogl/oglWidgetRenderer.h"
 
-oglWidgetRender* renderer;
+oglWidgetRenderer* renderer;
 
 GUI::GUI() : System() {
 	MouseOverWindow = NULL;
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
-	renderer = new oglWidgetRender;
-	renderer->SetCamera(display->camera);
+	renderer = new oglWidgetRenderer;
 
 	//set up the control
 	Control_Init("themes/default.theme");
 }
 
 GUI::~GUI() {
+//	delete [] renderer;
 	Windows.clear();
 }
 
-//TODO: there has to be a better way to do this rendering
-
 void GUI::Render() {
+	size_t size = Windows.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Windows[i]->StepAnimation();
+	}
+
 	renderer->Draw();
 }
 
 bool GUI::HitTest(float x, float y) {
 	//this is a quick excape..
 	if (MouseOverWindow != NULL) {
-		if (MouseOverWindow->HitTest(x, y, display->GetCameraOrtho())) {
+		if (MouseOverWindow->HitTest(x, y, renderer->GetCamera()->GetOrtho())) {
 			return true;
 		} else {
 			MouseOverWindow = NULL;
@@ -62,7 +63,7 @@ bool GUI::HitTest(float x, float y) {
 
 	size_t size = Windows.size();
 	for (unsigned int i = 0; i < size; i++) {
-		if (Windows[i]->HitTest(x, y, display->GetCameraOrtho())) {
+		if (Windows[i]->HitTest(x, y, renderer->GetCamera()->GetOrtho())) {
 			MouseOverWindow = Windows[i];
 			return true;
 		}
@@ -120,10 +121,8 @@ bool GUI::OnMouseClick(unsigned short num, bool final) {
 	return false;
 }
 
-//TODO: allow for used made themes
-
 void GUI::CreateWindowConsole(float x, float y) {
-	Window* window = new Window(this);
+	Window* window = new Window(this, renderer);
 
 	Rule* topbar = new Rule("topbar", window);
 	Rule* lsidebar = new Rule("sidebar", window);
@@ -152,19 +151,17 @@ void GUI::CreateWindowConsole(float x, float y) {
 	window->AddChild(textarea, false);
 	window->AddChild(inputarea, true);
 
+	renderer->AddObject(window);
+
 	//now we move it (and all its children) and make it build its vbo
 	window->Width = topbar->GetWidth();
 	window->Height = topbar->GetHeight() + lsidebar->GetHeight();
 	window->Move(x, y);
 	Windows.push_back(window);
-
-	renderer->AddObject( window );
 }
 
-//TODO: Delete this, temp function
-
 void GUI::CreateTW() {
-	Window* window = new Window(this);
+	Window* window = new Window(this, renderer);
 
 	Checkbox* b = new Checkbox("checkbox", window);
 
@@ -173,28 +170,8 @@ void GUI::CreateTW() {
 	window->Height = b->GetHeight();
 
 	Windows.push_back(window);
+	renderer->AddObject( window );
 }
 
-//TODO: possibly a better way to do this, would need to change it from using a vector
-
 void GUI::CloseWindow(Window* w) {
-	ActiveWindow = NULL;
-	MouseOverWindow = NULL;
-	
-	unsigned int vp = w->VertexPosition;
-	unsigned int len = w->VertexLength;
-
-	std::vector<Window*>::iterator it = Windows.begin();
-	while (it != Windows.end()) {
-		if (*it == w) {
-			it = Windows.erase(it);
-			return;
-		} else {
-			if( (*it)->VertexPosition > vp ){
-				(*it)->VertexPosition -= len;
-			}
-
-			it++;
-		}
-	}
 }

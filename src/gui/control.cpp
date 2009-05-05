@@ -78,7 +78,6 @@ Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
 	Type = t;
 	x = ix;
 	y = iy;
-	VertexOffset = 1;
 
 	SetColor(nv::vec4<float>(0.0));
 
@@ -157,6 +156,11 @@ void Control::OnKeyRelease(int key, int mod) {
 void Control::Move(float cx, float cy) {
 	x += cx;
 	y += cy;
+
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Children[i]->Move(cx, cy);
+	}
 }
 
 void Control::SetEnabled(bool value) {
@@ -219,6 +223,13 @@ void Control::AddChild(Control* c) {
 	Children.push_back(c);
 }
 
+/**
+ * Returns the total size of the control, 1 + TotalChildren
+ */
+unsigned int Control::Size(){
+	return 1 + TotalChildren();
+}
+
 unsigned int Control::TotalChildren() {
 	return Children.size();
 }
@@ -233,4 +244,72 @@ Control* Control::GetChild( unsigned int num ){
 	} else {
 		return NULL;
 	}
+}
+
+Control* Control::IterateChild(unsigned int num){
+	if(IsLeaf()){
+		return NULL;
+	} else {
+		Control* root = NULL;
+		Control* child = NULL;
+		unsigned int j = 0;
+		unsigned int z = 0;
+		
+		size_t size = NumChildren();
+		for(unsigned int i = 0; i < size; i++){
+			root = Children[i];
+			child = root;
+			z = 0;
+
+			do{
+			    if(j == num)
+				    return child;
+			    
+			    child = root->IterateChild(z);
+			    j++;
+			    z++;
+			} while( child != NULL );
+		}
+	}
+
+	return NULL;
+}
+
+int Control::IterateChild(Control* c){
+	if(IsLeaf()){
+		return -1;
+	} else if ( c == this ){
+		return 0;
+	} else {
+		Control* root = NULL;
+		Control* child = NULL;
+		unsigned int j = 0;
+		unsigned int z = 0;
+
+		size_t size = NumChildren();
+		for(unsigned int i = 0; i < size; i++){
+			root = Children[i];
+			child = root;
+			z = 0;
+
+			do{
+			    if(child == c)
+				    return j;
+
+			    child = root->IterateChild(z);
+			    j++;
+			    z++;
+			} while( child != NULL );
+		}
+	}
+
+	return -1;
+}
+
+bool Control::IsRoot(){
+	return false; //only windows can eb roots
+}
+
+bool Control::IsLeaf(){
+	return 0 == NumChildren();
 }

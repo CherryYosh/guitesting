@@ -21,8 +21,6 @@
 
 #include "system.h"
 
-#include <SDL/SDL.h>
-
 #include "gui.h"
 #include "timer.h"
 #include "camera.h"
@@ -44,15 +42,11 @@ public:
 	void OnMouseButtonChange();
 	void OnMouseMotion();
 	void OnKeyPress( SDL_keysym );
-
-	float* GetCameraProjection();
-	float* GetCameraOrtho();
-
-	Camera* camera;
 protected:
 private:
 	void InitTimers();
 
+	Camera* camera;
 	timerpool timers;
 	GUI *gui;
 };

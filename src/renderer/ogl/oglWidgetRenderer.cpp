@@ -5,9 +5,11 @@
  * Created on May 3, 2009, 4:05 PM
  */
 
-#include "oglWidgetRender.h"
+#include "oglBase.h"
+#include "oglWidgetRenderer.h"
 
 #include "../../thememgr.h"
+
 
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -27,7 +29,10 @@ struct WidgetData {
 	float spacer3[4];
 };
 
-oglWidgetRender::oglWidgetRender() {
+oglWidgetRenderer::oglWidgetRenderer() {
+	base = new oglBase;
+	TotalObjects = 0;
+
 	shader = new Shader("guiAnimation");
 
 	shader->GetUniformLoc(0, "projection");
@@ -38,17 +43,18 @@ oglWidgetRender::oglWidgetRender() {
 	shader->GetAttributeLoc(2, "tcolor");
 }
 
-oglWidgetRender::~oglWidgetRender() { }
+oglWidgetRenderer::~oglWidgetRenderer() { }
 
 /** * @param TODO TODO
  * @returns TODO
  * Adds a object to the list
  * @param obj a pointer to the new object, cannot be null.
  */
-void oglWidgetRender::AddObject(void* obj) {
+void oglWidgetRenderer::AddObject(void* obj) {
 	if (obj == NULL)
 		throw 19;
 
+	TotalObjects += static_cast<Control*> (obj)->TotalChildren();
 	Objects.push_back(static_cast<Control*> (obj));
 	Update(obj, RENDERER_ADD);
 }
@@ -57,7 +63,7 @@ void oglWidgetRender::AddObject(void* obj) {
  * Removes the object from the list
  * @param obj the object to be removed
  */
-void oglWidgetRender::RemoveObject(void* obj) {
+void oglWidgetRenderer::RemoveObject(void* obj) {
 	if (obj == NULL)
 		throw 20;
 
@@ -77,10 +83,15 @@ void oglWidgetRender::RemoveObject(void* obj) {
 /**
  * Binds and sets up all, known, data for rendering
  */
-void oglWidgetRender::Begin() {
+void oglWidgetRenderer::Begin() {
+	//NOTE: Crashing here means c is null,
+	//no check as there would be no way to handel this case
+	//atleast without preventing it from EVER happening, which we need to do
+	Camera* c = base->GetCamera();
+
 	shader->Bind();
-	shader->SetProjection(camera->GetOrtho());
-	shader->SetModelview(camera->GetModelview());
+	shader->SetProjection(c->GetOrtho());
+	shader->SetModelview(c->GetModelview());
 
 	//We bind the theme image
 	glActiveTexture(GL_TEXTURE0);
@@ -93,21 +104,21 @@ void oglWidgetRender::Begin() {
 	glEnableVertexAttribArray(shader->attribute[2]);
 
 	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), 0);
-        glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (4 * sizeof(float)));
-        glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (8 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (4 * sizeof(float)));
+	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (8 * sizeof(float)));
 }
 
 /**
  * Renders all objects
  */
-void oglWidgetRender::Render() { 
-	glDrawArrays(GL_QUADS, 0, 7 * 4 );
+void oglWidgetRenderer::Render() {
+	glDrawArrays(GL_QUADS, 0, TotalObjects * 4);
 }
 
 /**
  * Unbinds all, known, data
  */
-void oglWidgetRender::End() {
+void oglWidgetRenderer::End() {
 	glDisableVertexAttribArray(shader->attribute[0]);
 	glDisableVertexAttribArray(shader->attribute[1]);
 	glDisableVertexAttribArray(shader->attribute[2]);
@@ -117,9 +128,9 @@ void oglWidgetRender::End() {
 }
 
 /**
- * Does a full render cycle, same as calling Begin(), Render(), End()
+ * Does a full draw cycle, same as calling Begin(), Render(), End()
  */
-void oglWidgetRender::Draw() {
+void oglWidgetRenderer::Draw() {
 	Begin();
 	Render();
 	End();
@@ -127,10 +138,11 @@ void oglWidgetRender::Draw() {
 
 /**
  * 'Refreshes' the buffer. Clearning it before readding all data.
- * Mainly used for stream drawing.
  */
-void oglWidgetRender::Refresh() {
+void oglWidgetRenderer::Refresh() {
+	Buffer.Bind();
 	Buffer.RemoveData(0, Buffer.GetSize());
+	Buffer.Unbind();
 
 	size_t size = Objects.size();
 	for (unsigned int i = 0; i < size; i++) {
@@ -143,11 +155,15 @@ void oglWidgetRender::Refresh() {
  * @param obj the pointer of the object that needs updating
  * @param update a enum for the type of update to use.
  */
-void oglWidgetRender::Update(void* obj, unsigned int update) {
+void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	Control* object = static_cast<Control*> (obj);
+	Control* root = object;
 	Control* child;
 
-	unsigned int dataSize = object->TotalChildren() * 4;
+	if(object->IsRoot())
+		    root = NULL;
+
+	unsigned int dataSize = object->Size() * 4;
 	WidgetData* data = new WidgetData[ dataSize ];
 
 	//these are for cleaner code
@@ -160,9 +176,12 @@ void oglWidgetRender::Update(void* obj, unsigned int update) {
 	unsigned int j = 0;
 	size_t size1 = object->NumChildren();
 	size_t size2 = 0;
-	for (unsigned int i = 0; i < size1; i++) {
-		child = object->GetChild(i);
-		size2 = child->TotalChildren();
+	for(unsigned int i = 0; i <= size1; i++) {
+		if( root == NULL )
+			root = object->GetChild(i++);
+
+		size2 = root->TotalChildren();
+		child = root;
 
 		j = 0;
 		do {
@@ -223,10 +242,11 @@ void oglWidgetRender::Update(void* obj, unsigned int update) {
 			data[slot].a = c[3];
 			slot++;
 
-			child = child->GetChild(j);
-
+			child = root->IterateChild(j);
 			j++;
 		} while (j <= size2);
+
+		root = object->GetChild(i);
 	}
 
 	Buffer.Bind();
@@ -235,14 +255,24 @@ void oglWidgetRender::Update(void* obj, unsigned int update) {
 		Buffer.AddData(dataSize * sizeof(WidgetData), data);
 	} else if (update == RENDERER_REFRESH) {
 		unsigned int start = 0;
+		int pos = 0;
+		int r = -1;
 
-		int i = 0;
-		while (obj != Objects[i]) {
-			start += sizeof(WidgetData);
-			i++;
+		size_t size = Objects.size();
+		for(unsigned int j = 0; j < size; j++ ){
+			    r = Objects[j]->IterateChild(object);
+
+			    if(r != -1){
+				    pos += r;
+				    break;
+			    } else {
+				    pos += Objects[j]->Size();
+			}
 		}
 
-		Buffer.SetData(start, dataSize*sizeof(WidgetData), data);
+		start = pos * 4 * sizeof(WidgetData);
+
+		Buffer.SetData(start, dataSize * sizeof(WidgetData), data);
 	}
 
 	Buffer.Unbind();
@@ -250,8 +280,20 @@ void oglWidgetRender::Update(void* obj, unsigned int update) {
 	delete [] data;
 }
 
-void oglWidgetRender::SetCamera(Camera* cam){
-	if( cam == NULL )
-		throw 0;
-	camera = cam;
+Shader* oglWidgetRenderer::GetShader() {
+	return shader;
+}
+
+void oglWidgetRenderer::SetShader(Shader* s) {
+	if (s == NULL)
+		return;
+	shader = s;
+}
+
+int* oglWidgetRenderer::GetViewport() {
+	return base->GetViewport();
+}
+
+Camera* oglWidgetRenderer::GetCamera() {
+	return base->GetCamera();
 }

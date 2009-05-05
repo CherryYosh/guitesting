@@ -18,10 +18,10 @@
 
 #include <vector>
 
-class oglWidgetRender : public Renderer {
+class oglWidgetRenderer : public Renderer {
 public:
-	oglWidgetRender();
-	virtual ~oglWidgetRender();
+	oglWidgetRenderer();
+	virtual ~oglWidgetRenderer();
 	
 	void AddObject(void*);
 	void RemoveObject(void*);
@@ -32,15 +32,16 @@ public:
 	void Draw();
 
 	void Refresh();
-	void Update(void*, unsigned int);
+	void Update(void*, unsigned int = RENDERER_REFRESH);
 
-//	Shader* GetShader();
-//	void SetShader(Shader*);
+	Shader* GetShader();
+	void SetShader(Shader*);
 
-	void SetCamera( Camera* );
+	int* GetViewport();
 
+	Camera* GetCamera();
 private:
-	Camera* camera;
+	unsigned int TotalObjects;	//the total number of objects, including all children
 	std::vector<Control*> Objects;
 	VBO Buffer;
 	Shader* shader;

@@ -15,8 +15,6 @@
 #include "camera.h"
 #include <math.h>
 
-#include <stdio.h>
-
 Camera::Camera(){
 	modelview.make_identity();
 	projection.make_identity();

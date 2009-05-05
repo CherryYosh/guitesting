@@ -572,13 +572,13 @@ public:
 
     // component-wise vector divide assign
     friend vec4<T> & operator /= ( vec4<T> &lhs, const vec4<T> & rhs ) {
-        for(int i = 0; i < lhs.size(); i++) lhs._array[i] /= rhs._array[i];
+        for(int i = 0; i < 4; i++) lhs._array[i] /= rhs._array[i];
         return lhs;
     }
 
     // component-wise vector add assign
     friend vec4<T> & operator += ( vec4<T> &lhs, const vec4<T> & rhs ) {
-        for(int i = 0; i < lhs.size(); i++) lhs._array[i] += rhs._array[i];
+        for(int i = 0; i < 4; i++) lhs._array[i] += rhs._array[i];
         return lhs;
     }
 
@@ -591,7 +591,7 @@ public:
     // unary negate
     friend vec4<T> operator - ( const vec4<T> &rhs) {
         vec4<T> rv;
-        for(int i = 0; i < rhs.size(); i++) rv._array[i] = -rhs._array[i];
+        for(int i = 0; i < 4; i++) rv._array[i] = -rhs._array[i];
         return rv;
     }
 

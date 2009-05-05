@@ -22,13 +22,16 @@
         </logicalFolder>
         <logicalFolder name="renderer" displayName="renderer" projectFiles="true">
           <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
-            <itemPath>src/renderer/ogl/oglWidgetRender.cpp</itemPath>
-            <itemPath>src/renderer/ogl/oglWidgetRender.h</itemPath>
+            <itemPath>src/renderer/ogl/oglBase.cpp</itemPath>
+            <itemPath>src/renderer/ogl/oglBase.h</itemPath>
+            <itemPath>src/renderer/ogl/oglWidgetRenderer.cpp</itemPath>
+            <itemPath>src/renderer/ogl/oglWidgetRenderer.h</itemPath>
             <itemPath>src/renderer/ogl/shader.cpp</itemPath>
             <itemPath>src/renderer/ogl/shader.h</itemPath>
             <itemPath>src/renderer/ogl/vbo.cpp</itemPath>
             <itemPath>src/renderer/ogl/vbo.h</itemPath>
           </logicalFolder>
+          <itemPath>src/renderer/base.h</itemPath>
           <itemPath>src/renderer/renderer.h</itemPath>
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
@@ -85,306 +88,37 @@
           <buildCommand>make -f makefile</buildCommand>
           <cleanCommand>make -f makefile clean</cleanCommand>
           <executablePath>test</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>src/gui</pElem>
+              <pElem>/usr/include/boost/function</pElem>
+              <pElem>/usr/include/boost/mpl/aux_</pElem>
+              <pElem>/usr/include/IL</pElem>
+              <pElem>/usr/include/freetype2/freetype</pElem>
+              <pElem>src/renderer/ogl</pElem>
+              <pElem>/usr/include/boost/utility</pElem>
+              <pElem>/usr/include/boost</pElem>
+              <pElem>/usr/include/boost/config</pElem>
+              <pElem>.</pElem>
+              <pElem>/usr/include/boost/type_traits/detail</pElem>
+              <pElem>/usr/include/boost/mpl</pElem>
+              <pElem>/usr/include/boost/bind</pElem>
+              <pElem>src/renderer</pElem>
+              <pElem>/usr/include/SDL</pElem>
+              <pElem>/usr/include/boost/type_traits</pElem>
+              <pElem>src</pElem>
+              <pElem>/usr/include/GL</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
       </makefileType>
-      <item path="src/camera.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/display.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost/utility</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/SDL</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/engine.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost/utility</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/fontmgr.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/freetype2/freetype</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
       <item path="src/fontmgr.h" ex="true" tool="3">
-      </item>
-      <item path="src/gui.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost/utility</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/gui/button.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/gui/control.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
       </item>
       <item path="src/gui/controls.h" ex="true" tool="3">
       </item>
-      <item path="src/gui/editbox.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>src</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/gui/label.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>src</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/gui/rule.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>src</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/gui/window.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>src/gui</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/bind</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/image.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/IL</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
       <item path="src/image.h" ex="true" tool="3">
       </item>
-      <item path="src/input.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/boost/utility</pElem>
-            <pElem>/usr/include/SDL</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/main.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/mouse.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
       <item path="src/mouse.h" ex="true" tool="3">
-      </item>
-      <item path="src/system.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/thememgr.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/timer.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/type_traits/detail</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
-      </item>
-      <item path="src/timerpool.cpp" ex="false" tool="1">
-        <ccTool>
-          <incDir>
-            <pElem>/usr/include/boost/function</pElem>
-            <pElem>/usr/include/boost/mpl/aux_</pElem>
-            <pElem>/usr/include/boost/mpl</pElem>
-            <pElem>/usr/include/boost/type_traits</pElem>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-            <pElem>/usr/include/boost/config</pElem>
-          </incDir>
-          <inheritIncValues>false</inheritIncValues>
-          <inheritPreValues>false</inheritPreValues>
-        </ccTool>
       </item>
     </conf>
     <conf name="Profile" type="0">

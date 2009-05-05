@@ -28,25 +28,22 @@
 #include "button.h"
 #include "window.h"
 
-Button::Button( std::string t, Window* p, Control* c, float x, float y ) : Control(t,p,c,x,y){
-}
+Button::Button(std::string t, Window* p, Control* c, float x, float y) : Control(t, p, c, x, y) {}
 
-Button::~Button(){
-}
+Button::~Button() { }
 
-bool Button::HitTest( int mouseX, int mouseY ){
-	if( mouseX > x && mouseX < x + Width &&
-		mouseY > y && mouseY < y + Height ){
+bool Button::HitTest(int mouseX, int mouseY) {
+	if (mouseX > x && mouseX < x + Width &&
+		mouseY > y && mouseY < y + Height) {
 		return true;
 	}
 	return false;
 }
 
-void Button::OnMousePress( unsigned short button, int mx, int my ){
-}
+void Button::OnMousePress(unsigned short button, int mx, int my) { }
 
-bool Button::OnMouseClick( unsigned short num, bool final ){
-	if( num == 1 && m_Callback != NULL ){
+bool Button::OnMouseClick(unsigned short num, bool final) {
+	if (num == 1 && m_Callback != NULL) {
 		m_Callback();
 		return false; //cant handel any more
 	}
@@ -54,12 +51,12 @@ bool Button::OnMouseClick( unsigned short num, bool final ){
 	return false; //we dont do anything
 }
 
-void Button::OnMouseEnter(){
-	Root->Animate( RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this );
+void Button::OnMouseEnter() {
+	Root->Animate(RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this);
 }
 
-void Button::OnMouseLeave(){
-	SetColor( 0, 0, 0, 0 );
-//	Root->UpdateControl( this );
-	Root->RemoveAnimation( this );
+void Button::OnMouseLeave() {
+	SetColor(0, 0, 0, 0);
+	Root->UpdateControl(this->Root);
+	Root->RemoveAnimation(this);
 }

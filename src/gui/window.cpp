@@ -28,6 +28,7 @@
 
 #include "controls.h"
 #include "../gui.h"
+#include "../camera.h"
 #include <SDL/SDL.h>
 
 struct WINDOW_VBOVertex {
@@ -47,21 +48,16 @@ struct AnimationType {
 	nv::vec4<float> data;
 };
 
-Window::Window(GUI* p) : Control("", NULL) {
-	VertexPosition = 1;
-	VertexLength = 0;
+Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 	ReciveInput = false;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
-	Modelview._43 = -1.0; //z value
+	//Modelview._43 = -1.0; //z value
 	gui = p;
+	renderer = r;
 }
 
 Window::~Window() {
-//	Control::GUI_vbo->Bind();
-//	Control::GUI_vbo->RemoveData( VertexPosition, VertexLength );
-//	Control::GUI_vbo->Unbind();
-	
 	gui->CloseWindow(this);
 	MouseOverChild = NULL;
 }
@@ -71,30 +67,43 @@ void Window::AddChild(Control *child, bool rebuild) {
 	for (unsigned int i = 0; i < size; i++) {
 		if (Children[i]->HitTest(child->x, child->y)) {
 			Children[i]->AddChild(child);
-
-//			if (rebuild)
-//				RebuildVBO();
-
 			return;
 		}
 	}
 
 	Children.push_back(child);
-
-//	if (rebuild)
-//		RebuildVBO(); //rebuild the vbo too
 }
 
 void Window::Move(float xChange, float yChange) {
 	x += xChange;
 	y += yChange;
 
-	Modelview._array[12] += xChange;
-	Modelview._array[13] += yChange;
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Children[i]->Move(xChange, yChange);
+	}
+
+	renderer->Update(this, RENDERER_REFRESH);
 }
 
 void Window::Close() {
 	delete this;
+}
+
+void Window::UpdateControl(Control* control) {
+	renderer->Update(control, RENDERER_REFRESH);
+	//renderer->Refresh();
+}
+
+bool Window::IsRoot(){
+	return true;
+}
+
+/**
+ * Returns the total size of the control, in this case the same as TotalChildren
+ */
+unsigned int Window::Size() {
+	return TotalChildren();
 }
 
 unsigned int Window::TotalChildren() {
@@ -106,31 +115,8 @@ unsigned int Window::TotalChildren() {
 	return ret;
 }
 
-unsigned int Window::NumChildren(){ return Children.size(); }
-
-/**
- * Renders all children in the window
- * @param shader a pointer to the shader to use
- */
-void Window::Render(Shader* shader) {
-/*
-	shader->SetModelview(Modelview._array);
-
-	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*)(VertexPosition));
-	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (VertexPosition + 2 * sizeof(float)));
-	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WINDOW_VBOVertex), (GLvoid*) (VertexPosition + 4 * sizeof(float)));
-
-	glDrawArrays(GL_QUADS, 0, NumChildren() * 4);
-	*/
-}
-
-void Window::RenderText(int v, int t, int c) {
-	size_t size = Children.size();
-	for (unsigned int i = 0; i < size; i++) {
-		if (Children[i]->HasAttrib(CTRL_INPUT)) {
-			((Label*) Children[i])->RenderText(v, t, c);
-		}
-	}
+unsigned int Window::NumChildren() {
+	return Children.size();
 }
 
 /** \brief Preforms a hit test on the window
@@ -151,8 +137,8 @@ void Window::RenderText(int v, int t, int c) {
 bool Window::HitTest(float mx, float my, float* p) {
 	Unproject(mx, my, p, &mx, &my);
 
-	if (mx > 0.0 && my > 0.0 &&
-		mx < Width && my < Height) {
+	if (mx > x && my > y &&
+		mx < (x + Width) && my < (y + Height)) {
 		if (MouseOverChild != NULL) {
 			if (MouseOverChild->HitTest(mx, my)) {
 				return true;
@@ -179,11 +165,11 @@ bool Window::HitTest(float mx, float my, float* p) {
 		return true;
 	}
 
-	if( MouseOverChild != NULL ){
-	    MouseOverChild->OnMouseLeave();
-	    MouseOverChild = NULL;
+	if (MouseOverChild != NULL) {
+		MouseOverChild->OnMouseLeave();
+		MouseOverChild = NULL;
 	}
-	
+
 	return false;
 }
 
@@ -302,7 +288,7 @@ void Window::StepAnimation() {
 			if ((it->Type & RGBACHANNEL)) {
 				if (it->Object != NULL) {
 					it->Object->AddColor(data);
-			//		UpdateControl(it->Object);
+					UpdateControl(it->Object);
 				}
 			}
 		}
@@ -328,10 +314,8 @@ void Window::RemoveAnimation(Control* c) {
 	}
 }
 
-
 void Window::Unproject(float winx, float winy, float* p, float* ox, float* oy) {
-	GLint view[4];
-	glGetIntegerv(GL_VIEWPORT, view);
+	GLint* view = renderer->GetViewport();
 
 	nv::vec4<float> in = nv::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
 		-(((winy - view[1]) * 2.0) / view[3] - 1.0),

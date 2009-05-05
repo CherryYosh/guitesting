@@ -17,6 +17,8 @@
 
 #include "control.h"
 
+#include "../renderer/renderer.h"
+
 #include "../nvMatrix.h"
 #include "../nvVector.h"
 
@@ -25,8 +27,6 @@
 
 #define BITSHIFT(x) 1 << x
 #define BITSHIFT2(x,y) x << y
-
-class Shader;
 
 struct AnimationType;
 class Control;
@@ -51,7 +51,7 @@ enum {
 
 class Window : public Control {
 public:
-	Window(GUI*);
+	Window(GUI*, Renderer*);
 	~Window();
 
 	void AddChild(Control*, bool = true);
@@ -65,9 +65,6 @@ public:
 	bool OnMouseClick(unsigned short, bool);
 	bool HitTest(float, float, float*);
 
-	void Render(Shader*);
-	void RenderText(int, int, int);
-
 	void Animate(int, float, unsigned int, unsigned int, int, Control* = NULL);
 	void Animate(int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL);
 	void Animate(int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL);
@@ -78,19 +75,18 @@ public:
 
 	void Unproject(float, float, float*, float*, float*);
 
+	bool IsRoot();
+	unsigned int Size();
 	unsigned int TotalChildren();
 	unsigned int NumChildren();
 
 	bool ReciveInput;
-	unsigned int VertexPosition, VertexLength;
 protected:
 private:
-	void UpdateVBO();
-	void RebuildVBO();
-
 	std::list<AnimationType> Animations;
 
 	GUI* gui;
+	Renderer* renderer;
 
 	nv::matrix4<float> Modelview;
 	nv::vec3<float> AnimationOrigin;

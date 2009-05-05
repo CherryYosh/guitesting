@@ -10,9 +10,14 @@
 #ifndef RENDERER_H
 #define	RENDERER_H
 
+#include "base.h"
+
 enum {
 	RENDERER_ADD, RENDERER_REMOVE, RENDERER_REFRESH
 };
+
+class Shader;
+class Camera;
 
 class Renderer {
 public:
@@ -30,8 +35,14 @@ public:
 	virtual void Refresh(){};
 	virtual void Update(void*, unsigned int){};
 
-private:
+	virtual Shader* GetShader(){return 0;};
+	virtual void SetShader(Shader*){};
 
+	virtual int* GetViewport(){return 0;};
+	virtual Camera* GetCamera(){return 0;};
+
+protected:
+	Base* base;
 };
 
 #endif	/* _RENDERER_H */
