@@ -52,9 +52,11 @@ Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 	ReciveInput = false;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Modelview.make_identity();
-	//Modelview._43 = -1.0; //z value
 	gui = p;
 	renderer = r;
+
+	//FIX THIS
+	//Animate(ROTATEZ, 90.0, 0, 500, LINEAR);
 }
 
 Window::~Window() {

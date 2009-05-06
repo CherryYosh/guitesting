@@ -281,20 +281,33 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	delete [] data;
 }
 
+/**
+ * returns a pointer to the shader
+ */
 Shader* oglWidgetRenderer::GetShader() {
 	return shader;
 }
 
+/**
+ * Set the shader
+ * @param s the new shader to use
+ */
 void oglWidgetRenderer::SetShader(Shader* s) {
 	if (s == NULL)
 		return;
 	shader = s;
 }
 
+/**
+ * returns the viewport as a int[4]
+ */
 int* oglWidgetRenderer::GetViewport() {
 	return base->GetViewport();
 }
 
+/**
+ * returns a pointer to the camera
+ */
 Camera* oglWidgetRenderer::GetCamera() {
 	return base->GetCamera();
 }
