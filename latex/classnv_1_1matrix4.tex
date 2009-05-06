@@ -1,0 +1,480 @@
+\hypertarget{classnv_1_1matrix4}{
+\section{nv::matrix4$<$ T $>$ Class Template Reference}
+\label{classnv_1_1matrix4}\index{nv::matrix4@{nv::matrix4}}
+}
+{\tt \#include $<$nvMatrix.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classnv_1_1matrix4_36fc89111f3d5ad9e46945d4d0bd5921}{matrix4} ()
+\item 
+\hyperlink{classnv_1_1matrix4_008c4829e82374912faac747690c6466}{matrix4} (T t)
+\item 
+\hyperlink{classnv_1_1matrix4_0c19e0e5585f99d0c6423b157a927832}{matrix4} (const T $\ast$m)
+\item 
+\hyperlink{classnv_1_1matrix4_409943020eb2f60eed7c64ecfb803e37}{matrix4} (T a00, T a01, T a02, T a03, T a10, T a11, T a12, T a13, T a20, T a21, T a22, T a23, T a30, T a31, T a32, T a33)
+\item 
+void \hyperlink{classnv_1_1matrix4_7071f369675281ba258515b1169a246e}{get\_\-value} (T $\ast$mp) const 
+\item 
+const T $\ast$ \hyperlink{classnv_1_1matrix4_513224050dd280c216165b244e2a0a45}{get\_\-value} () const 
+\item 
+void \hyperlink{classnv_1_1matrix4_d19b1f9ae21c90f8a96ef158d8ff62ed}{set\_\-value} (T $\ast$mp)
+\item 
+void \hyperlink{classnv_1_1matrix4_36a90d798d71bdd3106ba5cdbbc40869}{set\_\-value} (T r)
+\item 
+void \hyperlink{classnv_1_1matrix4_76a93589ae31c19e90d9199a8510504c}{make\_\-identity} ()
+\item 
+void \hyperlink{classnv_1_1matrix4_6eec45000c6cdf881a50ecd09a6d803b}{set\_\-scale} (T s)
+\item 
+void \hyperlink{classnv_1_1matrix4_7663538941eda617052f477ec9eb2f15}{set\_\-scale} (const \hyperlink{classnv_1_1vec3}{vec3}$<$ T $>$ \&s)
+\item 
+void \hyperlink{classnv_1_1matrix4_03752260bd2264a4bcdfaa9b019f8777}{set\_\-translate} (const \hyperlink{classnv_1_1vec3}{vec3}$<$ T $>$ \&t)
+\item 
+void \hyperlink{classnv_1_1matrix4_d79dcdcafcf5fab54a990621f87c2f20}{set\_\-row} (int r, const \hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \&t)
+\item 
+void \hyperlink{classnv_1_1matrix4_9a8f45e4b6f47e49074e27c5a5bb5ed6}{set\_\-column} (int c, const \hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \&t)
+\item 
+void \hyperlink{classnv_1_1matrix4_0ce61396b900fbfeb6ac3cb93fb43a07}{rotateScreen} (T angle, T \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, T \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}, T z, \hyperlink{classnv_1_1vec3}{vec3}$<$ T $>$ origin)
+\item 
+void \hyperlink{classnv_1_1matrix4_addeaba225f0322e3819cc146b7a9887}{rotateOrigin} (T angle, T \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, T \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}, T z, \hyperlink{classnv_1_1vec3}{vec3}$<$ T $>$ origin)
+\item 
+void \hyperlink{classnv_1_1matrix4_219e377b04b656c751c6d5ebdaa3505b}{rotate} (T angle, T \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, T \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}, T z)
+\item 
+\hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \hyperlink{classnv_1_1matrix4_8570ef93f472de8b22871dc0eeae063f}{get\_\-row} (int r) const 
+\item 
+\hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \hyperlink{classnv_1_1matrix4_994cf662df66cef73f1b53ac6b522c35}{get\_\-column} (int r) const 
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \& \hyperlink{classnv_1_1matrix4_952abc3f6b02fc318e488d3267db6111}{operator$\ast$=} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&rhs)
+\item 
+\hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \hyperlink{classnv_1_1matrix4_f57c6161e485a6b7e518dab91479f94b}{operator$\ast$} (const \hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \&src) const 
+\item 
+T \& \hyperlink{classnv_1_1matrix4_bb80585790ba8ec85d80539f0ebcd488}{operator()} (int row, int col)
+\item 
+const T \& \hyperlink{classnv_1_1matrix4_eb010106f27df3248d2ad4086c4bb4f5}{operator()} (int row, int col) const 
+\item 
+T \& \hyperlink{classnv_1_1matrix4_82c7f1a1c17765f07c2fba4f2f231dd3}{element} (int row, int col)
+\item 
+const T \& \hyperlink{classnv_1_1matrix4_a08fdc3168b2195b23cf46e55fc7352d}{element} (int row, int col) const 
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \& \hyperlink{classnv_1_1matrix4_f0a4ab9a41801f1468cc2502591739ec}{operator$\ast$=} (const T \&r)
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \& \hyperlink{classnv_1_1matrix4_2678da2a1c5888217e9b73c5415d6164}{operator+=} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&mat)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>T \hyperlink{classnv_1_1matrix4_5fbda38eab1e83ec03072c35ce446f23}{\_11}\\
+\>\>T \hyperlink{classnv_1_1matrix4_2f77d39c6fef6e44fe51f942dbeae1ad}{\_12}\\
+\>\>T \hyperlink{classnv_1_1matrix4_6b77bf7df000c2da8b10cdfb707496d3}{\_13}\\
+\>\>T \hyperlink{classnv_1_1matrix4_2cd5b3fd361e5520b366f499d56bc31f}{\_14}\\
+\>\>T \hyperlink{classnv_1_1matrix4_bfd2c00d09f2c94359fa75e034a9d365}{\_21}\\
+\>\>T \hyperlink{classnv_1_1matrix4_236e012222dca1ae40ca9de68b6890d1}{\_22}\\
+\>\>T \hyperlink{classnv_1_1matrix4_4e2177512a4e3ea9b6d8584ce73ce724}{\_23}\\
+\>\>T \hyperlink{classnv_1_1matrix4_7bd4413efb39c6cfb52e24e1019ecedc}{\_24}\\
+\>\>T \hyperlink{classnv_1_1matrix4_585382c55b5ba7921a7c55d0b51fdeb2}{\_31}\\
+\>\>T \hyperlink{classnv_1_1matrix4_27391693b9cbccd400083e46265d8086}{\_32}\\
+\>\>T \hyperlink{classnv_1_1matrix4_f6ea4c219063a6eff57bcb7f669bcdd2}{\_33}\\
+\>\>T \hyperlink{classnv_1_1matrix4_0092ee1a4e828a55838566dec4e90b77}{\_34}\\
+\>\>T \hyperlink{classnv_1_1matrix4_52d24ada375affd41f8502bace352327}{\_41}\\
+\>\>T \hyperlink{classnv_1_1matrix4_abc0ff6800ec83b672608ac0d5589a32}{\_42}\\
+\>\>T \hyperlink{classnv_1_1matrix4_ebd9a2934f01f79339dd1ec8e2acbff5}{\_43}\\
+\>\>T \hyperlink{classnv_1_1matrix4_d3ea6d1a8729755662f0e3b2e4454d8c}{\_44}\\
+\>\} \\
+\>T \hyperlink{classnv_1_1matrix4_a756b9f94bc522d9e68ce13c0a71f312}{\_array} \mbox{[}16\mbox{]}\\
+\}; \\
+
+\end{tabbing}\end{CompactItemize}
+\subsection*{Friends}
+\begin{CompactItemize}
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \hyperlink{classnv_1_1matrix4_1e4721509d63057ed4e2169224806d03}{inverse} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&m)
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \hyperlink{classnv_1_1matrix4_59542e7a4af1f5b0e0b3ca8a381c53b7}{transpose} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&m)
+\item 
+\hyperlink{classnv_1_1matrix4}{matrix4} \hyperlink{classnv_1_1matrix4_32377c4db13e6aaa2cfc16258f4877fd}{operator$\ast$} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&lhs, const \hyperlink{classnv_1_1matrix4}{matrix4} \&rhs)
+\item 
+\hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \hyperlink{classnv_1_1matrix4_861c761d9fd0e866b4d7419ce63d70ce}{operator$\ast$} (const \hyperlink{classnv_1_1vec4}{vec4}$<$ T $>$ \&lhs, const \hyperlink{classnv_1_1matrix4}{matrix4} \&rhs)
+\item 
+bool \hyperlink{classnv_1_1matrix4_6f106a51a850395024d96e987e5ca5bc}{operator==} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&lhs, const \hyperlink{classnv_1_1matrix4}{matrix4} \&rhs)
+\item 
+bool \hyperlink{classnv_1_1matrix4_6944f94e4a6431fcaa921dc7422395a0}{operator!=} (const \hyperlink{classnv_1_1matrix4}{matrix4} \&lhs, const \hyperlink{classnv_1_1matrix4}{matrix4} \&rhs)
+\end{CompactItemize}
+\subsubsection*{template$<$class T$>$ class nv::matrix4$<$ T $>$}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnv_1_1matrix4_36fc89111f3d5ad9e46945d4d0bd5921}{
+\index{nv::matrix4@{nv::matrix4}!matrix4@{matrix4}}
+\index{matrix4@{matrix4}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{matrix4}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf nv::matrix4}$<$ T $>$::{\bf matrix4} ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_36fc89111f3d5ad9e46945d4d0bd5921}
+
+
+\hypertarget{classnv_1_1matrix4_008c4829e82374912faac747690c6466}{
+\index{nv::matrix4@{nv::matrix4}!matrix4@{matrix4}}
+\index{matrix4@{matrix4}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{matrix4}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf nv::matrix4}$<$ T $>$::{\bf matrix4} (T {\em t})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_008c4829e82374912faac747690c6466}
+
+
+\hypertarget{classnv_1_1matrix4_0c19e0e5585f99d0c6423b157a927832}{
+\index{nv::matrix4@{nv::matrix4}!matrix4@{matrix4}}
+\index{matrix4@{matrix4}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{matrix4}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf nv::matrix4}$<$ T $>$::{\bf matrix4} (const T $\ast$ {\em m})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_0c19e0e5585f99d0c6423b157a927832}
+
+
+\hypertarget{classnv_1_1matrix4_409943020eb2f60eed7c64ecfb803e37}{
+\index{nv::matrix4@{nv::matrix4}!matrix4@{matrix4}}
+\index{matrix4@{matrix4}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{matrix4}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf nv::matrix4}$<$ T $>$::{\bf matrix4} (T {\em a00}, \/  T {\em a01}, \/  T {\em a02}, \/  T {\em a03}, \/  T {\em a10}, \/  T {\em a11}, \/  T {\em a12}, \/  T {\em a13}, \/  T {\em a20}, \/  T {\em a21}, \/  T {\em a22}, \/  T {\em a23}, \/  T {\em a30}, \/  T {\em a31}, \/  T {\em a32}, \/  T {\em a33})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_409943020eb2f60eed7c64ecfb803e37}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnv_1_1matrix4_a08fdc3168b2195b23cf46e55fc7352d}{
+\index{nv::matrix4@{nv::matrix4}!element@{element}}
+\index{element@{element}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{element}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const T\& {\bf nv::matrix4}$<$ T $>$::element (int {\em row}, \/  int {\em col}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_a08fdc3168b2195b23cf46e55fc7352d}
+
+
+\hypertarget{classnv_1_1matrix4_82c7f1a1c17765f07c2fba4f2f231dd3}{
+\index{nv::matrix4@{nv::matrix4}!element@{element}}
+\index{element@{element}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{element}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf nv::matrix4}$<$ T $>$::element (int {\em row}, \/  int {\em col})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_82c7f1a1c17765f07c2fba4f2f231dd3}
+
+
+\hypertarget{classnv_1_1matrix4_994cf662df66cef73f1b53ac6b522c35}{
+\index{nv::matrix4@{nv::matrix4}!get\_\-column@{get\_\-column}}
+\index{get\_\-column@{get\_\-column}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{get\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf vec4}$<$T$>$ {\bf nv::matrix4}$<$ T $>$::get\_\-column (int {\em r}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_994cf662df66cef73f1b53ac6b522c35}
+
+
+\hypertarget{classnv_1_1matrix4_8570ef93f472de8b22871dc0eeae063f}{
+\index{nv::matrix4@{nv::matrix4}!get\_\-row@{get\_\-row}}
+\index{get\_\-row@{get\_\-row}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{get\_\-row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf vec4}$<$T$>$ {\bf nv::matrix4}$<$ T $>$::get\_\-row (int {\em r}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_8570ef93f472de8b22871dc0eeae063f}
+
+
+\hypertarget{classnv_1_1matrix4_513224050dd280c216165b244e2a0a45}{
+\index{nv::matrix4@{nv::matrix4}!get\_\-value@{get\_\-value}}
+\index{get\_\-value@{get\_\-value}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{get\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const T$\ast$ {\bf nv::matrix4}$<$ T $>$::get\_\-value () const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_513224050dd280c216165b244e2a0a45}
+
+
+\hypertarget{classnv_1_1matrix4_7071f369675281ba258515b1169a246e}{
+\index{nv::matrix4@{nv::matrix4}!get\_\-value@{get\_\-value}}
+\index{get\_\-value@{get\_\-value}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{get\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::get\_\-value (T $\ast$ {\em mp}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_7071f369675281ba258515b1169a246e}
+
+
+\hypertarget{classnv_1_1matrix4_76a93589ae31c19e90d9199a8510504c}{
+\index{nv::matrix4@{nv::matrix4}!make\_\-identity@{make\_\-identity}}
+\index{make\_\-identity@{make\_\-identity}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{make\_\-identity}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::make\_\-identity ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_76a93589ae31c19e90d9199a8510504c}
+
+
+\hypertarget{classnv_1_1matrix4_eb010106f27df3248d2ad4086c4bb4f5}{
+\index{nv::matrix4@{nv::matrix4}!operator()@{operator()}}
+\index{operator()@{operator()}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const T\& {\bf nv::matrix4}$<$ T $>$::operator() (int {\em row}, \/  int {\em col}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_eb010106f27df3248d2ad4086c4bb4f5}
+
+
+\hypertarget{classnv_1_1matrix4_bb80585790ba8ec85d80539f0ebcd488}{
+\index{nv::matrix4@{nv::matrix4}!operator()@{operator()}}
+\index{operator()@{operator()}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf nv::matrix4}$<$ T $>$::operator() (int {\em row}, \/  int {\em col})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_bb80585790ba8ec85d80539f0ebcd488}
+
+
+\hypertarget{classnv_1_1matrix4_f57c6161e485a6b7e518dab91479f94b}{
+\index{nv::matrix4@{nv::matrix4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf vec4}$<$T$>$ {\bf nv::matrix4}$<$ T $>$::operator$\ast$ (const {\bf vec4}$<$ T $>$ \& {\em src}) const\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_f57c6161e485a6b7e518dab91479f94b}
+
+
+\hypertarget{classnv_1_1matrix4_f0a4ab9a41801f1468cc2502591739ec}{
+\index{nv::matrix4@{nv::matrix4}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4}\& {\bf nv::matrix4}$<$ T $>$::operator$\ast$= (const T \& {\em r})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_f0a4ab9a41801f1468cc2502591739ec}
+
+
+\hypertarget{classnv_1_1matrix4_952abc3f6b02fc318e488d3267db6111}{
+\index{nv::matrix4@{nv::matrix4}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4}\& {\bf nv::matrix4}$<$ T $>$::operator$\ast$= (const {\bf matrix4}$<$ T $>$ \& {\em rhs})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_952abc3f6b02fc318e488d3267db6111}
+
+
+\hypertarget{classnv_1_1matrix4_2678da2a1c5888217e9b73c5415d6164}{
+\index{nv::matrix4@{nv::matrix4}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator+=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4}\& {\bf nv::matrix4}$<$ T $>$::operator+= (const {\bf matrix4}$<$ T $>$ \& {\em mat})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_2678da2a1c5888217e9b73c5415d6164}
+
+
+\hypertarget{classnv_1_1matrix4_219e377b04b656c751c6d5ebdaa3505b}{
+\index{nv::matrix4@{nv::matrix4}!rotate@{rotate}}
+\index{rotate@{rotate}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::rotate (T {\em angle}, \/  T {\em x}, \/  T {\em y}, \/  T {\em z})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_219e377b04b656c751c6d5ebdaa3505b}
+
+
+\hypertarget{classnv_1_1matrix4_addeaba225f0322e3819cc146b7a9887}{
+\index{nv::matrix4@{nv::matrix4}!rotateOrigin@{rotateOrigin}}
+\index{rotateOrigin@{rotateOrigin}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{rotateOrigin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::rotateOrigin (T {\em angle}, \/  T {\em x}, \/  T {\em y}, \/  T {\em z}, \/  {\bf vec3}$<$ T $>$ {\em origin})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_addeaba225f0322e3819cc146b7a9887}
+
+
+\hypertarget{classnv_1_1matrix4_0ce61396b900fbfeb6ac3cb93fb43a07}{
+\index{nv::matrix4@{nv::matrix4}!rotateScreen@{rotateScreen}}
+\index{rotateScreen@{rotateScreen}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{rotateScreen}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::rotateScreen (T {\em angle}, \/  T {\em x}, \/  T {\em y}, \/  T {\em z}, \/  {\bf vec3}$<$ T $>$ {\em origin})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_0ce61396b900fbfeb6ac3cb93fb43a07}
+
+
+\hypertarget{classnv_1_1matrix4_9a8f45e4b6f47e49074e27c5a5bb5ed6}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-column@{set\_\-column}}
+\index{set\_\-column@{set\_\-column}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-column (int {\em c}, \/  const {\bf vec4}$<$ T $>$ \& {\em t})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_9a8f45e4b6f47e49074e27c5a5bb5ed6}
+
+
+\hypertarget{classnv_1_1matrix4_d79dcdcafcf5fab54a990621f87c2f20}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-row@{set\_\-row}}
+\index{set\_\-row@{set\_\-row}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-row (int {\em r}, \/  const {\bf vec4}$<$ T $>$ \& {\em t})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_d79dcdcafcf5fab54a990621f87c2f20}
+
+
+\hypertarget{classnv_1_1matrix4_7663538941eda617052f477ec9eb2f15}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-scale@{set\_\-scale}}
+\index{set\_\-scale@{set\_\-scale}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-scale (const {\bf vec3}$<$ T $>$ \& {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_7663538941eda617052f477ec9eb2f15}
+
+
+\hypertarget{classnv_1_1matrix4_6eec45000c6cdf881a50ecd09a6d803b}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-scale@{set\_\-scale}}
+\index{set\_\-scale@{set\_\-scale}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-scale (T {\em s})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_6eec45000c6cdf881a50ecd09a6d803b}
+
+
+\hypertarget{classnv_1_1matrix4_03752260bd2264a4bcdfaa9b019f8777}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-translate@{set\_\-translate}}
+\index{set\_\-translate@{set\_\-translate}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-translate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-translate (const {\bf vec3}$<$ T $>$ \& {\em t})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_03752260bd2264a4bcdfaa9b019f8777}
+
+
+\hypertarget{classnv_1_1matrix4_36a90d798d71bdd3106ba5cdbbc40869}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-value@{set\_\-value}}
+\index{set\_\-value@{set\_\-value}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-value (T {\em r})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_36a90d798d71bdd3106ba5cdbbc40869}
+
+
+\hypertarget{classnv_1_1matrix4_d19b1f9ae21c90f8a96ef158d8ff62ed}{
+\index{nv::matrix4@{nv::matrix4}!set\_\-value@{set\_\-value}}
+\index{set\_\-value@{set\_\-value}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{set\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf nv::matrix4}$<$ T $>$::set\_\-value (T $\ast$ {\em mp})\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{classnv_1_1matrix4_d19b1f9ae21c90f8a96ef158d8ff62ed}
+
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classnv_1_1matrix4_1e4721509d63057ed4e2169224806d03}{
+\index{nv::matrix4@{nv::matrix4}!inverse@{inverse}}
+\index{inverse@{inverse}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{inverse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4} inverse (const {\bf matrix4}$<$ T $>$ \& {\em m})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_1e4721509d63057ed4e2169224806d03}
+
+
+\hypertarget{classnv_1_1matrix4_6944f94e4a6431fcaa921dc7422395a0}{
+\index{nv::matrix4@{nv::matrix4}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ bool operator!= (const {\bf matrix4}$<$ T $>$ \& {\em lhs}, \/  const {\bf matrix4}$<$ T $>$ \& {\em rhs})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_6944f94e4a6431fcaa921dc7422395a0}
+
+
+\hypertarget{classnv_1_1matrix4_861c761d9fd0e866b4d7419ce63d70ce}{
+\index{nv::matrix4@{nv::matrix4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf vec4}$<$T$>$ operator$\ast$ (const {\bf vec4}$<$ T $>$ \& {\em lhs}, \/  const {\bf matrix4}$<$ T $>$ \& {\em rhs})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_861c761d9fd0e866b4d7419ce63d70ce}
+
+
+\hypertarget{classnv_1_1matrix4_32377c4db13e6aaa2cfc16258f4877fd}{
+\index{nv::matrix4@{nv::matrix4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4} operator$\ast$ (const {\bf matrix4}$<$ T $>$ \& {\em lhs}, \/  const {\bf matrix4}$<$ T $>$ \& {\em rhs})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_32377c4db13e6aaa2cfc16258f4877fd}
+
+
+\hypertarget{classnv_1_1matrix4_6f106a51a850395024d96e987e5ca5bc}{
+\index{nv::matrix4@{nv::matrix4}!operator==@{operator==}}
+\index{operator==@{operator==}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ bool operator== (const {\bf matrix4}$<$ T $>$ \& {\em lhs}, \/  const {\bf matrix4}$<$ T $>$ \& {\em rhs})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_6f106a51a850395024d96e987e5ca5bc}
+
+
+\hypertarget{classnv_1_1matrix4_59542e7a4af1f5b0e0b3ca8a381c53b7}{
+\index{nv::matrix4@{nv::matrix4}!transpose@{transpose}}
+\index{transpose@{transpose}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{transpose}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf matrix4} transpose (const {\bf matrix4}$<$ T $>$ \& {\em m})\hspace{0.3cm}{\tt  \mbox{[}friend\mbox{]}}}}
+\label{classnv_1_1matrix4_59542e7a4af1f5b0e0b3ca8a381c53b7}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnv_1_1matrix4_f2106b93278534202745ad86773910e8}{
+\subsubsection[{"@3}]{\setlength{\rightskip}{0pt plus 5cm}union \{ ... \} }}
+\label{classnv_1_1matrix4_f2106b93278534202745ad86773910e8}
+
+
+\hypertarget{classnv_1_1matrix4_5fbda38eab1e83ec03072c35ce446f23}{
+\index{nv::matrix4@{nv::matrix4}!\_\-11@{\_\-11}}
+\index{\_\-11@{\_\-11}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-11}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-11}}}
+\label{classnv_1_1matrix4_5fbda38eab1e83ec03072c35ce446f23}
+
+
+\hypertarget{classnv_1_1matrix4_2f77d39c6fef6e44fe51f942dbeae1ad}{
+\index{nv::matrix4@{nv::matrix4}!\_\-12@{\_\-12}}
+\index{\_\-12@{\_\-12}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-12}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-12}}}
+\label{classnv_1_1matrix4_2f77d39c6fef6e44fe51f942dbeae1ad}
+
+
+\hypertarget{classnv_1_1matrix4_6b77bf7df000c2da8b10cdfb707496d3}{
+\index{nv::matrix4@{nv::matrix4}!\_\-13@{\_\-13}}
+\index{\_\-13@{\_\-13}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-13}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-13}}}
+\label{classnv_1_1matrix4_6b77bf7df000c2da8b10cdfb707496d3}
+
+
+\hypertarget{classnv_1_1matrix4_2cd5b3fd361e5520b366f499d56bc31f}{
+\index{nv::matrix4@{nv::matrix4}!\_\-14@{\_\-14}}
+\index{\_\-14@{\_\-14}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-14}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-14}}}
+\label{classnv_1_1matrix4_2cd5b3fd361e5520b366f499d56bc31f}
+
+
+\hypertarget{classnv_1_1matrix4_bfd2c00d09f2c94359fa75e034a9d365}{
+\index{nv::matrix4@{nv::matrix4}!\_\-21@{\_\-21}}
+\index{\_\-21@{\_\-21}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-21}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-21}}}
+\label{classnv_1_1matrix4_bfd2c00d09f2c94359fa75e034a9d365}
+
+
+\hypertarget{classnv_1_1matrix4_236e012222dca1ae40ca9de68b6890d1}{
+\index{nv::matrix4@{nv::matrix4}!\_\-22@{\_\-22}}
+\index{\_\-22@{\_\-22}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-22}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-22}}}
+\label{classnv_1_1matrix4_236e012222dca1ae40ca9de68b6890d1}
+
+
+\hypertarget{classnv_1_1matrix4_4e2177512a4e3ea9b6d8584ce73ce724}{
+\index{nv::matrix4@{nv::matrix4}!\_\-23@{\_\-23}}
+\index{\_\-23@{\_\-23}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-23}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-23}}}
+\label{classnv_1_1matrix4_4e2177512a4e3ea9b6d8584ce73ce724}
+
+
+\hypertarget{classnv_1_1matrix4_7bd4413efb39c6cfb52e24e1019ecedc}{
+\index{nv::matrix4@{nv::matrix4}!\_\-24@{\_\-24}}
+\index{\_\-24@{\_\-24}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-24}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-24}}}
+\label{classnv_1_1matrix4_7bd4413efb39c6cfb52e24e1019ecedc}
+
+
+\hypertarget{classnv_1_1matrix4_585382c55b5ba7921a7c55d0b51fdeb2}{
+\index{nv::matrix4@{nv::matrix4}!\_\-31@{\_\-31}}
+\index{\_\-31@{\_\-31}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-31}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-31}}}
+\label{classnv_1_1matrix4_585382c55b5ba7921a7c55d0b51fdeb2}
+
+
+\hypertarget{classnv_1_1matrix4_27391693b9cbccd400083e46265d8086}{
+\index{nv::matrix4@{nv::matrix4}!\_\-32@{\_\-32}}
+\index{\_\-32@{\_\-32}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-32}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-32}}}
+\label{classnv_1_1matrix4_27391693b9cbccd400083e46265d8086}
+
+
+\hypertarget{classnv_1_1matrix4_f6ea4c219063a6eff57bcb7f669bcdd2}{
+\index{nv::matrix4@{nv::matrix4}!\_\-33@{\_\-33}}
+\index{\_\-33@{\_\-33}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-33}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-33}}}
+\label{classnv_1_1matrix4_f6ea4c219063a6eff57bcb7f669bcdd2}
+
+
+\hypertarget{classnv_1_1matrix4_0092ee1a4e828a55838566dec4e90b77}{
+\index{nv::matrix4@{nv::matrix4}!\_\-34@{\_\-34}}
+\index{\_\-34@{\_\-34}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-34}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-34}}}
+\label{classnv_1_1matrix4_0092ee1a4e828a55838566dec4e90b77}
+
+
+\hypertarget{classnv_1_1matrix4_52d24ada375affd41f8502bace352327}{
+\index{nv::matrix4@{nv::matrix4}!\_\-41@{\_\-41}}
+\index{\_\-41@{\_\-41}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-41}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-41}}}
+\label{classnv_1_1matrix4_52d24ada375affd41f8502bace352327}
+
+
+\hypertarget{classnv_1_1matrix4_abc0ff6800ec83b672608ac0d5589a32}{
+\index{nv::matrix4@{nv::matrix4}!\_\-42@{\_\-42}}
+\index{\_\-42@{\_\-42}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-42}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-42}}}
+\label{classnv_1_1matrix4_abc0ff6800ec83b672608ac0d5589a32}
+
+
+\hypertarget{classnv_1_1matrix4_ebd9a2934f01f79339dd1ec8e2acbff5}{
+\index{nv::matrix4@{nv::matrix4}!\_\-43@{\_\-43}}
+\index{\_\-43@{\_\-43}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-43}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-43}}}
+\label{classnv_1_1matrix4_ebd9a2934f01f79339dd1ec8e2acbff5}
+
+
+\hypertarget{classnv_1_1matrix4_d3ea6d1a8729755662f0e3b2e4454d8c}{
+\index{nv::matrix4@{nv::matrix4}!\_\-44@{\_\-44}}
+\index{\_\-44@{\_\-44}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-44}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-44}}}
+\label{classnv_1_1matrix4_d3ea6d1a8729755662f0e3b2e4454d8c}
+
+
+\hypertarget{classnv_1_1matrix4_a756b9f94bc522d9e68ce13c0a71f312}{
+\index{nv::matrix4@{nv::matrix4}!\_\-array@{\_\-array}}
+\index{\_\-array@{\_\-array}!nv::matrix4@{nv::matrix4}}
+\subsubsection[{\_\-array}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf nv::matrix4}$<$ T $>$::{\bf \_\-array}\mbox{[}16\mbox{]}}}
+\label{classnv_1_1matrix4_a756b9f94bc522d9e68ce13c0a71f312}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{nv_matrix_8h}{nvMatrix.h}\end{CompactItemize}

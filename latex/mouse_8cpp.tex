@@ -1,0 +1,289 @@
+\hypertarget{mouse_8cpp}{
+\section{/home/brandon/Dev/guitesting/src/mouse.cpp File Reference}
+\label{mouse_8cpp}\index{/home/brandon/Dev/guitesting/src/mouse.cpp@{/home/brandon/Dev/guitesting/src/mouse.cpp}}
+}
+{\tt \#include \char`\"{}mouse.h\char`\"{}}\par
+{\tt \#include \char`\"{}display.h\char`\"{}}\par
+{\tt \#include $<$SDL/SDL.h$>$}\par
+{\tt \#include $<$boost/bind.hpp$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{mouse_8cpp_b1393f036cd0f26636f9a079cf1d064d}{Mouse\_\-Init} (\hyperlink{class_display}{Display} $\ast$d)
+\item 
+void \hyperlink{mouse_8cpp_88c6a27fb8d1ad7f2beba197bc85abd1}{Mouse\_\-Die} ()
+\item 
+void \hyperlink{mouse_8cpp_3943f1e41119d8c2ca2238afe71195c2}{Mouse\_\-SetState} ()
+\item 
+void \hyperlink{mouse_8cpp_a75ab33a08f42989b4a9a27c06d0c3df}{Mouse\_\-SetButtonState} ()
+\item 
+void \hyperlink{mouse_8cpp_666dd1b584cc50dcee60de2a2665ee50}{Mouse\_\-SetPosition} ()
+\item 
+void \hyperlink{mouse_8cpp_36059863a1de8e8eb15dcb90ad52e1fa}{Mouse\_\-SetTimeout} (int timeout)
+\item 
+bool \hyperlink{mouse_8cpp_58ae96d1f122c27fb1ae045810723e1b}{Mouse\_\-GetButtonState} (int key)
+\item 
+void \hyperlink{mouse_8cpp_dbedc467dda5b312fb41533d317cb54b}{Mouse\_\-GetPosition} (int $\ast$retx, int $\ast$rety)
+\item 
+int \hyperlink{mouse_8cpp_b9441e42151fea968690d875f49d26c1}{Mouse\_\-GetX} ()
+\item 
+int \hyperlink{mouse_8cpp_ab0e5cdd7a05bb22dc818e40052e5b1b}{Mouse\_\-GetY} ()
+\item 
+int \hyperlink{mouse_8cpp_aa0de97e8e74342702bba9574c37b014}{Mouse\_\-GetChangeX} ()
+\item 
+int \hyperlink{mouse_8cpp_b49649aebec0673b2cfc39f05621fda4}{Mouse\_\-GetChangeY} ()
+\item 
+\hyperlink{class_timer}{Timer} $\ast$ \hyperlink{mouse_8cpp_214f2e12ef73e36562ee64e29ec87db0}{Mouse\_\-GetTimer} ()
+\item 
+unsigned short \hyperlink{mouse_8cpp_2253db38ba3287dc90c01eb7c800a940}{Mouse\_\-GetClicks} ()
+\item 
+unsigned short $\ast$ \hyperlink{mouse_8cpp_710133468f6a26bca775061d5e3ca974}{Mouse\_\-GetClicksPtr} ()
+\item 
+void \hyperlink{mouse_8cpp_ee32d7aa1492d321f375b37d80f7fe40}{Mouse\_\-StopTimer} (bool call)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+unsigned short $\ast$ \hyperlink{mouse_8cpp_cd2c2ce4ed7a312aced33d2e78d328f9}{ptNumClicks}
+\item 
+bool $\ast$ \hyperlink{mouse_8cpp_130339ef160641f04f4897832f99b861}{Buttons}
+\item 
+int \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}
+\item 
+int \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}
+\item 
+int \hyperlink{mouse_8cpp_422bc92f102f94a46f3dd05b018f9bff}{oldx}
+\item 
+int \hyperlink{mouse_8cpp_e474adb7b3241444a48b7b072bd864a6}{oldy}
+\item 
+unsigned int \hyperlink{mouse_8cpp_1a020b488e96f79c49bbe9a17aeb023e}{ClickTimeout}
+\item 
+unsigned int \hyperlink{mouse_8cpp_0ca7fe045b01f3bc924a00b5d116219c}{ClickTime}
+\item 
+bool \hyperlink{mouse_8cpp_a2dcaae1412870718aec305197c2a8ff}{timerRunning}
+\item 
+bool \hyperlink{mouse_8cpp_766dc0c8b02d96b7989b773f3cb65495}{possibleClick}
+\item 
+boost::function$<$ void(bool) $>$ \hyperlink{mouse_8cpp_09f487965a8546256c2864396b506578}{ClickFunction}
+\item 
+\hyperlink{class_timer}{Timer} $\ast$ \hyperlink{mouse_8cpp_d59f2b60cccbf7bd6a43003017d1d01a}{timer}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{mouse_8cpp_88c6a27fb8d1ad7f2beba197bc85abd1}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-Die@{Mouse\_\-Die}}
+\index{Mouse\_\-Die@{Mouse\_\-Die}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-Die}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-Die ()}}
+\label{mouse_8cpp_88c6a27fb8d1ad7f2beba197bc85abd1}
+
+
+\hypertarget{mouse_8cpp_58ae96d1f122c27fb1ae045810723e1b}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetButtonState@{Mouse\_\-GetButtonState}}
+\index{Mouse\_\-GetButtonState@{Mouse\_\-GetButtonState}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetButtonState}]{\setlength{\rightskip}{0pt plus 5cm}bool Mouse\_\-GetButtonState (int {\em key})}}
+\label{mouse_8cpp_58ae96d1f122c27fb1ae045810723e1b}
+
+
+Returns weather the button is up or down, if the key value is under 2 \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em key}]the number of the key to get the button state, 0 = left, 1 = right \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]true if the button is pressed; \end{Desc}
+\hypertarget{mouse_8cpp_aa0de97e8e74342702bba9574c37b014}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetChangeX@{Mouse\_\-GetChangeX}}
+\index{Mouse\_\-GetChangeX@{Mouse\_\-GetChangeX}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetChangeX}]{\setlength{\rightskip}{0pt plus 5cm}int Mouse\_\-GetChangeX ()}}
+\label{mouse_8cpp_aa0de97e8e74342702bba9574c37b014}
+
+
+\hypertarget{mouse_8cpp_b49649aebec0673b2cfc39f05621fda4}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetChangeY@{Mouse\_\-GetChangeY}}
+\index{Mouse\_\-GetChangeY@{Mouse\_\-GetChangeY}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetChangeY}]{\setlength{\rightskip}{0pt plus 5cm}int Mouse\_\-GetChangeY ()}}
+\label{mouse_8cpp_b49649aebec0673b2cfc39f05621fda4}
+
+
+\hypertarget{mouse_8cpp_2253db38ba3287dc90c01eb7c800a940}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetClicks@{Mouse\_\-GetClicks}}
+\index{Mouse\_\-GetClicks@{Mouse\_\-GetClicks}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetClicks}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short Mouse\_\-GetClicks ()}}
+\label{mouse_8cpp_2253db38ba3287dc90c01eb7c800a940}
+
+
+\hypertarget{mouse_8cpp_710133468f6a26bca775061d5e3ca974}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetClicksPtr@{Mouse\_\-GetClicksPtr}}
+\index{Mouse\_\-GetClicksPtr@{Mouse\_\-GetClicksPtr}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetClicksPtr}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short$\ast$ Mouse\_\-GetClicksPtr ()}}
+\label{mouse_8cpp_710133468f6a26bca775061d5e3ca974}
+
+
+\hypertarget{mouse_8cpp_dbedc467dda5b312fb41533d317cb54b}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetPosition@{Mouse\_\-GetPosition}}
+\index{Mouse\_\-GetPosition@{Mouse\_\-GetPosition}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetPosition}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-GetPosition (int $\ast$ {\em retx}, \/  int $\ast$ {\em rety})}}
+\label{mouse_8cpp_dbedc467dda5b312fb41533d317cb54b}
+
+
+This function will set the parameters to the mouse's value \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em retx}]A pointer to the value where you want the Mouse X position to be sent \item[{\em rety}]A pointer to the value where you want the Mouse Y position to be sent \end{description}
+\end{Desc}
+\hypertarget{mouse_8cpp_214f2e12ef73e36562ee64e29ec87db0}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetTimer@{Mouse\_\-GetTimer}}
+\index{Mouse\_\-GetTimer@{Mouse\_\-GetTimer}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetTimer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Timer}$\ast$ Mouse\_\-GetTimer ()}}
+\label{mouse_8cpp_214f2e12ef73e36562ee64e29ec87db0}
+
+
+\hypertarget{mouse_8cpp_b9441e42151fea968690d875f49d26c1}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetX@{Mouse\_\-GetX}}
+\index{Mouse\_\-GetX@{Mouse\_\-GetX}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetX}]{\setlength{\rightskip}{0pt plus 5cm}int Mouse\_\-GetX ()}}
+\label{mouse_8cpp_b9441e42151fea968690d875f49d26c1}
+
+
+\hypertarget{mouse_8cpp_ab0e5cdd7a05bb22dc818e40052e5b1b}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-GetY@{Mouse\_\-GetY}}
+\index{Mouse\_\-GetY@{Mouse\_\-GetY}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-GetY}]{\setlength{\rightskip}{0pt plus 5cm}int Mouse\_\-GetY ()}}
+\label{mouse_8cpp_ab0e5cdd7a05bb22dc818e40052e5b1b}
+
+
+\hypertarget{mouse_8cpp_b1393f036cd0f26636f9a079cf1d064d}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-Init@{Mouse\_\-Init}}
+\index{Mouse\_\-Init@{Mouse\_\-Init}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-Init ({\bf Display} $\ast$ {\em d})}}
+\label{mouse_8cpp_b1393f036cd0f26636f9a079cf1d064d}
+
+
+\hypertarget{mouse_8cpp_a75ab33a08f42989b4a9a27c06d0c3df}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-SetButtonState@{Mouse\_\-SetButtonState}}
+\index{Mouse\_\-SetButtonState@{Mouse\_\-SetButtonState}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-SetButtonState}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-SetButtonState ()}}
+\label{mouse_8cpp_a75ab33a08f42989b4a9a27c06d0c3df}
+
+
+\hypertarget{mouse_8cpp_666dd1b584cc50dcee60de2a2665ee50}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-SetPosition@{Mouse\_\-SetPosition}}
+\index{Mouse\_\-SetPosition@{Mouse\_\-SetPosition}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-SetPosition}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-SetPosition ()}}
+\label{mouse_8cpp_666dd1b584cc50dcee60de2a2665ee50}
+
+
+\hypertarget{mouse_8cpp_3943f1e41119d8c2ca2238afe71195c2}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-SetState@{Mouse\_\-SetState}}
+\index{Mouse\_\-SetState@{Mouse\_\-SetState}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-SetState}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-SetState ()}}
+\label{mouse_8cpp_3943f1e41119d8c2ca2238afe71195c2}
+
+
+\hypertarget{mouse_8cpp_36059863a1de8e8eb15dcb90ad52e1fa}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-SetTimeout@{Mouse\_\-SetTimeout}}
+\index{Mouse\_\-SetTimeout@{Mouse\_\-SetTimeout}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-SetTimeout}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-SetTimeout (int {\em timeout})}}
+\label{mouse_8cpp_36059863a1de8e8eb15dcb90ad52e1fa}
+
+
+\hypertarget{mouse_8cpp_ee32d7aa1492d321f375b37d80f7fe40}{
+\index{mouse.cpp@{mouse.cpp}!Mouse\_\-StopTimer@{Mouse\_\-StopTimer}}
+\index{Mouse\_\-StopTimer@{Mouse\_\-StopTimer}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Mouse\_\-StopTimer}]{\setlength{\rightskip}{0pt plus 5cm}void Mouse\_\-StopTimer (bool {\em call})}}
+\label{mouse_8cpp_ee32d7aa1492d321f375b37d80f7fe40}
+
+
+This function will stop the timer, calling the function if told to. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em call}]a boolean telling weather or not the ClickFunction should be called \end{description}
+\end{Desc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{mouse_8cpp_130339ef160641f04f4897832f99b861}{
+\index{mouse.cpp@{mouse.cpp}!Buttons@{Buttons}}
+\index{Buttons@{Buttons}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{Buttons}]{\setlength{\rightskip}{0pt plus 5cm}bool$\ast$ {\bf Buttons}}}
+\label{mouse_8cpp_130339ef160641f04f4897832f99b861}
+
+
+\hypertarget{mouse_8cpp_09f487965a8546256c2864396b506578}{
+\index{mouse.cpp@{mouse.cpp}!ClickFunction@{ClickFunction}}
+\index{ClickFunction@{ClickFunction}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{ClickFunction}]{\setlength{\rightskip}{0pt plus 5cm}boost::function$<$void (bool) $>$ {\bf ClickFunction}}}
+\label{mouse_8cpp_09f487965a8546256c2864396b506578}
+
+
+\hypertarget{mouse_8cpp_0ca7fe045b01f3bc924a00b5d116219c}{
+\index{mouse.cpp@{mouse.cpp}!ClickTime@{ClickTime}}
+\index{ClickTime@{ClickTime}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{ClickTime}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf ClickTime}}}
+\label{mouse_8cpp_0ca7fe045b01f3bc924a00b5d116219c}
+
+
+\hypertarget{mouse_8cpp_1a020b488e96f79c49bbe9a17aeb023e}{
+\index{mouse.cpp@{mouse.cpp}!ClickTimeout@{ClickTimeout}}
+\index{ClickTimeout@{ClickTimeout}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{ClickTimeout}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf ClickTimeout}}}
+\label{mouse_8cpp_1a020b488e96f79c49bbe9a17aeb023e}
+
+
+\hypertarget{mouse_8cpp_422bc92f102f94a46f3dd05b018f9bff}{
+\index{mouse.cpp@{mouse.cpp}!oldx@{oldx}}
+\index{oldx@{oldx}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{oldx}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf oldx}}}
+\label{mouse_8cpp_422bc92f102f94a46f3dd05b018f9bff}
+
+
+\hypertarget{mouse_8cpp_e474adb7b3241444a48b7b072bd864a6}{
+\index{mouse.cpp@{mouse.cpp}!oldy@{oldy}}
+\index{oldy@{oldy}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{oldy}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf oldy}}}
+\label{mouse_8cpp_e474adb7b3241444a48b7b072bd864a6}
+
+
+\hypertarget{mouse_8cpp_766dc0c8b02d96b7989b773f3cb65495}{
+\index{mouse.cpp@{mouse.cpp}!possibleClick@{possibleClick}}
+\index{possibleClick@{possibleClick}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{possibleClick}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf possibleClick}}}
+\label{mouse_8cpp_766dc0c8b02d96b7989b773f3cb65495}
+
+
+\hypertarget{mouse_8cpp_cd2c2ce4ed7a312aced33d2e78d328f9}{
+\index{mouse.cpp@{mouse.cpp}!ptNumClicks@{ptNumClicks}}
+\index{ptNumClicks@{ptNumClicks}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{ptNumClicks}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short$\ast$ {\bf ptNumClicks}}}
+\label{mouse_8cpp_cd2c2ce4ed7a312aced33d2e78d328f9}
+
+
+\hypertarget{mouse_8cpp_d59f2b60cccbf7bd6a43003017d1d01a}{
+\index{mouse.cpp@{mouse.cpp}!timer@{timer}}
+\index{timer@{timer}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Timer}$\ast$ {\bf timer}}}
+\label{mouse_8cpp_d59f2b60cccbf7bd6a43003017d1d01a}
+
+
+\hypertarget{mouse_8cpp_a2dcaae1412870718aec305197c2a8ff}{
+\index{mouse.cpp@{mouse.cpp}!timerRunning@{timerRunning}}
+\index{timerRunning@{timerRunning}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{timerRunning}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf timerRunning}}}
+\label{mouse_8cpp_a2dcaae1412870718aec305197c2a8ff}
+
+
+\hypertarget{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{
+\index{mouse.cpp@{mouse.cpp}!x@{x}}
+\index{x@{x}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf x}}}
+\label{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}
+
+
+\hypertarget{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{
+\index{mouse.cpp@{mouse.cpp}!y@{y}}
+\index{y@{y}!mouse.cpp@{mouse.cpp}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf y}}}
+\label{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}
+
+

@@ -1,0 +1,110 @@
+\hypertarget{class_input}{
+\section{Input Class Reference}
+\label{class_input}\index{Input@{Input}}
+}
+{\tt \#include $<$input.h$>$}
+
+Inheritance diagram for Input::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_input}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_input_bae3f379d3f157cf42dc857309832dba}{Input} ()
+\item 
+\hyperlink{class_input_f2db35ba67c8a8ccd23bef6a482fc291}{$\sim$Input} ()
+\item 
+void \hyperlink{class_input_1808108d296e25985cfd442d8a2c9d12}{Start} ()
+\item 
+void \hyperlink{class_input_9f5f01802b1de327b4dd03cadfad7651}{BindAction} (std::string, std::string, bool, boost::function$<$ void()$>$)
+\item 
+void \hyperlink{class_input_e0e1471412ec5a992a0e258d5486aeab}{BindKey} (std::string, SDLKey, SDLMod, std::string)
+\item 
+void \hyperlink{class_input_d975a574f8ecb71a429d9cbeeecd12fd}{ProcessKey} (bool, SDL\_\-keysym)
+\item 
+void \hyperlink{class_input_79b770f9707946fd6ad48668a4ad13cc}{ProcessInput} ()
+\item 
+\hyperlink{struct_input___profile_data_t}{Input\_\-ProfileDataT} $\ast$ \hyperlink{class_input_db61ed1151c5ba9df5c53951c56efd0a}{GetProfile} (std::string)
+\item 
+bool \hyperlink{class_input_f1470cec71424b0e82d2ebd01efb9528}{SetProfile} (std::string name)
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_input_bae3f379d3f157cf42dc857309832dba}{
+\index{Input@{Input}!Input@{Input}}
+\index{Input@{Input}!Input@{Input}}
+\subsubsection[{Input}]{\setlength{\rightskip}{0pt plus 5cm}Input::Input ()}}
+\label{class_input_bae3f379d3f157cf42dc857309832dba}
+
+
+\hypertarget{class_input_f2db35ba67c8a8ccd23bef6a482fc291}{
+\index{Input@{Input}!$\sim$Input@{$\sim$Input}}
+\index{$\sim$Input@{$\sim$Input}!Input@{Input}}
+\subsubsection[{$\sim$Input}]{\setlength{\rightskip}{0pt plus 5cm}Input::$\sim$Input ()}}
+\label{class_input_f2db35ba67c8a8ccd23bef6a482fc291}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_input_9f5f01802b1de327b4dd03cadfad7651}{
+\index{Input@{Input}!BindAction@{BindAction}}
+\index{BindAction@{BindAction}!Input@{Input}}
+\subsubsection[{BindAction}]{\setlength{\rightskip}{0pt plus 5cm}void Input::BindAction (std::string {\em profile}, \/  std::string {\em action}, \/  bool {\em useOnce}, \/  boost::function$<$ void()$>$ {\em function})}}
+\label{class_input_9f5f01802b1de327b4dd03cadfad7651}
+
+
+\hypertarget{class_input_e0e1471412ec5a992a0e258d5486aeab}{
+\index{Input@{Input}!BindKey@{BindKey}}
+\index{BindKey@{BindKey}!Input@{Input}}
+\subsubsection[{BindKey}]{\setlength{\rightskip}{0pt plus 5cm}void Input::BindKey (std::string {\em profile}, \/  SDLKey {\em key}, \/  SDLMod {\em mod}, \/  std::string {\em action})}}
+\label{class_input_e0e1471412ec5a992a0e258d5486aeab}
+
+
+\hypertarget{class_input_db61ed1151c5ba9df5c53951c56efd0a}{
+\index{Input@{Input}!GetProfile@{GetProfile}}
+\index{GetProfile@{GetProfile}!Input@{Input}}
+\subsubsection[{GetProfile}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Input\_\-ProfileDataT} $\ast$ Input::GetProfile (std::string {\em name})}}
+\label{class_input_db61ed1151c5ba9df5c53951c56efd0a}
+
+
+\hypertarget{class_input_79b770f9707946fd6ad48668a4ad13cc}{
+\index{Input@{Input}!ProcessInput@{ProcessInput}}
+\index{ProcessInput@{ProcessInput}!Input@{Input}}
+\subsubsection[{ProcessInput}]{\setlength{\rightskip}{0pt plus 5cm}void Input::ProcessInput ()}}
+\label{class_input_79b770f9707946fd6ad48668a4ad13cc}
+
+
+\hypertarget{class_input_d975a574f8ecb71a429d9cbeeecd12fd}{
+\index{Input@{Input}!ProcessKey@{ProcessKey}}
+\index{ProcessKey@{ProcessKey}!Input@{Input}}
+\subsubsection[{ProcessKey}]{\setlength{\rightskip}{0pt plus 5cm}void Input::ProcessKey (bool {\em pressed}, \/  SDL\_\-keysym {\em sym})}}
+\label{class_input_d975a574f8ecb71a429d9cbeeecd12fd}
+
+
+\hypertarget{class_input_f1470cec71424b0e82d2ebd01efb9528}{
+\index{Input@{Input}!SetProfile@{SetProfile}}
+\index{SetProfile@{SetProfile}!Input@{Input}}
+\subsubsection[{SetProfile}]{\setlength{\rightskip}{0pt plus 5cm}bool Input::SetProfile (std::string {\em name})}}
+\label{class_input_f1470cec71424b0e82d2ebd01efb9528}
+
+
+\hypertarget{class_input_1808108d296e25985cfd442d8a2c9d12}{
+\index{Input@{Input}!Start@{Start}}
+\index{Start@{Start}!Input@{Input}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void Input::Start ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_input_1808108d296e25985cfd442d8a2c9d12}
+
+
+
+
+Reimplemented from \hyperlink{class_system_99d3c3036a58c1698f286677c4ace286}{System}.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{input_8h}{input.h}\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{input_8cpp}{input.cpp}\end{CompactItemize}

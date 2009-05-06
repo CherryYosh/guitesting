@@ -1,0 +1,175 @@
+\hypertarget{class_g_u_i}{
+\section{GUI Class Reference}
+\label{class_g_u_i}\index{GUI@{GUI}}
+}
+{\tt \#include $<$gui.h$>$}
+
+Inheritance diagram for GUI::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_g_u_i}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_g_u_i_8cbb3140b7d3c9d8e942d6ce6b60a0e8}{GUI} ()
+\item 
+\hyperlink{class_g_u_i_c9cae2328dcb5d83bdfaeca49a2eb695}{$\sim$GUI} ()
+\item 
+void \hyperlink{class_g_u_i_4905ff37be14b83496d098096f5848b6}{Render} ()
+\item 
+bool \hyperlink{class_g_u_i_44bbc42e5bbf222e0a6241dc21e23703}{HitTest} (float, float)
+\item 
+void \hyperlink{class_g_u_i_27467859beafc23672cd8ac5dff5dd61}{Move} (int, int)
+\item 
+void \hyperlink{class_g_u_i_ce0821f8bd3d1cb8feafae68ea29dee6}{MakeActive} (\hyperlink{class_window}{Window} $\ast$)
+\item 
+void \hyperlink{class_g_u_i_a950cc3ec27839f6c06be8c4e0fe8c36}{OnKeyPress} (unsigned short)
+\item 
+void \hyperlink{class_g_u_i_10cc8065b91e81ee6c261529b41e7da8}{OnMousePress} (unsigned short, int, int)
+\item 
+bool \hyperlink{class_g_u_i_32678516005e48d6642f5c4b77441d09}{OnMouseClick} (unsigned short, bool)
+\item 
+void \hyperlink{class_g_u_i_d7b46be5b0f53a7bb0b118f8cc209829}{CreateWindowConsole} (float, float)
+\item 
+void \hyperlink{class_g_u_i_2f199fa669d2281e6af1b964dbb1a126}{CreateTW} ()
+\item 
+void \hyperlink{class_g_u_i_6312d42b33f2a747380e11b63c25e838}{CloseWindow} (\hyperlink{class_window}{Window} $\ast$)
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+std::vector$<$ \hyperlink{class_window}{Window} $\ast$ $>$ \hyperlink{class_g_u_i_cf6ff30e45106fbc8cc363cc7a8f5234}{Windows}
+\item 
+\hyperlink{class_window}{Window} $\ast$ \hyperlink{class_g_u_i_88c450e5cfd3288d0734b7c00a156916}{MouseOverWindow}
+\item 
+\hyperlink{class_window}{Window} $\ast$ \hyperlink{class_g_u_i_5dafa13d6ffc527b38a4b44070614096}{ActiveWindow}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_u_i_8cbb3140b7d3c9d8e942d6ce6b60a0e8}{
+\index{GUI@{GUI}!GUI@{GUI}}
+\index{GUI@{GUI}!GUI@{GUI}}
+\subsubsection[{GUI}]{\setlength{\rightskip}{0pt plus 5cm}GUI::GUI ()}}
+\label{class_g_u_i_8cbb3140b7d3c9d8e942d6ce6b60a0e8}
+
+
+\hypertarget{class_g_u_i_c9cae2328dcb5d83bdfaeca49a2eb695}{
+\index{GUI@{GUI}!$\sim$GUI@{$\sim$GUI}}
+\index{$\sim$GUI@{$\sim$GUI}!GUI@{GUI}}
+\subsubsection[{$\sim$GUI}]{\setlength{\rightskip}{0pt plus 5cm}GUI::$\sim$GUI ()}}
+\label{class_g_u_i_c9cae2328dcb5d83bdfaeca49a2eb695}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_u_i_6312d42b33f2a747380e11b63c25e838}{
+\index{GUI@{GUI}!CloseWindow@{CloseWindow}}
+\index{CloseWindow@{CloseWindow}!GUI@{GUI}}
+\subsubsection[{CloseWindow}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::CloseWindow ({\bf Window} $\ast$ {\em w})}}
+\label{class_g_u_i_6312d42b33f2a747380e11b63c25e838}
+
+
+\hypertarget{class_g_u_i_2f199fa669d2281e6af1b964dbb1a126}{
+\index{GUI@{GUI}!CreateTW@{CreateTW}}
+\index{CreateTW@{CreateTW}!GUI@{GUI}}
+\subsubsection[{CreateTW}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::CreateTW ()}}
+\label{class_g_u_i_2f199fa669d2281e6af1b964dbb1a126}
+
+
+\hypertarget{class_g_u_i_d7b46be5b0f53a7bb0b118f8cc209829}{
+\index{GUI@{GUI}!CreateWindowConsole@{CreateWindowConsole}}
+\index{CreateWindowConsole@{CreateWindowConsole}!GUI@{GUI}}
+\subsubsection[{CreateWindowConsole}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::CreateWindowConsole (float {\em x}, \/  float {\em y})}}
+\label{class_g_u_i_d7b46be5b0f53a7bb0b118f8cc209829}
+
+
+\hypertarget{class_g_u_i_44bbc42e5bbf222e0a6241dc21e23703}{
+\index{GUI@{GUI}!HitTest@{HitTest}}
+\index{HitTest@{HitTest}!GUI@{GUI}}
+\subsubsection[{HitTest}]{\setlength{\rightskip}{0pt plus 5cm}bool GUI::HitTest (float {\em x}, \/  float {\em y})}}
+\label{class_g_u_i_44bbc42e5bbf222e0a6241dc21e23703}
+
+
+\hypertarget{class_g_u_i_ce0821f8bd3d1cb8feafae68ea29dee6}{
+\index{GUI@{GUI}!MakeActive@{MakeActive}}
+\index{MakeActive@{MakeActive}!GUI@{GUI}}
+\subsubsection[{MakeActive}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::MakeActive ({\bf Window} $\ast$ {\em w})}}
+\label{class_g_u_i_ce0821f8bd3d1cb8feafae68ea29dee6}
+
+
+Makes the given window the active, also pops it to the top of the list \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em w}]the window to be made active \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]TODO \end{Desc}
+\hypertarget{class_g_u_i_27467859beafc23672cd8ac5dff5dd61}{
+\index{GUI@{GUI}!Move@{Move}}
+\index{Move@{Move}!GUI@{GUI}}
+\subsubsection[{Move}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::Move (int {\em x}, \/  int {\em y})}}
+\label{class_g_u_i_27467859beafc23672cd8ac5dff5dd61}
+
+
+\hypertarget{class_g_u_i_a950cc3ec27839f6c06be8c4e0fe8c36}{
+\index{GUI@{GUI}!OnKeyPress@{OnKeyPress}}
+\index{OnKeyPress@{OnKeyPress}!GUI@{GUI}}
+\subsubsection[{OnKeyPress}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::OnKeyPress (unsigned short {\em unicode})}}
+\label{class_g_u_i_a950cc3ec27839f6c06be8c4e0fe8c36}
+
+
+\hypertarget{class_g_u_i_32678516005e48d6642f5c4b77441d09}{
+\index{GUI@{GUI}!OnMouseClick@{OnMouseClick}}
+\index{OnMouseClick@{OnMouseClick}!GUI@{GUI}}
+\subsubsection[{OnMouseClick}]{\setlength{\rightskip}{0pt plus 5cm}bool GUI::OnMouseClick (unsigned short {\em num}, \/  bool {\em final})}}
+\label{class_g_u_i_32678516005e48d6642f5c4b77441d09}
+
+
+\hypertarget{class_g_u_i_10cc8065b91e81ee6c261529b41e7da8}{
+\index{GUI@{GUI}!OnMousePress@{OnMousePress}}
+\index{OnMousePress@{OnMousePress}!GUI@{GUI}}
+\subsubsection[{OnMousePress}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::OnMousePress (unsigned short {\em button}, \/  int {\em mx}, \/  int {\em my})}}
+\label{class_g_u_i_10cc8065b91e81ee6c261529b41e7da8}
+
+
+\hypertarget{class_g_u_i_4905ff37be14b83496d098096f5848b6}{
+\index{GUI@{GUI}!Render@{Render}}
+\index{Render@{Render}!GUI@{GUI}}
+\subsubsection[{Render}]{\setlength{\rightskip}{0pt plus 5cm}void GUI::Render ()}}
+\label{class_g_u_i_4905ff37be14b83496d098096f5848b6}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_g_u_i_5dafa13d6ffc527b38a4b44070614096}{
+\index{GUI@{GUI}!ActiveWindow@{ActiveWindow}}
+\index{ActiveWindow@{ActiveWindow}!GUI@{GUI}}
+\subsubsection[{ActiveWindow}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Window}$\ast$ {\bf GUI::ActiveWindow}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_g_u_i_5dafa13d6ffc527b38a4b44070614096}
+
+
+\hypertarget{class_g_u_i_88c450e5cfd3288d0734b7c00a156916}{
+\index{GUI@{GUI}!MouseOverWindow@{MouseOverWindow}}
+\index{MouseOverWindow@{MouseOverWindow}!GUI@{GUI}}
+\subsubsection[{MouseOverWindow}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Window}$\ast$ {\bf GUI::MouseOverWindow}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_g_u_i_88c450e5cfd3288d0734b7c00a156916}
+
+
+\hypertarget{class_g_u_i_cf6ff30e45106fbc8cc363cc7a8f5234}{
+\index{GUI@{GUI}!Windows@{Windows}}
+\index{Windows@{Windows}!GUI@{GUI}}
+\subsubsection[{Windows}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<${\bf Window}$\ast$$>$ {\bf GUI::Windows}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_g_u_i_cf6ff30e45106fbc8cc363cc7a8f5234}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{gui_8h}{gui.h}\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{gui_8cpp}{gui.cpp}\end{CompactItemize}

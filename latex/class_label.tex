@@ -1,0 +1,314 @@
+\hypertarget{class_label}{
+\section{Label Class Reference}
+\label{class_label}\index{Label@{Label}}
+}
+{\tt \#include $<$label.h$>$}
+
+Inheritance diagram for Label::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{class_label}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_label_f18c93c34ae5c24d8fc851c6c8d3ce14}{Label} (std::string, \hyperlink{class_window}{Window} $\ast$, \hyperlink{class_control}{Control} $\ast$=NULL, float=0, float=0)
+\item 
+\hyperlink{class_label_39e1167a9b5827afd888780973d88894}{$\sim$Label} ()
+\item 
+virtual void \hyperlink{class_label_d775a052255dc0bcfa5d84f13de6876d}{RenderText} (int, int, int)
+\item 
+virtual void \hyperlink{class_label_83f0487c73dad47556758882f00acc3f}{onMousePress} (int)
+\item 
+virtual void \hyperlink{class_label_e603188d29229b2cc2a6bfe9f5117856}{onMouseRelease} (int)
+\item 
+virtual void \hyperlink{class_label_8d87b0d4112a3036ea815bb289738a45}{onKeyPress} (unsigned short)
+\item 
+virtual void \hyperlink{class_label_8bf84bdf751eaeb42d226ba021b63413}{onKeyRelease} (int, int)
+\item 
+virtual void \hyperlink{class_label_7be1625ce797ee05dcf6c7553ba0705f}{Move} (float, float)
+\item 
+virtual void \hyperlink{class_label_3a4df4c494eff40456404ddcef31aa25}{SetWidth} (unsigned short)
+\item 
+virtual void \hyperlink{class_label_1237536d3b3a0eb3f4b0408c647e5733}{SetHeight} (unsigned short)
+\item 
+virtual void \hyperlink{class_label_8cfc4630159f4953bbc721208f2c4e1d}{UpdateVBO} ()
+\item 
+virtual void \hyperlink{class_label_95db1d28f73e679156239672f3f3802a}{AddStringsToVBO} ()
+\item 
+virtual void \hyperlink{class_label_35b537e0b6c27f34a73bd2632b071c37}{ReplaceCharVBO} (\hyperlink{struct_font_char}{FontChar})
+\item 
+virtual void \hyperlink{class_label_dfd5552e4813ba995a09d6aa85731d72}{RebuildVBOLine} (\hyperlink{struct_font_string}{FontString})
+\item 
+virtual void \hyperlink{class_label_4049a5e443fb19729c07542feb34e2b6}{AddChar} (\hyperlink{struct_font_char}{FontChar}, bool)
+\item 
+virtual void \hyperlink{class_label_6cc69098d090f7b943bbd6e7a313967b}{AppendString} (unsigned int, unsigned int, \hyperlink{struct_font_string}{FontString})
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+unsigned short \hyperlink{class_label_ad85ba57f87b6a659bcb1e3af683eefc}{TextWidth}
+\item 
+unsigned short \hyperlink{class_label_94b3f7d3f2fbd73994096c5e37933168}{CaretPos}
+\item 
+unsigned short \hyperlink{class_label_7163c9d05660995a186b0b307fb8666e}{CaretLine}
+\item 
+unsigned short \hyperlink{class_label_75bcf9a2e388edd745b36d7eb64af80d}{BottomLine}
+\item 
+unsigned short \hyperlink{class_label_3a498842ed53d551bf450d1d33f0ba0a}{NumCharacters}
+\item 
+unsigned short \hyperlink{class_label_e33c7af25f54266e74d198e28760fd96}{NumLines}
+\item 
+unsigned short \hyperlink{class_label_0c06aa6847a50b66c54cc835cac02db7}{MaxCharacters}
+\item 
+unsigned short \hyperlink{class_label_aae699cb964f77eae188ca43b07597a8}{MaxLines}
+\item 
+unsigned int \hyperlink{class_label_72c3186c4435a5246c3e400ac325108c}{TextPosition}
+\item 
+unsigned int \hyperlink{class_label_2e14d5c447f9eb5a2cb541053c3a46e0}{TextLength}
+\item 
+bool \hyperlink{class_label_3899d1c5cf532dea0ba6a2cee3f1e39a}{Multiline}
+\item 
+bool \hyperlink{class_label_90c72b251f2db4a56fe64d29c2ff8247}{FlashCaret}
+\item 
+bool \hyperlink{class_label_f8ad98a48a3e5e8e9604e3ee87821f0e}{ShowingCaret}
+\item 
+bool \hyperlink{class_label_6c00ea894a9a737523c86c8b3a947026}{Editable}
+\item 
+std::vector$<$ \hyperlink{struct_font_string}{FontString} $>$ \hyperlink{class_label_19bbe1a32bed5a975676e0b0e2241209}{lines}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_label_f18c93c34ae5c24d8fc851c6c8d3ce14}{
+\index{Label@{Label}!Label@{Label}}
+\index{Label@{Label}!Label@{Label}}
+\subsubsection[{Label}]{\setlength{\rightskip}{0pt plus 5cm}Label::Label (std::string {\em t}, \/  {\bf Window} $\ast$ {\em p}, \/  {\bf Control} $\ast$ {\em c} = {\tt NULL}, \/  float {\em x} = {\tt 0}, \/  float {\em y} = {\tt 0})}}
+\label{class_label_f18c93c34ae5c24d8fc851c6c8d3ce14}
+
+
+\hypertarget{class_label_39e1167a9b5827afd888780973d88894}{
+\index{Label@{Label}!$\sim$Label@{$\sim$Label}}
+\index{$\sim$Label@{$\sim$Label}!Label@{Label}}
+\subsubsection[{$\sim$Label}]{\setlength{\rightskip}{0pt plus 5cm}Label::$\sim$Label ()}}
+\label{class_label_39e1167a9b5827afd888780973d88894}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_label_4049a5e443fb19729c07542feb34e2b6}{
+\index{Label@{Label}!AddChar@{AddChar}}
+\index{AddChar@{AddChar}!Label@{Label}}
+\subsubsection[{AddChar}]{\setlength{\rightskip}{0pt plus 5cm}void Label::AddChar ({\bf FontChar} {\em c}, \/  bool {\em update})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_4049a5e443fb19729c07542feb34e2b6}
+
+
+\hypertarget{class_label_95db1d28f73e679156239672f3f3802a}{
+\index{Label@{Label}!AddStringsToVBO@{AddStringsToVBO}}
+\index{AddStringsToVBO@{AddStringsToVBO}!Label@{Label}}
+\subsubsection[{AddStringsToVBO}]{\setlength{\rightskip}{0pt plus 5cm}void Label::AddStringsToVBO ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_95db1d28f73e679156239672f3f3802a}
+
+
+\hypertarget{class_label_6cc69098d090f7b943bbd6e7a313967b}{
+\index{Label@{Label}!AppendString@{AppendString}}
+\index{AppendString@{AppendString}!Label@{Label}}
+\subsubsection[{AppendString}]{\setlength{\rightskip}{0pt plus 5cm}void Label::AppendString (unsigned int {\em lineNum}, \/  unsigned int {\em position}, \/  {\bf FontString} {\em string})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_6cc69098d090f7b943bbd6e7a313967b}
+
+
+\hypertarget{class_label_7be1625ce797ee05dcf6c7553ba0705f}{
+\index{Label@{Label}!Move@{Move}}
+\index{Move@{Move}!Label@{Label}}
+\subsubsection[{Move}]{\setlength{\rightskip}{0pt plus 5cm}void Label::Move (float {\em cx}, \/  float {\em cy})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_7be1625ce797ee05dcf6c7553ba0705f}
+
+
+
+
+Reimplemented from \hyperlink{class_control_8ba2e26364554895c0581a6d3e569649}{Control}.\hypertarget{class_label_8d87b0d4112a3036ea815bb289738a45}{
+\index{Label@{Label}!onKeyPress@{onKeyPress}}
+\index{onKeyPress@{onKeyPress}!Label@{Label}}
+\subsubsection[{onKeyPress}]{\setlength{\rightskip}{0pt plus 5cm}void Label::onKeyPress (unsigned short {\em unicode})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_8d87b0d4112a3036ea815bb289738a45}
+
+
+\hypertarget{class_label_8bf84bdf751eaeb42d226ba021b63413}{
+\index{Label@{Label}!onKeyRelease@{onKeyRelease}}
+\index{onKeyRelease@{onKeyRelease}!Label@{Label}}
+\subsubsection[{onKeyRelease}]{\setlength{\rightskip}{0pt plus 5cm}void Label::onKeyRelease (int {\em key}, \/  int {\em mod})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_8bf84bdf751eaeb42d226ba021b63413}
+
+
+\hypertarget{class_label_83f0487c73dad47556758882f00acc3f}{
+\index{Label@{Label}!onMousePress@{onMousePress}}
+\index{onMousePress@{onMousePress}!Label@{Label}}
+\subsubsection[{onMousePress}]{\setlength{\rightskip}{0pt plus 5cm}void Label::onMousePress (int {\em button})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_83f0487c73dad47556758882f00acc3f}
+
+
+\hypertarget{class_label_e603188d29229b2cc2a6bfe9f5117856}{
+\index{Label@{Label}!onMouseRelease@{onMouseRelease}}
+\index{onMouseRelease@{onMouseRelease}!Label@{Label}}
+\subsubsection[{onMouseRelease}]{\setlength{\rightskip}{0pt plus 5cm}void Label::onMouseRelease (int {\em button})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_e603188d29229b2cc2a6bfe9f5117856}
+
+
+\hypertarget{class_label_dfd5552e4813ba995a09d6aa85731d72}{
+\index{Label@{Label}!RebuildVBOLine@{RebuildVBOLine}}
+\index{RebuildVBOLine@{RebuildVBOLine}!Label@{Label}}
+\subsubsection[{RebuildVBOLine}]{\setlength{\rightskip}{0pt plus 5cm}void Label::RebuildVBOLine ({\bf FontString} {\em s})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_dfd5552e4813ba995a09d6aa85731d72}
+
+
+\hypertarget{class_label_d775a052255dc0bcfa5d84f13de6876d}{
+\index{Label@{Label}!RenderText@{RenderText}}
+\index{RenderText@{RenderText}!Label@{Label}}
+\subsubsection[{RenderText}]{\setlength{\rightskip}{0pt plus 5cm}void Label::RenderText (int {\em vert}, \/  int {\em text}, \/  int {\em color})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_d775a052255dc0bcfa5d84f13de6876d}
+
+
+\hypertarget{class_label_35b537e0b6c27f34a73bd2632b071c37}{
+\index{Label@{Label}!ReplaceCharVBO@{ReplaceCharVBO}}
+\index{ReplaceCharVBO@{ReplaceCharVBO}!Label@{Label}}
+\subsubsection[{ReplaceCharVBO}]{\setlength{\rightskip}{0pt plus 5cm}void Label::ReplaceCharVBO ({\bf FontChar} {\em c})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_35b537e0b6c27f34a73bd2632b071c37}
+
+
+\hypertarget{class_label_1237536d3b3a0eb3f4b0408c647e5733}{
+\index{Label@{Label}!SetHeight@{SetHeight}}
+\index{SetHeight@{SetHeight}!Label@{Label}}
+\subsubsection[{SetHeight}]{\setlength{\rightskip}{0pt plus 5cm}void Label::SetHeight (unsigned short {\em h})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_1237536d3b3a0eb3f4b0408c647e5733}
+
+
+\hypertarget{class_label_3a4df4c494eff40456404ddcef31aa25}{
+\index{Label@{Label}!SetWidth@{SetWidth}}
+\index{SetWidth@{SetWidth}!Label@{Label}}
+\subsubsection[{SetWidth}]{\setlength{\rightskip}{0pt plus 5cm}void Label::SetWidth (unsigned short {\em w})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_3a4df4c494eff40456404ddcef31aa25}
+
+
+\hypertarget{class_label_8cfc4630159f4953bbc721208f2c4e1d}{
+\index{Label@{Label}!UpdateVBO@{UpdateVBO}}
+\index{UpdateVBO@{UpdateVBO}!Label@{Label}}
+\subsubsection[{UpdateVBO}]{\setlength{\rightskip}{0pt plus 5cm}void Label::UpdateVBO ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_label_8cfc4630159f4953bbc721208f2c4e1d}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_label_75bcf9a2e388edd745b36d7eb64af80d}{
+\index{Label@{Label}!BottomLine@{BottomLine}}
+\index{BottomLine@{BottomLine}!Label@{Label}}
+\subsubsection[{BottomLine}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::BottomLine}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_75bcf9a2e388edd745b36d7eb64af80d}
+
+
+\hypertarget{class_label_7163c9d05660995a186b0b307fb8666e}{
+\index{Label@{Label}!CaretLine@{CaretLine}}
+\index{CaretLine@{CaretLine}!Label@{Label}}
+\subsubsection[{CaretLine}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::CaretLine}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_7163c9d05660995a186b0b307fb8666e}
+
+
+\hypertarget{class_label_94b3f7d3f2fbd73994096c5e37933168}{
+\index{Label@{Label}!CaretPos@{CaretPos}}
+\index{CaretPos@{CaretPos}!Label@{Label}}
+\subsubsection[{CaretPos}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::CaretPos}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_94b3f7d3f2fbd73994096c5e37933168}
+
+
+\hypertarget{class_label_6c00ea894a9a737523c86c8b3a947026}{
+\index{Label@{Label}!Editable@{Editable}}
+\index{Editable@{Editable}!Label@{Label}}
+\subsubsection[{Editable}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf Label::Editable}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_6c00ea894a9a737523c86c8b3a947026}
+
+
+\hypertarget{class_label_90c72b251f2db4a56fe64d29c2ff8247}{
+\index{Label@{Label}!FlashCaret@{FlashCaret}}
+\index{FlashCaret@{FlashCaret}!Label@{Label}}
+\subsubsection[{FlashCaret}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf Label::FlashCaret}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_90c72b251f2db4a56fe64d29c2ff8247}
+
+
+\hypertarget{class_label_19bbe1a32bed5a975676e0b0e2241209}{
+\index{Label@{Label}!lines@{lines}}
+\index{lines@{lines}!Label@{Label}}
+\subsubsection[{lines}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<${\bf FontString}$>$ {\bf Label::lines}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_19bbe1a32bed5a975676e0b0e2241209}
+
+
+\hypertarget{class_label_0c06aa6847a50b66c54cc835cac02db7}{
+\index{Label@{Label}!MaxCharacters@{MaxCharacters}}
+\index{MaxCharacters@{MaxCharacters}!Label@{Label}}
+\subsubsection[{MaxCharacters}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::MaxCharacters}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_0c06aa6847a50b66c54cc835cac02db7}
+
+
+\hypertarget{class_label_aae699cb964f77eae188ca43b07597a8}{
+\index{Label@{Label}!MaxLines@{MaxLines}}
+\index{MaxLines@{MaxLines}!Label@{Label}}
+\subsubsection[{MaxLines}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::MaxLines}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_aae699cb964f77eae188ca43b07597a8}
+
+
+\hypertarget{class_label_3899d1c5cf532dea0ba6a2cee3f1e39a}{
+\index{Label@{Label}!Multiline@{Multiline}}
+\index{Multiline@{Multiline}!Label@{Label}}
+\subsubsection[{Multiline}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf Label::Multiline}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_3899d1c5cf532dea0ba6a2cee3f1e39a}
+
+
+\hypertarget{class_label_3a498842ed53d551bf450d1d33f0ba0a}{
+\index{Label@{Label}!NumCharacters@{NumCharacters}}
+\index{NumCharacters@{NumCharacters}!Label@{Label}}
+\subsubsection[{NumCharacters}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::NumCharacters}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_3a498842ed53d551bf450d1d33f0ba0a}
+
+
+\hypertarget{class_label_e33c7af25f54266e74d198e28760fd96}{
+\index{Label@{Label}!NumLines@{NumLines}}
+\index{NumLines@{NumLines}!Label@{Label}}
+\subsubsection[{NumLines}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::NumLines}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_e33c7af25f54266e74d198e28760fd96}
+
+
+\hypertarget{class_label_f8ad98a48a3e5e8e9604e3ee87821f0e}{
+\index{Label@{Label}!ShowingCaret@{ShowingCaret}}
+\index{ShowingCaret@{ShowingCaret}!Label@{Label}}
+\subsubsection[{ShowingCaret}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf Label::ShowingCaret}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_f8ad98a48a3e5e8e9604e3ee87821f0e}
+
+
+\hypertarget{class_label_2e14d5c447f9eb5a2cb541053c3a46e0}{
+\index{Label@{Label}!TextLength@{TextLength}}
+\index{TextLength@{TextLength}!Label@{Label}}
+\subsubsection[{TextLength}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf Label::TextLength}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_2e14d5c447f9eb5a2cb541053c3a46e0}
+
+
+\hypertarget{class_label_72c3186c4435a5246c3e400ac325108c}{
+\index{Label@{Label}!TextPosition@{TextPosition}}
+\index{TextPosition@{TextPosition}!Label@{Label}}
+\subsubsection[{TextPosition}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf Label::TextPosition}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_72c3186c4435a5246c3e400ac325108c}
+
+
+\hypertarget{class_label_ad85ba57f87b6a659bcb1e3af683eefc}{
+\index{Label@{Label}!TextWidth@{TextWidth}}
+\index{TextWidth@{TextWidth}!Label@{Label}}
+\subsubsection[{TextWidth}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Label::TextWidth}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_label_ad85ba57f87b6a659bcb1e3af683eefc}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{label_8h}{label.h}\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{label_8cpp}{label.cpp}\end{CompactItemize}

@@ -1,0 +1,204 @@
+\hypertarget{classogl_widget_renderer}{
+\section{oglWidgetRenderer Class Reference}
+\label{classogl_widget_renderer}\index{oglWidgetRenderer@{oglWidgetRenderer}}
+}
+{\tt \#include $<$oglWidgetRenderer.h$>$}
+
+Inheritance diagram for oglWidgetRenderer::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{classogl_widget_renderer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classogl_widget_renderer_2dc88f50d0f77ac6f2b8049e5b5945b9}{oglWidgetRenderer} ()
+\item 
+virtual \hyperlink{classogl_widget_renderer_b4db2e05b4cf4e0f95a93d0795ea33ad}{$\sim$oglWidgetRenderer} ()
+\item 
+void \hyperlink{classogl_widget_renderer_c9fcd00dffcc0a44a9bfff90811e586e}{AddObject} (void $\ast$)
+\item 
+void \hyperlink{classogl_widget_renderer_8438aacf8a1c70dcf1eb5879742d20e8}{RemoveObject} (void $\ast$)
+\item 
+void \hyperlink{classogl_widget_renderer_1892829478f840e8a0d7032f94af6d26}{Begin} ()
+\item 
+void \hyperlink{classogl_widget_renderer_fb83427aa814bf2a18f3abded3161bc5}{Render} ()
+\item 
+void \hyperlink{classogl_widget_renderer_f4f9aab6b1dfc9888de5b9f0504be3e8}{End} ()
+\item 
+void \hyperlink{classogl_widget_renderer_f4a8764df5f2b79e37d2a23cf268ed44}{Draw} ()
+\item 
+void \hyperlink{classogl_widget_renderer_098ec7e24496346f9978e6ce03b079ed}{Refresh} ()
+\item 
+void \hyperlink{classogl_widget_renderer_709ada8aa5e357dd916d48f74adbca07}{Update} (void $\ast$, unsigned int=RENDERER\_\-REFRESH)
+\item 
+\hyperlink{class_shader}{Shader} $\ast$ \hyperlink{classogl_widget_renderer_43b18c582c133e5fab2c8ce7e3c68033}{GetShader} ()
+\item 
+void \hyperlink{classogl_widget_renderer_5a63ddb69bee3f4a01510a27a9c2237b}{SetShader} (\hyperlink{class_shader}{Shader} $\ast$)
+\item 
+int $\ast$ \hyperlink{classogl_widget_renderer_64dc363e1e2cc2393ff8ec635b77bd99}{GetViewport} ()
+\item 
+\hyperlink{class_camera}{Camera} $\ast$ \hyperlink{classogl_widget_renderer_3c01888abac427988413194909e3e036}{GetCamera} ()
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classogl_widget_renderer_2dc88f50d0f77ac6f2b8049e5b5945b9}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!oglWidgetRenderer@{oglWidgetRenderer}}
+\index{oglWidgetRenderer@{oglWidgetRenderer}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{oglWidgetRenderer}]{\setlength{\rightskip}{0pt plus 5cm}oglWidgetRenderer::oglWidgetRenderer ()}}
+\label{classogl_widget_renderer_2dc88f50d0f77ac6f2b8049e5b5945b9}
+
+
+\hypertarget{classogl_widget_renderer_b4db2e05b4cf4e0f95a93d0795ea33ad}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!$\sim$oglWidgetRenderer@{$\sim$oglWidgetRenderer}}
+\index{$\sim$oglWidgetRenderer@{$\sim$oglWidgetRenderer}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{$\sim$oglWidgetRenderer}]{\setlength{\rightskip}{0pt plus 5cm}oglWidgetRenderer::$\sim$oglWidgetRenderer ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_b4db2e05b4cf4e0f95a93d0795ea33ad}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classogl_widget_renderer_c9fcd00dffcc0a44a9bfff90811e586e}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!AddObject@{AddObject}}
+\index{AddObject@{AddObject}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{AddObject}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::AddObject (void $\ast$ {\em obj})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_c9fcd00dffcc0a44a9bfff90811e586e}
+
+
+$\ast$ \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em TODO}]TODO \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]TODO Adds a object to the list \end{Desc}
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em obj}]a pointer to the new object, cannot be null. \end{description}
+\end{Desc}
+
+
+Reimplemented from \hyperlink{class_renderer_661389d49db8d9508f5a3f9f91d48149}{Renderer}.\hypertarget{classogl_widget_renderer_1892829478f840e8a0d7032f94af6d26}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!Begin@{Begin}}
+\index{Begin@{Begin}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{Begin}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::Begin ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_1892829478f840e8a0d7032f94af6d26}
+
+
+Binds and sets up all, known, data for rendering 
+
+Reimplemented from \hyperlink{class_renderer_7f24c7de101eff6bd26906c0555f8610}{Renderer}.\hypertarget{classogl_widget_renderer_f4a8764df5f2b79e37d2a23cf268ed44}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!Draw@{Draw}}
+\index{Draw@{Draw}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{Draw}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::Draw ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_f4a8764df5f2b79e37d2a23cf268ed44}
+
+
+Does a full draw cycle, same as calling \hyperlink{classogl_widget_renderer_1892829478f840e8a0d7032f94af6d26}{Begin()}, \hyperlink{classogl_widget_renderer_fb83427aa814bf2a18f3abded3161bc5}{Render()}, \hyperlink{classogl_widget_renderer_f4f9aab6b1dfc9888de5b9f0504be3e8}{End()} 
+
+Reimplemented from \hyperlink{class_renderer_91f20cf8d7e9d12db1725cc15ca16d96}{Renderer}.\hypertarget{classogl_widget_renderer_f4f9aab6b1dfc9888de5b9f0504be3e8}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!End@{End}}
+\index{End@{End}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::End ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_f4f9aab6b1dfc9888de5b9f0504be3e8}
+
+
+Unbinds all, known, data 
+
+Reimplemented from \hyperlink{class_renderer_d08d100b0c4d2f57417a06ceaaa2ba4e}{Renderer}.\hypertarget{classogl_widget_renderer_3c01888abac427988413194909e3e036}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!GetCamera@{GetCamera}}
+\index{GetCamera@{GetCamera}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{GetCamera}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Camera} $\ast$ oglWidgetRenderer::GetCamera ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_3c01888abac427988413194909e3e036}
+
+
+returns a pointer to the camera 
+
+Reimplemented from \hyperlink{class_renderer_527858930942368379414c1be75b5738}{Renderer}.\hypertarget{classogl_widget_renderer_43b18c582c133e5fab2c8ce7e3c68033}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!GetShader@{GetShader}}
+\index{GetShader@{GetShader}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{GetShader}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Shader} $\ast$ oglWidgetRenderer::GetShader ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_43b18c582c133e5fab2c8ce7e3c68033}
+
+
+returns a pointer to the shader 
+
+Reimplemented from \hyperlink{class_renderer_85ce8b768250bd767b019f8283a9d46b}{Renderer}.\hypertarget{classogl_widget_renderer_64dc363e1e2cc2393ff8ec635b77bd99}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!GetViewport@{GetViewport}}
+\index{GetViewport@{GetViewport}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{GetViewport}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ oglWidgetRenderer::GetViewport ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_64dc363e1e2cc2393ff8ec635b77bd99}
+
+
+returns the viewport as a int\mbox{[}4\mbox{]} 
+
+Reimplemented from \hyperlink{class_renderer_9a93f4e3bad254923c0dc2810e658dd6}{Renderer}.\hypertarget{classogl_widget_renderer_098ec7e24496346f9978e6ce03b079ed}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!Refresh@{Refresh}}
+\index{Refresh@{Refresh}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{Refresh}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::Refresh ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_098ec7e24496346f9978e6ce03b079ed}
+
+
+'Refreshes' the buffer. Clearning it before readding all data. 
+
+Reimplemented from \hyperlink{class_renderer_025a064cb583ac6677a4b9a6099e0378}{Renderer}.\hypertarget{classogl_widget_renderer_8438aacf8a1c70dcf1eb5879742d20e8}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!RemoveObject@{RemoveObject}}
+\index{RemoveObject@{RemoveObject}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{RemoveObject}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::RemoveObject (void $\ast$ {\em obj})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_8438aacf8a1c70dcf1eb5879742d20e8}
+
+
+Removes the object from the list \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em obj}]the object to be removed \end{description}
+\end{Desc}
+
+
+Reimplemented from \hyperlink{class_renderer_28f5bf024a4772cff537683690f62f42}{Renderer}.\hypertarget{classogl_widget_renderer_fb83427aa814bf2a18f3abded3161bc5}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!Render@{Render}}
+\index{Render@{Render}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{Render}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::Render ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_fb83427aa814bf2a18f3abded3161bc5}
+
+
+Renders all objects 
+
+Reimplemented from \hyperlink{class_renderer_ae3d98a69fb55e9042306ba1621cd8d5}{Renderer}.\hypertarget{classogl_widget_renderer_5a63ddb69bee3f4a01510a27a9c2237b}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!SetShader@{SetShader}}
+\index{SetShader@{SetShader}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{SetShader}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::SetShader ({\bf Shader} $\ast$ {\em s})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_5a63ddb69bee3f4a01510a27a9c2237b}
+
+
+Set the shader \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em s}]the new shader to use \end{description}
+\end{Desc}
+
+
+Reimplemented from \hyperlink{class_renderer_d2e8b81f3a9eabfb39f9f046d0f3d3ca}{Renderer}.\hypertarget{classogl_widget_renderer_709ada8aa5e357dd916d48f74adbca07}{
+\index{oglWidgetRenderer@{oglWidgetRenderer}!Update@{Update}}
+\index{Update@{Update}!oglWidgetRenderer@{oglWidgetRenderer}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void oglWidgetRenderer::Update (void $\ast$ {\em obj}, \/  unsigned int {\em update} = {\tt RENDERER\_\-REFRESH})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_widget_renderer_709ada8aa5e357dd916d48f74adbca07}
+
+
+Updates a object in the Buffer \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em obj}]the pointer of the object that needs updating \item[{\em update}]a enum for the type of update to use. \end{description}
+\end{Desc}
+
+
+Reimplemented from \hyperlink{class_renderer_d2d2554ed238ba29baa9ffd6b3530ba4}{Renderer}.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{ogl_widget_renderer_8h}{oglWidgetRenderer.h}\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{ogl_widget_renderer_8cpp}{oglWidgetRenderer.cpp}\end{CompactItemize}

@@ -1,0 +1,165 @@
+\hypertarget{class_timer}{
+\section{Timer Class Reference}
+\label{class_timer}\index{Timer@{Timer}}
+}
+{\tt \#include $<$timer.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_timer_5f16e8da27d2a5a5242dead46de05d97}{Timer} ()
+\item 
+\hyperlink{class_timer_eac46d188030ef2d2c8dabca19dd5b79}{Timer} (unsigned int, bool=false)
+\item 
+\hyperlink{class_timer_14fa469c4c295c5fa6e66a4ad1092146}{$\sim$Timer} ()
+\item 
+bool \hyperlink{class_timer_394a9f2ca8ebd30053b6078c183c66be}{Start} ()
+\item 
+void \hyperlink{class_timer_6379e797f968aaee6ac3bb12dc6b81c5}{Stop} ()
+\item 
+void \hyperlink{class_timer_0231c7290412a2e3a582b71e7c17bd97}{Restart} (bool=true)
+\item 
+void \hyperlink{class_timer_f90455f3201a327ae96eb37e21a9ca31}{Tick} ()
+\item 
+void \hyperlink{class_timer_a48af006144f41f1c7641cf05fca70d1}{Step} ()
+\item 
+void \hyperlink{class_timer_77a6595649759e7236d1b43c2c10e16b}{Update} ()
+\item 
+void \hyperlink{class_timer_3d479c440805436b4b61704e33b0484b}{Update} (unsigned int)
+\item 
+void \hyperlink{class_timer_595dad5b13910a416694a1cdb7806b78}{SetFunction} (boost::function$<$ void()$>$)
+\item 
+void \hyperlink{class_timer_ce5ec35279c13d6adbf3923e7cc53010}{SetRuntime} (unsigned int)
+\item 
+unsigned int $\ast$ \hyperlink{class_timer_8ebf68da672a80a4fe91cbf32dbaea94}{GetTicksPtr} ()
+\item 
+unsigned int $\ast$ \hyperlink{class_timer_0c9c95ff67e7c2412f405e9ad1c774ee}{GetStepsPtr} ()
+\item 
+unsigned int \hyperlink{class_timer_ae8ab344903fe4e08c16ea5f3bc2c5db}{GetTicks} ()
+\item 
+unsigned int \hyperlink{class_timer_7138e307d4affcfaa1755ad3205c3a11}{GetSteps} ()
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_timer_5f16e8da27d2a5a5242dead46de05d97}{
+\index{Timer@{Timer}!Timer@{Timer}}
+\index{Timer@{Timer}!Timer@{Timer}}
+\subsubsection[{Timer}]{\setlength{\rightskip}{0pt plus 5cm}Timer::Timer ()}}
+\label{class_timer_5f16e8da27d2a5a5242dead46de05d97}
+
+
+\hypertarget{class_timer_eac46d188030ef2d2c8dabca19dd5b79}{
+\index{Timer@{Timer}!Timer@{Timer}}
+\index{Timer@{Timer}!Timer@{Timer}}
+\subsubsection[{Timer}]{\setlength{\rightskip}{0pt plus 5cm}Timer::Timer (unsigned int {\em runtime}, \/  bool {\em cont} = {\tt false})}}
+\label{class_timer_eac46d188030ef2d2c8dabca19dd5b79}
+
+
+\hypertarget{class_timer_14fa469c4c295c5fa6e66a4ad1092146}{
+\index{Timer@{Timer}!$\sim$Timer@{$\sim$Timer}}
+\index{$\sim$Timer@{$\sim$Timer}!Timer@{Timer}}
+\subsubsection[{$\sim$Timer}]{\setlength{\rightskip}{0pt plus 5cm}Timer::$\sim$Timer ()}}
+\label{class_timer_14fa469c4c295c5fa6e66a4ad1092146}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_timer_7138e307d4affcfaa1755ad3205c3a11}{
+\index{Timer@{Timer}!GetSteps@{GetSteps}}
+\index{GetSteps@{GetSteps}!Timer@{Timer}}
+\subsubsection[{GetSteps}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Timer::GetSteps ()}}
+\label{class_timer_7138e307d4affcfaa1755ad3205c3a11}
+
+
+\hypertarget{class_timer_0c9c95ff67e7c2412f405e9ad1c774ee}{
+\index{Timer@{Timer}!GetStepsPtr@{GetStepsPtr}}
+\index{GetStepsPtr@{GetStepsPtr}!Timer@{Timer}}
+\subsubsection[{GetStepsPtr}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int $\ast$ Timer::GetStepsPtr ()}}
+\label{class_timer_0c9c95ff67e7c2412f405e9ad1c774ee}
+
+
+\hypertarget{class_timer_ae8ab344903fe4e08c16ea5f3bc2c5db}{
+\index{Timer@{Timer}!GetTicks@{GetTicks}}
+\index{GetTicks@{GetTicks}!Timer@{Timer}}
+\subsubsection[{GetTicks}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Timer::GetTicks ()}}
+\label{class_timer_ae8ab344903fe4e08c16ea5f3bc2c5db}
+
+
+\hypertarget{class_timer_8ebf68da672a80a4fe91cbf32dbaea94}{
+\index{Timer@{Timer}!GetTicksPtr@{GetTicksPtr}}
+\index{GetTicksPtr@{GetTicksPtr}!Timer@{Timer}}
+\subsubsection[{GetTicksPtr}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int $\ast$ Timer::GetTicksPtr ()}}
+\label{class_timer_8ebf68da672a80a4fe91cbf32dbaea94}
+
+
+\hypertarget{class_timer_0231c7290412a2e3a582b71e7c17bd97}{
+\index{Timer@{Timer}!Restart@{Restart}}
+\index{Restart@{Restart}!Timer@{Timer}}
+\subsubsection[{Restart}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Restart (bool {\em reset} = {\tt true})}}
+\label{class_timer_0231c7290412a2e3a582b71e7c17bd97}
+
+
+\hypertarget{class_timer_595dad5b13910a416694a1cdb7806b78}{
+\index{Timer@{Timer}!SetFunction@{SetFunction}}
+\index{SetFunction@{SetFunction}!Timer@{Timer}}
+\subsubsection[{SetFunction}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::SetFunction (boost::function$<$ void()$>$)}}
+\label{class_timer_595dad5b13910a416694a1cdb7806b78}
+
+
+\hypertarget{class_timer_ce5ec35279c13d6adbf3923e7cc53010}{
+\index{Timer@{Timer}!SetRuntime@{SetRuntime}}
+\index{SetRuntime@{SetRuntime}!Timer@{Timer}}
+\subsubsection[{SetRuntime}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::SetRuntime (unsigned int {\em time})}}
+\label{class_timer_ce5ec35279c13d6adbf3923e7cc53010}
+
+
+\hypertarget{class_timer_394a9f2ca8ebd30053b6078c183c66be}{
+\index{Timer@{Timer}!Start@{Start}}
+\index{Start@{Start}!Timer@{Timer}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}bool Timer::Start ()}}
+\label{class_timer_394a9f2ca8ebd30053b6078c183c66be}
+
+
+\hypertarget{class_timer_a48af006144f41f1c7641cf05fca70d1}{
+\index{Timer@{Timer}!Step@{Step}}
+\index{Step@{Step}!Timer@{Timer}}
+\subsubsection[{Step}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Step ()}}
+\label{class_timer_a48af006144f41f1c7641cf05fca70d1}
+
+
+\hypertarget{class_timer_6379e797f968aaee6ac3bb12dc6b81c5}{
+\index{Timer@{Timer}!Stop@{Stop}}
+\index{Stop@{Stop}!Timer@{Timer}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Stop ()}}
+\label{class_timer_6379e797f968aaee6ac3bb12dc6b81c5}
+
+
+\hypertarget{class_timer_f90455f3201a327ae96eb37e21a9ca31}{
+\index{Timer@{Timer}!Tick@{Tick}}
+\index{Tick@{Tick}!Timer@{Timer}}
+\subsubsection[{Tick}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Tick ()}}
+\label{class_timer_f90455f3201a327ae96eb37e21a9ca31}
+
+
+\hypertarget{class_timer_3d479c440805436b4b61704e33b0484b}{
+\index{Timer@{Timer}!Update@{Update}}
+\index{Update@{Update}!Timer@{Timer}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Update (unsigned int {\em ticks})}}
+\label{class_timer_3d479c440805436b4b61704e33b0484b}
+
+
+\hypertarget{class_timer_77a6595649759e7236d1b43c2c10e16b}{
+\index{Timer@{Timer}!Update@{Update}}
+\index{Update@{Update}!Timer@{Timer}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Timer::Update ()}}
+\label{class_timer_77a6595649759e7236d1b43c2c10e16b}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{timer_8h}{timer.h}\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{timer_8cpp}{timer.cpp}\end{CompactItemize}

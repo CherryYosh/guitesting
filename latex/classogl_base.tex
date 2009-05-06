@@ -1,0 +1,138 @@
+\hypertarget{classogl_base}{
+\section{oglBase Class Reference}
+\label{classogl_base}\index{oglBase@{oglBase}}
+}
+{\tt \#include $<$oglBase.h$>$}
+
+Inheritance diagram for oglBase::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{classogl_base}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classogl_base_b45c72c8aa5cb0071ac177c92acb9eaf}{oglBase} ()
+\item 
+virtual \hyperlink{classogl_base_878d003e71fb5100c14234067b5127cf}{$\sim$oglBase} ()
+\item 
+void \hyperlink{classogl_base_fcf2db7348389e95bbd9d6f27450463a}{CreateContex} ()
+\item 
+void \hyperlink{classogl_base_f3a0c08f71bda7be4c20aef2247e5b52}{SetupContex} ()
+\item 
+void \hyperlink{classogl_base_a75a22cce4389543fe130f5540dd481b}{BeginRender} ()
+\item 
+void \hyperlink{classogl_base_b631bdff58ff97debfac8de95af16f79}{EndRender} ()
+\item 
+void \hyperlink{classogl_base_670c661d28fb47da29f4a7ba2ea39f87}{SetCamera} (\hyperlink{class_camera}{Camera} $\ast$)
+\item 
+\hyperlink{class_camera}{Camera} $\ast$ \hyperlink{classogl_base_a102dbfe5a17fb2f2954140de4c92895}{GetCamera} ()
+\item 
+void \hyperlink{classogl_base_ea045b4b3e3db04be98919a4cbec22bc}{SetViewport} (int, int, int, int)
+\item 
+int $\ast$ \hyperlink{classogl_base_07bd06c4bda42521313f56fcac5b7203}{GetViewport} ()
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classogl_base_b45c72c8aa5cb0071ac177c92acb9eaf}{
+\index{oglBase@{oglBase}!oglBase@{oglBase}}
+\index{oglBase@{oglBase}!oglBase@{oglBase}}
+\subsubsection[{oglBase}]{\setlength{\rightskip}{0pt plus 5cm}oglBase::oglBase ()}}
+\label{classogl_base_b45c72c8aa5cb0071ac177c92acb9eaf}
+
+
+\hypertarget{classogl_base_878d003e71fb5100c14234067b5127cf}{
+\index{oglBase@{oglBase}!$\sim$oglBase@{$\sim$oglBase}}
+\index{$\sim$oglBase@{$\sim$oglBase}!oglBase@{oglBase}}
+\subsubsection[{$\sim$oglBase}]{\setlength{\rightskip}{0pt plus 5cm}oglBase::$\sim$oglBase ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_878d003e71fb5100c14234067b5127cf}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classogl_base_a75a22cce4389543fe130f5540dd481b}{
+\index{oglBase@{oglBase}!BeginRender@{BeginRender}}
+\index{BeginRender@{BeginRender}!oglBase@{oglBase}}
+\subsubsection[{BeginRender}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::BeginRender ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_a75a22cce4389543fe130f5540dd481b}
+
+
+prepairs the base for rendering 
+
+Reimplemented from \hyperlink{class_base_f724516dec5bd0ebf330ac4697a4992e}{Base}.\hypertarget{classogl_base_fcf2db7348389e95bbd9d6f27450463a}{
+\index{oglBase@{oglBase}!CreateContex@{CreateContex}}
+\index{CreateContex@{CreateContex}!oglBase@{oglBase}}
+\subsubsection[{CreateContex}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::CreateContex ()}}
+\label{classogl_base_fcf2db7348389e95bbd9d6f27450463a}
+
+
+Creates the opengl context, using SDL. This also inits glew. \hypertarget{classogl_base_b631bdff58ff97debfac8de95af16f79}{
+\index{oglBase@{oglBase}!EndRender@{EndRender}}
+\index{EndRender@{EndRender}!oglBase@{oglBase}}
+\subsubsection[{EndRender}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::EndRender ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_b631bdff58ff97debfac8de95af16f79}
+
+
+stops the rendering for the base 
+
+Reimplemented from \hyperlink{class_base_18136e695927486c0487eb9224911162}{Base}.\hypertarget{classogl_base_a102dbfe5a17fb2f2954140de4c92895}{
+\index{oglBase@{oglBase}!GetCamera@{GetCamera}}
+\index{GetCamera@{GetCamera}!oglBase@{oglBase}}
+\subsubsection[{GetCamera}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Camera} $\ast$ oglBase::GetCamera ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_a102dbfe5a17fb2f2954140de4c92895}
+
+
+retruns the camera, make sure to check if it is null \begin{Desc}
+\item[Returns:]a pointer to the camera \end{Desc}
+
+
+Reimplemented from \hyperlink{class_base_1e6c50833404c9b10a4e4451e035fe73}{Base}.\hypertarget{classogl_base_07bd06c4bda42521313f56fcac5b7203}{
+\index{oglBase@{oglBase}!GetViewport@{GetViewport}}
+\index{GetViewport@{GetViewport}!oglBase@{oglBase}}
+\subsubsection[{GetViewport}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ oglBase::GetViewport ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_07bd06c4bda42521313f56fcac5b7203}
+
+
+gets the viewport, remeber to free the value \begin{Desc}
+\item[Returns:]returns the viewport, in this case 'glGetIntegerv(GL\_\-VIEWPORT, .. ' \end{Desc}
+
+
+Reimplemented from \hyperlink{class_base_78a8e2e08b7c6ecbe164c49630aabd4e}{Base}.\hypertarget{classogl_base_670c661d28fb47da29f4a7ba2ea39f87}{
+\index{oglBase@{oglBase}!SetCamera@{SetCamera}}
+\index{SetCamera@{SetCamera}!oglBase@{oglBase}}
+\subsubsection[{SetCamera}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::SetCamera ({\bf Camera} $\ast$ {\em cam})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_670c661d28fb47da29f4a7ba2ea39f87}
+
+
+Sets the camera, must be called atleast once \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em cam}]a pointer to the new camera \end{description}
+\end{Desc}
+
+
+Reimplemented from \hyperlink{class_base_3502b98c0b0a3a8c4e4dc34fad149087}{Base}.\hypertarget{classogl_base_f3a0c08f71bda7be4c20aef2247e5b52}{
+\index{oglBase@{oglBase}!SetupContex@{SetupContex}}
+\index{SetupContex@{SetupContex}!oglBase@{oglBase}}
+\subsubsection[{SetupContex}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::SetupContex ()}}
+\label{classogl_base_f3a0c08f71bda7be4c20aef2247e5b52}
+
+
+Setup the extra data for the context.. Things such as depth size and color size should go here.. \hypertarget{classogl_base_ea045b4b3e3db04be98919a4cbec22bc}{
+\index{oglBase@{oglBase}!SetViewport@{SetViewport}}
+\index{SetViewport@{SetViewport}!oglBase@{oglBase}}
+\subsubsection[{SetViewport}]{\setlength{\rightskip}{0pt plus 5cm}void oglBase::SetViewport (int {\em x}, \/  int {\em y}, \/  int {\em width}, \/  int {\em height})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{classogl_base_ea045b4b3e3db04be98919a4cbec22bc}
+
+
+Set up the viewport, in this case using glViewport 
+
+Reimplemented from \hyperlink{class_base_1716db3ad36a8cbb807c9096899b7264}{Base}.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{ogl_base_8h}{oglBase.h}\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{ogl_base_8cpp}{oglBase.cpp}\end{CompactItemize}

@@ -1,0 +1,272 @@
+\hypertarget{class_window}{
+\section{Window Class Reference}
+\label{class_window}\index{Window@{Window}}
+}
+{\tt \#include $<$window.h$>$}
+
+Inheritance diagram for Window::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_window}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_window_1202de5bdfb720f5d65e9faefa402da3}{Window} (\hyperlink{class_g_u_i}{GUI} $\ast$, \hyperlink{class_renderer}{Renderer} $\ast$)
+\item 
+\hyperlink{class_window_245d821e6016fa1f6970ccbbedd635f6}{$\sim$Window} ()
+\item 
+void \hyperlink{class_window_9aad0f28578feb9939ba854c798cfee3}{AddChild} (\hyperlink{class_control}{Control} $\ast$, bool=true)
+\item 
+void \hyperlink{class_window_88ad9940f1705d2f635bdefc70384d17}{Move} (float, float)
+\item 
+void \hyperlink{class_window_4ef67808752d9e9b618859e698f31362}{Close} ()
+\item 
+void \hyperlink{class_window_ca9b1f11fc660fe7a36e89daa1886560}{UpdateControl} (\hyperlink{class_control}{Control} $\ast$)
+\item 
+void \hyperlink{class_window_f6f46c0dd9ed75cc8639ca61f8773862}{OnKeyPress} (unsigned short)
+\item 
+void \hyperlink{class_window_dcf06ec1829e73c79c0c3e4703463a03}{OnMousePress} (unsigned short, int, int)
+\item 
+bool \hyperlink{class_window_0372a8a9db26dd21a60d4bd71a2547b5}{OnMouseClick} (unsigned short, bool)
+\item 
+bool \hyperlink{class_window_9d206d4b21db45616135e21e3b2f7b64}{HitTest} (float, float, float $\ast$)
+\begin{CompactList}\small\item\em Preforms a hit test on the window. \item\end{CompactList}\item 
+void \hyperlink{class_window_c5e3058acce30e972c25bdb9415a6657}{Animate} (int, float, unsigned int, unsigned int, int, \hyperlink{class_control}{Control} $\ast$=NULL)
+\item 
+void \hyperlink{class_window_4515157e006e39984863e1a78e691275}{Animate} (int, \hyperlink{classnv_1_1vec2}{nv::vec2}$<$ float $>$, unsigned int, unsigned int, int, \hyperlink{class_control}{Control} $\ast$=NULL)
+\item 
+void \hyperlink{class_window_80c7299c30b007e41e149ca707b14ebe}{Animate} (int, \hyperlink{classnv_1_1vec3}{nv::vec3}$<$ float $>$, unsigned int, unsigned int, int, \hyperlink{class_control}{Control} $\ast$=NULL)
+\item 
+void \hyperlink{class_window_cafe750f45667f2e81b8423fb496b459}{Animate} (int, \hyperlink{classnv_1_1vec4}{nv::vec4}$<$ float $>$, unsigned int, unsigned int, int, \hyperlink{class_control}{Control} $\ast$=NULL)
+\item 
+void \hyperlink{class_window_d5b6265475488a93e6a06c890d006367}{StepAnimation} ()
+\item 
+void \hyperlink{class_window_4bcf4b16db04e876b0f58c184708d280}{RemoveAnimation} (\hyperlink{class_control}{Control} $\ast$)
+\item 
+void \hyperlink{class_window_80173b6c9b3b856ee9f905f2ddcf51e6}{Unproject} (float, float, float $\ast$, float $\ast$, float $\ast$)
+\item 
+bool \hyperlink{class_window_9104959ec00d2c1dc16eb20303a6f7b7}{IsRoot} ()
+\item 
+unsigned int \hyperlink{class_window_7b5200a4b20ba5a0bafc43ec1207125b}{Size} ()
+\item 
+unsigned int \hyperlink{class_window_16719560d4f63b07aa4c554bfb1c9cdd}{TotalChildren} ()
+\item 
+unsigned int \hyperlink{class_window_8102d7f108485e1faf660d158d0070e8}{NumChildren} ()
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{class_window_a75fcc9f3abd4dbcfdb6fec9dc9200be}{ReciveInput}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_window_1202de5bdfb720f5d65e9faefa402da3}{
+\index{Window@{Window}!Window@{Window}}
+\index{Window@{Window}!Window@{Window}}
+\subsubsection[{Window}]{\setlength{\rightskip}{0pt plus 5cm}Window::Window ({\bf GUI} $\ast$ {\em p}, \/  {\bf Renderer} $\ast$ {\em r})}}
+\label{class_window_1202de5bdfb720f5d65e9faefa402da3}
+
+
+\hypertarget{class_window_245d821e6016fa1f6970ccbbedd635f6}{
+\index{Window@{Window}!$\sim$Window@{$\sim$Window}}
+\index{$\sim$Window@{$\sim$Window}!Window@{Window}}
+\subsubsection[{$\sim$Window}]{\setlength{\rightskip}{0pt plus 5cm}Window::$\sim$Window ()}}
+\label{class_window_245d821e6016fa1f6970ccbbedd635f6}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_window_9aad0f28578feb9939ba854c798cfee3}{
+\index{Window@{Window}!AddChild@{AddChild}}
+\index{AddChild@{AddChild}!Window@{Window}}
+\subsubsection[{AddChild}]{\setlength{\rightskip}{0pt plus 5cm}void Window::AddChild ({\bf Control} $\ast$ {\em child}, \/  bool {\em rebuild} = {\tt true})}}
+\label{class_window_9aad0f28578feb9939ba854c798cfee3}
+
+
+\hypertarget{class_window_cafe750f45667f2e81b8423fb496b459}{
+\index{Window@{Window}!Animate@{Animate}}
+\index{Animate@{Animate}!Window@{Window}}
+\subsubsection[{Animate}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Animate (int {\em type}, \/  {\bf nv::vec4}$<$ float $>$ {\em value}, \/  unsigned int {\em start}, \/  unsigned int {\em duration}, \/  int {\em interpolation}, \/  {\bf Control} $\ast$ {\em ptr} = {\tt NULL})}}
+\label{class_window_cafe750f45667f2e81b8423fb496b459}
+
+
+Creates a new animaion pushing it to the Animations list \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em type}]a enum for the tpye of animation to use \item[{\em value}]the values to use for the animation \item[{\em start}]how long to way untill you wish for the animation to start \item[{\em duration}]How long (in miliseconds) you wish the animation to take \item[{\em interpolation}]the interpolation type you wish to use. \item[{\em ptr}](optional) the pointer of the object affected by the animtion, currently only supported for color \end{description}
+\end{Desc}
+\hypertarget{class_window_80c7299c30b007e41e149ca707b14ebe}{
+\index{Window@{Window}!Animate@{Animate}}
+\index{Animate@{Animate}!Window@{Window}}
+\subsubsection[{Animate}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Animate (int {\em type}, \/  {\bf nv::vec3}$<$ float $>$ {\em value}, \/  unsigned int {\em start}, \/  unsigned int {\em duration}, \/  int {\em interpolation}, \/  {\bf Control} $\ast$ {\em ptr} = {\tt NULL})}}
+\label{class_window_80c7299c30b007e41e149ca707b14ebe}
+
+
+\hypertarget{class_window_4515157e006e39984863e1a78e691275}{
+\index{Window@{Window}!Animate@{Animate}}
+\index{Animate@{Animate}!Window@{Window}}
+\subsubsection[{Animate}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Animate (int {\em type}, \/  {\bf nv::vec2}$<$ float $>$ {\em value}, \/  unsigned int {\em start}, \/  unsigned int {\em duration}, \/  int {\em interpolation}, \/  {\bf Control} $\ast$ {\em ptr} = {\tt NULL})}}
+\label{class_window_4515157e006e39984863e1a78e691275}
+
+
+\hypertarget{class_window_c5e3058acce30e972c25bdb9415a6657}{
+\index{Window@{Window}!Animate@{Animate}}
+\index{Animate@{Animate}!Window@{Window}}
+\subsubsection[{Animate}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Animate (int {\em type}, \/  float {\em value}, \/  unsigned int {\em start}, \/  unsigned int {\em duration}, \/  int {\em interpolation}, \/  {\bf Control} $\ast$ {\em ptr} = {\tt NULL})}}
+\label{class_window_c5e3058acce30e972c25bdb9415a6657}
+
+
+\hypertarget{class_window_4ef67808752d9e9b618859e698f31362}{
+\index{Window@{Window}!Close@{Close}}
+\index{Close@{Close}!Window@{Window}}
+\subsubsection[{Close}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Close ()}}
+\label{class_window_4ef67808752d9e9b618859e698f31362}
+
+
+\hypertarget{class_window_9d206d4b21db45616135e21e3b2f7b64}{
+\index{Window@{Window}!HitTest@{HitTest}}
+\index{HitTest@{HitTest}!Window@{Window}}
+\subsubsection[{HitTest}]{\setlength{\rightskip}{0pt plus 5cm}bool Window::HitTest (float {\em mx}, \/  float {\em my}, \/  float $\ast$ {\em p})}}
+\label{class_window_9d206d4b21db45616135e21e3b2f7b64}
+
+
+Preforms a hit test on the window. 
+
+The functions finds the mouse coords in object space, thus working with 3d rotation, and figures out if they are inside the window.
+
+Problems : None.
+
+Threadsafe : No.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em mx}]the mouse's x coordinate \item[{\em my}]the mouse's y coordinate \item[{\em p}]the projection matrix's array \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]true if the hit test was succful \end{Desc}
+\begin{Desc}
+\item[Exceptions:]
+\begin{description}
+\item[{\em nothing}]\end{description}
+\end{Desc}
+\hypertarget{class_window_9104959ec00d2c1dc16eb20303a6f7b7}{
+\index{Window@{Window}!IsRoot@{IsRoot}}
+\index{IsRoot@{IsRoot}!Window@{Window}}
+\subsubsection[{IsRoot}]{\setlength{\rightskip}{0pt plus 5cm}bool Window::IsRoot ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_9104959ec00d2c1dc16eb20303a6f7b7}
+
+
+
+
+Reimplemented from \hyperlink{class_control_722115b12e4f4c66a1ce8f4fba9c350f}{Control}.\hypertarget{class_window_88ad9940f1705d2f635bdefc70384d17}{
+\index{Window@{Window}!Move@{Move}}
+\index{Move@{Move}!Window@{Window}}
+\subsubsection[{Move}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Move (float {\em xChange}, \/  float {\em yChange})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_88ad9940f1705d2f635bdefc70384d17}
+
+
+
+
+Reimplemented from \hyperlink{class_control_8ba2e26364554895c0581a6d3e569649}{Control}.\hypertarget{class_window_8102d7f108485e1faf660d158d0070e8}{
+\index{Window@{Window}!NumChildren@{NumChildren}}
+\index{NumChildren@{NumChildren}!Window@{Window}}
+\subsubsection[{NumChildren}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Window::NumChildren ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_8102d7f108485e1faf660d158d0070e8}
+
+
+
+
+Reimplemented from \hyperlink{class_control_40b01c0e65c2fec12afb950d3758983f}{Control}.\hypertarget{class_window_f6f46c0dd9ed75cc8639ca61f8773862}{
+\index{Window@{Window}!OnKeyPress@{OnKeyPress}}
+\index{OnKeyPress@{OnKeyPress}!Window@{Window}}
+\subsubsection[{OnKeyPress}]{\setlength{\rightskip}{0pt plus 5cm}void Window::OnKeyPress (unsigned short {\em key})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_f6f46c0dd9ed75cc8639ca61f8773862}
+
+
+
+
+Reimplemented from \hyperlink{class_control_381e61b70477155845f58a2d17b91c6a}{Control}.\hypertarget{class_window_0372a8a9db26dd21a60d4bd71a2547b5}{
+\index{Window@{Window}!OnMouseClick@{OnMouseClick}}
+\index{OnMouseClick@{OnMouseClick}!Window@{Window}}
+\subsubsection[{OnMouseClick}]{\setlength{\rightskip}{0pt plus 5cm}bool Window::OnMouseClick (unsigned short {\em num}, \/  bool {\em final})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_0372a8a9db26dd21a60d4bd71a2547b5}
+
+
+
+
+Reimplemented from \hyperlink{class_control_1a32f38d1f66f764e6e3a5d8de42d0e0}{Control}.\hypertarget{class_window_dcf06ec1829e73c79c0c3e4703463a03}{
+\index{Window@{Window}!OnMousePress@{OnMousePress}}
+\index{OnMousePress@{OnMousePress}!Window@{Window}}
+\subsubsection[{OnMousePress}]{\setlength{\rightskip}{0pt plus 5cm}void Window::OnMousePress (unsigned short {\em button}, \/  int {\em mx}, \/  int {\em my})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_dcf06ec1829e73c79c0c3e4703463a03}
+
+
+
+
+Reimplemented from \hyperlink{class_control_17ebdd745fcaf245f8d8ab38fa534072}{Control}.\hypertarget{class_window_4bcf4b16db04e876b0f58c184708d280}{
+\index{Window@{Window}!RemoveAnimation@{RemoveAnimation}}
+\index{RemoveAnimation@{RemoveAnimation}!Window@{Window}}
+\subsubsection[{RemoveAnimation}]{\setlength{\rightskip}{0pt plus 5cm}void Window::RemoveAnimation ({\bf Control} $\ast$ {\em c})}}
+\label{class_window_4bcf4b16db04e876b0f58c184708d280}
+
+
+\hypertarget{class_window_7b5200a4b20ba5a0bafc43ec1207125b}{
+\index{Window@{Window}!Size@{Size}}
+\index{Size@{Size}!Window@{Window}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Window::Size ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_7b5200a4b20ba5a0bafc43ec1207125b}
+
+
+Returns the total size of the control, in this case the same as TotalChildren 
+
+Reimplemented from \hyperlink{class_control_b71295cb3f212dcc92672028155ffb7d}{Control}.\hypertarget{class_window_d5b6265475488a93e6a06c890d006367}{
+\index{Window@{Window}!StepAnimation@{StepAnimation}}
+\index{StepAnimation@{StepAnimation}!Window@{Window}}
+\subsubsection[{StepAnimation}]{\setlength{\rightskip}{0pt plus 5cm}void Window::StepAnimation ()}}
+\label{class_window_d5b6265475488a93e6a06c890d006367}
+
+
+\hypertarget{class_window_16719560d4f63b07aa4c554bfb1c9cdd}{
+\index{Window@{Window}!TotalChildren@{TotalChildren}}
+\index{TotalChildren@{TotalChildren}!Window@{Window}}
+\subsubsection[{TotalChildren}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Window::TotalChildren ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_window_16719560d4f63b07aa4c554bfb1c9cdd}
+
+
+
+
+Reimplemented from \hyperlink{class_control_ed5bd5da33b1e7007877a777c2c0eddb}{Control}.\hypertarget{class_window_80173b6c9b3b856ee9f905f2ddcf51e6}{
+\index{Window@{Window}!Unproject@{Unproject}}
+\index{Unproject@{Unproject}!Window@{Window}}
+\subsubsection[{Unproject}]{\setlength{\rightskip}{0pt plus 5cm}void Window::Unproject (float {\em winx}, \/  float {\em winy}, \/  float $\ast$ {\em p}, \/  float $\ast$ {\em ox}, \/  float $\ast$ {\em oy})}}
+\label{class_window_80173b6c9b3b856ee9f905f2ddcf51e6}
+
+
+\hypertarget{class_window_ca9b1f11fc660fe7a36e89daa1886560}{
+\index{Window@{Window}!UpdateControl@{UpdateControl}}
+\index{UpdateControl@{UpdateControl}!Window@{Window}}
+\subsubsection[{UpdateControl}]{\setlength{\rightskip}{0pt plus 5cm}void Window::UpdateControl ({\bf Control} $\ast$ {\em control})}}
+\label{class_window_ca9b1f11fc660fe7a36e89daa1886560}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_window_a75fcc9f3abd4dbcfdb6fec9dc9200be}{
+\index{Window@{Window}!ReciveInput@{ReciveInput}}
+\index{ReciveInput@{ReciveInput}!Window@{Window}}
+\subsubsection[{ReciveInput}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf Window::ReciveInput}}}
+\label{class_window_a75fcc9f3abd4dbcfdb6fec9dc9200be}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{window_8h}{window.h}\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{window_8cpp}{window.cpp}\end{CompactItemize}

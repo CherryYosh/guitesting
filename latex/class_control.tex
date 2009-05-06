@@ -1,0 +1,494 @@
+\hypertarget{class_control}{
+\section{Control Class Reference}
+\label{class_control}\index{Control@{Control}}
+}
+{\tt \#include $<$control.h$>$}
+
+Inheritance diagram for Control::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{class_control}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_control_47c96017a04b9fd78e73d7c0cbd397d4}{Control} (std::string, \hyperlink{class_window}{Window} $\ast$, \hyperlink{class_control}{Control} $\ast$=NULL, float=0, float=0)
+\item 
+virtual \hyperlink{class_control_edda1328c4f8b8d49bca8f0812d3bfd1}{$\sim$Control} ()
+\item 
+virtual void \hyperlink{class_control_85211d42235ce9dd321aa9d027d71bdd}{Activate} ()
+\item 
+virtual bool \hyperlink{class_control_6b586494213774ccc17b161f8ed14888}{HitTest} (int, int)
+\item 
+virtual void \hyperlink{class_control_17ebdd745fcaf245f8d8ab38fa534072}{OnMousePress} (unsigned short, int, int)
+\item 
+virtual void \hyperlink{class_control_7d95c48b4e3498938e52991e60a89181}{OnMouseRelease} (int)
+\item 
+virtual void \hyperlink{class_control_93451fdae5cd22b9c52374db759c291c}{OnMouseEnter} ()
+\item 
+virtual void \hyperlink{class_control_6f2e2b8b0984a37b64b9113a1fdf683d}{OnMouseLeave} ()
+\item 
+virtual bool \hyperlink{class_control_1a32f38d1f66f764e6e3a5d8de42d0e0}{OnMouseClick} (unsigned short, bool)
+\item 
+virtual void \hyperlink{class_control_381e61b70477155845f58a2d17b91c6a}{OnKeyPress} (unsigned short)
+\item 
+virtual void \hyperlink{class_control_7be3bcc25d2736d0732e29de40c41b9f}{OnKeyRelease} (int, int)
+\item 
+virtual void \hyperlink{class_control_8ba2e26364554895c0581a6d3e569649}{Move} (float, float)
+\item 
+virtual void \hyperlink{class_control_c4ea1db7ec1776ad19d7f81d5a01743e}{SetCallback} (boost::function$<$ void()$>$)
+\item 
+virtual void \hyperlink{class_control_eef729e67952600e2ed998147d330eb6}{SetWidth} (float)
+\item 
+virtual void \hyperlink{class_control_e2199949a3bbb73abf5d59d48aa7aad5}{SetHeight} (float)
+\item 
+virtual bool \hyperlink{class_control_969c60da0ff3cfd832a26a1310e0930d}{HasAttrib} (unsigned short)
+\item 
+virtual void \hyperlink{class_control_6a9b9a9aeef0ede05d1e3a238eab972e}{SetEnabled} (bool)
+\item 
+virtual void \hyperlink{class_control_5394421a4554421d16c8e9cee70ee861}{SetFocus} (bool)
+\item 
+virtual void \hyperlink{class_control_54d417ec0a6f98f6a980e88553a89ff3}{SetColor} (float, float, float, float)
+\item 
+virtual void \hyperlink{class_control_744d8882bf83d7848f5110ad0b9d6a3c}{SetColor} (\hyperlink{classnv_1_1vec4}{nv::vec4}$<$ float $>$)
+\item 
+virtual void \hyperlink{class_control_1cdbb9fe5cbb9c4d8cf6c1513ae502ac}{AddColor} (\hyperlink{classnv_1_1vec4}{nv::vec4}$<$ float $>$)
+\item 
+virtual float $\ast$ \hyperlink{class_control_f5e0027ce1780579d4148c214ed97162}{GetColorv} ()
+\item 
+virtual void \hyperlink{class_control_bb10da20e8fa360c8bd4846a05b782e3}{AddChild} (\hyperlink{class_control}{Control} $\ast$)
+\item 
+virtual \hyperlink{class_control}{Control} $\ast$ \hyperlink{class_control_3961b1b4e64d6ea03903f2c6e3c16c5a}{GetChild} (unsigned int)
+\item 
+virtual \hyperlink{class_control}{Control} $\ast$ \hyperlink{class_control_b719c1843ea119e5c137a6a668df8179}{IterateChild} (unsigned int)
+\item 
+virtual int \hyperlink{class_control_4f0b3da2c0add2bb739ad1c077d88ba8}{IterateChild} (\hyperlink{class_control}{Control} $\ast$)
+\item 
+virtual unsigned int \hyperlink{class_control_b71295cb3f212dcc92672028155ffb7d}{Size} ()
+\item 
+virtual unsigned int \hyperlink{class_control_ed5bd5da33b1e7007877a777c2c0eddb}{TotalChildren} ()
+\item 
+virtual unsigned int \hyperlink{class_control_40b01c0e65c2fec12afb950d3758983f}{NumChildren} ()
+\item 
+virtual float \hyperlink{class_control_7cf1ac530fbe1807014c89576b1cee5f}{GetWidth} ()
+\item 
+virtual float \hyperlink{class_control_623c5af26b7c0295285395cdb607caf1}{GetHeight} ()
+\item 
+virtual bool \hyperlink{class_control_722115b12e4f4c66a1ce8f4fba9c350f}{IsRoot} ()
+\item 
+virtual bool \hyperlink{class_control_01d8251453924ad80bf6271308b9f6fd}{IsLeaf} ()
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+float \hyperlink{class_control_a485c96e0ce271b1245ddd2d6bd79675}{Width}
+\item 
+float \hyperlink{class_control_f3d70c689cafd1dfe2313199e6a41293}{Height}
+\item 
+float \hyperlink{class_control_a73c00d4474d4eec453c5d8ccda1566d}{x}
+\item 
+float \hyperlink{class_control_f2d14a39b8112081f36876da68c1bf0e}{y}
+\item 
+float \hyperlink{class_control_caf55f6d777a0e64c18ccbd01c245ba1}{s}
+\item 
+float \hyperlink{class_control_d51b3671315b6be1c2ee5a449e5c8682}{t}
+\item 
+float \hyperlink{class_control_ddd155abd23b90ae592b2d781eba4fdb}{s2}
+\item 
+float \hyperlink{class_control_760fb4113b3bc7da97f90a2777b2f505}{t2}
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+unsigned short \hyperlink{class_control_4cc3fdb3e18ee7a3de58185681529778}{Attributes}
+\item 
+\hyperlink{class_window}{Window} $\ast$ \hyperlink{class_control_7bbeb54bfafb6f04b6cb6313c66d4d10}{Root}
+\item 
+\hyperlink{class_control}{Control} $\ast$ \hyperlink{class_control_8640e0ab6a79e5d6a65f8c0ae372cc5e}{Parent}
+\item 
+\hyperlink{class_control}{Control} $\ast$ \hyperlink{class_control_e0c10471d5ed6637afa9bd10b828016b}{MouseOverChild}
+\item 
+\hyperlink{class_control}{Control} $\ast$ \hyperlink{class_control_10aad05127f14123e168c4ff1c2803ba}{ActiveChild}
+\item 
+std::vector$<$ \hyperlink{class_control}{Control} $\ast$ $>$ \hyperlink{class_control_2de06adc1c35f408f8b7997324e9f8dd}{Children}
+\item 
+boost::function$<$ void() $>$ \hyperlink{class_control_8bb1b2b7c3a9c7ed2aabf992d0dbf544}{m\_\-Callback}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_control_47c96017a04b9fd78e73d7c0cbd397d4}{
+\index{Control@{Control}!Control@{Control}}
+\index{Control@{Control}!Control@{Control}}
+\subsubsection[{Control}]{\setlength{\rightskip}{0pt plus 5cm}Control::Control (std::string {\em t}, \/  {\bf Window} $\ast$ {\em r}, \/  {\bf Control} $\ast$ {\em p} = {\tt NULL}, \/  float {\em ix} = {\tt 0}, \/  float {\em iy} = {\tt 0})}}
+\label{class_control_47c96017a04b9fd78e73d7c0cbd397d4}
+
+
+\hypertarget{class_control_edda1328c4f8b8d49bca8f0812d3bfd1}{
+\index{Control@{Control}!$\sim$Control@{$\sim$Control}}
+\index{$\sim$Control@{$\sim$Control}!Control@{Control}}
+\subsubsection[{$\sim$Control}]{\setlength{\rightskip}{0pt plus 5cm}Control::$\sim$Control ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_edda1328c4f8b8d49bca8f0812d3bfd1}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_control_85211d42235ce9dd321aa9d027d71bdd}{
+\index{Control@{Control}!Activate@{Activate}}
+\index{Activate@{Activate}!Control@{Control}}
+\subsubsection[{Activate}]{\setlength{\rightskip}{0pt plus 5cm}void Control::Activate ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_85211d42235ce9dd321aa9d027d71bdd}
+
+
+\hypertarget{class_control_bb10da20e8fa360c8bd4846a05b782e3}{
+\index{Control@{Control}!AddChild@{AddChild}}
+\index{AddChild@{AddChild}!Control@{Control}}
+\subsubsection[{AddChild}]{\setlength{\rightskip}{0pt plus 5cm}void Control::AddChild ({\bf Control} $\ast$ {\em c})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_bb10da20e8fa360c8bd4846a05b782e3}
+
+
+\hypertarget{class_control_1cdbb9fe5cbb9c4d8cf6c1513ae502ac}{
+\index{Control@{Control}!AddColor@{AddColor}}
+\index{AddColor@{AddColor}!Control@{Control}}
+\subsubsection[{AddColor}]{\setlength{\rightskip}{0pt plus 5cm}void Control::AddColor ({\bf nv::vec4}$<$ float $>$ {\em c})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_1cdbb9fe5cbb9c4d8cf6c1513ae502ac}
+
+
+\hypertarget{class_control_3961b1b4e64d6ea03903f2c6e3c16c5a}{
+\index{Control@{Control}!GetChild@{GetChild}}
+\index{GetChild@{GetChild}!Control@{Control}}
+\subsubsection[{GetChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control} $\ast$ Control::GetChild (unsigned int {\em num})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_3961b1b4e64d6ea03903f2c6e3c16c5a}
+
+
+\hypertarget{class_control_f5e0027ce1780579d4148c214ed97162}{
+\index{Control@{Control}!GetColorv@{GetColorv}}
+\index{GetColorv@{GetColorv}!Control@{Control}}
+\subsubsection[{GetColorv}]{\setlength{\rightskip}{0pt plus 5cm}float $\ast$ Control::GetColorv ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_f5e0027ce1780579d4148c214ed97162}
+
+
+\hypertarget{class_control_623c5af26b7c0295285395cdb607caf1}{
+\index{Control@{Control}!GetHeight@{GetHeight}}
+\index{GetHeight@{GetHeight}!Control@{Control}}
+\subsubsection[{GetHeight}]{\setlength{\rightskip}{0pt plus 5cm}float Control::GetHeight ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_623c5af26b7c0295285395cdb607caf1}
+
+
+\hypertarget{class_control_7cf1ac530fbe1807014c89576b1cee5f}{
+\index{Control@{Control}!GetWidth@{GetWidth}}
+\index{GetWidth@{GetWidth}!Control@{Control}}
+\subsubsection[{GetWidth}]{\setlength{\rightskip}{0pt plus 5cm}float Control::GetWidth ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_7cf1ac530fbe1807014c89576b1cee5f}
+
+
+\hypertarget{class_control_969c60da0ff3cfd832a26a1310e0930d}{
+\index{Control@{Control}!HasAttrib@{HasAttrib}}
+\index{HasAttrib@{HasAttrib}!Control@{Control}}
+\subsubsection[{HasAttrib}]{\setlength{\rightskip}{0pt plus 5cm}bool Control::HasAttrib (unsigned short {\em a})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_969c60da0ff3cfd832a26a1310e0930d}
+
+
+\hypertarget{class_control_6b586494213774ccc17b161f8ed14888}{
+\index{Control@{Control}!HitTest@{HitTest}}
+\index{HitTest@{HitTest}!Control@{Control}}
+\subsubsection[{HitTest}]{\setlength{\rightskip}{0pt plus 5cm}bool Control::HitTest (int {\em mx}, \/  int {\em my})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_6b586494213774ccc17b161f8ed14888}
+
+
+
+
+Reimplemented in \hyperlink{class_button_8de2fc8228ff5599b4aaf1ae3db0725f}{Button}, and \hyperlink{class_editbox_2eacf0b4a9e2f2fd20125658156fb4e0}{Editbox}.\hypertarget{class_control_01d8251453924ad80bf6271308b9f6fd}{
+\index{Control@{Control}!IsLeaf@{IsLeaf}}
+\index{IsLeaf@{IsLeaf}!Control@{Control}}
+\subsubsection[{IsLeaf}]{\setlength{\rightskip}{0pt plus 5cm}bool Control::IsLeaf ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_01d8251453924ad80bf6271308b9f6fd}
+
+
+\hypertarget{class_control_722115b12e4f4c66a1ce8f4fba9c350f}{
+\index{Control@{Control}!IsRoot@{IsRoot}}
+\index{IsRoot@{IsRoot}!Control@{Control}}
+\subsubsection[{IsRoot}]{\setlength{\rightskip}{0pt plus 5cm}bool Control::IsRoot ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_722115b12e4f4c66a1ce8f4fba9c350f}
+
+
+
+
+Reimplemented in \hyperlink{class_window_9104959ec00d2c1dc16eb20303a6f7b7}{Window}.\hypertarget{class_control_4f0b3da2c0add2bb739ad1c077d88ba8}{
+\index{Control@{Control}!IterateChild@{IterateChild}}
+\index{IterateChild@{IterateChild}!Control@{Control}}
+\subsubsection[{IterateChild}]{\setlength{\rightskip}{0pt plus 5cm}int Control::IterateChild ({\bf Control} $\ast$ {\em c})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_4f0b3da2c0add2bb739ad1c077d88ba8}
+
+
+\hypertarget{class_control_b719c1843ea119e5c137a6a668df8179}{
+\index{Control@{Control}!IterateChild@{IterateChild}}
+\index{IterateChild@{IterateChild}!Control@{Control}}
+\subsubsection[{IterateChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control} $\ast$ Control::IterateChild (unsigned int {\em num})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_b719c1843ea119e5c137a6a668df8179}
+
+
+\hypertarget{class_control_8ba2e26364554895c0581a6d3e569649}{
+\index{Control@{Control}!Move@{Move}}
+\index{Move@{Move}!Control@{Control}}
+\subsubsection[{Move}]{\setlength{\rightskip}{0pt plus 5cm}void Control::Move (float {\em cx}, \/  float {\em cy})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_8ba2e26364554895c0581a6d3e569649}
+
+
+
+
+Reimplemented in \hyperlink{class_label_7be1625ce797ee05dcf6c7553ba0705f}{Label}, and \hyperlink{class_window_88ad9940f1705d2f635bdefc70384d17}{Window}.\hypertarget{class_control_40b01c0e65c2fec12afb950d3758983f}{
+\index{Control@{Control}!NumChildren@{NumChildren}}
+\index{NumChildren@{NumChildren}!Control@{Control}}
+\subsubsection[{NumChildren}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Control::NumChildren ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_40b01c0e65c2fec12afb950d3758983f}
+
+
+
+
+Reimplemented in \hyperlink{class_window_8102d7f108485e1faf660d158d0070e8}{Window}.\hypertarget{class_control_381e61b70477155845f58a2d17b91c6a}{
+\index{Control@{Control}!OnKeyPress@{OnKeyPress}}
+\index{OnKeyPress@{OnKeyPress}!Control@{Control}}
+\subsubsection[{OnKeyPress}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnKeyPress (unsigned short {\em unicode})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_381e61b70477155845f58a2d17b91c6a}
+
+
+
+
+Reimplemented in \hyperlink{class_editbox_03de7605a4541011037378e745012f17}{Editbox}, and \hyperlink{class_window_f6f46c0dd9ed75cc8639ca61f8773862}{Window}.\hypertarget{class_control_7be3bcc25d2736d0732e29de40c41b9f}{
+\index{Control@{Control}!OnKeyRelease@{OnKeyRelease}}
+\index{OnKeyRelease@{OnKeyRelease}!Control@{Control}}
+\subsubsection[{OnKeyRelease}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnKeyRelease (int {\em key}, \/  int {\em mod})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_7be3bcc25d2736d0732e29de40c41b9f}
+
+
+
+
+Reimplemented in \hyperlink{class_editbox_47d72239d116c6574d2f14a84aa658cb}{Editbox}.\hypertarget{class_control_1a32f38d1f66f764e6e3a5d8de42d0e0}{
+\index{Control@{Control}!OnMouseClick@{OnMouseClick}}
+\index{OnMouseClick@{OnMouseClick}!Control@{Control}}
+\subsubsection[{OnMouseClick}]{\setlength{\rightskip}{0pt plus 5cm}bool Control::OnMouseClick (unsigned short {\em num}, \/  bool {\em final})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_1a32f38d1f66f764e6e3a5d8de42d0e0}
+
+
+
+
+Reimplemented in \hyperlink{class_button_cad3e7ea82ecd98781863ae7ab082ce8}{Button}, \hyperlink{class_checkbox_d017a9602388bab021f25aa502a2f81f}{Checkbox}, and \hyperlink{class_window_0372a8a9db26dd21a60d4bd71a2547b5}{Window}.\hypertarget{class_control_93451fdae5cd22b9c52374db759c291c}{
+\index{Control@{Control}!OnMouseEnter@{OnMouseEnter}}
+\index{OnMouseEnter@{OnMouseEnter}!Control@{Control}}
+\subsubsection[{OnMouseEnter}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnMouseEnter ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_93451fdae5cd22b9c52374db759c291c}
+
+
+
+
+Reimplemented in \hyperlink{class_button_69408b048737143eba5ab348e9208405}{Button}.\hypertarget{class_control_6f2e2b8b0984a37b64b9113a1fdf683d}{
+\index{Control@{Control}!OnMouseLeave@{OnMouseLeave}}
+\index{OnMouseLeave@{OnMouseLeave}!Control@{Control}}
+\subsubsection[{OnMouseLeave}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnMouseLeave ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_6f2e2b8b0984a37b64b9113a1fdf683d}
+
+
+
+
+Reimplemented in \hyperlink{class_button_e6593ca8bb94fe3c54a09bf5cf060cf2}{Button}.\hypertarget{class_control_17ebdd745fcaf245f8d8ab38fa534072}{
+\index{Control@{Control}!OnMousePress@{OnMousePress}}
+\index{OnMousePress@{OnMousePress}!Control@{Control}}
+\subsubsection[{OnMousePress}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnMousePress (unsigned short {\em button}, \/  int {\em mx}, \/  int {\em my})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_17ebdd745fcaf245f8d8ab38fa534072}
+
+
+
+
+Reimplemented in \hyperlink{class_button_d6b93ae1c85c1dba05424becc7e051f7}{Button}, \hyperlink{class_editbox_c116bf79fae6dee06d3f65109b8ccc1c}{Editbox}, and \hyperlink{class_window_dcf06ec1829e73c79c0c3e4703463a03}{Window}.\hypertarget{class_control_7d95c48b4e3498938e52991e60a89181}{
+\index{Control@{Control}!OnMouseRelease@{OnMouseRelease}}
+\index{OnMouseRelease@{OnMouseRelease}!Control@{Control}}
+\subsubsection[{OnMouseRelease}]{\setlength{\rightskip}{0pt plus 5cm}void Control::OnMouseRelease (int {\em button})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_7d95c48b4e3498938e52991e60a89181}
+
+
+
+
+Reimplemented in \hyperlink{class_editbox_3426720f14c8827bc9838f76ff75ebc3}{Editbox}.\hypertarget{class_control_c4ea1db7ec1776ad19d7f81d5a01743e}{
+\index{Control@{Control}!SetCallback@{SetCallback}}
+\index{SetCallback@{SetCallback}!Control@{Control}}
+\subsubsection[{SetCallback}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Control::SetCallback (boost::function$<$ void()$>$)\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_c4ea1db7ec1776ad19d7f81d5a01743e}
+
+
+\hypertarget{class_control_744d8882bf83d7848f5110ad0b9d6a3c}{
+\index{Control@{Control}!SetColor@{SetColor}}
+\index{SetColor@{SetColor}!Control@{Control}}
+\subsubsection[{SetColor}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetColor ({\bf nv::vec4}$<$ float $>$ {\em c})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_744d8882bf83d7848f5110ad0b9d6a3c}
+
+
+\hypertarget{class_control_54d417ec0a6f98f6a980e88553a89ff3}{
+\index{Control@{Control}!SetColor@{SetColor}}
+\index{SetColor@{SetColor}!Control@{Control}}
+\subsubsection[{SetColor}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetColor (float {\em r}, \/  float {\em g}, \/  float {\em b}, \/  float {\em a})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_54d417ec0a6f98f6a980e88553a89ff3}
+
+
+\hypertarget{class_control_6a9b9a9aeef0ede05d1e3a238eab972e}{
+\index{Control@{Control}!SetEnabled@{SetEnabled}}
+\index{SetEnabled@{SetEnabled}!Control@{Control}}
+\subsubsection[{SetEnabled}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetEnabled (bool {\em value})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_6a9b9a9aeef0ede05d1e3a238eab972e}
+
+
+\hypertarget{class_control_5394421a4554421d16c8e9cee70ee861}{
+\index{Control@{Control}!SetFocus@{SetFocus}}
+\index{SetFocus@{SetFocus}!Control@{Control}}
+\subsubsection[{SetFocus}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetFocus (bool {\em value})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_5394421a4554421d16c8e9cee70ee861}
+
+
+\hypertarget{class_control_e2199949a3bbb73abf5d59d48aa7aad5}{
+\index{Control@{Control}!SetHeight@{SetHeight}}
+\index{SetHeight@{SetHeight}!Control@{Control}}
+\subsubsection[{SetHeight}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetHeight (float {\em h})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_e2199949a3bbb73abf5d59d48aa7aad5}
+
+
+\hypertarget{class_control_eef729e67952600e2ed998147d330eb6}{
+\index{Control@{Control}!SetWidth@{SetWidth}}
+\index{SetWidth@{SetWidth}!Control@{Control}}
+\subsubsection[{SetWidth}]{\setlength{\rightskip}{0pt plus 5cm}void Control::SetWidth (float {\em w})\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_eef729e67952600e2ed998147d330eb6}
+
+
+\hypertarget{class_control_b71295cb3f212dcc92672028155ffb7d}{
+\index{Control@{Control}!Size@{Size}}
+\index{Size@{Size}!Control@{Control}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Control::Size ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_b71295cb3f212dcc92672028155ffb7d}
+
+
+Returns the total size of the control, 1 + TotalChildren 
+
+Reimplemented in \hyperlink{class_window_7b5200a4b20ba5a0bafc43ec1207125b}{Window}.\hypertarget{class_control_ed5bd5da33b1e7007877a777c2c0eddb}{
+\index{Control@{Control}!TotalChildren@{TotalChildren}}
+\index{TotalChildren@{TotalChildren}!Control@{Control}}
+\subsubsection[{TotalChildren}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Control::TotalChildren ()\hspace{0.3cm}{\tt  \mbox{[}virtual\mbox{]}}}}
+\label{class_control_ed5bd5da33b1e7007877a777c2c0eddb}
+
+
+
+
+Reimplemented in \hyperlink{class_window_16719560d4f63b07aa4c554bfb1c9cdd}{Window}.
+
+\subsection{Member Data Documentation}
+\hypertarget{class_control_10aad05127f14123e168c4ff1c2803ba}{
+\index{Control@{Control}!ActiveChild@{ActiveChild}}
+\index{ActiveChild@{ActiveChild}!Control@{Control}}
+\subsubsection[{ActiveChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control}$\ast$ {\bf Control::ActiveChild}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_10aad05127f14123e168c4ff1c2803ba}
+
+
+\hypertarget{class_control_4cc3fdb3e18ee7a3de58185681529778}{
+\index{Control@{Control}!Attributes@{Attributes}}
+\index{Attributes@{Attributes}!Control@{Control}}
+\subsubsection[{Attributes}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf Control::Attributes}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_4cc3fdb3e18ee7a3de58185681529778}
+
+
+\hypertarget{class_control_2de06adc1c35f408f8b7997324e9f8dd}{
+\index{Control@{Control}!Children@{Children}}
+\index{Children@{Children}!Control@{Control}}
+\subsubsection[{Children}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<${\bf Control}$\ast$$>$ {\bf Control::Children}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_2de06adc1c35f408f8b7997324e9f8dd}
+
+
+\hypertarget{class_control_f3d70c689cafd1dfe2313199e6a41293}{
+\index{Control@{Control}!Height@{Height}}
+\index{Height@{Height}!Control@{Control}}
+\subsubsection[{Height}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::Height}}}
+\label{class_control_f3d70c689cafd1dfe2313199e6a41293}
+
+
+\hypertarget{class_control_8bb1b2b7c3a9c7ed2aabf992d0dbf544}{
+\index{Control@{Control}!m\_\-Callback@{m\_\-Callback}}
+\index{m\_\-Callback@{m\_\-Callback}!Control@{Control}}
+\subsubsection[{m\_\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}boost::function$<$void() $>$ {\bf Control::m\_\-Callback}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_8bb1b2b7c3a9c7ed2aabf992d0dbf544}
+
+
+\hypertarget{class_control_e0c10471d5ed6637afa9bd10b828016b}{
+\index{Control@{Control}!MouseOverChild@{MouseOverChild}}
+\index{MouseOverChild@{MouseOverChild}!Control@{Control}}
+\subsubsection[{MouseOverChild}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control}$\ast$ {\bf Control::MouseOverChild}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_e0c10471d5ed6637afa9bd10b828016b}
+
+
+\hypertarget{class_control_8640e0ab6a79e5d6a65f8c0ae372cc5e}{
+\index{Control@{Control}!Parent@{Parent}}
+\index{Parent@{Parent}!Control@{Control}}
+\subsubsection[{Parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control}$\ast$ {\bf Control::Parent}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_8640e0ab6a79e5d6a65f8c0ae372cc5e}
+
+
+\hypertarget{class_control_7bbeb54bfafb6f04b6cb6313c66d4d10}{
+\index{Control@{Control}!Root@{Root}}
+\index{Root@{Root}!Control@{Control}}
+\subsubsection[{Root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Window}$\ast$ {\bf Control::Root}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_control_7bbeb54bfafb6f04b6cb6313c66d4d10}
+
+
+\hypertarget{class_control_caf55f6d777a0e64c18ccbd01c245ba1}{
+\index{Control@{Control}!s@{s}}
+\index{s@{s}!Control@{Control}}
+\subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::s}}}
+\label{class_control_caf55f6d777a0e64c18ccbd01c245ba1}
+
+
+\hypertarget{class_control_ddd155abd23b90ae592b2d781eba4fdb}{
+\index{Control@{Control}!s2@{s2}}
+\index{s2@{s2}!Control@{Control}}
+\subsubsection[{s2}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::s2}}}
+\label{class_control_ddd155abd23b90ae592b2d781eba4fdb}
+
+
+\hypertarget{class_control_d51b3671315b6be1c2ee5a449e5c8682}{
+\index{Control@{Control}!t@{t}}
+\index{t@{t}!Control@{Control}}
+\subsubsection[{t}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::t}}}
+\label{class_control_d51b3671315b6be1c2ee5a449e5c8682}
+
+
+\hypertarget{class_control_760fb4113b3bc7da97f90a2777b2f505}{
+\index{Control@{Control}!t2@{t2}}
+\index{t2@{t2}!Control@{Control}}
+\subsubsection[{t2}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::t2}}}
+\label{class_control_760fb4113b3bc7da97f90a2777b2f505}
+
+
+\hypertarget{class_control_a485c96e0ce271b1245ddd2d6bd79675}{
+\index{Control@{Control}!Width@{Width}}
+\index{Width@{Width}!Control@{Control}}
+\subsubsection[{Width}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::Width}}}
+\label{class_control_a485c96e0ce271b1245ddd2d6bd79675}
+
+
+\hypertarget{class_control_a73c00d4474d4eec453c5d8ccda1566d}{
+\index{Control@{Control}!x@{x}}
+\index{x@{x}!Control@{Control}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::x}}}
+\label{class_control_a73c00d4474d4eec453c5d8ccda1566d}
+
+
+\hypertarget{class_control_f2d14a39b8112081f36876da68c1bf0e}{
+\index{Control@{Control}!y@{y}}
+\index{y@{y}!Control@{Control}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Control::y}}}
+\label{class_control_f2d14a39b8112081f36876da68c1bf0e}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{control_8h}{control.h}\item 
+/home/brandon/Dev/guitesting/src/gui/\hyperlink{control_8cpp}{control.cpp}\end{CompactItemize}

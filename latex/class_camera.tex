@@ -1,0 +1,144 @@
+\hypertarget{class_camera}{
+\section{Camera Class Reference}
+\label{class_camera}\index{Camera@{Camera}}
+}
+{\tt \#include $<$camera.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_camera_01f94c3543f56ede7af49dc778f19331}{Camera} ()
+\item 
+\hyperlink{class_camera_d1897942d0ccf91052386388a497349f}{$\sim$Camera} ()
+\item 
+void \hyperlink{class_camera_61958f307ad537f208531b9926fd2353}{SetProjection} (float fovy, float aspecty, float near, float far)
+\item 
+void \hyperlink{class_camera_390dde06b427b5bca332dec8bf3ec96f}{SetOrtho} (float, float, float, float, float, float)
+\item 
+void \hyperlink{class_camera_6bab9bc5cb0e297bbe9b15c260426569}{Move} (float \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, float \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}, float z)
+\item 
+void \hyperlink{class_camera_614035aa2108e212946092789cb487ce}{Rotate} (float \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, float \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}, float z)
+\item 
+float $\ast$ \hyperlink{class_camera_76150532e30d85a51c8abd28cde37628}{GetProjection} ()
+\item 
+float $\ast$ \hyperlink{class_camera_0e9143e16c94bdecf0ca5935a8fe44e7}{GetOrtho} ()
+\item 
+float $\ast$ \hyperlink{class_camera_e9be306be54cbdaf385df04e25955ae7}{GetModelview} ()
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+float \hyperlink{class_camera_ff7393c9cfbccd7e369091f00008da93}{fov}
+\item 
+float \hyperlink{class_camera_181aff3db1ae87a837ddc3a97e5b0f43}{aspect}
+\item 
+float \hyperlink{class_camera_1db2166635ff27594eda3a23130b66ac}{zNear}
+\item 
+float \hyperlink{class_camera_6290469f972a5903c805725db563f41f}{zFar}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_camera_01f94c3543f56ede7af49dc778f19331}{
+\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\subsubsection[{Camera}]{\setlength{\rightskip}{0pt plus 5cm}Camera::Camera ()}}
+\label{class_camera_01f94c3543f56ede7af49dc778f19331}
+
+
+\hypertarget{class_camera_d1897942d0ccf91052386388a497349f}{
+\index{Camera@{Camera}!$\sim$Camera@{$\sim$Camera}}
+\index{$\sim$Camera@{$\sim$Camera}!Camera@{Camera}}
+\subsubsection[{$\sim$Camera}]{\setlength{\rightskip}{0pt plus 5cm}Camera::$\sim$Camera ()}}
+\label{class_camera_d1897942d0ccf91052386388a497349f}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_camera_e9be306be54cbdaf385df04e25955ae7}{
+\index{Camera@{Camera}!GetModelview@{GetModelview}}
+\index{GetModelview@{GetModelview}!Camera@{Camera}}
+\subsubsection[{GetModelview}]{\setlength{\rightskip}{0pt plus 5cm}float $\ast$ Camera::GetModelview ()}}
+\label{class_camera_e9be306be54cbdaf385df04e25955ae7}
+
+
+\hypertarget{class_camera_0e9143e16c94bdecf0ca5935a8fe44e7}{
+\index{Camera@{Camera}!GetOrtho@{GetOrtho}}
+\index{GetOrtho@{GetOrtho}!Camera@{Camera}}
+\subsubsection[{GetOrtho}]{\setlength{\rightskip}{0pt plus 5cm}float $\ast$ Camera::GetOrtho ()}}
+\label{class_camera_0e9143e16c94bdecf0ca5935a8fe44e7}
+
+
+\hypertarget{class_camera_76150532e30d85a51c8abd28cde37628}{
+\index{Camera@{Camera}!GetProjection@{GetProjection}}
+\index{GetProjection@{GetProjection}!Camera@{Camera}}
+\subsubsection[{GetProjection}]{\setlength{\rightskip}{0pt plus 5cm}float $\ast$ Camera::GetProjection ()}}
+\label{class_camera_76150532e30d85a51c8abd28cde37628}
+
+
+\hypertarget{class_camera_6bab9bc5cb0e297bbe9b15c260426569}{
+\index{Camera@{Camera}!Move@{Move}}
+\index{Move@{Move}!Camera@{Camera}}
+\subsubsection[{Move}]{\setlength{\rightskip}{0pt plus 5cm}void Camera::Move (float {\em x}, \/  float {\em y}, \/  float {\em z})}}
+\label{class_camera_6bab9bc5cb0e297bbe9b15c260426569}
+
+
+\hypertarget{class_camera_614035aa2108e212946092789cb487ce}{
+\index{Camera@{Camera}!Rotate@{Rotate}}
+\index{Rotate@{Rotate}!Camera@{Camera}}
+\subsubsection[{Rotate}]{\setlength{\rightskip}{0pt plus 5cm}void Camera::Rotate (float {\em x}, \/  float {\em y}, \/  float {\em z})}}
+\label{class_camera_614035aa2108e212946092789cb487ce}
+
+
+\hypertarget{class_camera_390dde06b427b5bca332dec8bf3ec96f}{
+\index{Camera@{Camera}!SetOrtho@{SetOrtho}}
+\index{SetOrtho@{SetOrtho}!Camera@{Camera}}
+\subsubsection[{SetOrtho}]{\setlength{\rightskip}{0pt plus 5cm}void Camera::SetOrtho (float {\em left}, \/  float {\em right}, \/  float {\em bottom}, \/  float {\em top}, \/  float {\em near}, \/  float {\em far})}}
+\label{class_camera_390dde06b427b5bca332dec8bf3ec96f}
+
+
+\hypertarget{class_camera_61958f307ad537f208531b9926fd2353}{
+\index{Camera@{Camera}!SetProjection@{SetProjection}}
+\index{SetProjection@{SetProjection}!Camera@{Camera}}
+\subsubsection[{SetProjection}]{\setlength{\rightskip}{0pt plus 5cm}void Camera::SetProjection (float {\em fovy}, \/  float {\em aspecty}, \/  float {\em near}, \/  float {\em far})}}
+\label{class_camera_61958f307ad537f208531b9926fd2353}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_camera_181aff3db1ae87a837ddc3a97e5b0f43}{
+\index{Camera@{Camera}!aspect@{aspect}}
+\index{aspect@{aspect}!Camera@{Camera}}
+\subsubsection[{aspect}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Camera::aspect}}}
+\label{class_camera_181aff3db1ae87a837ddc3a97e5b0f43}
+
+
+\hypertarget{class_camera_ff7393c9cfbccd7e369091f00008da93}{
+\index{Camera@{Camera}!fov@{fov}}
+\index{fov@{fov}!Camera@{Camera}}
+\subsubsection[{fov}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Camera::fov}}}
+\label{class_camera_ff7393c9cfbccd7e369091f00008da93}
+
+
+\hypertarget{class_camera_6290469f972a5903c805725db563f41f}{
+\index{Camera@{Camera}!zFar@{zFar}}
+\index{zFar@{zFar}!Camera@{Camera}}
+\subsubsection[{zFar}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Camera::zFar}}}
+\label{class_camera_6290469f972a5903c805725db563f41f}
+
+
+\hypertarget{class_camera_1db2166635ff27594eda3a23130b66ac}{
+\index{Camera@{Camera}!zNear@{zNear}}
+\index{zNear@{zNear}!Camera@{Camera}}
+\subsubsection[{zNear}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf Camera::zNear}}}
+\label{class_camera_1db2166635ff27594eda3a23130b66ac}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{camera_8h}{camera.h}\item 
+/home/brandon/Dev/guitesting/src/\hyperlink{camera_8cpp}{camera.cpp}\end{CompactItemize}

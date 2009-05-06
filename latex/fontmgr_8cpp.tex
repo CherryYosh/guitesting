@@ -1,0 +1,125 @@
+\hypertarget{fontmgr_8cpp}{
+\section{/home/brandon/Dev/guitesting/src/fontmgr.cpp File Reference}
+\label{fontmgr_8cpp}\index{/home/brandon/Dev/guitesting/src/fontmgr.cpp@{/home/brandon/Dev/guitesting/src/fontmgr.cpp}}
+}
+{\tt \#include $<$GL/glew.h$>$}\par
+{\tt \#include $<$GL/gl.h$>$}\par
+{\tt \#include $<$GL/glext.h$>$}\par
+{\tt \#include $<$GL/glu.h$>$}\par
+{\tt \#include \char`\"{}myext.h\char`\"{}}\par
+{\tt \#include \char`\"{}nvMatrix.h\char`\"{}}\par
+{\tt \#include \char`\"{}nvVector.h\char`\"{}}\par
+{\tt \#include $<$ft2build.h$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{struct_glyph}{Glyph}
+\item 
+struct \hyperlink{struct_font}{Font}
+\item 
+struct \hyperlink{struct_font___v_b_o_data}{Font\_\-VBOData}
+\item 
+struct \hyperlink{struct_font_char}{FontChar}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{fontmgr_8cpp_20c8986129cfea2bda178d5df12d8945}{FontMgr\_\-Init} ()
+\item 
+void \hyperlink{fontmgr_8cpp_faa3f33e868935c4f554240421695cd6}{FontMgr\_\-Release} ()
+\item 
+void \hyperlink{fontmgr_8cpp_9b87df941ddd8d434ec16820d074e615}{FontMgr\_\-LoadFont} (int fontID, const char $\ast$fontname, int fontsize)
+\item 
+void \hyperlink{fontmgr_8cpp_2e610df14871e408666df9ae30261ed6}{FontMgr\_\-GetCharData} (int font, char p, \hyperlink{struct_font_char}{FontChar} \&c)
+\item 
+int \hyperlink{fontmgr_8cpp_2c0ea07aae9df7501e0024576b12aa55}{FontMgr\_\-GetFontAscender} (int fontID)
+\item 
+int \hyperlink{fontmgr_8cpp_cac515142f4a6811f08b806edd79b57e}{FontMgr\_\-GetFontDescender} (int fontID)
+\item 
+unsigned int \hyperlink{fontmgr_8cpp_d8cc13d15f1bf7d2351aa02d18f75c3b}{FontMgr\_\-GetLineHeight} (int fontID)
+\item 
+unsigned int \hyperlink{fontmgr_8cpp_fc784af23e013e8e9781568f383a2f6d}{FontMgr\_\-GetStringWidth} (int fontID, const char $\ast$text)
+\item 
+unsigned int \hyperlink{fontmgr_8cpp_7cf96a4a806a8bfacc20735b1558d487}{FontMgr\_\-GetImage} (int fontID)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+FT\_\-Library \hyperlink{fontmgr_8cpp_b4d76021030859eecd1bfe3cbf803551}{library}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{fontmgr_8cpp_2e610df14871e408666df9ae30261ed6}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetCharData@{FontMgr\_\-GetCharData}}
+\index{FontMgr\_\-GetCharData@{FontMgr\_\-GetCharData}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetCharData}]{\setlength{\rightskip}{0pt plus 5cm}void FontMgr\_\-GetCharData (int {\em font}, \/  char {\em p}, \/  {\bf FontChar} \& {\em c})}}
+\label{fontmgr_8cpp_2e610df14871e408666df9ae30261ed6}
+
+
+\hypertarget{fontmgr_8cpp_2c0ea07aae9df7501e0024576b12aa55}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetFontAscender@{FontMgr\_\-GetFontAscender}}
+\index{FontMgr\_\-GetFontAscender@{FontMgr\_\-GetFontAscender}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetFontAscender}]{\setlength{\rightskip}{0pt plus 5cm}int FontMgr\_\-GetFontAscender (int {\em fontID})}}
+\label{fontmgr_8cpp_2c0ea07aae9df7501e0024576b12aa55}
+
+
+\hypertarget{fontmgr_8cpp_cac515142f4a6811f08b806edd79b57e}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetFontDescender@{FontMgr\_\-GetFontDescender}}
+\index{FontMgr\_\-GetFontDescender@{FontMgr\_\-GetFontDescender}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetFontDescender}]{\setlength{\rightskip}{0pt plus 5cm}int FontMgr\_\-GetFontDescender (int {\em fontID})}}
+\label{fontmgr_8cpp_cac515142f4a6811f08b806edd79b57e}
+
+
+\hypertarget{fontmgr_8cpp_7cf96a4a806a8bfacc20735b1558d487}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetImage@{FontMgr\_\-GetImage}}
+\index{FontMgr\_\-GetImage@{FontMgr\_\-GetImage}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetImage}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int FontMgr\_\-GetImage (int {\em fontID})}}
+\label{fontmgr_8cpp_7cf96a4a806a8bfacc20735b1558d487}
+
+
+\hypertarget{fontmgr_8cpp_d8cc13d15f1bf7d2351aa02d18f75c3b}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetLineHeight@{FontMgr\_\-GetLineHeight}}
+\index{FontMgr\_\-GetLineHeight@{FontMgr\_\-GetLineHeight}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetLineHeight}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int FontMgr\_\-GetLineHeight (int {\em fontID})}}
+\label{fontmgr_8cpp_d8cc13d15f1bf7d2351aa02d18f75c3b}
+
+
+\hypertarget{fontmgr_8cpp_fc784af23e013e8e9781568f383a2f6d}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-GetStringWidth@{FontMgr\_\-GetStringWidth}}
+\index{FontMgr\_\-GetStringWidth@{FontMgr\_\-GetStringWidth}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-GetStringWidth}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int FontMgr\_\-GetStringWidth (int {\em fontID}, \/  const char $\ast$ {\em text})}}
+\label{fontmgr_8cpp_fc784af23e013e8e9781568f383a2f6d}
+
+
+\hypertarget{fontmgr_8cpp_20c8986129cfea2bda178d5df12d8945}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-Init@{FontMgr\_\-Init}}
+\index{FontMgr\_\-Init@{FontMgr\_\-Init}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void FontMgr\_\-Init ()}}
+\label{fontmgr_8cpp_20c8986129cfea2bda178d5df12d8945}
+
+
+\hypertarget{fontmgr_8cpp_9b87df941ddd8d434ec16820d074e615}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-LoadFont@{FontMgr\_\-LoadFont}}
+\index{FontMgr\_\-LoadFont@{FontMgr\_\-LoadFont}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-LoadFont}]{\setlength{\rightskip}{0pt plus 5cm}void FontMgr\_\-LoadFont (int {\em fontID}, \/  const char $\ast$ {\em fontname}, \/  int {\em fontsize})}}
+\label{fontmgr_8cpp_9b87df941ddd8d434ec16820d074e615}
+
+
+\hypertarget{fontmgr_8cpp_faa3f33e868935c4f554240421695cd6}{
+\index{fontmgr.cpp@{fontmgr.cpp}!FontMgr\_\-Release@{FontMgr\_\-Release}}
+\index{FontMgr\_\-Release@{FontMgr\_\-Release}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{FontMgr\_\-Release}]{\setlength{\rightskip}{0pt plus 5cm}void FontMgr\_\-Release ()}}
+\label{fontmgr_8cpp_faa3f33e868935c4f554240421695cd6}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{fontmgr_8cpp_b4d76021030859eecd1bfe3cbf803551}{
+\index{fontmgr.cpp@{fontmgr.cpp}!library@{library}}
+\index{library@{library}!fontmgr.cpp@{fontmgr.cpp}}
+\subsubsection[{library}]{\setlength{\rightskip}{0pt plus 5cm}FT\_\-Library {\bf library}}}
+\label{fontmgr_8cpp_b4d76021030859eecd1bfe3cbf803551}
+
+

@@ -1,0 +1,121 @@
+\hypertarget{image_8cpp}{
+\section{/home/brandon/Dev/guitesting/src/renderer/ogl/image.cpp File Reference}
+\label{image_8cpp}\index{/home/brandon/Dev/guitesting/src/renderer/ogl/image.cpp@{/home/brandon/Dev/guitesting/src/renderer/ogl/image.cpp}}
+}
+{\tt \#include \char`\"{}image.h\char`\"{}}\par
+{\tt \#include $<$IL/ilu.h$>$}\par
+{\tt \#include $<$IL/ilut.h$>$}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{image_8cpp_c2d6f66761f15126c905ad24d1d2b69a}{Image\_\-Init} ()
+\item 
+ILuint \hyperlink{image_8cpp_fdb9db396fdfab2868cf02ec6edc9ee3}{Image\_\-LoadImage} (const char $\ast$filename, bool unbind)
+\item 
+ILuint \hyperlink{image_8cpp_e55f568cc605c2f02cda22eb09d57a4b}{Image\_\-GetImageHeight} ()
+\item 
+ILuint \hyperlink{image_8cpp_06f08a5c102fb481aa300a774a12212b}{Image\_\-GetImageWidth} ()
+\item 
+ILuint \hyperlink{image_8cpp_a989d441f595baf0e9761ed0756737a9}{Image\_\-GetImageFormat} ()
+\item 
+ILuint \hyperlink{image_8cpp_a901a74a4d262a6599c1c2e23854c851}{Image\_\-GetBPP} ()
+\item 
+ILuint \hyperlink{image_8cpp_03da27d1d1ab690e0f8fb8ab31267a7f}{Image\_\-GetBitsPerPixel} ()
+\item 
+ILubyte $\ast$ \hyperlink{image_8cpp_17e7aa84b4368f66d14e5a08c72e2b21}{Image\_\-GetImageData} ()
+\item 
+GLuint \hyperlink{image_8cpp_f280a0fea419035982e440d519ff6140}{Image\_\-GetGLTexture} ()
+\item 
+GLuint \hyperlink{image_8cpp_2529d526d5e2aa3a1a6b846582ab51b4}{Image\_\-GetGLTexture} (const char $\ast$filename, unsigned int $\ast$width, unsigned int $\ast$height)
+\item 
+void \hyperlink{image_8cpp_3c697ee38800b862400fdb5bd029c2cf}{Image\_\-BindImage} (ILuint id)
+\item 
+void \hyperlink{image_8cpp_ce1b484a96ee92fba42c73a095c7a465}{Image\_\-DeleteImage} (ILuint id)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{image_8cpp_3c697ee38800b862400fdb5bd029c2cf}{
+\index{image.cpp@{image.cpp}!Image\_\-BindImage@{Image\_\-BindImage}}
+\index{Image\_\-BindImage@{Image\_\-BindImage}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-BindImage}]{\setlength{\rightskip}{0pt plus 5cm}void Image\_\-BindImage (ILuint {\em id})}}
+\label{image_8cpp_3c697ee38800b862400fdb5bd029c2cf}
+
+
+\hypertarget{image_8cpp_ce1b484a96ee92fba42c73a095c7a465}{
+\index{image.cpp@{image.cpp}!Image\_\-DeleteImage@{Image\_\-DeleteImage}}
+\index{Image\_\-DeleteImage@{Image\_\-DeleteImage}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-DeleteImage}]{\setlength{\rightskip}{0pt plus 5cm}void Image\_\-DeleteImage (ILuint {\em id})}}
+\label{image_8cpp_ce1b484a96ee92fba42c73a095c7a465}
+
+
+\hypertarget{image_8cpp_03da27d1d1ab690e0f8fb8ab31267a7f}{
+\index{image.cpp@{image.cpp}!Image\_\-GetBitsPerPixel@{Image\_\-GetBitsPerPixel}}
+\index{Image\_\-GetBitsPerPixel@{Image\_\-GetBitsPerPixel}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetBitsPerPixel}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-GetBitsPerPixel ()}}
+\label{image_8cpp_03da27d1d1ab690e0f8fb8ab31267a7f}
+
+
+\hypertarget{image_8cpp_a901a74a4d262a6599c1c2e23854c851}{
+\index{image.cpp@{image.cpp}!Image\_\-GetBPP@{Image\_\-GetBPP}}
+\index{Image\_\-GetBPP@{Image\_\-GetBPP}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetBPP}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-GetBPP ()}}
+\label{image_8cpp_a901a74a4d262a6599c1c2e23854c851}
+
+
+\hypertarget{image_8cpp_2529d526d5e2aa3a1a6b846582ab51b4}{
+\index{image.cpp@{image.cpp}!Image\_\-GetGLTexture@{Image\_\-GetGLTexture}}
+\index{Image\_\-GetGLTexture@{Image\_\-GetGLTexture}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetGLTexture}]{\setlength{\rightskip}{0pt plus 5cm}GLuint Image\_\-GetGLTexture (const char $\ast$ {\em filename}, \/  unsigned int $\ast$ {\em width}, \/  unsigned int $\ast$ {\em height})}}
+\label{image_8cpp_2529d526d5e2aa3a1a6b846582ab51b4}
+
+
+\hypertarget{image_8cpp_f280a0fea419035982e440d519ff6140}{
+\index{image.cpp@{image.cpp}!Image\_\-GetGLTexture@{Image\_\-GetGLTexture}}
+\index{Image\_\-GetGLTexture@{Image\_\-GetGLTexture}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetGLTexture}]{\setlength{\rightskip}{0pt plus 5cm}GLuint Image\_\-GetGLTexture ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{image_8cpp_f280a0fea419035982e440d519ff6140}
+
+
+\hypertarget{image_8cpp_17e7aa84b4368f66d14e5a08c72e2b21}{
+\index{image.cpp@{image.cpp}!Image\_\-GetImageData@{Image\_\-GetImageData}}
+\index{Image\_\-GetImageData@{Image\_\-GetImageData}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetImageData}]{\setlength{\rightskip}{0pt plus 5cm}ILubyte$\ast$ Image\_\-GetImageData ()}}
+\label{image_8cpp_17e7aa84b4368f66d14e5a08c72e2b21}
+
+
+\hypertarget{image_8cpp_a989d441f595baf0e9761ed0756737a9}{
+\index{image.cpp@{image.cpp}!Image\_\-GetImageFormat@{Image\_\-GetImageFormat}}
+\index{Image\_\-GetImageFormat@{Image\_\-GetImageFormat}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetImageFormat}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-GetImageFormat ()}}
+\label{image_8cpp_a989d441f595baf0e9761ed0756737a9}
+
+
+\hypertarget{image_8cpp_e55f568cc605c2f02cda22eb09d57a4b}{
+\index{image.cpp@{image.cpp}!Image\_\-GetImageHeight@{Image\_\-GetImageHeight}}
+\index{Image\_\-GetImageHeight@{Image\_\-GetImageHeight}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetImageHeight}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-GetImageHeight ()}}
+\label{image_8cpp_e55f568cc605c2f02cda22eb09d57a4b}
+
+
+\hypertarget{image_8cpp_06f08a5c102fb481aa300a774a12212b}{
+\index{image.cpp@{image.cpp}!Image\_\-GetImageWidth@{Image\_\-GetImageWidth}}
+\index{Image\_\-GetImageWidth@{Image\_\-GetImageWidth}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-GetImageWidth}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-GetImageWidth ()}}
+\label{image_8cpp_06f08a5c102fb481aa300a774a12212b}
+
+
+\hypertarget{image_8cpp_c2d6f66761f15126c905ad24d1d2b69a}{
+\index{image.cpp@{image.cpp}!Image\_\-Init@{Image\_\-Init}}
+\index{Image\_\-Init@{Image\_\-Init}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-Init}]{\setlength{\rightskip}{0pt plus 5cm}bool Image\_\-Init ()}}
+\label{image_8cpp_c2d6f66761f15126c905ad24d1d2b69a}
+
+
+\hypertarget{image_8cpp_fdb9db396fdfab2868cf02ec6edc9ee3}{
+\index{image.cpp@{image.cpp}!Image\_\-LoadImage@{Image\_\-LoadImage}}
+\index{Image\_\-LoadImage@{Image\_\-LoadImage}!image.cpp@{image.cpp}}
+\subsubsection[{Image\_\-LoadImage}]{\setlength{\rightskip}{0pt plus 5cm}ILuint Image\_\-LoadImage (const char $\ast$ {\em filename}, \/  bool {\em unbind})}}
+\label{image_8cpp_fdb9db396fdfab2868cf02ec6edc9ee3}
+
+

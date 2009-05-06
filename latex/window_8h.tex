@@ -1,0 +1,223 @@
+\hypertarget{window_8h}{
+\section{/home/brandon/Dev/guitesting/src/gui/window.h File Reference}
+\label{window_8h}\index{/home/brandon/Dev/guitesting/src/gui/window.h@{/home/brandon/Dev/guitesting/src/gui/window.h}}
+}
+{\tt \#include \char`\"{}control.h\char`\"{}}\par
+{\tt \#include \char`\"{}../renderer/renderer.h\char`\"{}}\par
+{\tt \#include \char`\"{}../nvMatrix.h\char`\"{}}\par
+{\tt \#include \char`\"{}../nvVector.h\char`\"{}}\par
+{\tt \#include $<$vector$>$}\par
+{\tt \#include $<$list$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class \hyperlink{class_window}{Window}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{window_8h_73ee4ea23f83349678ba6dc253aca6e6}{BITSHIFT}(\hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x})~1 $<$$<$ \hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}
+\item 
+\#define \hyperlink{window_8h_08b48f4874e085b532102ae41f556861}{BITSHIFT2}(\hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x}, \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y})~\hyperlink{mouse_8cpp_6150e0515f7202e2fb518f7206ed97dc}{x} $<$$<$ \hyperlink{mouse_8cpp_0a2f84ed7838f07779ae24c5a9086d33}{y}
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum \{ \par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b565e5bcebe2ba1ddb1414521eb5aa3a3}{TRANSLATEX} =  BITSHIFT(0), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b898cd7f65e778dff5c0b749b06826992}{TRANSLATEY}, 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bf4094efa14b08a67a3e83147d5b16537}{TRANSLATEXY}, 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b5df8f63f3f81cb01dc2dd6b08869573e}{TRANSLATEZ}, 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b8a713dae5a729aa1e045e7efc4e8d467}{TRANSLATEXYZ} =  BITSHIFT2(0x07, 0), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bb944f81a4a493e458685f1abb965c9b3}{ROTATEX} =  BITSHIFT(3), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b443dd4748f6445274d0fd48ea26c69e6}{ROTATEY} =  BITSHIFT(4), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b9810a5ea2879b3bca7a9ae9346f958c8}{ROTATEXY} =  BITSHIFT2(0x03, 3), 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bcadaa82d6b2456d09ae00476317eda8f}{ROTATEZ} =  BITSHIFT(5), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b041cf7882e8b6e975447e34a49795a32}{ROTATEXYZ} =  BITSHIFT2(0x07, 3), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b310714c96d7e48521863da7527616ee4}{ROTATEORGX} =  BITSHIFT(6), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55be440e5f63d4eccf97f3ad2940179d095}{ROTATEORGY} =  BITSHIFT(7), 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b9ca0a71326bc5a6ecb999b6cde8580fc}{ROTATEORGXY} =  BITSHIFT2(0x03, 6), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b1b11c8f91bf67021905e3d90a127fe86}{ROTATEORGZ} =  BITSHIFT(8), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b953113738a0130accd33754e47a96916}{ROTATEORGXYZ} =  BITSHIFT2(0x07, 6), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bb05748f7f5e86682986cae5fafafcf86}{ROTATESCREENX} =  BITSHIFT(9), 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b18f7089f93f76e42f2ee7f186a774ba1}{ROTATESCREENY} =  BITSHIFT(10), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b090590b4694f5c32f9cc6e61d354f2af}{ROTATESCREENXY} =  BITSHIFT2(0x03, 9), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b5f2bb1a602ec60e5121fde051ae2cdc0}{ROTATESCREENZ} =  BITSHIFT(11), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bb20bbec22815cbda31930da55ea8173e}{ROTATESCREENXYZ} =  BITSHIFT2(0x07, 9), 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b0d87712e568fa6fdd0e35ccd05b75bb7}{REDCHANNEL} =  BITSHIFT(12), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b17566e5c6006a1ab8666836abcfc5d9d}{GREENCHANNEL} =  BITSHIFT(13), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bf196c8637cb5ae7fe7d55ff9ff218d56}{RGCHANNEL} =  BITSHIFT2(0x03, 12), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b8cc1452880f42655ef22cc63b0d51cb5}{BLUECHANNEL} =  BITSHIFT(14), 
+\par
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55bb102a1eb049773ac36b5f591224ae59a}{RGBCHANNEL} =  BITSHIFT2(0x07, 12), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b43fc62f1e26e3785c46e8e3c5fa7f93b}{ALPHACHANNEL} =  BITSHIFT(15), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b940f2aad663657844239a7a75c51c354}{RGBACHANNEL} =  BITSHIFT2(0x0F, 12), 
+\hyperlink{window_8h_06fc87d81c62e9abb8790b6e5713c55b728ec6e0f245351afc27c40f4161d4c9}{ORIGIN} =  BITSHIFT(16)
+ \}
+\item 
+enum \{ \hyperlink{window_8h_df764cbdea00d65edcd07bb9953ad2b7dc101ebf31c49c2d4b80b7c6f59f22cb}{LINEAR} =  0
+ \}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{window_8h_73ee4ea23f83349678ba6dc253aca6e6}{
+\index{window.h@{window.h}!BITSHIFT@{BITSHIFT}}
+\index{BITSHIFT@{BITSHIFT}!window.h@{window.h}}
+\subsubsection[{BITSHIFT}]{\setlength{\rightskip}{0pt plus 5cm}\#define BITSHIFT({\bf x})~1 $<$$<$ {\bf x}}}
+\label{window_8h_73ee4ea23f83349678ba6dc253aca6e6}
+
+
+\hypertarget{window_8h_08b48f4874e085b532102ae41f556861}{
+\index{window.h@{window.h}!BITSHIFT2@{BITSHIFT2}}
+\index{BITSHIFT2@{BITSHIFT2}!window.h@{window.h}}
+\subsubsection[{BITSHIFT2}]{\setlength{\rightskip}{0pt plus 5cm}\#define BITSHIFT2({\bf x}, \/  {\bf y})~{\bf x} $<$$<$ {\bf y}}}
+\label{window_8h_08b48f4874e085b532102ae41f556861}
+
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b}{
+\subsubsection[{"@0}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b}
+
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{TRANSLATEX@{TRANSLATEX}!window.h@{window.h}}\index{window.h@{window.h}!TRANSLATEX@{TRANSLATEX}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b565e5bcebe2ba1ddb1414521eb5aa3a3}{
+TRANSLATEX}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b565e5bcebe2ba1ddb1414521eb5aa3a3}
+}]\index{TRANSLATEY@{TRANSLATEY}!window.h@{window.h}}\index{window.h@{window.h}!TRANSLATEY@{TRANSLATEY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b898cd7f65e778dff5c0b749b06826992}{
+TRANSLATEY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b898cd7f65e778dff5c0b749b06826992}
+}]\index{TRANSLATEXY@{TRANSLATEXY}!window.h@{window.h}}\index{window.h@{window.h}!TRANSLATEXY@{TRANSLATEXY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bf4094efa14b08a67a3e83147d5b16537}{
+TRANSLATEXY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bf4094efa14b08a67a3e83147d5b16537}
+}]\index{TRANSLATEZ@{TRANSLATEZ}!window.h@{window.h}}\index{window.h@{window.h}!TRANSLATEZ@{TRANSLATEZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b5df8f63f3f81cb01dc2dd6b08869573e}{
+TRANSLATEZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b5df8f63f3f81cb01dc2dd6b08869573e}
+}]\index{TRANSLATEXYZ@{TRANSLATEXYZ}!window.h@{window.h}}\index{window.h@{window.h}!TRANSLATEXYZ@{TRANSLATEXYZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b8a713dae5a729aa1e045e7efc4e8d467}{
+TRANSLATEXYZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b8a713dae5a729aa1e045e7efc4e8d467}
+}]\index{ROTATEX@{ROTATEX}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEX@{ROTATEX}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bb944f81a4a493e458685f1abb965c9b3}{
+ROTATEX}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bb944f81a4a493e458685f1abb965c9b3}
+}]\index{ROTATEY@{ROTATEY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEY@{ROTATEY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b443dd4748f6445274d0fd48ea26c69e6}{
+ROTATEY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b443dd4748f6445274d0fd48ea26c69e6}
+}]\index{ROTATEXY@{ROTATEXY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEXY@{ROTATEXY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b9810a5ea2879b3bca7a9ae9346f958c8}{
+ROTATEXY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b9810a5ea2879b3bca7a9ae9346f958c8}
+}]\index{ROTATEZ@{ROTATEZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEZ@{ROTATEZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bcadaa82d6b2456d09ae00476317eda8f}{
+ROTATEZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bcadaa82d6b2456d09ae00476317eda8f}
+}]\index{ROTATEXYZ@{ROTATEXYZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEXYZ@{ROTATEXYZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b041cf7882e8b6e975447e34a49795a32}{
+ROTATEXYZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b041cf7882e8b6e975447e34a49795a32}
+}]\index{ROTATEORGX@{ROTATEORGX}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEORGX@{ROTATEORGX}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b310714c96d7e48521863da7527616ee4}{
+ROTATEORGX}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b310714c96d7e48521863da7527616ee4}
+}]\index{ROTATEORGY@{ROTATEORGY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEORGY@{ROTATEORGY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55be440e5f63d4eccf97f3ad2940179d095}{
+ROTATEORGY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55be440e5f63d4eccf97f3ad2940179d095}
+}]\index{ROTATEORGXY@{ROTATEORGXY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEORGXY@{ROTATEORGXY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b9ca0a71326bc5a6ecb999b6cde8580fc}{
+ROTATEORGXY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b9ca0a71326bc5a6ecb999b6cde8580fc}
+}]\index{ROTATEORGZ@{ROTATEORGZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEORGZ@{ROTATEORGZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b1b11c8f91bf67021905e3d90a127fe86}{
+ROTATEORGZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b1b11c8f91bf67021905e3d90a127fe86}
+}]\index{ROTATEORGXYZ@{ROTATEORGXYZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATEORGXYZ@{ROTATEORGXYZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b953113738a0130accd33754e47a96916}{
+ROTATEORGXYZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b953113738a0130accd33754e47a96916}
+}]\index{ROTATESCREENX@{ROTATESCREENX}!window.h@{window.h}}\index{window.h@{window.h}!ROTATESCREENX@{ROTATESCREENX}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bb05748f7f5e86682986cae5fafafcf86}{
+ROTATESCREENX}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bb05748f7f5e86682986cae5fafafcf86}
+}]\index{ROTATESCREENY@{ROTATESCREENY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATESCREENY@{ROTATESCREENY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b18f7089f93f76e42f2ee7f186a774ba1}{
+ROTATESCREENY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b18f7089f93f76e42f2ee7f186a774ba1}
+}]\index{ROTATESCREENXY@{ROTATESCREENXY}!window.h@{window.h}}\index{window.h@{window.h}!ROTATESCREENXY@{ROTATESCREENXY}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b090590b4694f5c32f9cc6e61d354f2af}{
+ROTATESCREENXY}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b090590b4694f5c32f9cc6e61d354f2af}
+}]\index{ROTATESCREENZ@{ROTATESCREENZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATESCREENZ@{ROTATESCREENZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b5f2bb1a602ec60e5121fde051ae2cdc0}{
+ROTATESCREENZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b5f2bb1a602ec60e5121fde051ae2cdc0}
+}]\index{ROTATESCREENXYZ@{ROTATESCREENXYZ}!window.h@{window.h}}\index{window.h@{window.h}!ROTATESCREENXYZ@{ROTATESCREENXYZ}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bb20bbec22815cbda31930da55ea8173e}{
+ROTATESCREENXYZ}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bb20bbec22815cbda31930da55ea8173e}
+}]\index{REDCHANNEL@{REDCHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!REDCHANNEL@{REDCHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b0d87712e568fa6fdd0e35ccd05b75bb7}{
+REDCHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b0d87712e568fa6fdd0e35ccd05b75bb7}
+}]\index{GREENCHANNEL@{GREENCHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!GREENCHANNEL@{GREENCHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b17566e5c6006a1ab8666836abcfc5d9d}{
+GREENCHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b17566e5c6006a1ab8666836abcfc5d9d}
+}]\index{RGCHANNEL@{RGCHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!RGCHANNEL@{RGCHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bf196c8637cb5ae7fe7d55ff9ff218d56}{
+RGCHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bf196c8637cb5ae7fe7d55ff9ff218d56}
+}]\index{BLUECHANNEL@{BLUECHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!BLUECHANNEL@{BLUECHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b8cc1452880f42655ef22cc63b0d51cb5}{
+BLUECHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b8cc1452880f42655ef22cc63b0d51cb5}
+}]\index{RGBCHANNEL@{RGBCHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!RGBCHANNEL@{RGBCHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55bb102a1eb049773ac36b5f591224ae59a}{
+RGBCHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55bb102a1eb049773ac36b5f591224ae59a}
+}]\index{ALPHACHANNEL@{ALPHACHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!ALPHACHANNEL@{ALPHACHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b43fc62f1e26e3785c46e8e3c5fa7f93b}{
+ALPHACHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b43fc62f1e26e3785c46e8e3c5fa7f93b}
+}]\index{RGBACHANNEL@{RGBACHANNEL}!window.h@{window.h}}\index{window.h@{window.h}!RGBACHANNEL@{RGBACHANNEL}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b940f2aad663657844239a7a75c51c354}{
+RGBACHANNEL}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b940f2aad663657844239a7a75c51c354}
+}]\index{ORIGIN@{ORIGIN}!window.h@{window.h}}\index{window.h@{window.h}!ORIGIN@{ORIGIN}}\item[{\em 
+\hypertarget{window_8h_06fc87d81c62e9abb8790b6e5713c55b728ec6e0f245351afc27c40f4161d4c9}{
+ORIGIN}
+\label{window_8h_06fc87d81c62e9abb8790b6e5713c55b728ec6e0f245351afc27c40f4161d4c9}
+}]\end{description}
+\end{Desc}
+
+\hypertarget{window_8h_df764cbdea00d65edcd07bb9953ad2b7}{
+\subsubsection[{"@1}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}
+\label{window_8h_df764cbdea00d65edcd07bb9953ad2b7}
+
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{LINEAR@{LINEAR}!window.h@{window.h}}\index{window.h@{window.h}!LINEAR@{LINEAR}}\item[{\em 
+\hypertarget{window_8h_df764cbdea00d65edcd07bb9953ad2b7dc101ebf31c49c2d4b80b7c6f59f22cb}{
+LINEAR}
+\label{window_8h_df764cbdea00d65edcd07bb9953ad2b7dc101ebf31c49c2d4b80b7c6f59f22cb}
+}]\end{description}
+\end{Desc}
+

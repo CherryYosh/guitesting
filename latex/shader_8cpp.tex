@@ -1,0 +1,75 @@
+\hypertarget{shader_8cpp}{
+\section{/home/brandon/Dev/guitesting/src/renderer/ogl/shader.cpp File Reference}
+\label{shader_8cpp}\index{/home/brandon/Dev/guitesting/src/renderer/ogl/shader.cpp@{/home/brandon/Dev/guitesting/src/renderer/ogl/shader.cpp}}
+}
+{\tt \#include $<$GL/glew.h$>$}\par
+{\tt \#include \char`\"{}shader.h\char`\"{}}\par
+{\tt \#include $<$fstream$>$}\par
+{\tt \#include $<$cstdlib$>$}\par
+{\tt \#include $<$cstring$>$}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{shader_8cpp_9b6bcaae1ef5802c01b6aa3b099092d0}{SHADERPATH}~\char`\"{}./shaders/\char`\"{}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+char $\ast$ \hyperlink{shader_8cpp_eadf632e9276f4dafc598aed04d80586}{ReadShaderFile} (std::string filename)
+\item 
+GLuint \hyperlink{shader_8cpp_9443800da82e3efe64556db173bb42d8}{glslLoadShaderProgram} (std::string vertex, std::string fragment)
+\item 
+void \hyperlink{shader_8cpp_50cd6c9a99b494c49d080db565b6fc14}{printShaderLog} (GLuint shader)
+\item 
+void \hyperlink{shader_8cpp_c6d118b17d59c39172d2042d91a9bf5b}{printProgramLog} (GLuint program)
+\item 
+const char $\ast$ \hyperlink{shader_8cpp_dbd6def494ba30a062c73c6265be1811}{getErrorString} (GLenum error)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{shader_8cpp_9b6bcaae1ef5802c01b6aa3b099092d0}{
+\index{shader.cpp@{shader.cpp}!SHADERPATH@{SHADERPATH}}
+\index{SHADERPATH@{SHADERPATH}!shader.cpp@{shader.cpp}}
+\subsubsection[{SHADERPATH}]{\setlength{\rightskip}{0pt plus 5cm}\#define SHADERPATH~\char`\"{}./shaders/\char`\"{}}}
+\label{shader_8cpp_9b6bcaae1ef5802c01b6aa3b099092d0}
+
+
+
+
+\subsection{Function Documentation}
+\hypertarget{shader_8cpp_dbd6def494ba30a062c73c6265be1811}{
+\index{shader.cpp@{shader.cpp}!getErrorString@{getErrorString}}
+\index{getErrorString@{getErrorString}!shader.cpp@{shader.cpp}}
+\subsubsection[{getErrorString}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ getErrorString (GLenum {\em error})}}
+\label{shader_8cpp_dbd6def494ba30a062c73c6265be1811}
+
+
+\hypertarget{shader_8cpp_9443800da82e3efe64556db173bb42d8}{
+\index{shader.cpp@{shader.cpp}!glslLoadShaderProgram@{glslLoadShaderProgram}}
+\index{glslLoadShaderProgram@{glslLoadShaderProgram}!shader.cpp@{shader.cpp}}
+\subsubsection[{glslLoadShaderProgram}]{\setlength{\rightskip}{0pt plus 5cm}GLuint glslLoadShaderProgram (std::string {\em vertex}, \/  std::string {\em fragment})}}
+\label{shader_8cpp_9443800da82e3efe64556db173bb42d8}
+
+
+\hypertarget{shader_8cpp_c6d118b17d59c39172d2042d91a9bf5b}{
+\index{shader.cpp@{shader.cpp}!printProgramLog@{printProgramLog}}
+\index{printProgramLog@{printProgramLog}!shader.cpp@{shader.cpp}}
+\subsubsection[{printProgramLog}]{\setlength{\rightskip}{0pt plus 5cm}void printProgramLog (GLuint {\em program})}}
+\label{shader_8cpp_c6d118b17d59c39172d2042d91a9bf5b}
+
+
+\hypertarget{shader_8cpp_50cd6c9a99b494c49d080db565b6fc14}{
+\index{shader.cpp@{shader.cpp}!printShaderLog@{printShaderLog}}
+\index{printShaderLog@{printShaderLog}!shader.cpp@{shader.cpp}}
+\subsubsection[{printShaderLog}]{\setlength{\rightskip}{0pt plus 5cm}void printShaderLog (GLuint {\em shader})}}
+\label{shader_8cpp_50cd6c9a99b494c49d080db565b6fc14}
+
+
+\hypertarget{shader_8cpp_eadf632e9276f4dafc598aed04d80586}{
+\index{shader.cpp@{shader.cpp}!ReadShaderFile@{ReadShaderFile}}
+\index{ReadShaderFile@{ReadShaderFile}!shader.cpp@{shader.cpp}}
+\subsubsection[{ReadShaderFile}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ ReadShaderFile (std::string {\em filename})}}
+\label{shader_8cpp_eadf632e9276f4dafc598aed04d80586}
+
+

@@ -1,0 +1,144 @@
+\hypertarget{class_shader}{
+\section{Shader Class Reference}
+\label{class_shader}\index{Shader@{Shader}}
+}
+{\tt \#include $<$shader.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_shader_0d654ebaca4e0555197c0724c6d30610}{Shader} ()
+\item 
+\hyperlink{class_shader_518d41ef6354061360c42a250f1bbc09}{Shader} (std::string)
+\item 
+\hyperlink{class_shader_ff01df87e8a102f270b5b135a295e59d}{$\sim$Shader} ()
+\item 
+bool \hyperlink{class_shader_4a6a8eb7a7ed9dedc46c2abbafb25785}{Load} (std::string shaderName)
+\item 
+void \hyperlink{class_shader_8b5c8c4788d011a65d158ef8428d1ece}{Bind} ()
+\item 
+void \hyperlink{class_shader_a53965ba78cf36b664e1f53d337b1b0b}{Unbind} ()
+\item 
+void \hyperlink{class_shader_145c8bf4d63ca088c78607b692b5d318}{GetUniformLoc} (GLuint uID, std::string name)
+\item 
+void \hyperlink{class_shader_90e9b005fad30ca71a1125bcb9bf74f5}{GetAttributeLoc} (GLuint uID, std::string name)
+\item 
+void \hyperlink{class_shader_212a29a2b803b55a80faf0d55352ba2c}{SetProjection} (float m\mbox{[}16\mbox{]})
+\item 
+void \hyperlink{class_shader_f49e77ad3653d4787ef754e3e495c41b}{SetModelview} (float m\mbox{[}16\mbox{]})
+\item 
+GLuint \hyperlink{class_shader_c77c9f2dc144eeb40c6c07182d69c308}{GetID} ()
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+GLuint \hyperlink{class_shader_2aef3970f9638e967846799ba82469a7}{uniform} \mbox{[}12\mbox{]}
+\item 
+GLuint \hyperlink{class_shader_f0fcdb46ec6b628a3d29412c33a8b18c}{attribute} \mbox{[}12\mbox{]}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_shader_0d654ebaca4e0555197c0724c6d30610}{
+\index{Shader@{Shader}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader@{Shader}}
+\subsubsection[{Shader}]{\setlength{\rightskip}{0pt plus 5cm}Shader::Shader ()}}
+\label{class_shader_0d654ebaca4e0555197c0724c6d30610}
+
+
+\hypertarget{class_shader_518d41ef6354061360c42a250f1bbc09}{
+\index{Shader@{Shader}!Shader@{Shader}}
+\index{Shader@{Shader}!Shader@{Shader}}
+\subsubsection[{Shader}]{\setlength{\rightskip}{0pt plus 5cm}Shader::Shader (std::string {\em name})}}
+\label{class_shader_518d41ef6354061360c42a250f1bbc09}
+
+
+\hypertarget{class_shader_ff01df87e8a102f270b5b135a295e59d}{
+\index{Shader@{Shader}!$\sim$Shader@{$\sim$Shader}}
+\index{$\sim$Shader@{$\sim$Shader}!Shader@{Shader}}
+\subsubsection[{$\sim$Shader}]{\setlength{\rightskip}{0pt plus 5cm}Shader::$\sim$Shader ()}}
+\label{class_shader_ff01df87e8a102f270b5b135a295e59d}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_shader_8b5c8c4788d011a65d158ef8428d1ece}{
+\index{Shader@{Shader}!Bind@{Bind}}
+\index{Bind@{Bind}!Shader@{Shader}}
+\subsubsection[{Bind}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::Bind ()}}
+\label{class_shader_8b5c8c4788d011a65d158ef8428d1ece}
+
+
+\hypertarget{class_shader_90e9b005fad30ca71a1125bcb9bf74f5}{
+\index{Shader@{Shader}!GetAttributeLoc@{GetAttributeLoc}}
+\index{GetAttributeLoc@{GetAttributeLoc}!Shader@{Shader}}
+\subsubsection[{GetAttributeLoc}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::GetAttributeLoc (GLuint {\em uID}, \/  std::string {\em name})}}
+\label{class_shader_90e9b005fad30ca71a1125bcb9bf74f5}
+
+
+\hypertarget{class_shader_c77c9f2dc144eeb40c6c07182d69c308}{
+\index{Shader@{Shader}!GetID@{GetID}}
+\index{GetID@{GetID}!Shader@{Shader}}
+\subsubsection[{GetID}]{\setlength{\rightskip}{0pt plus 5cm}GLuint Shader::GetID ()}}
+\label{class_shader_c77c9f2dc144eeb40c6c07182d69c308}
+
+
+\hypertarget{class_shader_145c8bf4d63ca088c78607b692b5d318}{
+\index{Shader@{Shader}!GetUniformLoc@{GetUniformLoc}}
+\index{GetUniformLoc@{GetUniformLoc}!Shader@{Shader}}
+\subsubsection[{GetUniformLoc}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::GetUniformLoc (GLuint {\em uID}, \/  std::string {\em name})}}
+\label{class_shader_145c8bf4d63ca088c78607b692b5d318}
+
+
+\hypertarget{class_shader_4a6a8eb7a7ed9dedc46c2abbafb25785}{
+\index{Shader@{Shader}!Load@{Load}}
+\index{Load@{Load}!Shader@{Shader}}
+\subsubsection[{Load}]{\setlength{\rightskip}{0pt plus 5cm}bool Shader::Load (std::string {\em shaderName})}}
+\label{class_shader_4a6a8eb7a7ed9dedc46c2abbafb25785}
+
+
+\hypertarget{class_shader_f49e77ad3653d4787ef754e3e495c41b}{
+\index{Shader@{Shader}!SetModelview@{SetModelview}}
+\index{SetModelview@{SetModelview}!Shader@{Shader}}
+\subsubsection[{SetModelview}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::SetModelview (float {\em m}\mbox{[}16\mbox{]})}}
+\label{class_shader_f49e77ad3653d4787ef754e3e495c41b}
+
+
+\hypertarget{class_shader_212a29a2b803b55a80faf0d55352ba2c}{
+\index{Shader@{Shader}!SetProjection@{SetProjection}}
+\index{SetProjection@{SetProjection}!Shader@{Shader}}
+\subsubsection[{SetProjection}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::SetProjection (float {\em m}\mbox{[}16\mbox{]})}}
+\label{class_shader_212a29a2b803b55a80faf0d55352ba2c}
+
+
+\hypertarget{class_shader_a53965ba78cf36b664e1f53d337b1b0b}{
+\index{Shader@{Shader}!Unbind@{Unbind}}
+\index{Unbind@{Unbind}!Shader@{Shader}}
+\subsubsection[{Unbind}]{\setlength{\rightskip}{0pt plus 5cm}void Shader::Unbind ()}}
+\label{class_shader_a53965ba78cf36b664e1f53d337b1b0b}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_shader_f0fcdb46ec6b628a3d29412c33a8b18c}{
+\index{Shader@{Shader}!attribute@{attribute}}
+\index{attribute@{attribute}!Shader@{Shader}}
+\subsubsection[{attribute}]{\setlength{\rightskip}{0pt plus 5cm}GLuint {\bf Shader::attribute}\mbox{[}12\mbox{]}}}
+\label{class_shader_f0fcdb46ec6b628a3d29412c33a8b18c}
+
+
+\hypertarget{class_shader_2aef3970f9638e967846799ba82469a7}{
+\index{Shader@{Shader}!uniform@{uniform}}
+\index{uniform@{uniform}!Shader@{Shader}}
+\subsubsection[{uniform}]{\setlength{\rightskip}{0pt plus 5cm}GLuint {\bf Shader::uniform}\mbox{[}12\mbox{]}}}
+\label{class_shader_2aef3970f9638e967846799ba82469a7}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{shader_8h}{shader.h}\item 
+/home/brandon/Dev/guitesting/src/renderer/ogl/\hyperlink{shader_8cpp}{shader.cpp}\end{CompactItemize}

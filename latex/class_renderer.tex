@@ -1,0 +1,191 @@
+\hypertarget{class_renderer}{
+\section{Renderer Class Reference}
+\label{class_renderer}\index{Renderer@{Renderer}}
+}
+{\tt \#include $<$renderer.h$>$}
+
+Inheritance diagram for Renderer::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_renderer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_renderer_7ebf46f54dab9905f79b80f7fddb76a6}{Renderer} ()
+\item 
+virtual \hyperlink{class_renderer_ba42b60392775e4a492c4d14d4fff29f}{$\sim$Renderer} ()
+\item 
+virtual void \hyperlink{class_renderer_661389d49db8d9508f5a3f9f91d48149}{AddObject} (void $\ast$)
+\item 
+virtual void \hyperlink{class_renderer_28f5bf024a4772cff537683690f62f42}{RemoveObject} (void $\ast$)
+\item 
+virtual void \hyperlink{class_renderer_7f24c7de101eff6bd26906c0555f8610}{Begin} ()
+\item 
+virtual void \hyperlink{class_renderer_ae3d98a69fb55e9042306ba1621cd8d5}{Render} ()
+\item 
+virtual void \hyperlink{class_renderer_d08d100b0c4d2f57417a06ceaaa2ba4e}{End} ()
+\item 
+virtual void \hyperlink{class_renderer_91f20cf8d7e9d12db1725cc15ca16d96}{Draw} ()
+\item 
+virtual void \hyperlink{class_renderer_025a064cb583ac6677a4b9a6099e0378}{Refresh} ()
+\item 
+virtual void \hyperlink{class_renderer_d2d2554ed238ba29baa9ffd6b3530ba4}{Update} (void $\ast$, unsigned int)
+\item 
+virtual \hyperlink{class_shader}{Shader} $\ast$ \hyperlink{class_renderer_85ce8b768250bd767b019f8283a9d46b}{GetShader} ()
+\item 
+virtual void \hyperlink{class_renderer_d2e8b81f3a9eabfb39f9f046d0f3d3ca}{SetShader} (\hyperlink{class_shader}{Shader} $\ast$)
+\item 
+virtual int $\ast$ \hyperlink{class_renderer_9a93f4e3bad254923c0dc2810e658dd6}{GetViewport} ()
+\item 
+virtual \hyperlink{class_camera}{Camera} $\ast$ \hyperlink{class_renderer_527858930942368379414c1be75b5738}{GetCamera} ()
+\end{CompactItemize}
+\subsection*{Protected Attributes}
+\begin{CompactItemize}
+\item 
+\hyperlink{class_base}{Base} $\ast$ \hyperlink{class_renderer_de197ee897106c7e38ef027d0b211f5a}{base}
+\end{CompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_renderer_7ebf46f54dab9905f79b80f7fddb76a6}{
+\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\subsubsection[{Renderer}]{\setlength{\rightskip}{0pt plus 5cm}Renderer::Renderer ()\hspace{0.3cm}{\tt  \mbox{[}inline\mbox{]}}}}
+\label{class_renderer_7ebf46f54dab9905f79b80f7fddb76a6}
+
+
+\hypertarget{class_renderer_ba42b60392775e4a492c4d14d4fff29f}{
+\index{Renderer@{Renderer}!$\sim$Renderer@{$\sim$Renderer}}
+\index{$\sim$Renderer@{$\sim$Renderer}!Renderer@{Renderer}}
+\subsubsection[{$\sim$Renderer}]{\setlength{\rightskip}{0pt plus 5cm}virtual Renderer::$\sim$Renderer ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_ba42b60392775e4a492c4d14d4fff29f}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_renderer_661389d49db8d9508f5a3f9f91d48149}{
+\index{Renderer@{Renderer}!AddObject@{AddObject}}
+\index{AddObject@{AddObject}!Renderer@{Renderer}}
+\subsubsection[{AddObject}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::AddObject (void $\ast$)\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_661389d49db8d9508f5a3f9f91d48149}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_c9fcd00dffcc0a44a9bfff90811e586e}{oglWidgetRenderer}.\hypertarget{class_renderer_7f24c7de101eff6bd26906c0555f8610}{
+\index{Renderer@{Renderer}!Begin@{Begin}}
+\index{Begin@{Begin}!Renderer@{Renderer}}
+\subsubsection[{Begin}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::Begin ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_7f24c7de101eff6bd26906c0555f8610}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_1892829478f840e8a0d7032f94af6d26}{oglWidgetRenderer}.\hypertarget{class_renderer_91f20cf8d7e9d12db1725cc15ca16d96}{
+\index{Renderer@{Renderer}!Draw@{Draw}}
+\index{Draw@{Draw}!Renderer@{Renderer}}
+\subsubsection[{Draw}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::Draw ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_91f20cf8d7e9d12db1725cc15ca16d96}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_f4a8764df5f2b79e37d2a23cf268ed44}{oglWidgetRenderer}.\hypertarget{class_renderer_d08d100b0c4d2f57417a06ceaaa2ba4e}{
+\index{Renderer@{Renderer}!End@{End}}
+\index{End@{End}!Renderer@{Renderer}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::End ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_d08d100b0c4d2f57417a06ceaaa2ba4e}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_f4f9aab6b1dfc9888de5b9f0504be3e8}{oglWidgetRenderer}.\hypertarget{class_renderer_527858930942368379414c1be75b5738}{
+\index{Renderer@{Renderer}!GetCamera@{GetCamera}}
+\index{GetCamera@{GetCamera}!Renderer@{Renderer}}
+\subsubsection[{GetCamera}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Camera}$\ast$ Renderer::GetCamera ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_527858930942368379414c1be75b5738}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_3c01888abac427988413194909e3e036}{oglWidgetRenderer}.\hypertarget{class_renderer_85ce8b768250bd767b019f8283a9d46b}{
+\index{Renderer@{Renderer}!GetShader@{GetShader}}
+\index{GetShader@{GetShader}!Renderer@{Renderer}}
+\subsubsection[{GetShader}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Shader}$\ast$ Renderer::GetShader ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_85ce8b768250bd767b019f8283a9d46b}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_43b18c582c133e5fab2c8ce7e3c68033}{oglWidgetRenderer}.\hypertarget{class_renderer_9a93f4e3bad254923c0dc2810e658dd6}{
+\index{Renderer@{Renderer}!GetViewport@{GetViewport}}
+\index{GetViewport@{GetViewport}!Renderer@{Renderer}}
+\subsubsection[{GetViewport}]{\setlength{\rightskip}{0pt plus 5cm}virtual int$\ast$ Renderer::GetViewport ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_9a93f4e3bad254923c0dc2810e658dd6}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_64dc363e1e2cc2393ff8ec635b77bd99}{oglWidgetRenderer}.\hypertarget{class_renderer_025a064cb583ac6677a4b9a6099e0378}{
+\index{Renderer@{Renderer}!Refresh@{Refresh}}
+\index{Refresh@{Refresh}!Renderer@{Renderer}}
+\subsubsection[{Refresh}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::Refresh ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_025a064cb583ac6677a4b9a6099e0378}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_098ec7e24496346f9978e6ce03b079ed}{oglWidgetRenderer}.\hypertarget{class_renderer_28f5bf024a4772cff537683690f62f42}{
+\index{Renderer@{Renderer}!RemoveObject@{RemoveObject}}
+\index{RemoveObject@{RemoveObject}!Renderer@{Renderer}}
+\subsubsection[{RemoveObject}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::RemoveObject (void $\ast$)\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_28f5bf024a4772cff537683690f62f42}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_8438aacf8a1c70dcf1eb5879742d20e8}{oglWidgetRenderer}.\hypertarget{class_renderer_ae3d98a69fb55e9042306ba1621cd8d5}{
+\index{Renderer@{Renderer}!Render@{Render}}
+\index{Render@{Render}!Renderer@{Renderer}}
+\subsubsection[{Render}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::Render ()\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_ae3d98a69fb55e9042306ba1621cd8d5}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_fb83427aa814bf2a18f3abded3161bc5}{oglWidgetRenderer}.\hypertarget{class_renderer_d2e8b81f3a9eabfb39f9f046d0f3d3ca}{
+\index{Renderer@{Renderer}!SetShader@{SetShader}}
+\index{SetShader@{SetShader}!Renderer@{Renderer}}
+\subsubsection[{SetShader}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::SetShader ({\bf Shader} $\ast$)\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_d2e8b81f3a9eabfb39f9f046d0f3d3ca}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_5a63ddb69bee3f4a01510a27a9c2237b}{oglWidgetRenderer}.\hypertarget{class_renderer_d2d2554ed238ba29baa9ffd6b3530ba4}{
+\index{Renderer@{Renderer}!Update@{Update}}
+\index{Update@{Update}!Renderer@{Renderer}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Renderer::Update (void $\ast$, \/  unsigned int)\hspace{0.3cm}{\tt  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_renderer_d2d2554ed238ba29baa9ffd6b3530ba4}
+
+
+
+
+Reimplemented in \hyperlink{classogl_widget_renderer_709ada8aa5e357dd916d48f74adbca07}{oglWidgetRenderer}.
+
+\subsection{Member Data Documentation}
+\hypertarget{class_renderer_de197ee897106c7e38ef027d0b211f5a}{
+\index{Renderer@{Renderer}!base@{base}}
+\index{base@{base}!Renderer@{Renderer}}
+\subsubsection[{base}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Base}$\ast$ {\bf Renderer::base}\hspace{0.3cm}{\tt  \mbox{[}protected\mbox{]}}}}
+\label{class_renderer_de197ee897106c7e38ef027d0b211f5a}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+/home/brandon/Dev/guitesting/src/renderer/\hyperlink{renderer_8h}{renderer.h}\end{CompactItemize}
