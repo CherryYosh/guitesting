@@ -35,11 +35,12 @@ struct CTRL_GUIDataT {
 	float width, height;
 };
 
+enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 //the basic control class of all GUI objects
 
 class Control {
 public:
-	Control(std::string, Window*, Control* = NULL, float = 0, float = 0);
+	Control(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Control();
 
 	virtual void Activate(); //called when ever the control becomes active
@@ -84,8 +85,13 @@ public:
 	virtual bool IsRoot();
 	virtual bool IsLeaf();
 
+	virtual void SetDepth(float);
+	virtual void AddDepth(float);
+	virtual void SetLayer(LayerT);
+
 	float Width, Height;
-	float x, y;
+	float x, y, z;
+	float layer;
 	float s, t, s2, t2;
 protected:
 	unsigned short Attributes;

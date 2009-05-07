@@ -70,6 +70,7 @@ void Camera::SetOrtho( float left, float right, float bottom, float top, float n
 							-( top + bottom ) / ( top - bottom ),
 							-( far + near ) / ( far - near ) );
 
+	ortho.make_identity();
 	ortho.set_scale( scale );
 	ortho.set_translate( trans );
 }

@@ -22,7 +22,7 @@ struct LABEL_VBOVertex {
 	float r, g, b, a;
 };
 
-Label::Label(std::string t, Window* p, Control* c, float x, float y ) : Control(t,p,c,x,y){
+Label::Label(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
 	TextWidth = Width;
 	Multiline = false;
 

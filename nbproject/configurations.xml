@@ -112,6 +112,17 @@
           </ccTool>
         </makeTool>
       </makefileType>
+      <packaging>
+        <packType>Zip</packType>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+      </packaging>
       <item path="src/fontmgr.h" ex="true" tool="3">
       </item>
       <item path="src/gui/controls.h" ex="true" tool="3">

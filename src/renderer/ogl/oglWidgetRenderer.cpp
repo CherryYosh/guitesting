@@ -54,9 +54,8 @@ void oglWidgetRenderer::AddObject(void* obj) {
 	if (obj == NULL)
 		throw 19;
 
-	TotalObjects += static_cast<Control*> (obj)->Size();
-	Objects.push_back(static_cast<Control*> (obj));
-	Update(obj, RENDERER_ADD);
+	TotalObjects += static_cast<Control*>(obj)->Size();
+	Objects.push_back(static_cast<Control*>(obj));
 }
 
 /**
@@ -104,7 +103,7 @@ void oglWidgetRenderer::Begin() {
 	glEnableVertexAttribArray(shader->attribute[1]);
 	glEnableVertexAttribArray(shader->attribute[2]);
 
-	glVertexAttribPointer(shader->attribute[0], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), 0);
+	glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, sizeof(WidgetData), 0);
 	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (4 * sizeof(float)));
 	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (8 * sizeof(float)));
 }
@@ -170,7 +169,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	//these are for cleaner code
 	//also SHOULD allow for easyer SSE complation
 	unsigned int slot = 0;
-	float vx, vx2, vy, vy2;
+	float vx, vx2, vy, vy2, vz;
 	float vs, vs2, vt, vt2;
 	float* c;
 
@@ -190,6 +189,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			vx2 = (child->x + child->GetWidth());
 			vy = child->y;
 			vy2 = (child->y + child->GetHeight());
+			vz = child->z + child->layer;
 
 			vs = child->s;
 			vs2 = child->s2;
@@ -202,6 +202,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			//top left
 			data[slot].x = vx;
 			data[slot].y = vy;
+			data[slot].z = vz;
 			data[slot].s = vs;
 			data[slot].t = vt;
 			data[slot].r = c[0];
@@ -213,6 +214,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			//top right
 			data[slot].x = vx2;
 			data[slot].y = vy;
+			data[slot].z = vz;
 			data[slot].s = vs2;
 			data[slot].t = vt;
 			data[slot].r = c[0];
@@ -224,6 +226,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			//bottom right
 			data[slot].x = vx2;
 			data[slot].y = vy2;
+			data[slot].z = vz;
 			data[slot].s = vs2;
 			data[slot].t = vt2;
 			data[slot].r = c[0];
@@ -235,6 +238,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			//bottom left
 			data[slot].x = vx;
 			data[slot].y = vy2;
+			data[slot].z = vz;
 			data[slot].s = vs;
 			data[slot].t = vt2;
 			data[slot].r = c[0];

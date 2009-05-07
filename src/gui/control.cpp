@@ -72,12 +72,14 @@ void Control::GetControlData() {
 	}
 }
 
-Control::Control(std::string t, Window* r, Control* p, float ix, float iy) {
+Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) {
 	isEnabled = true;
 	hasFocus = false;
 	Type = t;
 	x = ix;
 	y = iy;
+	z = 0;
+	layer = l;
 
 	SetColor(nv::vec4<float>(0.0));
 
@@ -312,4 +314,26 @@ bool Control::IsRoot(){
 
 bool Control::IsLeaf(){
 	return 0 == NumChildren();
+}
+
+void Control::SetDepth(float depth){
+	this->z = depth;
+
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Children[i]->SetDepth(depth);
+	}
+}
+
+void Control::AddDepth(float depth){
+	this->z += depth;
+
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Children[i]->AddDepth(depth);
+	}
+}
+
+void Control::SetLayer(LayerT l){
+	layer = l;
 }

@@ -28,7 +28,7 @@
 #include "button.h"
 #include "window.h"
 
-Button::Button(std::string t, Window* p, Control* c, float x, float y) : Control(t, p, c, x, y) {}
+Button::Button(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) { }
 
 Button::~Button() { }
 

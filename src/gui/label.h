@@ -44,7 +44,7 @@ struct FontString {
 
 class Label : public Control {
 public:
-	Label(std::string, Window*, Control* = NULL, float = 0, float = 0);
+	Label(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Label();
 
 	virtual void RenderText(int, int, int);

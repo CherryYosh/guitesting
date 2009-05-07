@@ -17,9 +17,9 @@
 
 #include "label.h"
 
-class Editbox : public Label  {
+class Editbox : public Label {
 public:
-	Editbox(std::string, Window*, Control* = NULL, float = 0, float = 0);
+	Editbox(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Editbox();
 
 	bool HitTest(int, int);

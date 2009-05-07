@@ -78,19 +78,18 @@ void GUI::Move(int x, int y) {
  * @returns TODO
  */
 void GUI::MakeActive(Window* w) {
+	//Active window can be set to null
 	ActiveWindow = w;
-
 	if (w == NULL)
 		return;
 
 	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
-		if (*it == w) {
-			Windows.erase(it);
-			break;
+		if (*it != w && (*it)->z >= w->z) {
+			(*it)->AddDepth(-TOP_LAYER); //TOP_LAYER is the total ammount of layers, prevents overlapping
 		}
 	}
-
-	Windows.push_back(w);
+	w->SetDepth(0);
+	renderer->Refresh();
 }
 
 void GUI::OnKeyPress(unsigned short unicode) {
@@ -122,7 +121,7 @@ void GUI::CreateWindowConsole(float x, float y) {
 	Rule* bottombar = new Rule("bottombar", window);
 	Label* textarea = new Label("textarea", window);
 	Editbox* inputarea = new Editbox("textinput", window);
-	Button* close = new Button("close", window, topbar);
+	Button* close = new Button("close", window, topbar, TOP_LAYER);
 
 	close->SetCallback(boost::bind<void>(&Window::Close, window));
 
@@ -144,6 +143,7 @@ void GUI::CreateWindowConsole(float x, float y) {
 	window->AddChild(inputarea, true);
 
 	renderer->AddObject(window);
+	renderer->Update(window, RENDERER_ADD);
 
 	//now we move it (and all its children) and make it build its vbo
 	window->Width = topbar->GetWidth();
@@ -163,6 +163,7 @@ void GUI::CreateTW() {
 
 	Windows.push_back(window);
 	renderer->AddObject(window);
+	renderer->Update(window, RENDERER_ADD);
 }
 
 void GUI::CloseWindow(Window* w) {
