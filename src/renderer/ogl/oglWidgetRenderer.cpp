@@ -9,6 +9,7 @@
 #include "oglWidgetRenderer.h"
 
 #include "../../thememgr.h"
+#include "../../gui/window.h"
 
 
 #include <GL/gl.h>
@@ -169,7 +170,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	//these are for cleaner code
 	//also SHOULD allow for easyer SSE complation
 	unsigned int slot = 0;
-	float vx, vx2, vy, vy2, vz;
+	nv::vec4<float> v1, v2, v3, v4;
 	float vs, vs2, vt, vt2;
 	float* c;
 
@@ -185,11 +186,17 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 
 		j = 0;
 		do {
-			vx = child->x;
-			vx2 = (child->x + child->GetWidth());
-			vy = child->y;
-			vy2 = (child->y + child->GetHeight());
-			vz = child->z + child->layer;
+			v1 = nv::vec4<float>(child->x, child->y, child->z + child->layer, 1.0 );
+			v2 = nv::vec4<float>(child->x + child->GetWidth(), child->y, child->z + child->layer, 1.0 );
+			v3 = nv::vec4<float>(child->x + child->GetWidth(), child->y + child->GetHeight(), child->z + child->layer, 1.0 );
+			v4 = nv::vec4<float>(child->x, child->y + child->GetHeight(), child->z + child->layer, 1.0 );
+
+			if(child->Root != NULL){
+				v1 = child->Root->Rotation * v1;
+				v2 = child->Root->Rotation * v2;
+				v3 = child->Root->Rotation * v3;
+				v4 = child->Root->Rotation * v4;
+			}
 
 			vs = child->s;
 			vs2 = child->s2;
@@ -200,9 +207,9 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			c = child->GetColorv();
 
 			//top left
-			data[slot].x = vx;
-			data[slot].y = vy;
-			data[slot].z = vz;
+			data[slot].x = v1.x;
+			data[slot].y = v1.y;
+			data[slot].z = v1.z;
 			data[slot].s = vs;
 			data[slot].t = vt;
 			data[slot].r = c[0];
@@ -212,9 +219,9 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			slot++;
 
 			//top right
-			data[slot].x = vx2;
-			data[slot].y = vy;
-			data[slot].z = vz;
+			data[slot].x = v2.x;
+			data[slot].y = v2.y;
+			data[slot].z = v2.z;
 			data[slot].s = vs2;
 			data[slot].t = vt;
 			data[slot].r = c[0];
@@ -224,9 +231,9 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			slot++;
 
 			//bottom right
-			data[slot].x = vx2;
-			data[slot].y = vy2;
-			data[slot].z = vz;
+			data[slot].x = v3.x;
+			data[slot].y = v3.y;
+			data[slot].z = v3.z;
 			data[slot].s = vs2;
 			data[slot].t = vt2;
 			data[slot].r = c[0];
@@ -236,9 +243,9 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			slot++;
 
 			//bottom left
-			data[slot].x = vx;
-			data[slot].y = vy2;
-			data[slot].z = vz;
+			data[slot].x = v4.x;
+			data[slot].y = v4.y;
+			data[slot].z = v4.z;
 			data[slot].s = vs;
 			data[slot].t = vt2;
 			data[slot].r = c[0];

@@ -93,9 +93,9 @@ public:
 	float x, y, z;
 	float layer;
 	float s, t, s2, t2;
+	Window* Root;
 protected:
 	unsigned short Attributes;
-	Window* Root;
 	Control* Parent;
 	Control* MouseOverChild;
 	Control* ActiveChild;

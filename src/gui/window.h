@@ -81,6 +81,7 @@ public:
 	unsigned int NumChildren();
 
 	bool ReciveInput;
+	nv::matrix4<float> Rotation;
 protected:
 private:
 	std::list<AnimationType> Animations;
@@ -88,7 +89,6 @@ private:
 	GUI* gui;
 	Renderer* renderer;
 
-	nv::matrix4<float> Modelview;
 	nv::vec3<float> AnimationOrigin;
 };
 

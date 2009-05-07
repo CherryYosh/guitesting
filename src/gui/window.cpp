@@ -51,10 +51,12 @@ struct AnimationType {
 Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 	ReciveInput = false;
 	AnimationOrigin = nv::vec3<float>(0.0);
-	Modelview.make_identity();
+	Rotation.make_identity();
 	
 	gui = p;
 	renderer = r;
+
+	Animate(ROTATEZ, 45.0, 0.0, 1000.0, LINEAR);
 }
 
 Window::~Window() {
@@ -75,12 +77,15 @@ void Window::AddChild(Control *child, bool rebuild) {
 }
 
 void Window::Move(float xChange, float yChange) {
-	x += xChange;
-	y += yChange;
+	nv::vec4<float> change = nv::vec4<float>(xChange, yChange, 0.0, 1.0);
+	change = inverse(Rotation) * change;
+
+	x += change.x;//xChange;
+	y += change.y;//yChange;
 
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->Move(xChange, yChange);
+		Children[i]->Move(change.x, change.y);
 	}
 
 	renderer->Update(this, RENDERER_REFRESH);
@@ -91,8 +96,10 @@ void Window::Close() {
 }
 
 void Window::UpdateControl(Control* control) {
+	if(control == NULL)
+		return;
+
 	renderer->Update(control, RENDERER_REFRESH);
-	//renderer->Refresh();
 }
 
 bool Window::IsRoot(){
@@ -275,13 +282,14 @@ void Window::StepAnimation() {
 
 			//rotation
 			if ((it->Type & ROTATEZ)) {
-				Modelview.rotate(data.x, 0.0, 0.0, 1.0);
+				Rotation.rotate(data.x, 0.0, 0.0, 1.0);
+				UpdateControl(this);
 			}
 			if ((it->Type & ROTATEORGZ)) {
-				Modelview.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+				Rotation.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 			}
 			if ((it->Type & ROTATESCREENZ)) {
-				Modelview.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+				Rotation.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 			}
 
 			//color
@@ -324,7 +332,7 @@ void Window::Unproject(float winx, float winy, float* p, float* ox, float* oy) {
 
 	nv::matrix4<float> proj;
 	proj.set_value(p);
-	proj *= Modelview;
+	proj *= Rotation;
 
 	nv::vec4<float> ret = inverse(proj) * in;
 
