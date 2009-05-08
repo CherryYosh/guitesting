@@ -63,7 +63,7 @@ public:
 	void OnKeyPress(unsigned short);
 	void OnMousePress(unsigned short, int, int);
 	bool OnMouseClick(unsigned short, bool);
-	bool HitTest(float, float, float*);
+	bool HitTest(float, float);
 
 	void Animate(int, float, unsigned int, unsigned int, int, Control* = NULL);
 	void Animate(int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL);
@@ -73,15 +73,17 @@ public:
 	void StepAnimation();
 	void RemoveAnimation(Control*);
 
-	void Unproject(float, float, float*, float*, float*);
+	void Unproject(float, float, float*, float*);
 
 	bool IsRoot();
 	unsigned int Size();
 	unsigned int TotalChildren();
 	unsigned int NumChildren();
 
+	nv::matrix4<float>* GetRotation();
+	float* GetRotationfv();
+
 	bool ReciveInput;
-	nv::matrix4<float> Rotation;
 protected:
 private:
 	std::list<AnimationType> Animations;
@@ -90,6 +92,7 @@ private:
 	Renderer* renderer;
 
 	nv::vec3<float> AnimationOrigin;
+	nv::matrix4<float> Rotation;
 };
 
 #endif

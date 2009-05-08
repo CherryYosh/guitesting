@@ -91,8 +91,8 @@ void oglWidgetRenderer::Begin() {
 	Camera* c = base->GetCamera();
 
 	shader->Bind();
-	shader->SetProjection(c->GetOrtho());
-	shader->SetModelview(c->GetModelview());
+	shader->SetProjection(c->GetOrthofv());
+	shader->SetModelview(c->GetModelviewfv());
 
 	//We bind the theme image
 	glActiveTexture(GL_TEXTURE0);
@@ -191,11 +191,13 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 			v3 = nv::vec4<float>(child->x + child->GetWidth(), child->y + child->GetHeight(), child->z + child->layer, 1.0 );
 			v4 = nv::vec4<float>(child->x, child->y + child->GetHeight(), child->z + child->layer, 1.0 );
 
-			if(child->Root != NULL){
-				v1 = child->Root->Rotation * v1;
-				v2 = child->Root->Rotation * v2;
-				v3 = child->Root->Rotation * v3;
-				v4 = child->Root->Rotation * v4;
+			//Will apply the roots rotation to the vbo so we dont need to pass
+			//the matrix to the gpu every call
+			if(child->GetRoot() != NULL){
+				v1 = (*child->GetRotation()) * v1;
+				v2 = (*child->GetRotation()) * v2;
+				v3 = (*child->GetRotation()) * v3;
+				v4 = (*child->GetRotation()) * v4;
 			}
 
 			vs = child->s;
@@ -292,7 +294,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	delete [] data;
 }
 
-Shader* oglWidgetRenderer::GetShader() {
+const Shader* oglWidgetRenderer::GetShader() {
 	return shader;
 }
 
@@ -306,6 +308,6 @@ int* oglWidgetRenderer::GetViewport() {
 	return base->GetViewport();
 }
 
-Camera* oglWidgetRenderer::GetCamera() {
+const Camera* oglWidgetRenderer::GetCamera() {
 	return base->GetCamera();
 }

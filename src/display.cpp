@@ -43,7 +43,7 @@ Display::Display() : System() {
 	gui->CreateTW();
 
 	camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
-	camera->SetOrtho(0, 640, 480, 0, -10, 10);
+	camera->SetOrtho(0, 640, 480, 0, 0, 1000);
 	camera->Move(0, 0, -1);
 
 	Mouse_Init(this);
@@ -88,7 +88,7 @@ void Display::Render() {
 void Display::Resize(unsigned int width, unsigned int height) {
 	contex.SetViewport(0, 0, width, height);
 	camera->SetProjection(camera->fov, width / height, camera->zNear, camera->zFar);
-	camera->SetOrtho(0, width, height, 0, 1, 20);
+	camera->SetOrtho(0, width, height, 0, 0, 1000);
 }
 
 void Display::OnMouseClick(unsigned short* num, bool final) {

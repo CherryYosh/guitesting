@@ -46,7 +46,7 @@ void GUI::Render() {
 bool GUI::HitTest(float x, float y) {
 	//this is a quick excape..
 	if (MouseOverWindow != NULL) {
-		if (MouseOverWindow->HitTest(x, y, renderer->GetCamera()->GetOrtho())) {
+		if (MouseOverWindow->HitTest(x, y)) {
 			return true;
 		} else {
 			MouseOverWindow = NULL;
@@ -55,7 +55,7 @@ bool GUI::HitTest(float x, float y) {
 
 	size_t size = Windows.size();
 	for (unsigned int i = 0; i < size; i++) {
-		if (Windows[i]->HitTest(x, y, renderer->GetCamera()->GetOrtho())) {
+		if (Windows[i]->HitTest(x, y)) {
 			MouseOverWindow = Windows[i];
 			return true;
 		}
@@ -88,7 +88,7 @@ void GUI::MakeActive(Window* w) {
 			(*it)->AddDepth(-TOP_LAYER); //TOP_LAYER is the total ammount of layers, prevents overlapping
 		}
 	}
-	w->SetDepth(0);
+	w->SetDepth(-TOP_LAYER);
 	renderer->Refresh();
 }
 

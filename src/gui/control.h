@@ -17,6 +17,7 @@
 
 #define CTRL_INPUT (1) << 0 //does the control allow input
 
+#include "../nvMatrix.h"
 #include "../nvVector.h"
 
 #include <GL/gl.h>
@@ -89,13 +90,18 @@ public:
 	virtual void AddDepth(float);
 	virtual void SetLayer(LayerT);
 
+	virtual const Window* GetRoot();
+
+	virtual nv::matrix4<float>* GetRotation();
+	virtual float* GetRotationfv();
+
 	float Width, Height;
 	float x, y, z;
 	float layer;
 	float s, t, s2, t2;
-	Window* Root;
 protected:
 	unsigned short Attributes;
+	Window* Root;
 	Control* Parent;
 	Control* MouseOverChild;
 	Control* ActiveChild;

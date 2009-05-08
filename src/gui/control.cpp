@@ -16,6 +16,7 @@
 
 #include "control.h"
 
+#include "window.h"
 #include "../thememgr.h"
 
 std::vector<CTRL_GUIDataT*> guiData;
@@ -79,7 +80,7 @@ Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float
 	x = ix;
 	y = iy;
 	z = 0;
-	layer = l;
+	layer = -TOP_LAYER + l;
 
 	SetColor(nv::vec4<float>(0.0));
 
@@ -309,11 +310,11 @@ int Control::IterateChild(Control* c){
 }
 
 bool Control::IsRoot(){
-	return false; //only windows can eb roots
+	return false; //only windows can be roots
 }
 
 bool Control::IsLeaf(){
-	return 0 == NumChildren();
+	return (0 == NumChildren());
 }
 
 void Control::SetDepth(float depth){
@@ -336,4 +337,31 @@ void Control::AddDepth(float depth){
 
 void Control::SetLayer(LayerT l){
 	layer = l;
+}
+
+/**
+ * returns a pointer to the roots rotation matrix, or NULL
+ */
+nv::matrix4<float>* Control::GetRotation(){
+	if(Root == NULL)
+		return NULL;
+
+	return Root->GetRotation();
+}
+
+/**
+ * returns a float[16] containing the roots rotation matrix, or NULL
+ */
+float* Control::GetRotationfv(){
+	if(Root == NULL)
+		return NULL;
+
+	return Root->GetRotationfv();
+}
+
+/**
+ * Returns a const pointer to the Root window
+ */
+const Window* Control::GetRoot(){
+	return Root;
 }

@@ -55,8 +55,6 @@ Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 	
 	gui = p;
 	renderer = r;
-
-	Animate(ROTATEZ, 45.0, 0.0, 1000.0, LINEAR);
 }
 
 Window::~Window() {
@@ -80,12 +78,13 @@ void Window::Move(float xChange, float yChange) {
 	nv::vec4<float> change = nv::vec4<float>(xChange, yChange, 0.0, 1.0);
 	change = inverse(Rotation) * change;
 
-	x += change.x;//xChange;
-	y += change.y;//yChange;
+	x += change.x;
+	y += change.y;
 
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
 		Children[i]->Move(change.x, change.y);
+		Children[i]->AddDepth(change.z);
 	}
 
 	renderer->Update(this, RENDERER_REFRESH);
@@ -141,8 +140,8 @@ unsigned int Window::NumChildren() {
  * @returns true if the hit test was succful
  * @throws nothing
  */
-bool Window::HitTest(float mx, float my, float* p) {
-	Unproject(mx, my, p, &mx, &my);
+bool Window::HitTest(float mx, float my) {
+	Unproject(mx, my, &mx, &my);
 
 	if (mx > x && my > y &&
 		mx < (x + Width) && my < (y + Height)) {
@@ -281,15 +280,38 @@ void Window::StepAnimation() {
 			}
 
 			//rotation
-			if ((it->Type & ROTATEZ)) {
-				Rotation.rotate(data.x, 0.0, 0.0, 1.0);
+			if ((it->Type & ROTATEXYZ)) {
+				if((it->Type & ROTATEX)){
+				    Rotation.rotate(data.x, 1.0, 0.0, 0.0);
+				} else if((it->Type & ROTATEY)){
+				    Rotation.rotate(data.x, 0.0, 1.0, 0.0);
+				} else if((it->Type & ROTATEZ)){
+				    Rotation.rotate(data.x, 0.0, 0.0, 1.0);
+				}
+
 				UpdateControl(this);
 			}
-			if ((it->Type & ROTATEORGZ)) {
-				Rotation.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+			else if ((it->Type & ROTATEORGXYZ)) {
+				if((it->Type & ROTATEORGX)){
+					Rotation.rotateOrigin(data.x, 1.0, 0.0, 0.0, AnimationOrigin);
+				} else if((it->Type & ROTATEORGY)){
+					Rotation.rotateOrigin(data.x, 0.0, 1.0, 0.0, AnimationOrigin);
+				} else if((it->Type & ROTATEORGZ)){
+					Rotation.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+				}
+
+				UpdateControl(this);
 			}
-			if ((it->Type & ROTATESCREENZ)) {
-				Rotation.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+			else if ((it->Type & ROTATESCREENXYZ)) {
+				if((it->Type & ROTATESCREENX)){
+					Rotation.rotateScreen(data.x, 1.0, 0.0, 0.0, AnimationOrigin);
+				} else if((it->Type & ROTATESCREENY)){
+					Rotation.rotateScreen(data.x, 0.0, 1.0, 0.0, AnimationOrigin);
+				} else if((it->Type & ROTATESCREENZ)){
+					Rotation.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
+				}
+
+				UpdateControl(this);
 			}
 
 			//color
@@ -322,23 +344,30 @@ void Window::RemoveAnimation(Control* c) {
 	}
 }
 
-void Window::Unproject(float winx, float winy, float* p, float* ox, float* oy) {
+void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 	GLint* view = renderer->GetViewport();
 
 	nv::vec4<float> in = nv::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
 		-(((winy - view[1]) * 2.0) / view[3] - 1.0),
-		-1.0,
+		(2*(z*0.001)) - 1,
 		1.0);
 
-	nv::matrix4<float> proj;
-	proj.set_value(p);
-	proj *= Rotation;
+	nv::matrix4<float> pm;
+	pm = (*renderer->GetCamera()->GetOrtho()) * Rotation;
 
-	nv::vec4<float> ret = inverse(proj) * in;
+	nv::vec4<float> ret = inverse(pm) * in;
 
 	if (ret.w == 0.0)
 		return;
 
 	*ox = ret.x / ret.w;
 	*oy = ret.y / ret.w;
+}
+
+nv::matrix4<float>* Window::GetRotation(){
+	return &Rotation;
+}
+
+float* Window::GetRotationfv(){
+	return Rotation._array;
 }

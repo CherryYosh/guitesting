@@ -75,14 +75,44 @@ void Camera::SetOrtho( float left, float right, float bottom, float top, float n
 	ortho.set_translate( trans );
 }
 
-float* Camera::GetProjection(){
+/**
+ * Returns the array of the projection matrix
+ */
+float* Camera::GetProjectionfv(){
 	return projection._array;
 }
 
-float* Camera::GetOrtho(){
+/**
+ * Returns the array of the prthographic matrix
+ */
+float* Camera::GetOrthofv(){
 	return ortho._array;
 }
 
-float* Camera::GetModelview(){
+/**
+ * Returns the array of the modelview matrix
+ */
+float* Camera::GetModelviewfv(){
 	return modelview._array;
+}
+
+/**
+ * Returns a pointer to the projection matrix
+ */
+nv::matrix4<float>* Camera::GetProjection(){
+	return &projection;
+}
+
+/**
+ * Returns a pointer to the orthographic matrix
+ */
+nv::matrix4<float>* Camera::GetOrtho(){
+	return &ortho;
+}
+
+/**
+ * Returns a pointer to the modelview matrix
+ */
+nv::matrix4<float>* Camera::GetModelview(){
+	return &modelview;
 }

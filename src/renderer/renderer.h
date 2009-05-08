@@ -35,12 +35,11 @@ public:
 	virtual void Refresh(){};
 	virtual void Update(void*, unsigned int){};
 
-	virtual Shader* GetShader(){return 0;};
+	virtual const Shader* GetShader(){return 0;};
 	virtual void SetShader(Shader*){};
 
 	virtual int* GetViewport(){return 0;};
-	virtual Camera* GetCamera(){return 0;};
-
+	virtual const Camera* GetCamera(){return 0;};
 protected:
 	Base* base;
 };

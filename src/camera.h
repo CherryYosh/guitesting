@@ -28,9 +28,13 @@ public:
 	void Move( float x, float y, float z );
 	void Rotate( float x, float y, float z );
 	
-	float* GetProjection();
-	float* GetOrtho();
-	float* GetModelview();
+	float* GetProjectionfv();
+	float* GetOrthofv();
+	float* GetModelviewfv();
+
+	nv::matrix4<float>* GetProjection();
+	nv::matrix4<float>* GetOrtho();
+	nv::matrix4<float>* GetModelview();
 	
 	//these need to be public till I get off my ass :P
 	float fov, aspect, zNear, zFar;
