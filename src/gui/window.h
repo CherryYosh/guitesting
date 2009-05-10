@@ -77,8 +77,6 @@ public:
 
 	bool IsRoot();
 	unsigned int Size();
-	unsigned int TotalChildren();
-	unsigned int NumChildren();
 
 	nv::matrix4<float>* GetRotation();
 	float* GetRotationfv();

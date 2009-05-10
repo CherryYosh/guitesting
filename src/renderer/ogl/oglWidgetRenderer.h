@@ -34,12 +34,12 @@ public:
 	void Refresh();
 	void Update(void*, unsigned int = RENDERER_REFRESH);
 
-	const Shader* GetShader();
+	Shader* GetShader();
 	void SetShader(Shader*);
 
 	int* GetViewport();
 
-	const Camera* GetCamera();
+	Camera* GetCamera();
 private:
 	unsigned int TotalObjects;	//the total number of objects, including all children
 	std::vector<Control*> Objects;

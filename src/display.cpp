@@ -100,17 +100,16 @@ void Display::OnMouseClick(unsigned short* num, bool final) {
 void Display::OnMouseButtonChange() {
 	Mouse_SetButtonState();
 
-	if (Mouse_GetButtonState(0))
-		gui->OnMousePress(0, Mouse_GetX(), Mouse_GetY());
+	gui->OnMousePress(Mouse_GetButtonState(), Mouse_GetX(), Mouse_GetY());
 }
 
 void Display::OnMouseMotion() {
 	Mouse_SetPosition();
 
-	if (Mouse_GetButtonState(0)) { //dragging
-		gui->Move(Mouse_GetChangeX(), Mouse_GetChangeY());
-	} else {
-		gui->HitTest((float) Mouse_GetX(), (float) Mouse_GetY());
+	if (!gui->OnMouseMotion((float) Mouse_GetX(), (float) Mouse_GetY(), Mouse_GetButtonState())) {
+		if (Mouse_GetButtonState(0)) { //dragging
+			gui->Move(Mouse_GetChangeX(), Mouse_GetChangeY());
+		}
 	}
 }
 

@@ -186,10 +186,10 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 
 		j = 0;
 		do {
-			v1 = nv::vec4<float>(child->x, child->y, child->z + child->layer, 1.0 );
-			v2 = nv::vec4<float>(child->x + child->GetWidth(), child->y, child->z + child->layer, 1.0 );
-			v3 = nv::vec4<float>(child->x + child->GetWidth(), child->y + child->GetHeight(), child->z + child->layer, 1.0 );
-			v4 = nv::vec4<float>(child->x, child->y + child->GetHeight(), child->z + child->layer, 1.0 );
+			v1 = nv::vec4<float>(child->GetX(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0 );
+			v2 = nv::vec4<float>(child->GetX() + child->GetWidth(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0 );
+			v3 = nv::vec4<float>(child->GetX() + child->GetWidth(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0 );
+			v4 = nv::vec4<float>(child->GetX(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0 );
 
 			//Will apply the roots rotation to the vbo so we dont need to pass
 			//the matrix to the gpu every call
@@ -294,7 +294,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	delete [] data;
 }
 
-const Shader* oglWidgetRenderer::GetShader() {
+Shader* oglWidgetRenderer::GetShader() {
 	return shader;
 }
 
@@ -308,6 +308,6 @@ int* oglWidgetRenderer::GetViewport() {
 	return base->GetViewport();
 }
 
-const Camera* oglWidgetRenderer::GetCamera() {
+Camera* oglWidgetRenderer::GetCamera() {
 	return base->GetCamera();
 }

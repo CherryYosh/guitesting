@@ -44,7 +44,8 @@ public:
 	Control(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Control();
 
-	virtual void Activate(); //called when ever the control becomes active
+	virtual void OnActivate();
+	virtual void OnUnactivate();
 
 	virtual bool HitTest(int, int);
 
@@ -53,14 +54,14 @@ public:
 	virtual void OnMouseEnter();
 	virtual void OnMouseLeave();
 	virtual bool OnMouseClick(unsigned short, bool);
+	virtual bool OnMouseMotion(float, float, unsigned short);
 
 	virtual void OnKeyPress(unsigned short);
 	virtual void OnKeyRelease(int, int);
 
 	virtual void Move(float, float);
+	virtual void SetPosition(float, float);
 	virtual void SetCallback(boost::function<void()>);
-	virtual void SetWidth(float);
-	virtual void SetHeight(float);
 	virtual bool HasAttrib(unsigned short);
 	virtual void SetEnabled(bool);
 	virtual void SetFocus(bool);
@@ -79,9 +80,10 @@ public:
 	virtual unsigned int TotalChildren();
 	virtual unsigned int NumChildren();
 
-
 	virtual float GetWidth();
 	virtual float GetHeight();
+	virtual void SetWidth(float);
+	virtual void SetHeight(float);
 
 	virtual bool IsRoot();
 	virtual bool IsLeaf();
@@ -91,13 +93,15 @@ public:
 	virtual void SetLayer(LayerT);
 
 	virtual const Window* GetRoot();
-
 	virtual nv::matrix4<float>* GetRotation();
 	virtual float* GetRotationfv();
 
-	float Width, Height;
-	float x, y, z;
-	float layer;
+	float GetX();
+	float GetY();
+	float GetZ();
+	float GetLayer();
+	float GetDepth();
+
 	float s, t, s2, t2;
 protected:
 	unsigned short Attributes;
@@ -106,7 +110,11 @@ protected:
 	Control* MouseOverChild;
 	Control* ActiveChild;
 	std::vector<Control*> Children;
-	boost::function<void() > m_Callback;
+	boost::function<void()> m_Callback;
+
+	float Width, Height;
+	float x, y, z;
+	float layer;
 private:
 	void GetControlData();
 

@@ -31,12 +31,6 @@
 #include "../camera.h"
 #include <SDL/SDL.h>
 
-struct WINDOW_VBOVertex {
-	float x, y;
-	float s, t;
-	float r, g, b, a;
-};
-
 struct AnimationType {
 	unsigned int Type;
 	unsigned int Interpolation;
@@ -65,7 +59,7 @@ Window::~Window() {
 void Window::AddChild(Control *child, bool rebuild) {
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		if (Children[i]->HitTest(child->x, child->y)) {
+		if (Children[i]->HitTest(child->GetX(), child->GetY())) {
 			Children[i]->AddChild(child);
 			return;
 		}
@@ -75,6 +69,7 @@ void Window::AddChild(Control *child, bool rebuild) {
 }
 
 void Window::Move(float xChange, float yChange) {
+	//allows for correct movement while rotated
 	nv::vec4<float> change = nv::vec4<float>(xChange, yChange, 0.0, 1.0);
 	change = inverse(Rotation) * change;
 
@@ -84,10 +79,8 @@ void Window::Move(float xChange, float yChange) {
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
 		Children[i]->Move(change.x, change.y);
-		Children[i]->AddDepth(change.z);
+		//Children[i]->AddDepth(change.z);
 	}
-
-	renderer->Update(this, RENDERER_REFRESH);
 }
 
 void Window::Close() {
@@ -112,19 +105,6 @@ unsigned int Window::Size() {
 	return TotalChildren();
 }
 
-unsigned int Window::TotalChildren() {
-	size_t size = Children.size();
-	unsigned int ret = size;
-	for (unsigned int i = 0; i < size; i++)
-		ret += Children[i]->TotalChildren();
-
-	return ret;
-}
-
-unsigned int Window::NumChildren() {
-	return Children.size();
-}
-
 /** \brief Preforms a hit test on the window
  *
  * The functions finds the mouse coords in object space, thus working with 3d rotation,
@@ -145,6 +125,7 @@ bool Window::HitTest(float mx, float my) {
 
 	if (mx > x && my > y &&
 		mx < (x + Width) && my < (y + Height)) {
+		
 		if (MouseOverChild != NULL) {
 			if (MouseOverChild->HitTest(mx, my)) {
 				return true;
@@ -166,7 +147,6 @@ bool Window::HitTest(float mx, float my) {
 			}
 		}
 
-		//wtf happen here?? how can it be inside the window but no buttons..
 		MouseOverChild = NULL;
 		return true;
 	}

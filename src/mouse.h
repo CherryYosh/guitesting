@@ -29,6 +29,7 @@ void Mouse_SetClickTimeout(unsigned int);
 void Mouse_SetClickValue(bool*);
 
 bool Mouse_GetButtonState(int);
+unsigned int Mouse_GetButtonState();
 void Mouse_GetMousePosition(int*, int*);
 
 int Mouse_GetX();

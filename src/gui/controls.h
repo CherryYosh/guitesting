@@ -24,5 +24,6 @@
 #include "editbox.h"
 #include "label.h"
 #include "checkbox.h"
+#include "slider.h"
 
 #endif

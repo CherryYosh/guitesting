@@ -79,8 +79,8 @@ Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float
 	Type = t;
 	x = ix;
 	y = iy;
-	z = 0;
-	layer = -TOP_LAYER + l;
+	z = -TOP_LAYER;
+	SetLayer(l);
 
 	SetColor(nv::vec4<float>(0.0));
 
@@ -97,8 +97,12 @@ Control::~Control() {
 	Children.clear();
 }
 
-void Control::Activate() {
+void Control::OnActivate() {
 	//nothing needs to be done
+}
+
+void Control::OnUnactivate(){
+	
 }
 
 bool Control::HitTest(int mx, int my) {
@@ -112,8 +116,9 @@ bool Control::HitTest(int mx, int my) {
 			}
 		}
 
-		size_t size = Children.size();
-		for(unsigned int i = 0; i < size; i++) {
+		unsigned int i = Children.size();
+		while (0 < i) {
+			i--;
 			if (Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)) {
 				MouseOverChild = Children[i];
 				MouseOverChild->OnMouseEnter();
@@ -133,6 +138,10 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 	if (MouseOverChild != NULL) {
 		ActiveChild = MouseOverChild;
 		ActiveChild->OnMousePress(button, mx, my);
+	} else {
+		if(ActiveChild != NULL)
+			ActiveChild->OnUnactivate();
+		ActiveChild = NULL;
 	}
 }
 
@@ -144,7 +153,19 @@ bool Control::OnMouseClick(unsigned short num, bool final) {
 	if (ActiveChild != NULL) {
 		return ActiveChild->OnMouseClick(num, final);
 	}
+	return false;
+}
 
+/**
+ * Handels events when the mouse moves over the window
+ * @param x the exact x position, in screen space
+ * @param y the exact y position, in screen space
+ * @param button the button that is pressed down
+ * @returns false if nothing was handeled
+ */
+bool Control::OnMouseMotion(float x, float y, unsigned short button) {
+	if(ActiveChild != NULL)
+		return ActiveChild->OnMouseMotion(x, y, button);
 	return false;
 }
 
@@ -166,6 +187,21 @@ void Control::Move(float cx, float cy) {
 	}
 }
 
+/**
+ * Moves the widget absoluty, or sets the position
+ * @param cx the new x in screen space
+ * @param cy the new y in screen space
+ */
+void Control::SetPosition(float cx, float cy) {
+	x = cx;
+	y = cy;
+
+	size_t size = Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		Children[i]->SetPosition(cx, cy);
+	}
+}
+
 void Control::SetEnabled(bool value) {
 	isEnabled = value;
 }
@@ -174,16 +210,8 @@ void Control::SetFocus(bool value) {
 	hasFocus = value;
 }
 
-void Control::SetCallback(boost::function<void() > callback) {
+void Control::SetCallback(boost::function<void()> callback) {
 	m_Callback = callback;
-}
-
-void Control::SetWidth(float w) {
-	Width = w;
-}
-
-void Control::SetHeight(float h) {
-	Height = h;
 }
 
 bool Control::HasAttrib(unsigned short a) {
@@ -197,6 +225,14 @@ float Control::GetWidth() {
 
 float Control::GetHeight() {
 	return Height;
+}
+
+void Control::SetWidth(float w){
+	Width = w;
+}
+
+void Control::SetHeight(float h){
+	Height = h;
 }
 
 void Control::SetColor(float r, float g, float b, float a) {
@@ -234,7 +270,12 @@ unsigned int Control::Size(){
 }
 
 unsigned int Control::TotalChildren() {
-	return Children.size();
+	size_t size = Children.size();
+	unsigned int ret = size;
+	for (unsigned int i = 0; i < size; i++)
+		ret += Children[i]->TotalChildren();
+
+	return ret;
 }
 
 unsigned int Control::NumChildren() {
@@ -365,3 +406,9 @@ float* Control::GetRotationfv(){
 const Window* Control::GetRoot(){
 	return Root;
 }
+
+float Control::GetX() { return x; }
+float Control::GetY() { return y; }
+float Control::GetZ() { return z; }
+float Control::GetLayer() { return layer; }
+float Control::GetDepth() { return z + layer; }

@@ -17,6 +17,8 @@
           <itemPath>src/gui/label.h</itemPath>
           <itemPath>src/gui/rule.cpp</itemPath>
           <itemPath>src/gui/rule.h</itemPath>
+          <itemPath>src/gui/slider.cpp</itemPath>
+          <itemPath>src/gui/slider.h</itemPath>
           <itemPath>src/gui/window.cpp</itemPath>
           <itemPath>src/gui/window.h</itemPath>
         </logicalFolder>

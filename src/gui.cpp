@@ -68,8 +68,10 @@ void GUI::Move(int x, int y) {
 	if (x == 0 && y == 0)
 		return;
 
-	if (ActiveWindow != NULL)
+	if (ActiveWindow != NULL){
 		ActiveWindow->Move(x, y);
+		renderer->Update(ActiveWindow);
+	}
 }
 
 /**
@@ -84,10 +86,11 @@ void GUI::MakeActive(Window* w) {
 		return;
 
 	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
-		if (*it != w && (*it)->z >= w->z) {
-			(*it)->AddDepth(-TOP_LAYER); //TOP_LAYER is the total ammount of layers, prevents overlapping
+		if (*it != w && (*it)->GetZ() >= w->GetZ()) {
+			(*it)->AddDepth(-(TOP_LAYER+1)); //TOP_LAYER is the total ammount of layers, prevents overlapping
 		}
 	}
+	
 	w->SetDepth(-TOP_LAYER);
 	renderer->Refresh();
 }
@@ -109,6 +112,19 @@ void GUI::OnMousePress(unsigned short button, int mx, int my) {
 bool GUI::OnMouseClick(unsigned short num, bool final) {
 	if (ActiveWindow != NULL)
 		return ActiveWindow->OnMouseClick(num, final);
+	return false;
+}
+
+bool GUI::OnMouseMotion(float x, float y, unsigned short button){
+	HitTest(x,y);
+
+	if(MouseOverWindow != NULL){
+		if(MouseOverWindow->OnMouseMotion(x, y, button)){
+			renderer->Update(MouseOverWindow);
+			return true;
+		}
+		return false;
+	}
 	return false;
 }
 
@@ -142,26 +158,32 @@ void GUI::CreateWindowConsole(float x, float y) {
 	window->AddChild(textarea, false);
 	window->AddChild(inputarea, true);
 
-	renderer->AddObject(window);
-	renderer->Update(window, RENDERER_ADD);
-
 	//now we move it (and all its children) and make it build its vbo
-	window->Width = topbar->GetWidth();
-	window->Height = topbar->GetHeight() + lsidebar->GetHeight();
+	window->SetWidth(topbar->GetWidth());
+	window->SetHeight(topbar->GetHeight() + lsidebar->GetHeight());
 	window->Move(x, y);
 	Windows.push_back(window);
+
+	renderer->AddObject(window);
+	renderer->Update(window, RENDERER_ADD);
 }
 
 void GUI::CreateTW() {
 	Window* window = new Window(this, renderer);
 
-	Checkbox* b = new Checkbox("checkbox", window);
+	Rule* s = new Rule("topbar", window, NULL, BOTTOM_LAYER);
+	Slider* b = new Slider("slider", window, s);
 
-	window->AddChild(b, true);
-	window->Width = b->GetWidth();
-	window->Height = b->GetHeight();
+	b->Move(1,1);
+	//b->SetCallback(boost::bind<void>(&GUI::Temp, this, _1));
+
+	window->AddChild(s);
+	window->AddChild(b);
+	window->SetWidth(s->GetWidth());
+	window->SetHeight(s->GetHeight());
 
 	Windows.push_back(window);
+	
 	renderer->AddObject(window);
 	renderer->Update(window, RENDERER_ADD);
 }

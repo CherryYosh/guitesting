@@ -8,3 +8,5 @@ textinput:82,194,237,214
 textarea:84,50,238,180
 checkbox:261,21,277,37
 checkbox-check:288,16,320,40
+slider:266,63,445,73
+slider-thumb:272,81,294,102

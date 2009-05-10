@@ -132,7 +132,13 @@ bool Mouse_GetButtonState(int key) {
 		return false;
 
 	return Buttons[key];
+}
 
+/**
+ * Returns a bitwise interger that contains the data on which buttons are down
+ */
+unsigned int Mouse_GetButtonState(){
+	return SDL_GetMouseState(NULL, NULL);
 }
 
 /**
