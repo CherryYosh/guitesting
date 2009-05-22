@@ -14,91 +14,111 @@
  */
 #include "thememgr.h"
 
-#include "renderer/ogl/image.h"
+#include "gui/controls.h"
 
-#include <stdlib.h>
+//static values
+std::map<std::string, WindowData*> Theme::windows;
+std::map<std::string, WidgetData*> Theme::widgets;
+Image* Theme::image;
 
-//for files
-#include <iostream>
-#include <fstream>
+struct WidgetData {
+	std::string name;
+	float x, y;
+	float width, height;
+};
 
-using namespace std;
+struct ChildData {
+	WidgetData* Data;
+	std::string Callback;
+	float x, y, z;
+};
 
-ThemeMgr_ThemeDataT theme;
+struct WindowData {
+	std::vector<ChildData*> Widgets;
+};
 
-//============== theme data is store like
-// image:default.png
-// close:toprightX, toprightY, width, height, more!
+Theme::Theme() {
+ }
 
-//MUST BE CALLED AFTER DEVIL_INIT
-unsigned int ThemeMgr_LoadTheme( const char* themename ){
-	string line; //the current line
-	string temp; //temp data, a substring of line
-	size_t  pos; //position in the search
-	size_t pos2; //the second pos
-	unsigned int count = 0;
+Theme::~Theme() {
+ }
 
-	ifstream file;
-	file.open( themename );
-
-	if( !file.is_open() ){
-		return 0;
-	}
-
-	while( !file.eof() ){
-		getline( file, line );
-
-		//first we get the type or first word
-		pos = line.find( ':' );
-
-		if( pos == string::npos )
-			return count;
-
-		temp = line.substr( 0, pos ); //get from start to pos
-
-		if( temp.compare( "image" ) == 0 ){
-			temp = line.substr( pos+1 ); //now we get the rest for the image name, add 1 to remove the :
-			temp.insert( 0, "themes/" ); //insert the code path, change to soft code??
-			theme.imageID = Image_GetGLTexture( temp.c_str(), &theme.width, &theme.height );
-			continue;
-		} else { //the data is pretty simple and uniform right now..
-			ThemeMgr_ImageDataT* data = new ThemeMgr_ImageDataT;
-			data->type = temp;
-
-			//get x1
-			pos2 = line.find( ",", pos+1 ); //find the first ','
-			temp = line.substr( pos+1, pos2 - pos - 1 ); //remove the : and get the string till the ,
-			data->x = atoi( temp.c_str() );
-
-			//get y1, pos and pos2 are swaped out to keep from having to swap them
-			pos = line.find( ",", pos2+1 );
-			temp = line.substr( pos2+1, pos - pos2 - 1 );
-			data->y = atoi( temp.c_str() );
-
-			//get x2
-			pos2 = line.find( ",", pos+1 ); //find the first ','
-			temp = line.substr( pos+1, pos2 - pos - 1 ); //remove the : and get the string till the ,
-			data->x2 = atoi( temp.c_str() );
-
-			//get y2
-			pos = line.find( ",", pos2+1 );
-			temp = line.substr( pos2+1, pos - pos2 - 1 );
-			data->y2 = atoi( temp.c_str() );
-
-			theme.data.push_back( data );
-
-			//keep count so we can get the size of the bufferes needed
-			count++;
-		}
-	}
-
-	return count;
+void Theme::Init() {
+	image = new devilImage();
 }
 
-unsigned int ThemeMgr_GetImage(){
-	return theme.imageID;
+bool Theme::LoadTheme(std::string themefile) {
+	return LUABase::CallScript(themefile.c_str());
 }
 
-const ThemeMgr_ThemeDataT* ThemeMgr_GetTheme(){
-	return &theme;
+WindowData* Theme::NewWindowData(std::string name, WindowData* data) {
+	if (data != NULL)
+		return windows[name] = data;
+	else
+		return windows[name] = new WindowData;
+}
+
+WidgetData* Theme::NewWidgetData(std::string name, WidgetData* data) {
+	if (data != NULL)
+		widgets[name] = data;
+	else
+		widgets[name] = new WidgetData;
+
+	widgets[name]->name = name;
+
+	return widgets[name];
+}
+
+ChildData* Theme::PushWidget(WindowData* window, std::string widget) {
+	ChildData* data = new ChildData;
+	data->Data = widgets[widget];
+
+	window->Widgets.push_back(data);
+	return data;
+}
+
+Window* Theme::CreateWindow(std::string name){
+	WindowData* data = windows[name];
+
+	if(data == NULL){
+		printf("ERROR! creatwindow\n");
+		return NULL;
+	}
+
+	Window* ret = new Window(NULL, NULL);
+	Control* child;
+	WidgetData* wd;
+
+	double wRecp = 1.0 / image->Width();
+	double hRecp = 1.0 / image->Height();
+
+	size_t size = data->Widgets.size();
+	for(unsigned int i = 0; i < size; i++){
+		wd = data->Widgets[i]->Data;
+
+		__M_ControlCast(child, wd->name.substr(0, wd->name.find('.')));
+
+		child->SetPosition(0,0);
+		child->SetWidth(wd->width);
+		child->SetHeight(wd->height);
+		child->s = wd->x * wRecp;
+		child->s2 = (wd->x + wd->width) * wRecp;
+		child->t = 1 - (wd->y * hRecp);
+		child->t2 = 1 - ((wd->y + wd->height) * hRecp);
+
+		ret->AddChild(child);
+	}
+	return ret;
+}
+
+void Theme::SetImage(std::string path){
+	image->Load(path);
+}
+
+Image* Theme::GetImage(){
+	return image;
+}
+
+unsigned int Theme::GetImageID(){
+	return image->GetID();
 }

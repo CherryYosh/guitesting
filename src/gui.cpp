@@ -16,6 +16,7 @@
 #include "gui.h"
 #include "gui/controls.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
+#include "thememgr.h"
 
 oglWidgetRenderer* renderer;
 
@@ -24,13 +25,9 @@ GUI::GUI() : System() {
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
 	renderer = new oglWidgetRenderer;
-
-	//set up the control
-	Control_Init("themes/default.theme");
 }
 
 GUI::~GUI() {
-	//	delete [] renderer;
 	Windows.clear();
 }
 
@@ -68,7 +65,7 @@ void GUI::Move(int x, int y) {
 	if (x == 0 && y == 0)
 		return;
 
-	if (ActiveWindow != NULL){
+	if (ActiveWindow != NULL) {
 		ActiveWindow->Move(x, y);
 		renderer->Update(ActiveWindow);
 	}
@@ -80,17 +77,16 @@ void GUI::Move(int x, int y) {
  * @returns TODO
  */
 void GUI::MakeActive(Window* w) {
-	//Active window can be set to null
 	ActiveWindow = w;
 	if (w == NULL)
 		return;
 
 	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
 		if (*it != w && (*it)->GetZ() >= w->GetZ()) {
-			(*it)->AddDepth(-(TOP_LAYER+1)); //TOP_LAYER is the total ammount of layers, prevents overlapping
+			(*it)->AddDepth(-(TOP_LAYER + 1)); //TOP_LAYER is the total ammount of layers, prevents overlapping
 		}
 	}
-	
+
 	w->SetDepth(-TOP_LAYER);
 	renderer->Refresh();
 }
@@ -115,11 +111,11 @@ bool GUI::OnMouseClick(unsigned short num, bool final) {
 	return false;
 }
 
-bool GUI::OnMouseMotion(float x, float y, unsigned short button){
-	HitTest(x,y);
+bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
+	HitTest(x, y);
 
-	if(MouseOverWindow != NULL){
-		if(MouseOverWindow->OnMouseMotion(x, y, button)){
+	if (MouseOverWindow != NULL) {
+		if (MouseOverWindow->OnMouseMotion(x, y, button)) {
 			renderer->Update(MouseOverWindow);
 			return true;
 		}
@@ -129,39 +125,10 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button){
 }
 
 void GUI::CreateWindowConsole(float x, float y) {
-	Window* window = new Window(this, renderer);
-
-	Rule* topbar = new Rule("topbar", window);
-	Rule* lsidebar = new Rule("sidebar", window);
-	Rule* rsidebar = new Rule("sidebar", window);
-	Rule* bottombar = new Rule("bottombar", window);
-	Label* textarea = new Label("textarea", window);
-	Editbox* inputarea = new Editbox("textinput", window);
-	Button* close = new Button("close", window, topbar, TOP_LAYER);
-
-	close->SetCallback(boost::bind<void>(&Window::Close, window));
-
-	//now to position them
-	close->Move(topbar->GetWidth() - (close->GetWidth() * 1.5), topbar->GetHeight() * 0.25);
-	lsidebar->Move(0, topbar->GetHeight());
-	rsidebar->Move(topbar->GetWidth() - rsidebar->GetWidth(), topbar->GetHeight());
-	bottombar->Move(lsidebar->GetWidth(), topbar->GetHeight() + lsidebar->GetHeight() - bottombar->GetHeight());
-	textarea->Move(lsidebar->GetWidth(), topbar->GetHeight());
-	inputarea->Move(lsidebar->GetWidth(), topbar->GetHeight() + textarea->GetHeight());
-
-	//now add them all
-	window->AddChild(topbar, false);
-	window->AddChild(bottombar, false);
-	window->AddChild(lsidebar, false);
-	window->AddChild(rsidebar, false);
-	window->AddChild(close, false);
-	window->AddChild(textarea, false);
-	window->AddChild(inputarea, true);
-
-	//now we move it (and all its children) and make it build its vbo
-	window->SetWidth(topbar->GetWidth());
-	window->SetHeight(topbar->GetHeight() + lsidebar->GetHeight());
-	window->Move(x, y);
+	Theme t;
+	Window* window = t.CreateWindow("console");
+	window->gui = this;
+	window->renderer = renderer;
 	Windows.push_back(window);
 
 	renderer->AddObject(window);
@@ -174,7 +141,7 @@ void GUI::CreateTW() {
 	Rule* s = new Rule("topbar", window, NULL, BOTTOM_LAYER);
 	Slider* b = new Slider("slider", window, s);
 
-	b->Move(1,1);
+	b->Move(1, 1);
 	//b->SetCallback(boost::bind<void>(&GUI::Temp, this, _1));
 
 	window->AddChild(s);
@@ -183,14 +150,14 @@ void GUI::CreateTW() {
 	window->SetHeight(s->GetHeight());
 
 	Windows.push_back(window);
-	
+
 	renderer->AddObject(window);
 	renderer->Update(window, RENDERER_ADD);
 }
 
 void GUI::CloseWindow(Window* w) {
 	std::vector<Window*>::iterator it = Windows.begin();
-	while(*it != w )
+	while (*it != w)
 		it++;
 	Windows.erase(it);
 

@@ -82,12 +82,13 @@ public:
 	float* GetRotationfv();
 
 	bool ReciveInput;
+
+	GUI* gui;
+	Renderer* renderer;
 protected:
 private:
 	std::list<AnimationType> Animations;
 
-	GUI* gui;
-	Renderer* renderer;
 
 	nv::vec3<float> AnimationOrigin;
 	nv::matrix4<float> Rotation;

@@ -13,7 +13,7 @@
 
 #include <SDL/SDL.h>
 
-#include "image.h"
+#include "devilImage.h"
 #include "../../camera.h"
 
 //Static varibles are here instead of in the class to make the code cleaner
@@ -38,7 +38,7 @@ void oglBase::CreateContex() {
 		exit(2);
 	}
 
-	if (!Image_Init()) {
+	if (!devilImage::InitDevIL()) {
 		printf("Unable to init Image libary, closing!\n");
 		exit(3);
 	}

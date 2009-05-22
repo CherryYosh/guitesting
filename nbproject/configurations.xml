@@ -2,6 +2,10 @@
 <configurationDescriptor version="60">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="guitesting" displayName="guitesting" projectFiles="true">
+      <logicalFolder name="scripts" displayName="scripts" projectFiles="true">
+        <itemPath>scripts/test1.lua</itemPath>
+        <itemPath>scripts/xmlParse.lua</itemPath>
+      </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <logicalFolder name="gui" displayName="gui" projectFiles="true">
           <itemPath>src/gui/button.cpp</itemPath>
@@ -22,10 +26,14 @@
           <itemPath>src/gui/window.cpp</itemPath>
           <itemPath>src/gui/window.h</itemPath>
         </logicalFolder>
+        <logicalFolder name="lua" displayName="lua" projectFiles="true">
+          <itemPath>src/lua/luabase.cpp</itemPath>
+          <itemPath>src/lua/luabase.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="renderer" displayName="renderer" projectFiles="true">
           <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
-            <itemPath>src/renderer/ogl/image.cpp</itemPath>
-            <itemPath>src/renderer/ogl/image.h</itemPath>
+            <itemPath>src/renderer/ogl/devilImage.cpp</itemPath>
+            <itemPath>src/renderer/ogl/devilImage.h</itemPath>
             <itemPath>src/renderer/ogl/oglBase.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglBase.h</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.cpp</itemPath>
@@ -36,7 +44,12 @@
             <itemPath>src/renderer/ogl/vbo.h</itemPath>
           </logicalFolder>
           <itemPath>src/renderer/base.h</itemPath>
+          <itemPath>src/renderer/image.h</itemPath>
           <itemPath>src/renderer/renderer.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="utils" displayName="utils" projectFiles="true">
+          <itemPath>src/utils/reflection.cpp</itemPath>
+          <itemPath>src/utils/reflection.h</itemPath>
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
         <itemPath>src/camera.h</itemPath>
@@ -75,6 +88,9 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>src/renderer/ogl</Elem>
+    <Elem>src/lua</Elem>
+    <Elem>src/utils</Elem>
+    <Elem>scripts</Elem>
   </sourceRootList>
   <projectmakefile>guitesting-Makefile.mk</projectmakefile>
   <confs>

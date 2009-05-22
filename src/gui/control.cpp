@@ -17,60 +17,10 @@
 #include "control.h"
 
 #include "window.h"
-#include "../thememgr.h"
-
-std::vector<CTRL_GUIDataT*> guiData;
-
-void Control_Init(const char* path) {
-	unsigned int size = ThemeMgr_LoadTheme(path);
-	const ThemeMgr_ThemeDataT* theme = ThemeMgr_GetTheme();
-
-	for (unsigned int i = 0; i < size; i++) {
-		//textrue data
-		float x = (float) (theme->data[i]->x) / (float) theme->width;
-		//heigh - y, convertes it from image space, 0,0, being top left, to texture space , 0,0 being bottome left
-		float y = (float) (theme->height - theme->data[i]->y) / (float) theme->height;
-
-		float x2 = (float) theme->data[i]->x2 / (float) theme->width;
-		float y2 = (float) (theme->height - theme->data[i]->y2) / (float) theme->height;
-
-		//add the data so it can get looked up
-		CTRL_GUIDataT* temp = new CTRL_GUIDataT;
-
-		temp->type = theme->data[i]->type;
-		temp->width = theme->data[i]->x2 - theme->data[i]->x;
-		temp->height = theme->data[i]->y2 - theme->data[i]->y;
-
-		//set up the uv
-		temp->s = x;
-		temp->s2 = x2;
-		temp->t = y;
-		temp->t2 = y2;
-
-		guiData.push_back(temp);
-	}
-
-	//time to gen the VBO's data
-//	Control::GUI_vbo = new VBO();
-}
 
 //This should only be called when a new theme has been loaded or when the control is initlized
 
 void Control::GetControlData() {
-	size_t size = guiData.size();
-	for (unsigned int i = 0; i < size; i++) {
-		if (Type == guiData[i]->type) {
-			Width = guiData[i]->width;
-			Height = guiData[i]->height;
-
-			s = guiData[i]->s;
-			s2 = guiData[i]->s2;
-			t = guiData[i]->t;
-			t2 = guiData[i]->t2;
-
-			return;
-		}
-	}
 }
 
 Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) {
@@ -97,14 +47,18 @@ Control::~Control() {
 	Children.clear();
 }
 
-void Control::OnActivate() {
-	//nothing needs to be done
+void Control::OnActivate() { }
+
+void Control::OnUnactivate() {
+	HitTest(5,5);
 }
 
-void Control::OnUnactivate(){
-	
-}
-
+/**
+ * Checks if the point is inside the controls quad
+ * @param mx	the x value to check
+ * @param my	the y value to check
+ * @returns true if the hittest passed
+ */
 bool Control::HitTest(int mx, int my) {
 	if (mx > x && my > y &&
 		mx < x + Width && my < y + Height) {
@@ -139,15 +93,13 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 		ActiveChild = MouseOverChild;
 		ActiveChild->OnMousePress(button, mx, my);
 	} else {
-		if(ActiveChild != NULL)
+		if (ActiveChild != NULL)
 			ActiveChild->OnUnactivate();
 		ActiveChild = NULL;
 	}
 }
 
-void Control::OnMouseRelease(int button) {
-	//called by input
-}
+void Control::OnMouseRelease(int button) { }
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
 	if (ActiveChild != NULL) {
@@ -164,7 +116,7 @@ bool Control::OnMouseClick(unsigned short num, bool final) {
  * @returns false if nothing was handeled
  */
 bool Control::OnMouseMotion(float x, float y, unsigned short button) {
-	if(ActiveChild != NULL)
+	if (ActiveChild != NULL)
 		return ActiveChild->OnMouseMotion(x, y, button);
 	return false;
 }
@@ -188,7 +140,7 @@ void Control::Move(float cx, float cy) {
 }
 
 /**
- * Moves the widget absoluty, or sets the position
+ * sets the position widgets position
  * @param cx the new x in screen space
  * @param cy the new y in screen space
  */
@@ -210,7 +162,7 @@ void Control::SetFocus(bool value) {
 	hasFocus = value;
 }
 
-void Control::SetCallback(boost::function<void()> callback) {
+void Control::SetCallback(boost::function<void() > callback) {
 	m_Callback = callback;
 }
 
@@ -227,11 +179,11 @@ float Control::GetHeight() {
 	return Height;
 }
 
-void Control::SetWidth(float w){
+void Control::SetWidth(float w) {
 	Width = w;
 }
 
-void Control::SetHeight(float h){
+void Control::SetHeight(float h) {
 	Height = h;
 }
 
@@ -265,7 +217,7 @@ void Control::AddChild(Control* c) {
 /**
  * Returns the total size of the control, 1 + TotalChildren
  */
-unsigned int Control::Size(){
+unsigned int Control::Size() {
 	return 1 + TotalChildren();
 }
 
@@ -282,47 +234,47 @@ unsigned int Control::NumChildren() {
 	return Children.size();
 }
 
-Control* Control::GetChild( unsigned int num ){
-	if( num < Children.size() ){
+Control* Control::GetChild(unsigned int num) {
+	if (num < Children.size()) {
 		return Children[num];
 	} else {
 		return NULL;
 	}
 }
 
-Control* Control::IterateChild(unsigned int num){
-	if(IsLeaf()){
+Control* Control::IterateChild(unsigned int num) {
+	if (IsLeaf()) {
 		return NULL;
 	} else {
 		Control* root = NULL;
 		Control* child = NULL;
 		unsigned int j = 0;
 		unsigned int z = 0;
-		
+
 		size_t size = NumChildren();
-		for(unsigned int i = 0; i < size; i++){
+		for (unsigned int i = 0; i < size; i++) {
 			root = Children[i];
 			child = root;
 			z = 0;
 
-			do{
-			    if(j == num)
-				    return child;
-			    
-			    child = root->IterateChild(z);
-			    j++;
-			    z++;
-			} while( child != NULL );
+			do {
+				if (j == num)
+					return child;
+
+				child = root->IterateChild(z);
+				j++;
+				z++;
+			} while (child != NULL);
 		}
 	}
 
 	return NULL;
 }
 
-int Control::IterateChild(Control* c){
-	if(IsLeaf()){
+int Control::IterateChild(Control* c) {
+	if (IsLeaf()) {
 		return -1;
-	} else if ( c == this ){
+	} else if (c == this) {
 		return 0;
 	} else {
 		Control* root = NULL;
@@ -331,34 +283,34 @@ int Control::IterateChild(Control* c){
 		unsigned int z = 0;
 
 		size_t size = NumChildren();
-		for(unsigned int i = 0; i < size; i++){
+		for (unsigned int i = 0; i < size; i++) {
 			root = Children[i];
 			child = root;
 			z = 0;
 
-			do{
-			    if(child == c)
-				    return j;
+			do {
+				if (child == c)
+					return j;
 
-			    child = root->IterateChild(z);
-			    j++;
-			    z++;
-			} while( child != NULL );
+				child = root->IterateChild(z);
+				j++;
+				z++;
+			} while (child != NULL);
 		}
 	}
 
 	return -1;
 }
 
-bool Control::IsRoot(){
+bool Control::IsRoot() {
 	return false; //only windows can be roots
 }
 
-bool Control::IsLeaf(){
-	return (0 == NumChildren());
+bool Control::IsLeaf() {
+	return(0 == NumChildren());
 }
 
-void Control::SetDepth(float depth){
+void Control::SetDepth(float depth) {
 	this->z = depth;
 
 	size_t size = Children.size();
@@ -367,7 +319,7 @@ void Control::SetDepth(float depth){
 	}
 }
 
-void Control::AddDepth(float depth){
+void Control::AddDepth(float depth) {
 	this->z += depth;
 
 	size_t size = Children.size();
@@ -376,15 +328,15 @@ void Control::AddDepth(float depth){
 	}
 }
 
-void Control::SetLayer(LayerT l){
+void Control::SetLayer(LayerT l) {
 	layer = l;
 }
 
 /**
  * returns a pointer to the roots rotation matrix, or NULL
  */
-nv::matrix4<float>* Control::GetRotation(){
-	if(Root == NULL)
+nv::matrix4<float>* Control::GetRotation() {
+	if (Root == NULL)
 		return NULL;
 
 	return Root->GetRotation();
@@ -393,8 +345,8 @@ nv::matrix4<float>* Control::GetRotation(){
 /**
  * returns a float[16] containing the roots rotation matrix, or NULL
  */
-float* Control::GetRotationfv(){
-	if(Root == NULL)
+float* Control::GetRotationfv() {
+	if (Root == NULL)
 		return NULL;
 
 	return Root->GetRotationfv();
@@ -403,12 +355,26 @@ float* Control::GetRotationfv(){
 /**
  * Returns a const pointer to the Root window
  */
-const Window* Control::GetRoot(){
+const Window* Control::GetRoot() {
 	return Root;
 }
 
-float Control::GetX() { return x; }
-float Control::GetY() { return y; }
-float Control::GetZ() { return z; }
-float Control::GetLayer() { return layer; }
-float Control::GetDepth() { return z + layer; }
+float Control::GetX() {
+	return x;
+}
+
+float Control::GetY() {
+	return y;
+}
+
+float Control::GetZ() {
+	return z;
+}
+
+float Control::GetLayer() {
+	return layer;
+}
+
+float Control::GetDepth() {
+	return z + layer;
+}

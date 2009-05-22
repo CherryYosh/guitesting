@@ -30,12 +30,6 @@
 
 class Window;
 
-struct CTRL_GUIDataT {
-	std::string type;
-	float s, t, s2, t2; //the uv coords
-	float width, height;
-};
-
 enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 //the basic control class of all GUI objects
 
@@ -123,6 +117,4 @@ private:
 
 	std::string Type;
 };
-
-void Control_Init(const char*);
 #endif

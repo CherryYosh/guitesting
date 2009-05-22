@@ -12,13 +12,13 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-#include<boost/bind.hpp>
+#include <boost/bind.hpp>
 
 #include "renderer/ogl/oglBase.h"
 
 #include "display.h"
 
-#include "renderer/ogl/image.h"
+#include "renderer/ogl/devilImage.h"
 #include "mouse.h"
 #include "engine.h"
 #include "fontmgr.h"
@@ -38,9 +38,6 @@ Display::Display() : System() {
 	gui = new GUI();
 	camera = new Camera();
 	contex.SetCamera(camera);
-
-	gui->CreateWindowConsole(50, 50);
-	gui->CreateTW();
 
 	camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
 	camera->SetOrtho(0, 640, 480, 0, 0, 1000);
@@ -64,6 +61,10 @@ void Display::InitTimers() {
 
 	timers.AddTimer(FPSTimer, true, false);
 	timers.AddTimer(Mouse_GetTimer());
+}
+
+void Display::Temp(){
+	gui->CreateWindowConsole(50,50);
 }
 
 void Display::DrawFPS(unsigned int* data) {

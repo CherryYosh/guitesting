@@ -21,13 +21,26 @@
 #include "engine.h"
 #include "input.h"
 #include "display.h"
+#include "thememgr.h"
+
+#include "lua/luabase.h"
 
 Engine* Engine::engine;
 
 Engine::Engine(){
 	engine = this;
 
+	lua = new LUABase();
+	lua->Init();
+
 	display = new Display();
+
+	Theme theme;
+	theme.Init();
+	theme.LoadTheme("scripts/xmlParse.lua");
+	
+	display->Temp();
+
 	input = new Input();
 
 	input->BindAction( "default", "QUIT", true, boost::bind<void>( &Engine::Quit, Engine::engine ) );

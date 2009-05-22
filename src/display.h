@@ -42,6 +42,8 @@ public:
 	void OnMouseButtonChange();
 	void OnMouseMotion();
 	void OnKeyPress( SDL_keysym );
+
+	void Temp();
 protected:
 private:
 	void InitTimers();

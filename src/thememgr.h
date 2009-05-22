@@ -15,31 +15,45 @@
 #ifndef THEMEMGR_H
 #define THEMEMGR_H
 
+//one theme loaded at a time
+//static class
+//outside classes use ids..
+
 #include <string>
 #include <vector>
+#include <map>
 
-//keep to the file
-struct ThemeMgr_ImageDataT{
-	unsigned int x; //the left side x
-	unsigned int y; //the top side y;
-	unsigned int x2; //the right x
-	unsigned int y2; //the bottom y
+#include "renderer/ogl/devilImage.h"
+#include "lua/luabase.h"
 
-	std::string type;
+//protos, class defined in the .cpp
+struct WidgetData;
+struct WindowData;
+struct ChildData;
+class Window;
+
+class Theme {
+public:
+	Theme();
+	virtual ~Theme();
+
+	void Init();
+	bool LoadTheme(std::string);
+
+	WindowData* NewWindowData(std::string, WindowData*);
+	WidgetData* NewWidgetData(std::string, WidgetData*);
+
+	Window* CreateWindow(std::string);
+
+	ChildData* PushWidget(WindowData*, std::string);
+
+	static void SetImage(std::string);
+	static Image* GetImage();
+	static unsigned int GetImageID();
+private:
+	static std::map<std::string, WindowData*> windows;
+	static std::map<std::string, WidgetData*> widgets;
+	static Image* image;
 };
-
-//keep this to file scope
-struct ThemeMgr_ThemeDataT{
-	unsigned int imageID;
-	unsigned int width;
-	unsigned int height;
-
-	std::string Name;
-	std::vector< ThemeMgr_ImageDataT* > data;
-};
-
-unsigned int ThemeMgr_LoadTheme( const char* );
-unsigned int ThemeMgr_GetImage();
-const ThemeMgr_ThemeDataT* ThemeMgr_GetTheme();
 
 #endif

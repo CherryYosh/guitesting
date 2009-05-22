@@ -96,7 +96,7 @@ void oglWidgetRenderer::Begin() {
 
 	//We bind the theme image
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ThemeMgr_GetImage());
+	glBindTexture(GL_TEXTURE_2D, Theme::GetImageID());
 
 	Buffer.Bind();
 

@@ -17,6 +17,7 @@
 
 class Display;
 class Input;
+class LUABase;
 
 class Engine{
 public:
@@ -34,6 +35,7 @@ private:
 
 	Input *input;
 	Display *display;
+	LUABase* lua;
 };
 
 
