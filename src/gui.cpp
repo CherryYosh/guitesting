@@ -126,9 +126,10 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
 
 void GUI::CreateWindowConsole(float x, float y) {
 	Theme t;
-	Window* window = t.CreateWindow("console");
+	Window* window = t.GetWindow("console");
 	window->gui = this;
 	window->renderer = renderer;
+	window->Move(100, 100);
 	Windows.push_back(window);
 
 	renderer->AddObject(window);

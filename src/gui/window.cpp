@@ -110,10 +110,6 @@ unsigned int Window::Size() {
  * The functions finds the mouse coords in object space, thus working with 3d rotation,
  * and figures out if they are inside the window.
  *
- *  Problems : None.
- *
- *  Threadsafe : No.
- *
  * @param mx the mouse's x coordinate
  * @param my the mouse's y coordinate
  * @param p  the projection matrix's array

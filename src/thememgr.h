@@ -43,7 +43,7 @@ public:
 	WindowData* NewWindowData(std::string, WindowData*);
 	WidgetData* NewWidgetData(std::string, WidgetData*);
 
-	Window* CreateWindow(std::string);
+	Window* GetWindow(std::string);
 
 	ChildData* PushWidget(WindowData*, std::string);
 

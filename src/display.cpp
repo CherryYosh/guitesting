@@ -93,9 +93,9 @@ void Display::Resize(unsigned int width, unsigned int height) {
 }
 
 void Display::OnMouseClick(unsigned short* num, bool final) {
-	if (!gui->OnMouseClick(*num, final)) {
-		Mouse_StopTimer();
-	}
+	//if (!gui->OnMouseClick(*num, final)) {
+	//	Mouse_StopTimer();
+	//}
 }
 
 void Display::OnMouseButtonChange() {

@@ -28,20 +28,28 @@ struct WidgetData {
 };
 
 struct ChildData {
+	void SetLayer(std::string l) {
+		if (l == "top")
+			layer = TOP_LAYER;
+		else if (l == "default")
+			layer = DEFAULT_LAYER;
+		else if (l == "bottom")
+			layer = BOTTOM_LAYER;
+	}
+
 	WidgetData* Data;
 	std::string Callback;
+	LayerT layer;
 	float x, y, z;
 };
 
 struct WindowData {
-	std::vector<ChildData*> Widgets;
+	std::vector<ChildData*> Children;
 };
 
-Theme::Theme() {
- }
+Theme::Theme() { }
 
-Theme::~Theme() {
- }
+Theme::~Theme() { }
 
 void Theme::Init() {
 	image = new devilImage();
@@ -65,22 +73,27 @@ WidgetData* Theme::NewWidgetData(std::string name, WidgetData* data) {
 		widgets[name] = new WidgetData;
 
 	widgets[name]->name = name;
-
 	return widgets[name];
 }
 
 ChildData* Theme::PushWidget(WindowData* window, std::string widget) {
 	ChildData* data = new ChildData;
-	data->Data = widgets[widget];
 
-	window->Widgets.push_back(data);
+	data->Data = widgets[widget];
+	data->Callback = "";
+	data->x = 0;
+	data->y = 0;
+	data->z = 0;
+	data->layer = DEFAULT_LAYER;
+
+	window->Children.push_back(data);
 	return data;
 }
 
-Window* Theme::CreateWindow(std::string name){
+Window* Theme::GetWindow(std::string name) {
 	WindowData* data = windows[name];
 
-	if(data == NULL){
+	if (data == NULL) {
 		printf("ERROR! creatwindow\n");
 		return NULL;
 	}
@@ -88,17 +101,20 @@ Window* Theme::CreateWindow(std::string name){
 	Window* ret = new Window(NULL, NULL);
 	Control* child;
 	WidgetData* wd;
+	ChildData* cd;
 
 	double wRecp = 1.0 / image->Width();
 	double hRecp = 1.0 / image->Height();
 
-	size_t size = data->Widgets.size();
-	for(unsigned int i = 0; i < size; i++){
-		wd = data->Widgets[i]->Data;
+	size_t size = data->Children.size();
+	for (unsigned int i = 0; i < size; i++) {
+		cd = data->Children[i];
+		wd = cd->Data;
 
 		__M_ControlCast(child, wd->name.substr(0, wd->name.find('.')));
 
-		child->SetPosition(0,0);
+		child->SetPosition(cd->x, cd->y);
+		child->SetLayer(cd->layer);
 		child->SetWidth(wd->width);
 		child->SetHeight(wd->height);
 		child->s = wd->x * wRecp;
@@ -108,17 +124,18 @@ Window* Theme::CreateWindow(std::string name){
 
 		ret->AddChild(child);
 	}
+	
 	return ret;
 }
 
-void Theme::SetImage(std::string path){
+void Theme::SetImage(std::string path) {
 	image->Load(path);
 }
 
-Image* Theme::GetImage(){
+Image* Theme::GetImage() {
 	return image;
 }
 
-unsigned int Theme::GetImageID(){
+unsigned int Theme::GetImageID() {
 	return image->GetID();
 }

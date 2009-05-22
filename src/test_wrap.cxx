@@ -1537,10 +1537,28 @@ typedef struct{} LANGUAGE_OBJ;
 
 #include "thememgr.h"
 
+enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
+
 struct WidgetData{
         std::string name;
         float x,y;
         float width,height;
+};
+
+struct ChildData {
+    	void SetLayer(std::string l){
+		if(l == "top")
+			layer = TOP_LAYER;
+		else if(l == "default")
+			layer = DEFAULT_LAYER;
+		else if(l == "bottom")
+			layer = BOTTOM_LAYER;
+	}
+
+	WidgetData* Data;
+	std::string Callback;
+        LayerT layer;
+	float x, y, z;
 };
 
 
@@ -1915,22 +1933,22 @@ fail:
 }
 
 
-static int _wrap_Theme_CreateWindow(lua_State* L) {
+static int _wrap_Theme_GetWindow(lua_State* L) {
   int SWIG_arg = 0;
   Theme *arg1 = (Theme *) 0 ;
   std::string arg2 ;
   Window *result = 0 ;
   
-  SWIG_check_num_args("CreateWindow",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CreateWindow",1,"Theme *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("CreateWindow",2,"std::string");
+  SWIG_check_num_args("GetWindow",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("GetWindow",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("GetWindow",2,"std::string");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
-    SWIG_fail_ptr("Theme_CreateWindow",1,SWIGTYPE_p_Theme);
+    SWIG_fail_ptr("Theme_GetWindow",1,SWIGTYPE_p_Theme);
   }
   
   (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
-  result = (Window *)(arg1)->CreateWindow(arg2);
+  result = (Window *)(arg1)->GetWindow(arg2);
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_Window,0); SWIG_arg++; 
   return SWIG_arg;
   
@@ -2038,7 +2056,7 @@ static swig_lua_method swig_Theme_methods[] = {
     {"LoadTheme", _wrap_Theme_LoadTheme}, 
     {"NewWindowData", _wrap_Theme_NewWindowData}, 
     {"NewWidgetData", _wrap_Theme_NewWidgetData}, 
-    {"CreateWindow", _wrap_Theme_CreateWindow}, 
+    {"GetWindow", _wrap_Theme_GetWindow}, 
     {"PushWidget", _wrap_Theme_PushWidget}, 
     {0,0}
 };
@@ -2336,6 +2354,375 @@ static swig_lua_class *swig_WidgetData_bases[] = {0};
 static const char *swig_WidgetData_base_names[] = {0};
 static swig_lua_class _wrap_class_WidgetData = { "WidgetData", &SWIGTYPE_p_WidgetData,_wrap_new_WidgetData, swig_delete_WidgetData, swig_WidgetData_methods, swig_WidgetData_attributes, swig_WidgetData_bases, swig_WidgetData_base_names };
 
+static int _wrap_ChildData_SetLayer(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  std::string arg2 ;
+  
+  SWIG_check_num_args("SetLayer",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetLayer",1,"ChildData *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("SetLayer",2,"std::string");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_SetLayer",1,SWIGTYPE_p_ChildData);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  (arg1)->SetLayer(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_Data_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  WidgetData *arg2 = (WidgetData *) 0 ;
+  
+  SWIG_check_num_args("Data",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Data",1,"ChildData *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("Data",2,"WidgetData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_Data_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_WidgetData,SWIG_POINTER_DISOWN))){
+    SWIG_fail_ptr("ChildData_Data_set",2,SWIGTYPE_p_WidgetData);
+  }
+  
+  if (arg1) (arg1)->Data = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_Data_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  WidgetData *result = 0 ;
+  
+  SWIG_check_num_args("Data",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Data",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_Data_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (WidgetData *) ((arg1)->Data);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_WidgetData,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_Callback_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  
+  SWIG_check_num_args("Callback",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callback",1,"ChildData *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Callback",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_Callback_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_strlen(L,2)); arg2=&temp2;
+  if (arg1) (arg1)->Callback = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_Callback_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  std::string *result = 0 ;
+  
+  SWIG_check_num_args("Callback",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callback",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_Callback_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (std::string *) & ((arg1)->Callback);
+  lua_pushlstring(L,result->data(),result->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_layer_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  LayerT arg2 ;
+  
+  SWIG_check_num_args("layer",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("layer",1,"ChildData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("layer",2,"LayerT");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_layer_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  arg2 = (LayerT)(int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->layer = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_layer_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  LayerT result;
+  
+  SWIG_check_num_args("layer",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("layer",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_layer_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (LayerT) ((arg1)->layer);
+  lua_pushnumber(L, (lua_Number)(int)(result)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_x_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("x",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("x",1,"ChildData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("x",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_x_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->x = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_x_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("x",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("x",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_x_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (float) ((arg1)->x);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_y_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("y",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("y",1,"ChildData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("y",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_y_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->y = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_y_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("y",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("y",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_y_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (float) ((arg1)->y);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_z_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("z",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("z",1,"ChildData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("z",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_z_set",1,SWIGTYPE_p_ChildData);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->z = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ChildData_z_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("z",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("z",1,"ChildData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_z_get",1,SWIGTYPE_p_ChildData);
+  }
+  
+  result = (float) ((arg1)->z);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ChildData(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *result = 0 ;
+  
+  SWIG_check_num_args("ChildData::ChildData",0,0)
+  result = (ChildData *)new ChildData();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ChildData,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_ChildData(void *obj) {
+ChildData *arg1 = (ChildData *) obj;
+delete arg1;
+}
+static swig_lua_method swig_ChildData_methods[] = {
+    {"SetLayer", _wrap_ChildData_SetLayer}, 
+    {0,0}
+};
+static swig_lua_attribute swig_ChildData_attributes[] = {
+    { "Data", _wrap_ChildData_Data_get, _wrap_ChildData_Data_set},
+    { "Callback", _wrap_ChildData_Callback_get, _wrap_ChildData_Callback_set},
+    { "layer", _wrap_ChildData_layer_get, _wrap_ChildData_layer_set},
+    { "x", _wrap_ChildData_x_get, _wrap_ChildData_x_set},
+    { "y", _wrap_ChildData_y_get, _wrap_ChildData_y_set},
+    { "z", _wrap_ChildData_z_get, _wrap_ChildData_z_set},
+    {0,0,0}
+};
+static swig_lua_class *swig_ChildData_bases[] = {0};
+static const char *swig_ChildData_base_names[] = {0};
+static swig_lua_class _wrap_class_ChildData = { "ChildData", &SWIGTYPE_p_ChildData,_wrap_new_ChildData, swig_delete_ChildData, swig_ChildData_methods, swig_ChildData_attributes, swig_ChildData_bases, swig_ChildData_base_names };
+
 #ifdef __cplusplus
 }
 #endif
@@ -2352,12 +2739,15 @@ static swig_lua_var_info swig_variables[] = {
 };
 
 static swig_lua_const_info swig_constants[] = {
+{ SWIG_LUA_INT,     (char *)"BOTTOM_LAYER", (long) BOTTOM_LAYER, 0, 0, 0},
+{ SWIG_LUA_INT,     (char *)"DEFAULT_LAYER", (long) DEFAULT_LAYER, 0, 0, 0},
+{ SWIG_LUA_INT,     (char *)"TOP_LAYER", (long) TOP_LAYER, 0, 0, 0},
     {0,0,0,0,0,0}
 };
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_ChildData = {"_p_ChildData", "ChildData *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ChildData = {"_p_ChildData", "ChildData *", 0, 0, (void*)&_wrap_class_ChildData, 0};
 static swig_type_info _swigt__p_Image = {"_p_Image", "Image *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Theme = {"_p_Theme", "Theme *", 0, 0, (void*)&_wrap_class_Theme, 0};
 static swig_type_info _swigt__p_WidgetData = {"_p_WidgetData", "WidgetData *", 0, 0, (void*)&_wrap_class_WidgetData, 0};
