@@ -1,0 +1,13 @@
+
+<theme>
+    <!-- Imports the map file to get the texture maps
+	this allows us to to use the same image theme with diffrent themes -->
+    <import file="themes/map.xml"/>
+
+    <widgets>
+	<widget name="console">
+	    <child type="rule.top" x="0" y="0"/>
+	    <child type="button.close" x="10" y="2" layer="top" />
+	</widget>
+    </widgets>
+</theme>

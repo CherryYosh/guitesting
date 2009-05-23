@@ -52,11 +52,11 @@ bool Button::OnMouseClick(unsigned short num, bool final) {
 }
 
 void Button::OnMouseEnter() {
-	Root->Animate(RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this);
+	//Root->Animate(RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this);
 }
 
 void Button::OnMouseLeave() {
 	SetColor(0, 0, 0, 0);
-	Root->UpdateControl(this);
-	Root->RemoveAnimation(this);
+	//Root->UpdateControl(this);
+	//Root->RemoveAnimation(this);
 }

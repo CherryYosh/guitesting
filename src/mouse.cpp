@@ -86,7 +86,10 @@ void Mouse_SetButtonState() {
 	if (old && !Buttons[0] && possibleClick) {
 		//we have a click and not a press
 		(*ptNumClicks)++;
-		ClickFunction(false);
+
+		if(ClickFunction != NULL)
+		    ClickFunction(false);
+		
 		possibleClick = false;
 
 		if (timerRunning) {
@@ -184,7 +187,7 @@ unsigned short* Mouse_GetClicksPtr() {
  * @param call a boolean telling weather or not the ClickFunction should be called
  */
 void Mouse_StopTimer(bool call) {
-	if (call) {
+	if (call && ClickFunction != NULL) {
 		ClickFunction(true);
 	}
 

@@ -16,6 +16,7 @@
 #define GUI_H
 
 #include <vector>
+#include <string>
 
 #include "system.h"
 
@@ -37,8 +38,7 @@ public:
 	bool OnMouseClick(unsigned short, bool);
 	bool OnMouseMotion(float, float, unsigned short);
 
-	void CreateWindowConsole(float, float);
-	void CreateTW();
+	void CreateWindow(std::string, float = 0, float = 0);
 	void CloseWindow(Window*);
 protected:
 	std::vector<Window*> Windows;

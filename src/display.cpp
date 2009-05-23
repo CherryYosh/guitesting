@@ -63,10 +63,6 @@ void Display::InitTimers() {
 	timers.AddTimer(Mouse_GetTimer());
 }
 
-void Display::Temp(){
-	gui->CreateWindowConsole(50,50);
-}
-
 void Display::DrawFPS(unsigned int* data) {
 	printf("FPS: %f\n", (*data) * 0.2);
 }
@@ -93,9 +89,9 @@ void Display::Resize(unsigned int width, unsigned int height) {
 }
 
 void Display::OnMouseClick(unsigned short* num, bool final) {
-	//if (!gui->OnMouseClick(*num, final)) {
-	//	Mouse_StopTimer();
-	//}
+	if (!gui->OnMouseClick(*num, final)) {
+		Mouse_StopTimer();
+	}
 }
 
 void Display::OnMouseButtonChange() {
@@ -116,4 +112,8 @@ void Display::OnMouseMotion() {
 
 void Display::OnKeyPress(SDL_keysym sym) {
 	gui->OnKeyPress(sym.unicode);
+}
+
+void Display::CreateWindow(std::string name){
+	gui->CreateWindow(name);
 }

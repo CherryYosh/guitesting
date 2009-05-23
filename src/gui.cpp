@@ -124,32 +124,12 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
 	return false;
 }
 
-void GUI::CreateWindowConsole(float x, float y) {
+void GUI::CreateWindow( std::string name, float x, float y) {
 	Theme t;
-	Window* window = t.GetWindow("console");
+	Window* window = t.GetWindow(name);
 	window->gui = this;
 	window->renderer = renderer;
-	window->Move(100, 100);
-	Windows.push_back(window);
-
-	renderer->AddObject(window);
-	renderer->Update(window, RENDERER_ADD);
-}
-
-void GUI::CreateTW() {
-	Window* window = new Window(this, renderer);
-
-	Rule* s = new Rule("topbar", window, NULL, BOTTOM_LAYER);
-	Slider* b = new Slider("slider", window, s);
-
-	b->Move(1, 1);
-	//b->SetCallback(boost::bind<void>(&GUI::Temp, this, _1));
-
-	window->AddChild(s);
-	window->AddChild(b);
-	window->SetWidth(s->GetWidth());
-	window->SetHeight(s->GetHeight());
-
+	window->Move(x,y);
 	Windows.push_back(window);
 
 	renderer->AddObject(window);

@@ -46,7 +46,7 @@ Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 	ReciveInput = false;
 	AnimationOrigin = nv::vec3<float>(0.0);
 	Rotation.make_identity();
-	
+
 	gui = p;
 	renderer = r;
 }
@@ -56,7 +56,19 @@ Window::~Window() {
 	MouseOverChild = NULL;
 }
 
-void Window::AddChild(Control *child, bool rebuild) {
+void Window::AddChild(Control *child) {
+	//need to check if we are adding something that will make it wider or hight
+	//NOTE:we assume the child's position is a offset..
+	int delta;
+	if ((delta = (child->GetX() + child->GetWidth()) - GetWidth()) > 0) {
+		SetWidth(GetWidth() + delta);
+	}
+	if ((delta = (child->GetY() + child->GetHeight()) - GetHeight()) > 0) {
+		SetHeight(GetHeight() + delta);
+	}
+
+	printf("width %f height %f\n", GetWidth(), GetHeight());
+
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
 		if (Children[i]->HitTest(child->GetX(), child->GetY())) {
@@ -79,7 +91,6 @@ void Window::Move(float xChange, float yChange) {
 	size_t size = Children.size();
 	for (unsigned int i = 0; i < size; i++) {
 		Children[i]->Move(change.x, change.y);
-		//Children[i]->AddDepth(change.z);
 	}
 }
 
@@ -88,13 +99,13 @@ void Window::Close() {
 }
 
 void Window::UpdateControl(Control* control) {
-	if(control == NULL)
+	if (control == NULL)
 		return;
 
 	renderer->Update(control, RENDERER_REFRESH);
 }
 
-bool Window::IsRoot(){
+bool Window::IsRoot() {
 	return true;
 }
 
@@ -121,7 +132,7 @@ bool Window::HitTest(float mx, float my) {
 
 	if (mx > x && my > y &&
 		mx < (x + Width) && my < (y + Height)) {
-		
+
 		if (MouseOverChild != NULL) {
 			if (MouseOverChild->HitTest(mx, my)) {
 				return true;
@@ -175,15 +186,42 @@ bool Window::OnMouseClick(unsigned short num, bool final) {
 	return false;
 }
 
-void Window::Animate(int type, float value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+/**
+ * Creates a new animaion using a single float pushing it to the Animations list
+ * @param type a enum for the tpye of animation to use
+ * @param value	the values to use for the animation
+ * @param start how long to way untill you wish for the animation to start
+ * @param duration How long (in miliseconds) you wish the animation to take
+ * @param interpolation (optional) the interpolation type you wish to use.
+ * @param ptr (optional) the pointer of the object affected by the animtion, currently only supported for color
+ */
+void Window::Animate(AnimationT type, float value, unsigned int start, unsigned int duration, Interpolation interpolation, Control* ptr) {
 	Animate(type, nv::vec4<float>(value, 0, 0, 0), start, duration, interpolation, ptr);
 }
 
-void Window::Animate(int type, nv::vec2<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+/**
+ * Creates a new animaion using a vec2 pushing it to the Animations list
+ * @param type a enum for the tpye of animation to use
+ * @param value	the values to use for the animation
+ * @param start how long to way untill you wish for the animation to start
+ * @param duration How long (in miliseconds) you wish the animation to take
+ * @param interpolation (optional) the interpolation type you wish to use.
+ * @param ptr (optional) the pointer of the object affected by the animtion, currently only supported for color
+ */
+void Window::Animate(AnimationT type, nv::vec2<float> value, unsigned int start, unsigned int duration, Interpolation interpolation, Control* ptr) {
 	Animate(type, nv::vec4<float>(value.x, value.y, 0, 0), start, duration, interpolation, ptr);
 }
 
-void Window::Animate(int type, nv::vec3<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+/**
+ * Creates a new animaion using a vec3 pushing it to the Animations list
+ * @param type a enum for the tpye of animation to use
+ * @param value	the values to use for the animation
+ * @param start how long to way untill you wish for the animation to start
+ * @param duration How long (in miliseconds) you wish the animation to take
+ * @param interpolation (optional) the interpolation type you wish to use.
+ * @param ptr (optional) the pointer of the object affected by the animtion, currently only supported for color
+ */
+void Window::Animate(AnimationT type, nv::vec3<float> value, unsigned int start, unsigned int duration, Interpolation interpolation, Control* ptr) {
 	if (type == ORIGIN) {
 		AnimationOrigin = value;
 		return;
@@ -198,10 +236,10 @@ void Window::Animate(int type, nv::vec3<float> value, unsigned int start, unsign
  * @param value	the values to use for the animation
  * @param start how long to way untill you wish for the animation to start
  * @param duration How long (in miliseconds) you wish the animation to take
- * @param interpolation the interpolation type you wish to use.
+ * @param interpolation (optional) the interpolation type you wish to use.
  * @param ptr (optional) the pointer of the object affected by the animtion, currently only supported for color
  */
-void Window::Animate(int type, nv::vec4<float> value, unsigned int start, unsigned int duration, int interpolation, Control* ptr) {
+void Window::Animate(AnimationT type, nv::vec4<float> value, unsigned int start, unsigned int duration, Interpolation interpolation, Control* ptr) {
 	unsigned int ticks = SDL_GetTicks();
 
 	AnimationType ani;
@@ -257,33 +295,31 @@ void Window::StepAnimation() {
 
 			//rotation
 			if ((it->Type & ROTATEXYZ)) {
-				if((it->Type & ROTATEX)){
-				    Rotation.rotate(data.x, 1.0, 0.0, 0.0);
-				} else if((it->Type & ROTATEY)){
-				    Rotation.rotate(data.x, 0.0, 1.0, 0.0);
-				} else if((it->Type & ROTATEZ)){
-				    Rotation.rotate(data.x, 0.0, 0.0, 1.0);
+				if ((it->Type & ROTATEX)) {
+					Rotation.rotate(data.x, 1.0, 0.0, 0.0);
+				} else if ((it->Type & ROTATEY)) {
+					Rotation.rotate(data.x, 0.0, 1.0, 0.0);
+				} else if ((it->Type & ROTATEZ)) {
+					Rotation.rotate(data.x, 0.0, 0.0, 1.0);
 				}
 
 				UpdateControl(this);
-			}
-			else if ((it->Type & ROTATEORGXYZ)) {
-				if((it->Type & ROTATEORGX)){
+			} else if ((it->Type & ROTATEORGXYZ)) {
+				if ((it->Type & ROTATEORGX)) {
 					Rotation.rotateOrigin(data.x, 1.0, 0.0, 0.0, AnimationOrigin);
-				} else if((it->Type & ROTATEORGY)){
+				} else if ((it->Type & ROTATEORGY)) {
 					Rotation.rotateOrigin(data.x, 0.0, 1.0, 0.0, AnimationOrigin);
-				} else if((it->Type & ROTATEORGZ)){
+				} else if ((it->Type & ROTATEORGZ)) {
 					Rotation.rotateOrigin(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 				}
 
 				UpdateControl(this);
-			}
-			else if ((it->Type & ROTATESCREENXYZ)) {
-				if((it->Type & ROTATESCREENX)){
+			} else if ((it->Type & ROTATESCREENXYZ)) {
+				if ((it->Type & ROTATESCREENX)) {
 					Rotation.rotateScreen(data.x, 1.0, 0.0, 0.0, AnimationOrigin);
-				} else if((it->Type & ROTATESCREENY)){
+				} else if ((it->Type & ROTATESCREENY)) {
 					Rotation.rotateScreen(data.x, 0.0, 1.0, 0.0, AnimationOrigin);
-				} else if((it->Type & ROTATESCREENZ)){
+				} else if ((it->Type & ROTATESCREENZ)) {
 					Rotation.rotateScreen(data.x, 0.0, 0.0, 1.0, AnimationOrigin);
 				}
 
@@ -325,7 +361,7 @@ void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 
 	nv::vec4<float> in = nv::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
 		-(((winy - view[1]) * 2.0) / view[3] - 1.0),
-		(2*(z*0.001)) - 1,
+		(2 * (z * 0.001)) - 1,
 		1.0);
 
 	nv::matrix4<float> pm;
@@ -340,10 +376,10 @@ void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 	*oy = ret.y / ret.w;
 }
 
-nv::matrix4<float>* Window::GetRotation(){
+nv::matrix4<float>* Window::GetRotation() {
 	return &Rotation;
 }
 
-float* Window::GetRotationfv(){
+float* Window::GetRotationfv() {
 	return Rotation._array;
 }

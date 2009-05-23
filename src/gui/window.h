@@ -34,7 +34,7 @@ class GUI;
 
 //enums used for animation
 
-enum {
+enum AnimationT{
 	TRANSLATEX = BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATEXYZ = BITSHIFT2(0x07, 0),   \
 	ROTATEX = BITSHIFT(3), ROTATEY = BITSHIFT(4), ROTATEXY = BITSHIFT2(0x03, 3), ROTATEZ = BITSHIFT(5), ROTATEXYZ = BITSHIFT2(0x07, 3),   \
 	ROTATEORGX = BITSHIFT(6), ROTATEORGY = BITSHIFT(7), ROTATEORGXY = BITSHIFT2(0x03, 6), ROTATEORGZ = BITSHIFT(8), ROTATEORGXYZ = BITSHIFT2(0x07, 6),   \
@@ -45,7 +45,7 @@ enum {
 
 //interpolation types
 
-enum {
+enum Interpolation{
 	LINEAR = 0
 };
 
@@ -54,7 +54,7 @@ public:
 	Window(GUI*, Renderer*);
 	~Window();
 
-	void AddChild(Control*, bool = true);
+	void AddChild(Control*);
 	void Move(float, float);
 
 	void Close();
@@ -65,10 +65,10 @@ public:
 	bool OnMouseClick(unsigned short, bool);
 	bool HitTest(float, float);
 
-	void Animate(int, float, unsigned int, unsigned int, int, Control* = NULL);
-	void Animate(int, nv::vec2<float>, unsigned int, unsigned int, int, Control* = NULL);
-	void Animate(int, nv::vec3<float>, unsigned int, unsigned int, int, Control* = NULL);
-	void Animate(int, nv::vec4<float>, unsigned int, unsigned int, int, Control* = NULL);
+	void Animate(AnimationT, float, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
+	void Animate(AnimationT, nv::vec2<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
+	void Animate(AnimationT, nv::vec3<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
+	void Animate(AnimationT, nv::vec4<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
 
 	void StepAnimation();
 	void RemoveAnimation(Control*);

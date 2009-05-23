@@ -37,9 +37,9 @@ Engine::Engine(){
 
 	Theme theme;
 	theme.Init();
-	theme.LoadTheme("scripts/xmlParse.lua");
-	
-	display->Temp();
+	theme.LoadTheme("themes/default.xml");
+
+	display->CreateWindow("console");
 
 	input = new Input();
 

@@ -56,7 +56,7 @@ void Theme::Init() {
 }
 
 bool Theme::LoadTheme(std::string themefile) {
-	return LUABase::CallScript(themefile.c_str());
+	return LUABase::CallScriptS("scripts/xmlParse.lua", themefile);
 }
 
 WindowData* Theme::NewWindowData(std::string name, WindowData* data) {

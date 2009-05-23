@@ -36,21 +36,21 @@ public:
 	void DrawFPS(unsigned int*);
 
 	void Render();
-	void Resize( unsigned int, unsigned int );
+	void Resize(unsigned int, unsigned int);
 
-	void OnMouseClick( unsigned short*, bool );
+	void OnMouseClick(unsigned short*, bool);
 	void OnMouseButtonChange();
 	void OnMouseMotion();
-	void OnKeyPress( SDL_keysym );
+	void OnKeyPress(SDL_keysym);
 
-	void Temp();
+	void CreateWindow(std::string);
 protected:
 private:
 	void InitTimers();
 
 	Camera* camera;
 	timerpool timers;
-	GUI *gui;
+	GUI* gui;
 };
 
 #endif
