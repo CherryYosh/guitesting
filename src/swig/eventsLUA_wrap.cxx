@@ -1509,8 +1509,11 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-static swig_type_info *swig_types[1];
-static swig_module_info swig_module = {swig_types, 0, 0, 0, 0, 0};
+#define SWIGTYPE_p_Control swig_types[0]
+#define SWIGTYPE_p_Event swig_types[1]
+#define SWIGTYPE_p_changecolor swig_types[2]
+static swig_type_info *swig_types[4];
+static swig_module_info swig_module = {swig_types, 3, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1528,11 +1531,370 @@ typedef struct{} LANGUAGE_OBJ;
 }
 
 
+    #include "../events/event.h"
     #include "../events/gui/changecolor.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+static int _wrap_new_Event(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("Event",0,0)
+  result = (Event *)new Event();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Event_Init(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  
+  SWIG_check_num_args("Init",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Init",1,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_Init",1,SWIGTYPE_p_Event);
+  }
+  
+  (arg1)->Init();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Event_Begin(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  
+  SWIG_check_num_args("Begin",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Begin",1,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_Begin",1,SWIGTYPE_p_Event);
+  }
+  
+  (arg1)->Begin();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Event_End(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  
+  SWIG_check_num_args("End",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("End",1,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_End",1,SWIGTYPE_p_Event);
+  }
+  
+  (arg1)->End();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Event_Step(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Step",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Step",1,"Event *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Step",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_Step",1,SWIGTYPE_p_Event);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Step(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_Event(void *obj) {
+Event *arg1 = (Event *) obj;
+delete arg1;
+}
+static swig_lua_method swig_Event_methods[] = {
+    {"Init", _wrap_Event_Init}, 
+    {"Begin", _wrap_Event_Begin}, 
+    {"End", _wrap_Event_End}, 
+    {"Step", _wrap_Event_Step}, 
+    {0,0}
+};
+static swig_lua_attribute swig_Event_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_Event_bases[] = {0};
+static const char *swig_Event_base_names[] = {0};
+static swig_lua_class _wrap_class_Event = { "Event", &SWIGTYPE_p_Event,_wrap_new_Event, swig_delete_Event, swig_Event_methods, swig_Event_attributes, swig_Event_bases, swig_Event_base_names };
+
+static int _wrap_new_changecolor__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *result = 0 ;
+  
+  SWIG_check_num_args("changecolor",0,0)
+  result = (changecolor *)new changecolor();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_changecolor,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_changecolor__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Control *arg1 = (Control *) 0 ;
+  changecolor *result = 0 ;
+  
+  SWIG_check_num_args("changecolor",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("changecolor",1,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("new_changecolor",1,SWIGTYPE_p_Control);
+  }
+  
+  result = (changecolor *)new changecolor(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_changecolor,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_changecolor__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = 0 ;
+  changecolor *result = 0 ;
+  
+  SWIG_check_num_args("changecolor",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("changecolor",1,"changecolor const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("new_changecolor",1,SWIGTYPE_p_changecolor);
+  }
+  
+  result = (changecolor *)new changecolor((changecolor const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_changecolor,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_changecolor(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_changecolor__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Control, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_changecolor__SWIG_1(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_changecolor, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_changecolor__SWIG_2(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_changecolor'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    changecolor()\n"
+    "    changecolor(Control *)\n"
+    "    changecolor(changecolor const &)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_changecolor_Init(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  
+  SWIG_check_num_args("Init",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Init",1,"changecolor *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_Init",1,SWIGTYPE_p_changecolor);
+  }
+  
+  (arg1)->Init();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_changecolor_Begin(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  
+  SWIG_check_num_args("Begin",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Begin",1,"changecolor *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_Begin",1,SWIGTYPE_p_changecolor);
+  }
+  
+  (arg1)->Begin();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_changecolor_End(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  
+  SWIG_check_num_args("End",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("End",1,"changecolor *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_End",1,SWIGTYPE_p_changecolor);
+  }
+  
+  (arg1)->End();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_changecolor_Step(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Step",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Step",1,"changecolor *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Step",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_Step",1,SWIGTYPE_p_changecolor);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Step(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_changecolor(void *obj) {
+changecolor *arg1 = (changecolor *) obj;
+delete arg1;
+}
+static swig_lua_method swig_changecolor_methods[] = {
+    {"Init", _wrap_changecolor_Init}, 
+    {"Begin", _wrap_changecolor_Begin}, 
+    {"End", _wrap_changecolor_End}, 
+    {"Step", _wrap_changecolor_Step}, 
+    {0,0}
+};
+static swig_lua_attribute swig_changecolor_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_changecolor_bases[] = {0,0};
+static const char *swig_changecolor_base_names[] = {"Event *",0};
+static swig_lua_class _wrap_class_changecolor = { "changecolor", &SWIGTYPE_p_changecolor,_wrap_new_changecolor, swig_delete_changecolor, swig_changecolor_methods, swig_changecolor_attributes, swig_changecolor_bases, swig_changecolor_base_names };
+
 #ifdef __cplusplus
 }
 #endif
@@ -1551,14 +1913,27 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_changecolorTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *)  ((changecolor *) x));
+}
+static swig_type_info _swigt__p_Control = {"_p_Control", "Control *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)&_wrap_class_Event, 0};
+static swig_type_info _swigt__p_changecolor = {"_p_changecolor", "changecolor *", 0, 0, (void*)&_wrap_class_changecolor, 0};
 
 static swig_type_info *swig_type_initial[] = {
-  NULL
+  &_swigt__p_Control,
+  &_swigt__p_Event,
+  &_swigt__p_changecolor,
 };
 
+static swig_cast_info _swigc__p_Control[] = {  {&_swigt__p_Control, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_Event, 0, 0, 0},  {&_swigt__p_changecolor, _p_changecolorTo_p_Event, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_changecolor[] = {  {&_swigt__p_changecolor, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
-  NULL
+  _swigc__p_Control,
+  _swigc__p_Event,
+  _swigc__p_changecolor,
 };
 
 

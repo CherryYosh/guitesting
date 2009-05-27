@@ -95,8 +95,6 @@ algorithm
 -
 
 /home/brandon/Dev/guitesting/src/events/gui/../event.h
-stdio.h
--
 
 /home/brandon/Dev/guitesting/src/events/gui/changecolor.cpp
 changecolor.h
@@ -171,8 +169,6 @@ nvVector.h
 /home/brandon/Dev/guitesting/src/gui/../nvVector.h
 
 /home/brandon/Dev/guitesting/src/gui/../events/event.h
-stdio.h
--
 
 /home/brandon/Dev/guitesting/src/gui/../events/gui/../../gui/control.h
 ../nvMatrix.h
@@ -197,8 +193,6 @@ algorithm
 -
 
 /home/brandon/Dev/guitesting/src/gui/../events/gui/../event.h
-stdio.h
--
 
 /home/brandon/Dev/guitesting/src/gui/../events/gui/changecolor.h
 ../event.h
@@ -455,8 +449,6 @@ nvVector.h
 /home/brandon/Dev/guitesting/src/renderer/ogl/../../nvVector.h
 
 /home/brandon/Dev/guitesting/src/renderer/ogl/../../gui/../events/event.h
-stdio.h
--
 
 /home/brandon/Dev/guitesting/src/renderer/ogl/../../gui/../nvMatrix.h
 math.h

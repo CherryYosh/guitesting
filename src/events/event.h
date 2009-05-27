@@ -1,8 +1,6 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <stdio.h>
-
 class Event {
 public:
 

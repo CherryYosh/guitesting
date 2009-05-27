@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+/home/brandon/Dev/guitesting/src/swig/../events/event.h
+
 /home/brandon/Dev/guitesting/src/swig/../events/gui/../../gui/../nvMatrix.h
 math.h
 -
@@ -37,8 +39,6 @@ algorithm
 -
 
 /home/brandon/Dev/guitesting/src/swig/../events/gui/../event.h
-stdio.h
--
 
 /home/brandon/Dev/guitesting/src/swig/../events/gui/changecolor.h
 ../event.h
@@ -59,6 +59,8 @@ stdlib.h
 -
 assert.h
 -
+../events/event.h
+/home/brandon/Dev/guitesting/src/swig/../events/event.h
 ../events/gui/changecolor.h
 /home/brandon/Dev/guitesting/src/swig/../events/gui/changecolor.h
 
