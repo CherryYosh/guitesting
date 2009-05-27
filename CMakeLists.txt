@@ -63,4 +63,4 @@ ENDIF(${ISDEBUG})
 ADD_SUBDIRECTORY(src)
 
 #create a run command `make run` that calls the binary
-ADD_CUSTOM_TARGET( run ${APPNAME} )
+ADD_CUSTOM_TARGET( run ./${APPNAME} )

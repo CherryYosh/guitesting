@@ -99,39 +99,39 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/swig/CMakeFiles/events.dir/rule:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/events.dir/rule
-.PHONY : src/swig/CMakeFiles/events.dir/rule
+src/swig/CMakeFiles/../../events.dir/rule:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/../../events.dir/rule
+.PHONY : src/swig/CMakeFiles/../../events.dir/rule
 
 # Convenience name for target.
-events: src/swig/CMakeFiles/events.dir/rule
-.PHONY : events
+../../events: src/swig/CMakeFiles/../../events.dir/rule
+.PHONY : ../../events
 
 # fast build rule for target.
-events/fast:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/events.dir/build.make src/swig/CMakeFiles/events.dir/build
-.PHONY : events/fast
+../../events/fast:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../events.dir/build.make src/swig/CMakeFiles/../../events.dir/build
+.PHONY : ../../events/fast
 
 # Convenience name for target.
-src/swig/CMakeFiles/theme.dir/rule:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/theme.dir/rule
-.PHONY : src/swig/CMakeFiles/theme.dir/rule
+src/swig/CMakeFiles/../../theme.dir/rule:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/../../theme.dir/rule
+.PHONY : src/swig/CMakeFiles/../../theme.dir/rule
 
 # Convenience name for target.
-theme: src/swig/CMakeFiles/theme.dir/rule
-.PHONY : theme
+../../theme: src/swig/CMakeFiles/../../theme.dir/rule
+.PHONY : ../../theme
 
 # fast build rule for target.
-theme/fast:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/theme.dir/build.make src/swig/CMakeFiles/theme.dir/build
-.PHONY : theme/fast
+../../theme/fast:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/build
+.PHONY : ../../theme/fast
 
 eventsLUA_wrap.o: eventsLUA_wrap.cxx.o
 .PHONY : eventsLUA_wrap.o
 
 # target to build an object file
 eventsLUA_wrap.cxx.o:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/events.dir/build.make src/swig/CMakeFiles/events.dir/eventsLUA_wrap.cxx.o
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../events.dir/build.make src/swig/CMakeFiles/../../events.dir/eventsLUA_wrap.cxx.o
 .PHONY : eventsLUA_wrap.cxx.o
 
 eventsLUA_wrap.i: eventsLUA_wrap.cxx.i
@@ -139,7 +139,7 @@ eventsLUA_wrap.i: eventsLUA_wrap.cxx.i
 
 # target to preprocess a source file
 eventsLUA_wrap.cxx.i:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/events.dir/build.make src/swig/CMakeFiles/events.dir/eventsLUA_wrap.cxx.i
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../events.dir/build.make src/swig/CMakeFiles/../../events.dir/eventsLUA_wrap.cxx.i
 .PHONY : eventsLUA_wrap.cxx.i
 
 eventsLUA_wrap.s: eventsLUA_wrap.cxx.s
@@ -147,7 +147,7 @@ eventsLUA_wrap.s: eventsLUA_wrap.cxx.s
 
 # target to generate assembly for a file
 eventsLUA_wrap.cxx.s:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/events.dir/build.make src/swig/CMakeFiles/events.dir/eventsLUA_wrap.cxx.s
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../events.dir/build.make src/swig/CMakeFiles/../../events.dir/eventsLUA_wrap.cxx.s
 .PHONY : eventsLUA_wrap.cxx.s
 
 themeLUA_wrap.o: themeLUA_wrap.cxx.o
@@ -155,7 +155,7 @@ themeLUA_wrap.o: themeLUA_wrap.cxx.o
 
 # target to build an object file
 themeLUA_wrap.cxx.o:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/theme.dir/build.make src/swig/CMakeFiles/theme.dir/themeLUA_wrap.cxx.o
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/themeLUA_wrap.cxx.o
 .PHONY : themeLUA_wrap.cxx.o
 
 themeLUA_wrap.i: themeLUA_wrap.cxx.i
@@ -163,7 +163,7 @@ themeLUA_wrap.i: themeLUA_wrap.cxx.i
 
 # target to preprocess a source file
 themeLUA_wrap.cxx.i:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/theme.dir/build.make src/swig/CMakeFiles/theme.dir/themeLUA_wrap.cxx.i
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/themeLUA_wrap.cxx.i
 .PHONY : themeLUA_wrap.cxx.i
 
 themeLUA_wrap.s: themeLUA_wrap.cxx.s
@@ -171,7 +171,7 @@ themeLUA_wrap.s: themeLUA_wrap.cxx.s
 
 # target to generate assembly for a file
 themeLUA_wrap.cxx.s:
-	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/theme.dir/build.make src/swig/CMakeFiles/theme.dir/themeLUA_wrap.cxx.s
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/themeLUA_wrap.cxx.s
 .PHONY : themeLUA_wrap.cxx.s
 
 # Help Target
@@ -180,10 +180,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... ../../events"
+	@echo "... ../../theme"
 	@echo "... edit_cache"
-	@echo "... events"
 	@echo "... rebuild_cache"
-	@echo "... theme"
 	@echo "... eventsLUA_wrap.o"
 	@echo "... eventsLUA_wrap.i"
 	@echo "... eventsLUA_wrap.s"

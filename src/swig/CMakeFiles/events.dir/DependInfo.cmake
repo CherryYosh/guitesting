@@ -11,7 +11,6 @@ SET(CMAKE_CXX_COMPILER_ID "GNU")
 # Preprocessor definitions for this target.
 SET(CMAKE_TARGET_DEFINITIONS
   "GL_GLEXT_PROTOTYPES"
-  "_DEBUG_"
   "ILUT_USE_OPENGL"
   )
 
