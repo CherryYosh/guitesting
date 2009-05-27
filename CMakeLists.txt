@@ -1,23 +1,66 @@
+
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
+SET(APPNAME "test")
+SET(USEOPENGL TRUE)
+SET(ISDEBUG true)
 
-cmake_minimum_required(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-project(Testing CXX C)
+PROJECT(Testing CXX C)
 
-find_package(Freetype)
-find_package(SDL)
-find_package(OpenGL)
-find_package(GLEW)
-find_package(DevIL)
-find_package(Lua51)
-find_package(SWIG)
+#freetype, currently the only supported font manager
+FIND_PACKAGE(Freetype)
+IF(NOT FREETYPE_FOUND)
+	MESSAGE(FATAL_ERROR "Could not find freetype." )
+ELSE(NOT FREETYPE_FOUND)
+	#do what we need here..
+ENDIF(NOT FREETYPE_FOUND)
 
-include(${SWIG_USE_FILE})
+#SDL, currently the only supported renderer
+FIND_PACKAGE(SDL)
+IF( NOT SDL_FOUND )
+	MESSAGE(FATAL_ERROR "SDL not Found")
+ELSE(NOT SDL_FOUND)
+ENDIF(NOT SDL_FOUND)
 
-if( NOT SDL_FOUND )
-	message( FATAL_ERROR "SDL not Found" )
-endif(NOT SDL_FOUND)
+#Opengl, used for rendering, no dx support
+FIND_PACKAGE(OpenGL)
+IF(NOT OPENGL_FOUND)
+	MESSAGE(FATAL_ERROR "OpenGL not found!")
+ELSE(NOT OPENGL_FOUND)
+	ADD_DEFINITIONS(-DGL_GLEXT_PROTOTYPES)
+ENDIF(NOT OPENGL_FOUND)
 
-add_definitions( -DGL_GLEXT_PROTOTYPES -D_DEBUG_ -DILUT_USE_OPENGL )
+FIND_PACKAGE(GLEW)
+IF(NOT GLEW_FOUND)
+	MESSAGE(FATAL_ERROR "GLEW not found" )
+ELSE(NOT GLEW_FOUND)
+ENDIF(NOT GLEW_FOUND)
 
-add_subdirectory(src)
+#Devil, used for loading images
+FIND_PACKAGE(DevIL)
+IF(NOT IL_FOUND)
+	MESSAGE(FATAL_ERROR "DevIL not found!")
+ELSE(NOT IL_FOUND)
+	ADD_DEFINITIONS(-DILUT_USE_OPENGL)
+ENDIF(NOT IL_FOUND)
+	
+FIND_PACKAGE(Lua51)
+
+FIND_PACKAGE(SWIG)
+IF(NOT SWIG_FOUND)
+	MESSAGE(FATAL_ERROR "Swig not found!")
+ELSE(NOT SWIG_FOUND)
+	INCLUDE(${SWIG_USE_FILE})
+ENDIF(NOT SWIG_FOUND)
+
+IF(${ISDEBUG})
+	ADD_DEFINITIONS(-D_DEBUG_)
+ENDIF(${ISDEBUG})
+
+
+#run the CMakeList in these dir
+ADD_SUBDIRECTORY(src)
+
+#create a run command `make run` that calls the binary
+ADD_CUSTOM_TARGET( run ${APPNAME} )
