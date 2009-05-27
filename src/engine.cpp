@@ -21,7 +21,7 @@
 #include "engine.h"
 #include "input.h"
 #include "display.h"
-#include "thememgr.h"
+#include "theme.h"
 
 #include "lua/luabase.h"
 

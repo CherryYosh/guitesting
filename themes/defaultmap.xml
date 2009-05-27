@@ -1,0 +1,12 @@
+<theme>
+    <textures file="default.png" format="RGBA">
+	<texture name="rule.top" x="55" y="7" width="186" height="20" />
+	<texture name="button.close" x="10" y="10" width="10" height="10" />
+	<texture name="rule.side" x="58" y="41" width="12" height="166" />
+	<texture name="rule.bottom" x="76" y="34" width="161" height="7"/>
+	<texture name="editbox.input" x="82"  y="194" width="155" height="20"/>
+
+	<!-- alias isnt working yet-->
+	<alias name="exitbutton" ref="button.close"/>
+    </textures>
+</theme>

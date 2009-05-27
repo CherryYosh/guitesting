@@ -7,45 +7,80 @@
         <itemPath>scripts/xmlParse.lua</itemPath>
       </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
+        <logicalFolder name="events" displayName="events" projectFiles="true">
+          <logicalFolder name="gui" displayName="gui" projectFiles="true">
+            <itemPath>src/events/gui/changecolor.cpp</itemPath>
+            <itemPath>src/events/gui/changecolor.h</itemPath>
+            <itemPath>src/events/gui/changecolor.o</itemPath>
+            <itemPath>src/events/gui/move.cpp</itemPath>
+            <itemPath>src/events/gui/move.h</itemPath>
+            <itemPath>src/events/gui/move.o</itemPath>
+          </logicalFolder>
+          <itemPath>src/events/event.h</itemPath>
+          <itemPath>src/events/eventmgr.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="gui" displayName="gui" projectFiles="true">
           <itemPath>src/gui/button.cpp</itemPath>
           <itemPath>src/gui/button.h</itemPath>
+          <itemPath>src/gui/button.o</itemPath>
           <itemPath>src/gui/checkbox.cpp</itemPath>
           <itemPath>src/gui/checkbox.h</itemPath>
+          <itemPath>src/gui/checkbox.o</itemPath>
           <itemPath>src/gui/control.cpp</itemPath>
           <itemPath>src/gui/control.h</itemPath>
+          <itemPath>src/gui/control.o</itemPath>
           <itemPath>src/gui/controls.h</itemPath>
           <itemPath>src/gui/editbox.cpp</itemPath>
           <itemPath>src/gui/editbox.h</itemPath>
+          <itemPath>src/gui/editbox.o</itemPath>
           <itemPath>src/gui/label.cpp</itemPath>
           <itemPath>src/gui/label.h</itemPath>
+          <itemPath>src/gui/label.o</itemPath>
+          <itemPath>src/gui/makefile</itemPath>
           <itemPath>src/gui/rule.cpp</itemPath>
           <itemPath>src/gui/rule.h</itemPath>
+          <itemPath>src/gui/rule.o</itemPath>
           <itemPath>src/gui/slider.cpp</itemPath>
           <itemPath>src/gui/slider.h</itemPath>
+          <itemPath>src/gui/slider.o</itemPath>
           <itemPath>src/gui/window.cpp</itemPath>
           <itemPath>src/gui/window.h</itemPath>
+          <itemPath>src/gui/window.o</itemPath>
         </logicalFolder>
         <logicalFolder name="lua" displayName="lua" projectFiles="true">
           <itemPath>src/lua/luabase.cpp</itemPath>
           <itemPath>src/lua/luabase.h</itemPath>
+          <itemPath>src/lua/luabase.o</itemPath>
         </logicalFolder>
         <logicalFolder name="renderer" displayName="renderer" projectFiles="true">
           <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
             <itemPath>src/renderer/ogl/devilImage.cpp</itemPath>
             <itemPath>src/renderer/ogl/devilImage.h</itemPath>
+            <itemPath>src/renderer/ogl/devilImage.o</itemPath>
             <itemPath>src/renderer/ogl/oglBase.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglBase.h</itemPath>
+            <itemPath>src/renderer/ogl/oglBase.o</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.h</itemPath>
+            <itemPath>src/renderer/ogl/oglWidgetRenderer.o</itemPath>
             <itemPath>src/renderer/ogl/shader.cpp</itemPath>
             <itemPath>src/renderer/ogl/shader.h</itemPath>
+            <itemPath>src/renderer/ogl/shader.o</itemPath>
             <itemPath>src/renderer/ogl/vbo.cpp</itemPath>
             <itemPath>src/renderer/ogl/vbo.h</itemPath>
+            <itemPath>src/renderer/ogl/vbo.o</itemPath>
           </logicalFolder>
           <itemPath>src/renderer/base.h</itemPath>
           <itemPath>src/renderer/image.h</itemPath>
           <itemPath>src/renderer/renderer.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="swig" displayName="swig" projectFiles="true">
+          <itemPath>src/swig/events.cxx</itemPath>
+          <itemPath>src/swig/events.i</itemPath>
+          <itemPath>src/swig/events.o</itemPath>
+          <itemPath>src/swig/theme.cxx</itemPath>
+          <itemPath>src/swig/theme.i</itemPath>
+          <itemPath>src/swig/theme.o</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <itemPath>src/utils/reflection.cpp</itemPath>
@@ -53,30 +88,43 @@
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
         <itemPath>src/camera.h</itemPath>
+        <itemPath>src/camera.o</itemPath>
         <itemPath>src/display.cpp</itemPath>
         <itemPath>src/display.h</itemPath>
+        <itemPath>src/display.o</itemPath>
         <itemPath>src/engine.cpp</itemPath>
         <itemPath>src/engine.h</itemPath>
+        <itemPath>src/engine.o</itemPath>
         <itemPath>src/fontmgr.cpp</itemPath>
         <itemPath>src/fontmgr.h</itemPath>
+        <itemPath>src/fontmgr.o</itemPath>
         <itemPath>src/gui.cpp</itemPath>
         <itemPath>src/gui.h</itemPath>
+        <itemPath>src/gui.o</itemPath>
         <itemPath>src/input.cpp</itemPath>
         <itemPath>src/input.h</itemPath>
+        <itemPath>src/input.o</itemPath>
         <itemPath>src/main.cpp</itemPath>
+        <itemPath>src/main.o</itemPath>
+        <itemPath>src/makefile</itemPath>
         <itemPath>src/mouse.cpp</itemPath>
         <itemPath>src/mouse.h</itemPath>
+        <itemPath>src/mouse.o</itemPath>
         <itemPath>src/myext.h</itemPath>
         <itemPath>src/nvMatrix.h</itemPath>
         <itemPath>src/nvVector.h</itemPath>
         <itemPath>src/system.cpp</itemPath>
         <itemPath>src/system.h</itemPath>
-        <itemPath>src/thememgr.cpp</itemPath>
-        <itemPath>src/thememgr.h</itemPath>
+        <itemPath>src/system.o</itemPath>
+        <itemPath>src/theme.cpp</itemPath>
+        <itemPath>src/theme.h</itemPath>
+        <itemPath>src/theme.o</itemPath>
         <itemPath>src/timer.cpp</itemPath>
         <itemPath>src/timer.h</itemPath>
+        <itemPath>src/timer.o</itemPath>
         <itemPath>src/timerpool.cpp</itemPath>
         <itemPath>src/timerpool.h</itemPath>
+        <itemPath>src/timerpool.o</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -87,10 +135,8 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>src/renderer/ogl</Elem>
-    <Elem>src/lua</Elem>
-    <Elem>src/utils</Elem>
     <Elem>scripts</Elem>
+    <Elem>src</Elem>
   </sourceRootList>
   <projectmakefile>guitesting-Makefile.mk</projectmakefile>
   <confs>

@@ -1523,11 +1523,11 @@ static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 
 /* -------- TYPES TABLE (END) -------- */
 
-#define SWIG_name      "test"
-#define SWIG_init      luaopen_test
-#define SWIG_init_user luaopen_test_user
+#define SWIG_name      "theme"
+#define SWIG_init      luaopen_theme
+#define SWIG_init_user luaopen_theme_user
 
-#define SWIG_LUACODE   luaopen_test_luacode
+#define SWIG_LUACODE   luaopen_theme_luacode
 
 
 namespace swig {
@@ -1535,7 +1535,7 @@ typedef struct{} LANGUAGE_OBJ;
 }
 
 
-#include "thememgr.h"
+#include "../theme.h"
 
 enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 

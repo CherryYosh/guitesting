@@ -2,12 +2,20 @@
 <theme>
     <!-- Imports the map file to get the texture maps
 	this allows us to to use the same image theme with diffrent themes -->
-    <import file="themes/map.xml"/>
+    <import file="themes/defaultmap.xml"/>
+
+    <register name="setcolor" event="SetColor"/>
+    <register name="closewindow" event="CloseWindow"/>
 
     <widgets>
 	<widget name="console">
 	    <child type="rule.top" x="0" y="0"/>
-	    <child type="button.close" x="10" y="2" layer="top" />
+	    <child type="button.close" x="10" y="2" layer="top">
+		<effects>
+			<onHover event="setcolor" red="1.0" duration="10" />
+			<onClick event="closewindow"/>
+		</effects>
+	    </child>
 	</widget>
     </widgets>
 </theme>

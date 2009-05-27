@@ -16,7 +16,7 @@
 #include "gui.h"
 #include "gui/controls.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
-#include "thememgr.h"
+#include "theme.h"
 
 oglWidgetRenderer* renderer;
 
@@ -32,11 +32,6 @@ GUI::~GUI() {
 }
 
 void GUI::Render() {
-	size_t size = Windows.size();
-	for (unsigned int i = 0; i < size; i++) {
-		Windows[i]->StepAnimation();
-	}
-
 	renderer->Draw();
 }
 
@@ -127,8 +122,8 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
 void GUI::CreateWindow( std::string name, float x, float y) {
 	Theme t;
 	Window* window = t.GetWindow(name);
-	window->gui = this;
-	window->renderer = renderer;
+	window->SetGUI(this);
+	window->SetRenderer(renderer);
 	window->Move(x,y);
 	Windows.push_back(window);
 

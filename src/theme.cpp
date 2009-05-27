@@ -12,7 +12,7 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-#include "thememgr.h"
+#include "theme.h"
 
 #include "gui/controls.h"
 
@@ -56,7 +56,7 @@ void Theme::Init() {
 }
 
 bool Theme::LoadTheme(std::string themefile) {
-	return LUABase::CallScriptS("scripts/xmlParse.lua", themefile);
+	return LUABase::CallScript("scripts/xmlParse.lua", themefile);
 }
 
 WindowData* Theme::NewWindowData(std::string name, WindowData* data) {

@@ -18,6 +18,7 @@
 #include "control.h"
 
 #include "../renderer/renderer.h"
+#include "../events/event.h"
 
 #include "../nvMatrix.h"
 #include "../nvVector.h"
@@ -25,29 +26,8 @@
 #include <vector>
 #include <list>
 
-#define BITSHIFT(x) 1 << x
-#define BITSHIFT2(x,y) x << y
-
-struct AnimationType;
 class Control;
 class GUI;
-
-//enums used for animation
-
-enum AnimationT{
-	TRANSLATEX = BITSHIFT(0), TRANSLATEY, TRANSLATEXY, TRANSLATEZ, TRANSLATEXYZ = BITSHIFT2(0x07, 0),   \
-	ROTATEX = BITSHIFT(3), ROTATEY = BITSHIFT(4), ROTATEXY = BITSHIFT2(0x03, 3), ROTATEZ = BITSHIFT(5), ROTATEXYZ = BITSHIFT2(0x07, 3),   \
-	ROTATEORGX = BITSHIFT(6), ROTATEORGY = BITSHIFT(7), ROTATEORGXY = BITSHIFT2(0x03, 6), ROTATEORGZ = BITSHIFT(8), ROTATEORGXYZ = BITSHIFT2(0x07, 6),   \
-	ROTATESCREENX = BITSHIFT(9), ROTATESCREENY = BITSHIFT(10), ROTATESCREENXY = BITSHIFT2(0x03, 9), ROTATESCREENZ = BITSHIFT(11), ROTATESCREENXYZ = BITSHIFT2(0x07, 9),   \
-	REDCHANNEL = BITSHIFT(12), GREENCHANNEL = BITSHIFT(13), RGCHANNEL = BITSHIFT2(0x03, 12), BLUECHANNEL = BITSHIFT(14), RGBCHANNEL = BITSHIFT2(0x07, 12), ALPHACHANNEL = BITSHIFT(15), RGBACHANNEL = BITSHIFT2(0x0F, 12),   \
-	ORIGIN = BITSHIFT(16)
-};
-
-//interpolation types
-
-enum Interpolation{
-	LINEAR = 0
-};
 
 class Window : public Control {
 public:
@@ -65,14 +45,6 @@ public:
 	bool OnMouseClick(unsigned short, bool);
 	bool HitTest(float, float);
 
-	void Animate(AnimationT, float, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
-	void Animate(AnimationT, nv::vec2<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
-	void Animate(AnimationT, nv::vec3<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
-	void Animate(AnimationT, nv::vec4<float>, unsigned int, unsigned int, Interpolation = LINEAR, Control* = NULL);
-
-	void StepAnimation();
-	void RemoveAnimation(Control*);
-
 	void Unproject(float, float, float*, float*);
 
 	bool IsRoot();
@@ -83,14 +55,17 @@ public:
 
 	bool ReciveInput;
 
-	GUI* gui;
-	Renderer* renderer;
+	void SetGUI(GUI*);
+	GUI* GetGUI();
+
+	void SetRenderer(Renderer*);
+	Renderer* GetRenderer();
 protected:
 private:
-	std::list<AnimationType> Animations;
+	GUI* gui;
+	Renderer* renderer;
 
-
-	nv::vec3<float> AnimationOrigin;
+	std::vector<Event*> EventList;
 	nv::matrix4<float> Rotation;
 };
 

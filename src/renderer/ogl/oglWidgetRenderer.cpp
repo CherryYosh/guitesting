@@ -8,7 +8,7 @@
 #include "oglBase.h"
 #include "oglWidgetRenderer.h"
 
-#include "../../thememgr.h"
+#include "../../theme.h"
 #include "../../gui/window.h"
 
 

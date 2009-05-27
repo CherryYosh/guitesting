@@ -202,6 +202,10 @@ void Control::AddColor(nv::vec4<float> c) {
 	Color += c;
 }
 
+nv::vec4<float> Control::GetColor(){
+	return Color;
+}
+
 float* Control::GetColorv() {
 	return Color._array;
 }

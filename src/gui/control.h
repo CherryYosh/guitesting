@@ -63,6 +63,7 @@ public:
 	virtual void SetColor(float, float, float, float);
 	virtual void SetColor(nv::vec4<float>);
 	virtual void AddColor(nv::vec4<float>);
+	virtual nv::vec4<float> GetColor();
 	virtual float* GetColorv();
 
 	virtual void AddChild(Control*);

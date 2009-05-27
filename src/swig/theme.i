@@ -1,6 +1,6 @@
-%module test
+%module theme
 %{
-#include "thememgr.h"
+#include "../theme.h"
 
 enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
@@ -27,9 +27,9 @@ struct ChildData {
 };
 %}
 
-%include <std_string.i> 
+%include <std_string.i>
 
-%include "thememgr.h"
+%include "../theme.h"
 
 enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
