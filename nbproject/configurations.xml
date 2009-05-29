@@ -3,7 +3,6 @@
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="guitesting" displayName="guitesting" projectFiles="true">
       <logicalFolder name="scripts" displayName="scripts" projectFiles="true">
-        <itemPath>scripts/test1.lua</itemPath>
         <itemPath>scripts/xmlParse.lua</itemPath>
       </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
@@ -88,43 +87,30 @@
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
         <itemPath>src/camera.h</itemPath>
-        <itemPath>src/camera.o</itemPath>
         <itemPath>src/display.cpp</itemPath>
         <itemPath>src/display.h</itemPath>
-        <itemPath>src/display.o</itemPath>
         <itemPath>src/engine.cpp</itemPath>
         <itemPath>src/engine.h</itemPath>
-        <itemPath>src/engine.o</itemPath>
         <itemPath>src/fontmgr.cpp</itemPath>
         <itemPath>src/fontmgr.h</itemPath>
-        <itemPath>src/fontmgr.o</itemPath>
         <itemPath>src/gui.cpp</itemPath>
         <itemPath>src/gui.h</itemPath>
-        <itemPath>src/gui.o</itemPath>
         <itemPath>src/input.cpp</itemPath>
         <itemPath>src/input.h</itemPath>
-        <itemPath>src/input.o</itemPath>
         <itemPath>src/main.cpp</itemPath>
-        <itemPath>src/main.o</itemPath>
-        <itemPath>src/makefile</itemPath>
         <itemPath>src/mouse.cpp</itemPath>
         <itemPath>src/mouse.h</itemPath>
-        <itemPath>src/mouse.o</itemPath>
         <itemPath>src/myext.h</itemPath>
         <itemPath>src/nvMatrix.h</itemPath>
         <itemPath>src/nvVector.h</itemPath>
         <itemPath>src/system.cpp</itemPath>
         <itemPath>src/system.h</itemPath>
-        <itemPath>src/system.o</itemPath>
         <itemPath>src/theme.cpp</itemPath>
         <itemPath>src/theme.h</itemPath>
-        <itemPath>src/theme.o</itemPath>
         <itemPath>src/timer.cpp</itemPath>
         <itemPath>src/timer.h</itemPath>
-        <itemPath>src/timer.o</itemPath>
         <itemPath>src/timerpool.cpp</itemPath>
         <itemPath>src/timerpool.h</itemPath>
-        <itemPath>src/timerpool.o</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -149,8 +135,8 @@
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
-          <buildCommand>make -f makefile</buildCommand>
-          <cleanCommand>make -f makefile clean</cleanCommand>
+          <buildCommand>make -f Makefile</buildCommand>
+          <cleanCommand>make -f Makefile clean</cleanCommand>
           <executablePath>test</executablePath>
           <ccTool>
             <incDir>

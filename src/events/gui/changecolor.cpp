@@ -7,29 +7,40 @@
 
 #include "changecolor.h"
 
-changecolor::changecolor() { }
+changecolor::changecolor() : object(NULL) { }
 
 changecolor::changecolor(Control* o){
 	object = o;
 }
 
-changecolor::changecolor(const changecolor& orig) { }
+changecolor::changecolor(const changecolor& c) : startColor(c.startColor),
+	endColor(c.endColor), Event(c) { }
 
 changecolor::~changecolor() { }
+
+Event* changecolor::clone() { return new changecolor(*this); }
+
+void changecolor::SetObject(Control* o){
+	object = o;
+}
 
 void changecolor::Init(){}
 
 void changecolor::Begin(){
-	startColor = object->GetColor();
-	endColor = nv::vec4<float>(1.0,0.0,0.0,0.0);
-	duration = 50;
-	delay = 0;
+	if(object != NULL){
+		startColor = object->GetColor();
+		endColor = nv::vec4<float>(1.0,0.0,0.0,0.0);
+		duration = 50;
+		delay = 0;
+	}
 }
 
 void changecolor::End(){
 }
 
 void changecolor::Step(unsigned int step){
-	object->SetColor(1.0,0.0,0.0,0.0);
+	if(object != NULL){
+		object->SetColor(1.0,0.0,0.0,0.0);
+	}
 }
 

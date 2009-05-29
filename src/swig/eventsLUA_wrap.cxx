@@ -1512,8 +1512,9 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_Control swig_types[0]
 #define SWIGTYPE_p_Event swig_types[1]
 #define SWIGTYPE_p_changecolor swig_types[2]
-static swig_type_info *swig_types[4];
-static swig_module_info swig_module = {swig_types, 3, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__string swig_types[3]
+static swig_type_info *swig_types[5];
+static swig_module_info swig_module = {swig_types, 4, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1534,16 +1535,368 @@ typedef struct{} LANGUAGE_OBJ;
     #include "../events/event.h"
     #include "../events/gui/changecolor.h"
 
+    Event* NewEventByName(std::string e){
+        if(e == "event" )
+            return new Event();
+        else if (e == "changecolor")
+            return new changecolor();
+    }
+
+
+	#include <string>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-static int _wrap_new_Event(lua_State* L) {
+static int _wrap_new_string__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *result = 0 ;
+  
+  SWIG_check_num_args("std::string",0,0)
+  result = (std::string *)new std::string();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__string,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_string__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  char *arg1 = (char *) 0 ;
+  std::string *result = 0 ;
+  
+  SWIG_check_num_args("std::string",1,1)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("std::string",1,"char const *");
+  arg1 = (char *)lua_tostring(L, 1);
+  result = (std::string *)new std::string((char const *)arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__string,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_string(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_string__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_string__SWIG_1(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_string'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::string()\n"
+    "    std::string(char const *)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_string_size(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("size",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("size",1,"std::string const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_size",1,SWIGTYPE_p_std__string);
+  }
+  
+  result = (unsigned int)((std::string const *)arg1)->size();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_string_length(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("length",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("length",1,"std::string const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_length",1,SWIGTYPE_p_std__string);
+  }
+  
+  result = (unsigned int)((std::string const *)arg1)->length();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_string_empty(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("empty",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("empty",1,"std::string const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_empty",1,SWIGTYPE_p_std__string);
+  }
+  
+  result = (bool)((std::string const *)arg1)->empty();
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_string_c_str(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  char *result = 0 ;
+  
+  SWIG_check_num_args("c_str",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("c_str",1,"std::string const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_c_str",1,SWIGTYPE_p_std__string);
+  }
+  
+  result = (char *)((std::string const *)arg1)->c_str();
+  lua_pushstring(L,(const char*)result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_string_data(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  char *result = 0 ;
+  
+  SWIG_check_num_args("data",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("data",1,"std::string const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_data",1,SWIGTYPE_p_std__string);
+  }
+  
+  result = (char *)((std::string const *)arg1)->data();
+  lua_pushstring(L,(const char*)result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_string_assign(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string *arg1 = (std::string *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  SWIG_check_num_args("assign",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("assign",1,"std::string *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("assign",2,"char const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__string,0))){
+    SWIG_fail_ptr("string_assign",1,SWIGTYPE_p_std__string);
+  }
+  
+  arg2 = (char *)lua_tostring(L, 2);
+  (arg1)->assign((char const *)arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_string(void *obj) {
+std::string *arg1 = (std::string *) obj;
+delete arg1;
+}
+static swig_lua_method swig_std_string_methods[] = {
+    {"size", _wrap_string_size}, 
+    {"length", _wrap_string_length}, 
+    {"empty", _wrap_string_empty}, 
+    {"c_str", _wrap_string_c_str}, 
+    {"data", _wrap_string_data}, 
+    {"assign", _wrap_string_assign}, 
+    {0,0}
+};
+static swig_lua_attribute swig_std_string_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_std_string_bases[] = {0};
+static const char *swig_std_string_base_names[] = {0};
+static swig_lua_class _wrap_class_std_string = { "string", &SWIGTYPE_p_std__string,_wrap_new_string, swig_delete_string, swig_std_string_methods, swig_std_string_attributes, swig_std_string_bases, swig_std_string_base_names };
+
+static int _wrap_new_Event__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
   Event *result = 0 ;
   
   SWIG_check_num_args("Event",0,0)
   result = (Event *)new Event();
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Event__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("Event",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("Event",1,"Event const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("new_Event",1,SWIGTYPE_p_Event);
+  }
+  
+  result = (Event *)new Event((Event const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Event(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_Event__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Event, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_Event__SWIG_1(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_Event'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Event()\n"
+    "    Event(Event const &)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Event_clone(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("clone",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("clone",1,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_clone",1,SWIGTYPE_p_Event);
+  }
+  
+  result = (Event *)(arg1)->clone();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Event_SetObject(lua_State* L) {
+  int SWIG_arg = 0;
+  Event *arg1 = (Event *) 0 ;
+  Control *arg2 = (Control *) 0 ;
+  
+  SWIG_check_num_args("SetObject",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetObject",1,"Event *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SetObject",2,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("Event_SetObject",1,SWIGTYPE_p_Event);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("Event_SetObject",2,SWIGTYPE_p_Control);
+  }
+  
+  (arg1)->SetObject(arg2);
+  
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -1655,6 +2008,8 @@ Event *arg1 = (Event *) obj;
 delete arg1;
 }
 static swig_lua_method swig_Event_methods[] = {
+    {"clone", _wrap_Event_clone}, 
+    {"SetObject", _wrap_Event_SetObject}, 
     {"Init", _wrap_Event_Init}, 
     {"Begin", _wrap_Event_Begin}, 
     {"End", _wrap_Event_End}, 
@@ -1781,6 +2136,60 @@ static int _wrap_new_changecolor(lua_State* L) {
 }
 
 
+static int _wrap_changecolor_clone(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("clone",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("clone",1,"changecolor *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_clone",1,SWIGTYPE_p_changecolor);
+  }
+  
+  result = (Event *)(arg1)->clone();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_changecolor_SetObject(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  Control *arg2 = (Control *) 0 ;
+  
+  SWIG_check_num_args("SetObject",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetObject",1,"changecolor *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SetObject",2,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_SetObject",1,SWIGTYPE_p_changecolor);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("changecolor_SetObject",2,SWIGTYPE_p_Control);
+  }
+  
+  (arg1)->SetObject(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_changecolor_Init(lua_State* L) {
   int SWIG_arg = 0;
   changecolor *arg1 = (changecolor *) 0 ;
@@ -1882,6 +2291,8 @@ changecolor *arg1 = (changecolor *) obj;
 delete arg1;
 }
 static swig_lua_method swig_changecolor_methods[] = {
+    {"clone", _wrap_changecolor_clone}, 
+    {"SetObject", _wrap_changecolor_SetObject}, 
     {"Init", _wrap_changecolor_Init}, 
     {"Begin", _wrap_changecolor_Begin}, 
     {"End", _wrap_changecolor_End}, 
@@ -1895,11 +2306,32 @@ static swig_lua_class *swig_changecolor_bases[] = {0,0};
 static const char *swig_changecolor_base_names[] = {"Event *",0};
 static swig_lua_class _wrap_class_changecolor = { "changecolor", &SWIGTYPE_p_changecolor,_wrap_new_changecolor, swig_delete_changecolor, swig_changecolor_methods, swig_changecolor_attributes, swig_changecolor_bases, swig_changecolor_base_names };
 
+static int _wrap_NewEventByName(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string arg1 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("NewEventByName",1,1)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("NewEventByName",1,"std::string");
+  (&arg1)->assign(lua_tostring(L,1),lua_strlen(L,1));
+  result = (Event *)NewEventByName(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
 
 static const struct luaL_reg swig_commands[] = {
+    { "NewEventByName", _wrap_NewEventByName},
     {0,0}
 };
 
@@ -1919,21 +2351,25 @@ static void *_p_changecolorTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static swig_type_info _swigt__p_Control = {"_p_Control", "Control *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)&_wrap_class_Event, 0};
 static swig_type_info _swigt__p_changecolor = {"_p_changecolor", "changecolor *", 0, 0, (void*)&_wrap_class_changecolor, 0};
+static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Control,
   &_swigt__p_Event,
   &_swigt__p_changecolor,
+  &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_Control[] = {  {&_swigt__p_Control, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_Event, 0, 0, 0},  {&_swigt__p_changecolor, _p_changecolorTo_p_Event, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_changecolor[] = {  {&_swigt__p_changecolor, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Control,
   _swigc__p_Event,
   _swigc__p_changecolor,
+  _swigc__p_std__string,
 };
 
 

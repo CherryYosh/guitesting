@@ -19,6 +19,10 @@ public:
 	changecolor(const changecolor& orig);
 	virtual ~changecolor();
 
+	Event* clone();
+
+	void SetObject(Control*);
+
 	void Init();
 	void Begin();
 	void End();
@@ -27,7 +31,6 @@ private:
 	nv::vec4<float> startColor;
 	nv::vec4<float> endColor;
 	Control* object;
-
 };
 
 #endif	/* _CHANGECOLOR_H */

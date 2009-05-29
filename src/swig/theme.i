@@ -2,6 +2,8 @@
 %{
 #include "../theme.h"
 
+class Event;
+
 enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
 struct WidgetData{
@@ -20,8 +22,12 @@ struct ChildData {
 			layer = BOTTOM_LAYER;
 	}
 
+        void AddEvent(std::string name, Event* event){
+            Callbacks[name] = event;
+        }
+
 	WidgetData* Data;
-	std::string Callback;
+	std::map<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };
@@ -41,8 +47,10 @@ struct WidgetData{
 
 struct ChildData {
     	void SetLayer(std::string l);
+        void AddEvent(std::string name, Event* event);
+
 	WidgetData* Data;
-	std::string Callback;
+	std::map<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };

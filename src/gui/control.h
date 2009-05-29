@@ -19,10 +19,12 @@
 
 #include "../nvMatrix.h"
 #include "../nvVector.h"
+#include "../events/event.h"
 
 #include <GL/gl.h>
 #include <GL/glext.h>
 
+#include <map>
 #include <vector>
 #include <string>
 #include <boost/bind.hpp>
@@ -55,7 +57,6 @@ public:
 
 	virtual void Move(float, float);
 	virtual void SetPosition(float, float);
-	virtual void SetCallback(boost::function<void()>);
 	virtual bool HasAttrib(unsigned short);
 	virtual void SetEnabled(bool);
 	virtual void SetFocus(bool);
@@ -97,6 +98,11 @@ public:
 	float GetLayer();
 	float GetDepth();
 
+	void SetCallback(std::string, Event*);
+	void SetCallbacks(std::map<std::string, Event*>);
+
+	int tc();
+
 	float s, t, s2, t2;
 protected:
 	unsigned short Attributes;
@@ -105,7 +111,7 @@ protected:
 	Control* MouseOverChild;
 	Control* ActiveChild;
 	std::vector<Control*> Children;
-	boost::function<void()> m_Callback;
+	std::map<std::string, Event*> Callbacks;
 
 	float Width, Height;
 	float x, y, z;

@@ -162,10 +162,6 @@ void Control::SetFocus(bool value) {
 	hasFocus = value;
 }
 
-void Control::SetCallback(boost::function<void() > callback) {
-	m_Callback = callback;
-}
-
 bool Control::HasAttrib(unsigned short a) {
 	//will only return true if all the attributes are there
 	return a == (Attributes & a);
@@ -381,4 +377,19 @@ float Control::GetLayer() {
 
 float Control::GetDepth() {
 	return z + layer;
+}
+
+void Control::SetCallback(std::string name, Event* event){
+	//create a new event so we can safyly set the object
+	Event* newEvent = event->clone();
+	newEvent->SetObject(this);
+
+	Callbacks[name] = newEvent;
+}
+
+void Control::SetCallbacks(std::map<std::string, Event*> c){
+	std::map<std::string, Event*>::iterator it;
+	for(it = c.begin(); it != c.end(); it++){
+		SetCallback(it->first, it->second);
+	}
 }

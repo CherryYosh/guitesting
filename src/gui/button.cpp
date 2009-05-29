@@ -28,6 +28,8 @@
 #include "button.h"
 #include "window.h"
 
+#include <iostream>
+
 Button::Button(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) { }
 
 Button::~Button() { }
@@ -43,16 +45,16 @@ bool Button::HitTest(int mouseX, int mouseY) {
 void Button::OnMousePress(unsigned short button, int mx, int my) { }
 
 bool Button::OnMouseClick(unsigned short num, bool final) {
-	if (num == 1 && m_Callback != NULL) {
-		m_Callback();
-		return false; //cant handel any more
-	}
-
 	return false; //we dont do anything
 }
 
 void Button::OnMouseEnter() {
-	//Root->Animate(RGBACHANNEL, nv::vec4<float>(1.0, 0.0, 0.0, 0.0), 0, 500, LINEAR, this);
+	printf( "here 1\n");
+
+	if(Callbacks["onHover"] != NULL){
+		Callbacks["onHover"]->Step(0);
+		printf("here 2\n");
+	}
 }
 
 void Button::OnMouseLeave() {

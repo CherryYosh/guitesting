@@ -21,9 +21,9 @@ bool Checkbox::OnMouseClick(unsigned short, bool) {
 	isChecked = !isChecked;
 	Children[0]->SetColor(0.0, 0.0, 0.0, -1.0 + isChecked);
 
-	if (m_Callback != NULL) {
-		m_Callback();
-	}
+	//if (Callbacks["OnMouseClick"] !=) {
+	//	Callbacks["OnMouseClick"]->Step(0);
+	//}
 
 	return true;
 }

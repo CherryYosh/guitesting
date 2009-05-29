@@ -21,6 +21,8 @@ std::map<std::string, WindowData*> Theme::windows;
 std::map<std::string, WidgetData*> Theme::widgets;
 Image* Theme::image;
 
+class Event;
+
 struct WidgetData {
 	std::string name;
 	float x, y;
@@ -28,17 +30,8 @@ struct WidgetData {
 };
 
 struct ChildData {
-	void SetLayer(std::string l) {
-		if (l == "top")
-			layer = TOP_LAYER;
-		else if (l == "default")
-			layer = DEFAULT_LAYER;
-		else if (l == "bottom")
-			layer = BOTTOM_LAYER;
-	}
-
 	WidgetData* Data;
-	std::string Callback;
+	std::map<std::string, Event*> Callbacks;
 	LayerT layer;
 	float x, y, z;
 };
@@ -80,7 +73,6 @@ ChildData* Theme::PushWidget(WindowData* window, std::string widget) {
 	ChildData* data = new ChildData;
 
 	data->Data = widgets[widget];
-	data->Callback = "";
 	data->x = 0;
 	data->y = 0;
 	data->z = 0;
@@ -121,6 +113,7 @@ Window* Theme::GetWindow(std::string name) {
 		child->s2 = (wd->x + wd->width) * wRecp;
 		child->t = 1 - (wd->y * hRecp);
 		child->t2 = 1 - ((wd->y + wd->height) * hRecp);
+		child->SetCallbacks(cd->Callbacks);
 
 		ret->AddChild(child);
 	}

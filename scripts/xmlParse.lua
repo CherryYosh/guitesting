@@ -4,10 +4,11 @@ require "lxp"
 
 local Theme = theme.Theme()
 local curWidget = nil
-local e = events.Event()
+local curChild = nul
+local isInEffects = false;
 
 local function import(name, args)
-	main(args["file"])
+	main(args["file"]) --load the new file
 end
 
 local function textures(name, args)
@@ -28,18 +29,51 @@ local function widget(name, args)
     curWidget = Theme : NewWindowData(args["name"], nil)
 end
 
+local function widgetEnd(name)
+	curWidget = nil
+end
+
 local function child(name, args)
-	local child = Theme : PushWidget( curWidget, args["type"] )
+	curChild = Theme : PushWidget( curWidget, args["type"] )
 
 	for i=1,#args do
 		if args[i] ~= "type" then
 			if args[i] == "layer" then
-				child : SetLayer(args["layer"])
+				curChild : SetLayer(args["layer"])
 			else
-				child[args[i]] = args[args[i]]
+				curChild[args[i]] = args[args[i]]
 			end
 		end
 	end
+end
+
+local function childEnd(name)
+	curChild = nil
+end
+
+local function effectsStart(name, args)
+	isInEffects = true
+end
+
+local function effectsEnd(name)
+	isInEffects = false
+end
+
+local function effects(name, args)
+	if not isInEffects then
+		return
+	end
+
+	local event = events.NewEventByName(args["class"])
+
+	for i=1,#args do
+		if args[i] ~= "class" then
+			print("setting value " .. args[i] .. " to " .. args[args[i]])
+			event[args[i]] = args[args[i]]
+		end
+	end
+
+	curChild : AddEvent(name, event)
 end
 
 local callbacks = {
@@ -54,8 +88,22 @@ local callbacks = {
 		child(name, attribs)
 	elseif name == "import" then
 		import(name, attribs)
+	elseif name == "effects" then
+		effectsStart(name, attribs)
+	elseif isInEffects then
+		effects(name, attribs)
 	end
-    end
+    end,
+
+	EndElement = function(parser, name)
+		if name == "widget" then
+			widgetEnd(name)
+		elseif name == "child" then
+			childEnd(name)
+		elseif name == "effects" then
+			effectsEnd(name)
+		end
+	end
 }
 
 -- the main function, used to allow argument passing

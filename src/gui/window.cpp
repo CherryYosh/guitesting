@@ -65,12 +65,6 @@ void Window::AddChild(Control *child) {
 		}
 	}
 
-
-	Event* e = new changecolor(child);
-	e->Step(0);
-
-	EventList.push_back(e);
-
 	Children.push_back(child);
 }
 

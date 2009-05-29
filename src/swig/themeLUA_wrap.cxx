@@ -1510,14 +1510,16 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_ChildData swig_types[0]
-#define SWIGTYPE_p_Image swig_types[1]
-#define SWIGTYPE_p_Theme swig_types[2]
-#define SWIGTYPE_p_WidgetData swig_types[3]
-#define SWIGTYPE_p_Window swig_types[4]
-#define SWIGTYPE_p_WindowData swig_types[5]
-#define SWIGTYPE_p_std__string swig_types[6]
-static swig_type_info *swig_types[8];
-static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
+#define SWIGTYPE_p_Event swig_types[1]
+#define SWIGTYPE_p_Image swig_types[2]
+#define SWIGTYPE_p_Theme swig_types[3]
+#define SWIGTYPE_p_WidgetData swig_types[4]
+#define SWIGTYPE_p_Window swig_types[5]
+#define SWIGTYPE_p_WindowData swig_types[6]
+#define SWIGTYPE_p_std__mapT_std__string_Event_p_t swig_types[7]
+#define SWIGTYPE_p_std__string swig_types[8]
+static swig_type_info *swig_types[10];
+static swig_module_info swig_module = {swig_types, 9, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1537,6 +1539,8 @@ typedef struct{} LANGUAGE_OBJ;
 
 #include "../theme.h"
 
+class Event;
+
 enum LayerT { BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
 struct WidgetData{
@@ -1555,8 +1559,12 @@ struct ChildData {
 			layer = BOTTOM_LAYER;
 	}
 
+        void AddEvent(std::string name, Event* event){
+            Callbacks[name] = event;
+        }
+
 	WidgetData* Data;
-	std::string Callback;
+	std::map<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };
@@ -2380,6 +2388,39 @@ fail:
 }
 
 
+static int _wrap_ChildData_AddEvent(lua_State* L) {
+  int SWIG_arg = 0;
+  ChildData *arg1 = (ChildData *) 0 ;
+  std::string arg2 ;
+  Event *arg3 = (Event *) 0 ;
+  
+  SWIG_check_num_args("AddEvent",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("AddEvent",1,"ChildData *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("AddEvent",2,"std::string");
+  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("AddEvent",3,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
+    SWIG_fail_ptr("ChildData_AddEvent",1,SWIGTYPE_p_ChildData);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("ChildData_AddEvent",3,SWIGTYPE_p_Event);
+  }
+  
+  (arg1)->AddEvent(arg2,arg3);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_ChildData_Data_set(lua_State* L) {
   int SWIG_arg = 0;
   ChildData *arg1 = (ChildData *) 0 ;
@@ -2434,22 +2475,27 @@ fail:
 }
 
 
-static int _wrap_ChildData_Callback_set(lua_State* L) {
+static int _wrap_ChildData_Callbacks_set(lua_State* L) {
   int SWIG_arg = 0;
   ChildData *arg1 = (ChildData *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
+  std::map< std::string,Event * > arg2 ;
+  std::map< std::string,Event * > *argp2 ;
   
-  SWIG_check_num_args("Callback",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callback",1,"ChildData *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("Callback",2,"std::string const &");
+  SWIG_check_num_args("Callbacks",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"ChildData *");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::map< std::string,Event * >");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
-    SWIG_fail_ptr("ChildData_Callback_set",1,SWIGTYPE_p_ChildData);
+    SWIG_fail_ptr("ChildData_Callbacks_set",1,SWIGTYPE_p_ChildData);
   }
   
-  temp2.assign(lua_tostring(L,2),lua_strlen(L,2)); arg2=&temp2;
-  if (arg1) (arg1)->Callback = *arg2;
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__mapT_std__string_Event_p_t,0))){
+    SWIG_fail_ptr("ChildData_Callbacks_set",2,SWIGTYPE_p_std__mapT_std__string_Event_p_t);
+  }
+  arg2 = *argp2;
+  
+  if (arg1) (arg1)->Callbacks = arg2;
   
   return SWIG_arg;
   
@@ -2461,20 +2507,23 @@ fail:
 }
 
 
-static int _wrap_ChildData_Callback_get(lua_State* L) {
+static int _wrap_ChildData_Callbacks_get(lua_State* L) {
   int SWIG_arg = 0;
   ChildData *arg1 = (ChildData *) 0 ;
-  std::string *result = 0 ;
+  std::map< std::string,Event * > result;
   
-  SWIG_check_num_args("Callback",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callback",1,"ChildData *");
+  SWIG_check_num_args("Callbacks",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"ChildData *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
-    SWIG_fail_ptr("ChildData_Callback_get",1,SWIGTYPE_p_ChildData);
+    SWIG_fail_ptr("ChildData_Callbacks_get",1,SWIGTYPE_p_ChildData);
   }
   
-  result = (std::string *) & ((arg1)->Callback);
-  lua_pushlstring(L,result->data(),result->size()); SWIG_arg++;
+  result =  ((arg1)->Callbacks);
+  {
+    std::map< std::string,Event * > * resultptr = new std::map< std::string,Event * >((const std::map< std::string,Event * > &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__mapT_std__string_Event_p_t,1); SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -2708,11 +2757,12 @@ delete arg1;
 }
 static swig_lua_method swig_ChildData_methods[] = {
     {"SetLayer", _wrap_ChildData_SetLayer}, 
+    {"AddEvent", _wrap_ChildData_AddEvent}, 
     {0,0}
 };
 static swig_lua_attribute swig_ChildData_attributes[] = {
     { "Data", _wrap_ChildData_Data_get, _wrap_ChildData_Data_set},
-    { "Callback", _wrap_ChildData_Callback_get, _wrap_ChildData_Callback_set},
+    { "Callbacks", _wrap_ChildData_Callbacks_get, _wrap_ChildData_Callbacks_set},
     { "layer", _wrap_ChildData_layer_get, _wrap_ChildData_layer_set},
     { "x", _wrap_ChildData_x_get, _wrap_ChildData_x_set},
     { "y", _wrap_ChildData_y_get, _wrap_ChildData_y_set},
@@ -2748,38 +2798,46 @@ static swig_lua_const_info swig_constants[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_ChildData = {"_p_ChildData", "ChildData *", 0, 0, (void*)&_wrap_class_ChildData, 0};
+static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Image = {"_p_Image", "Image *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Theme = {"_p_Theme", "Theme *", 0, 0, (void*)&_wrap_class_Theme, 0};
 static swig_type_info _swigt__p_WidgetData = {"_p_WidgetData", "WidgetData *", 0, 0, (void*)&_wrap_class_WidgetData, 0};
 static swig_type_info _swigt__p_Window = {"_p_Window", "Window *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_WindowData = {"_p_WindowData", "WindowData *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__mapT_std__string_Event_p_t = {"_p_std__mapT_std__string_Event_p_t", "std::map< std::string,Event * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ChildData,
+  &_swigt__p_Event,
   &_swigt__p_Image,
   &_swigt__p_Theme,
   &_swigt__p_WidgetData,
   &_swigt__p_Window,
   &_swigt__p_WindowData,
+  &_swigt__p_std__mapT_std__string_Event_p_t,
   &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_ChildData[] = {  {&_swigt__p_ChildData, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_Event, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Image[] = {  {&_swigt__p_Image, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Theme[] = {  {&_swigt__p_Theme, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WidgetData[] = {  {&_swigt__p_WidgetData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WindowData[] = {  {&_swigt__p_WindowData, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__mapT_std__string_Event_p_t[] = {  {&_swigt__p_std__mapT_std__string_Event_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ChildData,
+  _swigc__p_Event,
   _swigc__p_Image,
   _swigc__p_Theme,
   _swigc__p_WidgetData,
   _swigc__p_Window,
   _swigc__p_WindowData,
+  _swigc__p_std__mapT_std__string_Event_p_t,
   _swigc__p_std__string,
 };
 
