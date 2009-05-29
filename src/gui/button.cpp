@@ -49,16 +49,13 @@ bool Button::OnMouseClick(unsigned short num, bool final) {
 }
 
 void Button::OnMouseEnter() {
-	printf( "here 1\n");
-
 	if(Callbacks["onHover"] != NULL){
-		Callbacks["onHover"]->Step(0);
-		printf("here 2\n");
+		Callbacks["onHover"]->Step(50);
+		Root->UpdateControl(this);
 	}
 }
 
 void Button::OnMouseLeave() {
 	SetColor(0, 0, 0, 0);
-	//Root->UpdateControl(this);
-	//Root->RemoveAnimation(this);
+	Root->UpdateControl(this);
 }

@@ -99,6 +99,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+src/swig/CMakeFiles/../../color.dir/rule:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/../../color.dir/rule
+.PHONY : src/swig/CMakeFiles/../../color.dir/rule
+
+# Convenience name for target.
+../../color: src/swig/CMakeFiles/../../color.dir/rule
+.PHONY : ../../color
+
+# fast build rule for target.
+../../color/fast:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../color.dir/build.make src/swig/CMakeFiles/../../color.dir/build
+.PHONY : ../../color/fast
+
+# Convenience name for target.
 src/swig/CMakeFiles/../../events.dir/rule:
 	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/../../events.dir/rule
 .PHONY : src/swig/CMakeFiles/../../events.dir/rule
@@ -125,6 +139,30 @@ src/swig/CMakeFiles/../../theme.dir/rule:
 ../../theme/fast:
 	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/build
 .PHONY : ../../theme/fast
+
+colorLUA_wrap.o: colorLUA_wrap.cxx.o
+.PHONY : colorLUA_wrap.o
+
+# target to build an object file
+colorLUA_wrap.cxx.o:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../color.dir/build.make src/swig/CMakeFiles/../../color.dir/colorLUA_wrap.cxx.o
+.PHONY : colorLUA_wrap.cxx.o
+
+colorLUA_wrap.i: colorLUA_wrap.cxx.i
+.PHONY : colorLUA_wrap.i
+
+# target to preprocess a source file
+colorLUA_wrap.cxx.i:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../color.dir/build.make src/swig/CMakeFiles/../../color.dir/colorLUA_wrap.cxx.i
+.PHONY : colorLUA_wrap.cxx.i
+
+colorLUA_wrap.s: colorLUA_wrap.cxx.s
+.PHONY : colorLUA_wrap.s
+
+# target to generate assembly for a file
+colorLUA_wrap.cxx.s:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../color.dir/build.make src/swig/CMakeFiles/../../color.dir/colorLUA_wrap.cxx.s
+.PHONY : colorLUA_wrap.cxx.s
 
 eventsLUA_wrap.o: eventsLUA_wrap.cxx.o
 .PHONY : eventsLUA_wrap.o
@@ -180,10 +218,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... ../../color"
 	@echo "... ../../events"
 	@echo "... ../../theme"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... colorLUA_wrap.o"
+	@echo "... colorLUA_wrap.i"
+	@echo "... colorLUA_wrap.s"
 	@echo "... eventsLUA_wrap.o"
 	@echo "... eventsLUA_wrap.i"
 	@echo "... eventsLUA_wrap.s"

@@ -55,6 +55,7 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/run.dir/DependInfo.cmake"
   "src/CMakeFiles/../test.dir/DependInfo.cmake"
+  "src/swig/CMakeFiles/../../color.dir/DependInfo.cmake"
   "src/swig/CMakeFiles/../../events.dir/DependInfo.cmake"
   "src/swig/CMakeFiles/../../theme.dir/DependInfo.cmake"
   )

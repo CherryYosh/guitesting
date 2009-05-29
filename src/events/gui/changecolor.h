@@ -10,7 +10,7 @@
 
 #include "../event.h"
 #include "../../gui/control.h"
-#include "../../nvVector.h"
+#include "../../utils/color.h"
 
 class changecolor : public Event {
 public:
@@ -27,9 +27,10 @@ public:
 	void Begin();
 	void End();
 	void Step(unsigned int);
+	void Linear(unsigned int);
 private:
-	nv::vec4<float> startColor;
-	nv::vec4<float> endColor;
+	util::Color startColor;
+	util::Color endColor;
 	Control* object;
 };
 

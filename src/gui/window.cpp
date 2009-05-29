@@ -34,7 +34,6 @@
 #include <SDL/SDL.h>
 
 Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
-	ReciveInput = false;
 	Rotation.make_identity();
 
 	gui = p;
@@ -47,6 +46,8 @@ Window::~Window() {
 }
 
 void Window::AddChild(Control *child) {
+	child->SetRoot(this);
+
 	//need to check if we are adding something that will make it wider or higher
 	//NOTE:we assume the child's position is a offset..
 	int delta;
@@ -70,7 +71,7 @@ void Window::AddChild(Control *child) {
 
 void Window::Move(float xChange, float yChange) {
 	//allows for correct movement while rotated
-	nv::vec4<float> change = nv::vec4<float>(xChange, yChange, 0.0, 1.0);
+	util::vec4<float> change = util::vec4<float>(xChange, yChange, 0.0, 1.0);
 	change = inverse(Rotation) * change;
 
 	x += change.x;
@@ -176,15 +177,15 @@ bool Window::OnMouseClick(unsigned short num, bool final) {
 void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 	GLint* view = renderer->GetViewport();
 
-	nv::vec4<float> in = nv::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
+	util::vec4<float> in = util::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
 		-(((winy - view[1]) * 2.0) / view[3] - 1.0),
 		(2 * (z * 0.001)) - 1,
 		1.0);
 
-	nv::matrix4<float> pm;
+	util::matrix4<float> pm;
 	pm = (*renderer->GetCamera()->GetOrtho()) * Rotation;
 
-	nv::vec4<float> ret = inverse(pm) * in;
+	util::vec4<float> ret = inverse(pm) * in;
 
 	if (ret.w == 0.0)
 		return;
@@ -193,7 +194,7 @@ void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 	*oy = ret.y / ret.w;
 }
 
-nv::matrix4<float>* Window::GetRotation() {
+util::matrix4<float>* Window::GetRotation() {
 	return &Rotation;
 }
 
@@ -207,6 +208,14 @@ void Window::SetGUI(GUI* g){
 
 GUI* Window::GetGUI(){
 	return gui;
+}
+
+bool Window::NeedsUpdate(){
+	return awatingUpdate;
+}
+
+void Window::NeedsUpdate(bool v){
+	awatingUpdate = v;
 }
 
 void Window::SetRenderer(Renderer* r){

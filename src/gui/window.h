@@ -20,8 +20,8 @@
 #include "../renderer/renderer.h"
 #include "../events/event.h"
 
-#include "../nvMatrix.h"
-#include "../nvVector.h"
+#include "../utils/matrix.h"
+#include "../utils/vector.h"
 
 #include <vector>
 #include <list>
@@ -50,10 +50,11 @@ public:
 	bool IsRoot();
 	unsigned int Size();
 
-	nv::matrix4<float>* GetRotation();
+	util::matrix4<float>* GetRotation();
 	float* GetRotationfv();
 
-	bool ReciveInput;
+	bool NeedsUpdate();
+	void NeedsUpdate(bool);
 
 	void SetGUI(GUI*);
 	GUI* GetGUI();
@@ -66,7 +67,9 @@ private:
 	Renderer* renderer;
 
 	std::vector<Event*> EventList;
-	nv::matrix4<float> Rotation;
+	util::matrix4<float> Rotation;
+
+	bool awatingUpdate;
 };
 
 #endif

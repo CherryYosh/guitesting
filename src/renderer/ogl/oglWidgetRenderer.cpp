@@ -55,8 +55,8 @@ void oglWidgetRenderer::AddObject(void* obj) {
 	if (obj == NULL)
 		throw 19;
 
-	TotalObjects += static_cast<Control*>(obj)->Size();
-	Objects.push_back(static_cast<Control*>(obj));
+	TotalObjects += static_cast<Control*> (obj)->Size();
+	Objects.push_back(static_cast<Control*> (obj));
 }
 
 /**
@@ -161,8 +161,8 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	Control* root = object;
 	Control* child;
 
-	if(object->IsRoot())
-		    root = NULL;
+	if (object->IsRoot())
+		root = NULL;
 
 	unsigned int dataSize = object->Size() * 4;
 	WidgetData* data = new WidgetData[ dataSize ];
@@ -170,15 +170,15 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	//these are for cleaner code
 	//also SHOULD allow for easyer SSE complation
 	unsigned int slot = 0;
-	nv::vec4<float> v1, v2, v3, v4;
+	util::vec4<float> v1, v2, v3, v4;
 	float vs, vs2, vt, vt2;
 	float* c;
 
 	unsigned int j = 0;
 	size_t size1 = object->NumChildren();
 	size_t size2 = 0;
-	for(unsigned int i = 0; i <= size1; i++) {
-		if( root == NULL )
+	for (unsigned int i = 0; i <= size1; i++) {
+		if (root == NULL)
 			root = object->GetChild(i++);
 
 		size2 = root->TotalChildren();
@@ -186,14 +186,14 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 
 		j = 0;
 		do {
-			v1 = nv::vec4<float>(child->GetX(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0 );
-			v2 = nv::vec4<float>(child->GetX() + child->GetWidth(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0 );
-			v3 = nv::vec4<float>(child->GetX() + child->GetWidth(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0 );
-			v4 = nv::vec4<float>(child->GetX(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0 );
+			v1 = util::vec4<float>(child->GetX(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0);
+			v2 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0);
+			v3 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0);
+			v4 = util::vec4<float>(child->GetX(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0);
 
 			//Will apply the roots rotation to the vbo so we dont need to pass
 			//the matrix to the gpu every call
-			if(child->GetRoot() != NULL){
+			if (child->GetRoot() != NULL) {
 				v1 = (*child->GetRotation()) * v1;
 				v2 = (*child->GetRotation()) * v2;
 				v3 = (*child->GetRotation()) * v3;
@@ -273,14 +273,14 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 		int r = -1;
 
 		size_t size = Objects.size();
-		for(unsigned int j = 0; j < size; j++ ){
-			    r = Objects[j]->IterateChild(object);
+		for (unsigned int j = 0; j < size; j++) {
+			r = Objects[j]->IterateChild(object);
 
-			    if(r != -1){
-				    pos += r;
-				    break;
-			    } else {
-				    pos += Objects[j]->Size();
+			if (r == -1) {
+				pos += Objects[j]->Size();
+			} else {
+				pos += r;
+				break;
 			}
 		}
 

@@ -12,8 +12,8 @@
 #include "shader.h"
 #include "../renderer.h"
 #include "../../camera.h"
-#include "../../nvMatrix.h"
-#include "../../nvVector.h"
+#include "../../utils/matrix.h"
+#include "../../utils/vector.h"
 #include "../../gui/control.h"
 
 #include <vector>

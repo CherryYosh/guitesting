@@ -22,8 +22,8 @@ public:
 	void End();
 	void Step(unsigned int);
 private:
-	nv::vec3<float> startPoint;
-	nv::vec3<float> endPoint;
+	util::vec3<float> startPoint;
+	util::vec3<float> endPoint;
 };
 
 #endif	/* _MOVE_H */

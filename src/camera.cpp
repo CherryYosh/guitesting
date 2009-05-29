@@ -49,7 +49,7 @@ void Camera::SetProjection( float fovy, float aspecty, float near, float far ){
 	float f = 1.0 / tan( fovy / 2.0 );
 	//set up the scale
 	//http://www.opengl.org/sdk/docs/man/xhtml/gluPerspective.xml
-	nv::vec3<float> scale = nv::vec3<float>( 	f / aspect, 
+	util::vec3<float> scale = util::vec3<float>( 	f / aspect,
 							f, 
 							( zFar + zNear ) / (zNear - zFar )  );
 	
@@ -63,10 +63,10 @@ void Camera::SetProjection( float fovy, float aspecty, float near, float far ){
 }
 
 void Camera::SetOrtho( float left, float right, float bottom, float top, float near, float far ){
-	nv::vec3<float> scale = nv::vec3<float>( 	2.0 / ( right - left ),
+	util::vec3<float> scale = util::vec3<float>( 	2.0 / ( right - left ),
 							2.0 / ( top - bottom ),
 							-2.0 / ( far - near ) );
-	nv::vec3<float> trans = nv::vec3<float>(	-( right + left ) / ( right - left ),
+	util::vec3<float> trans = util::vec3<float>(	-( right + left ) / ( right - left ),
 							-( top + bottom ) / ( top - bottom ),
 							-( far + near ) / ( far - near ) );
 
@@ -99,20 +99,20 @@ float* Camera::GetModelviewfv(){
 /**
  * Returns a pointer to the projection matrix
  */
-nv::matrix4<float>* Camera::GetProjection(){
+util::matrix4<float>* Camera::GetProjection(){
 	return &projection;
 }
 
 /**
  * Returns a pointer to the orthographic matrix
  */
-nv::matrix4<float>* Camera::GetOrtho(){
+util::matrix4<float>* Camera::GetOrtho(){
 	return &ortho;
 }
 
 /**
  * Returns a pointer to the modelview matrix
  */
-nv::matrix4<float>* Camera::GetModelview(){
+util::matrix4<float>* Camera::GetModelview(){
 	return &modelview;
 }

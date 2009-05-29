@@ -2286,6 +2286,33 @@ fail:
 }
 
 
+static int _wrap_changecolor_Linear(lua_State* L) {
+  int SWIG_arg = 0;
+  changecolor *arg1 = (changecolor *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Linear",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Linear",1,"changecolor *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Linear",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_changecolor,0))){
+    SWIG_fail_ptr("changecolor_Linear",1,SWIGTYPE_p_changecolor);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Linear(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static void swig_delete_changecolor(void *obj) {
 changecolor *arg1 = (changecolor *) obj;
 delete arg1;
@@ -2297,6 +2324,7 @@ static swig_lua_method swig_changecolor_methods[] = {
     {"Begin", _wrap_changecolor_Begin}, 
     {"End", _wrap_changecolor_End}, 
     {"Step", _wrap_changecolor_Step}, 
+    {"Linear", _wrap_changecolor_Linear}, 
     {0,0}
 };
 static swig_lua_attribute swig_changecolor_attributes[] = {

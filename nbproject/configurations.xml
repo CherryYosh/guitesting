@@ -82,8 +82,7 @@
           <itemPath>src/swig/theme.o</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
-          <itemPath>src/utils/reflection.cpp</itemPath>
-          <itemPath>src/utils/reflection.h</itemPath>
+          <itemPath>src/utils/vector.h</itemPath>
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
         <itemPath>src/camera.h</itemPath>

@@ -56,6 +56,9 @@ bool GUI::HitTest(float x, float y) {
 	return false;
 }
 
+/**
+ * Moves and updates the active window by x and y
+ */
 void GUI::Move(int x, int y) {
 	if (x == 0 && y == 0)
 		return;

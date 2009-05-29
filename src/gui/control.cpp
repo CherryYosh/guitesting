@@ -15,7 +15,6 @@
 #include <GL/glew.h>
 
 #include "control.h"
-
 #include "window.h"
 
 //This should only be called when a new theme has been loaded or when the control is initlized
@@ -32,7 +31,7 @@ Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float
 	z = -TOP_LAYER;
 	SetLayer(l);
 
-	SetColor(nv::vec4<float>(0.0));
+	SetColor(util::vec4<float>(0.0));
 
 	Attributes = 0;
 	GetControlData();
@@ -183,27 +182,31 @@ void Control::SetHeight(float h) {
 	Height = h;
 }
 
+void Control::SetColor(util::Color c){
+	color = c;
+}
+
 void Control::SetColor(float r, float g, float b, float a) {
-	Color[0] = r;
-	Color[1] = g;
-	Color[2] = b;
-	Color[3] = a;
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	color.a = a;
 }
 
-void Control::SetColor(nv::vec4<float> c) {
-	Color = c;
+void Control::SetColor(util::vec4<float> c) {
+	//Color = c;
 }
 
-void Control::AddColor(nv::vec4<float> c) {
-	Color += c;
+void Control::AddColor(util::vec4<float> c) {
+	//Color += c;
 }
 
-nv::vec4<float> Control::GetColor(){
-	return Color;
+util::Color Control::GetColor(){
+	return color;
 }
 
 float* Control::GetColorv() {
-	return Color._array;
+	return color._array;
 }
 
 void Control::OnMouseEnter() { }
@@ -310,6 +313,9 @@ bool Control::IsLeaf() {
 	return(0 == NumChildren());
 }
 
+/**
+ * Sets the Depth for this control, and all children.
+ */
 void Control::SetDepth(float depth) {
 	this->z = depth;
 
@@ -319,6 +325,9 @@ void Control::SetDepth(float depth) {
 	}
 }
 
+/**
+ * Adds to the depth of this control, and all of its children
+ */
 void Control::AddDepth(float depth) {
 	this->z += depth;
 
@@ -335,7 +344,7 @@ void Control::SetLayer(LayerT l) {
 /**
  * returns a pointer to the roots rotation matrix, or NULL
  */
-nv::matrix4<float>* Control::GetRotation() {
+util::matrix4<float>* Control::GetRotation() {
 	if (Root == NULL)
 		return NULL;
 
@@ -357,6 +366,10 @@ float* Control::GetRotationfv() {
  */
 const Window* Control::GetRoot() {
 	return Root;
+}
+
+void Control::SetRoot(Window* nr){
+	Root = nr;
 }
 
 float Control::GetX() {

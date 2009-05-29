@@ -1,11 +1,13 @@
 require "theme"
 require "events"
+require "color"
 require "lxp"
 
 local Theme = theme.Theme()
 local curWidget = nil
 local curChild = nul
 local isInEffects = false;
+
 
 local function import(name, args)
 	main(args["file"]) --load the new file

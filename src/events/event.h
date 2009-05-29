@@ -40,6 +40,7 @@ protected:
 	unsigned int start;
 	unsigned int duration;
 	unsigned int delay;
+	unsigned int remainingTime;
 private:
 };
 

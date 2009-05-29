@@ -29,8 +29,9 @@ void changecolor::Init(){}
 void changecolor::Begin(){
 	if(object != NULL){
 		startColor = object->GetColor();
-		endColor = nv::vec4<float>(1.0,0.0,0.0,0.0);
+		endColor = util::Color(1.0,0.0,0.0,0.0);
 		duration = 50;
+		remainingTime = duration;
 		delay = 0;
 	}
 }
@@ -39,8 +40,25 @@ void changecolor::End(){
 }
 
 void changecolor::Step(unsigned int step){
-	if(object != NULL){
-		object->SetColor(1.0,0.0,0.0,0.0);
-	}
+	Linear(step);
+	remainingTime -= step;
 }
 
+void changecolor::Linear(unsigned int step){
+	if(object == NULL)
+		return;
+
+	//first we need to scale it to UNORM length
+	if(step > remainingTime)
+		step = remainingTime;
+
+	float timeDelta = step / duration;
+
+	util::Color oc = object->GetColor();
+
+	object->SetColor(util::Color(
+		oc.r + (step * endColor.r),
+		oc.g + (step * endColor.g),
+		oc.b + (step * endColor.b),
+		oc.a + (step * endColor.a)));
+}

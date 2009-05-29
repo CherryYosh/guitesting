@@ -33,8 +33,8 @@
 #include <GL/glu.h>
 #include "myext.h"
 
-#include "nvMatrix.h"
-#include "nvVector.h"
+#include "utils/matrix.h"
+#include "utils/vector.h"
 
 // FreeType 2
 #include <ft2build.h>

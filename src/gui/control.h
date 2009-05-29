@@ -17,8 +17,9 @@
 
 #define CTRL_INPUT (1) << 0 //does the control allow input
 
-#include "../nvMatrix.h"
-#include "../nvVector.h"
+#include "../utils/color.h"
+#include "../utils/matrix.h"
+#include "../utils/vector.h"
 #include "../events/event.h"
 
 #include <GL/gl.h>
@@ -61,10 +62,11 @@ public:
 	virtual void SetEnabled(bool);
 	virtual void SetFocus(bool);
 
+	virtual void SetColor(util::Color);
 	virtual void SetColor(float, float, float, float);
-	virtual void SetColor(nv::vec4<float>);
-	virtual void AddColor(nv::vec4<float>);
-	virtual nv::vec4<float> GetColor();
+	virtual void SetColor(util::vec4<float>);
+	virtual void AddColor(util::vec4<float>);
+	virtual util::Color GetColor();
 	virtual float* GetColorv();
 
 	virtual void AddChild(Control*);
@@ -89,8 +91,10 @@ public:
 	virtual void SetLayer(LayerT);
 
 	virtual const Window* GetRoot();
-	virtual nv::matrix4<float>* GetRotation();
+	virtual util::matrix4<float>* GetRotation();
 	virtual float* GetRotationfv();
+
+	void SetRoot(Window*);
 
 	float GetX();
 	float GetY();
@@ -100,8 +104,6 @@ public:
 
 	void SetCallback(std::string, Event*);
 	void SetCallbacks(std::map<std::string, Event*>);
-
-	int tc();
 
 	float s, t, s2, t2;
 protected:
@@ -120,7 +122,7 @@ private:
 	void GetControlData();
 
 	bool hasFocus, isEnabled;
-	nv::vec4<float> Color;
+	util::Color color;
 
 	std::string Type;
 };

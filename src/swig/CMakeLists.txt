@@ -9,3 +9,5 @@ swig_add_module( ../../theme lua theme.i )
 
 swig_add_module( ../../events lua events.i )
 
+swig_add_module( ../../color lua color.i )
+

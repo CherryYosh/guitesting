@@ -15,8 +15,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "nvMatrix.h"
-#include "nvVector.h"
+#include "utils/matrix.h"
+#include "utils/vector.h"
 
 class Camera{
 public:
@@ -32,16 +32,16 @@ public:
 	float* GetOrthofv();
 	float* GetModelviewfv();
 
-	nv::matrix4<float>* GetProjection();
-	nv::matrix4<float>* GetOrtho();
-	nv::matrix4<float>* GetModelview();
+	util::matrix4<float>* GetProjection();
+	util::matrix4<float>* GetOrtho();
+	util::matrix4<float>* GetModelview();
 	
 	//these need to be public till I get off my ass :P
 	float fov, aspect, zNear, zFar;
 private:
-	nv::matrix4<float> projection;
-	nv::matrix4<float> ortho;
-	nv::matrix4<float> modelview;
+	util::matrix4<float> projection;
+	util::matrix4<float> ortho;
+	util::matrix4<float> modelview;
 
 };
 
