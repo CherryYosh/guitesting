@@ -26,7 +26,7 @@
 
 #include "window.h"
 
-#include "../events/gui/changecolor.h"
+#include "../events/gui/colorchange.h"
 
 #include "controls.h"
 #include "../gui.h"
@@ -34,7 +34,7 @@
 #include <SDL/SDL.h>
 
 Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
-	Rotation.make_identity();
+	rotation.make_identity();
 
 	gui = p;
 	renderer = r;
@@ -72,7 +72,7 @@ void Window::AddChild(Control *child) {
 void Window::Move(float xChange, float yChange) {
 	//allows for correct movement while rotated
 	util::vec4<float> change = util::vec4<float>(xChange, yChange, 0.0, 1.0);
-	change = inverse(Rotation) * change;
+	change = inverse(rotation) * change;
 
 	x += change.x;
 	y += change.y;
@@ -183,7 +183,7 @@ void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 		1.0);
 
 	util::matrix4<float> pm;
-	pm = (*renderer->GetCamera()->GetOrtho()) * Rotation;
+	pm = (*renderer->GetCamera()->GetOrtho()) * rotation;
 
 	util::vec4<float> ret = inverse(pm) * in;
 
@@ -195,11 +195,11 @@ void Window::Unproject(float winx, float winy, float* ox, float* oy) {
 }
 
 util::matrix4<float>* Window::GetRotation() {
-	return &Rotation;
+	return &rotation;
 }
 
 float* Window::GetRotationfv() {
-	return Rotation._array;
+	return rotation._array;
 }
 
 void Window::SetGUI(GUI* g){
@@ -224,4 +224,25 @@ void Window::SetRenderer(Renderer* r){
 
 Renderer* Window::GetRenderer(){
 	return renderer;
+}
+
+void Window::AddEvent(Event* e){
+	activeEvents.push_back(e);
+}
+
+void Window::RemoveEvent(Event* e){
+	std::vector<Event*>::iterator it;
+	for( it = activeEvents.begin(); it != activeEvents.end(); it++){
+		if(*it == e){
+			activeEvents.erase(it);
+			return;
+		}
+	}
+}
+
+void Window::StepEvents(unsigned int step){
+	size_t size = activeEvents.size();
+	for(size_t i = 0; i < size; i++){
+		activeEvents[i]->Step(step);
+	}
 }

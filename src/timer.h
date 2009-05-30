@@ -46,6 +46,8 @@ public:
 	void SetFunction(boost::function<void()>);
 	void SetRuntime(unsigned int);
 
+	unsigned int* GetDeltaPtr();
+	unsigned int* GetTimePtr();
 	unsigned int* GetTicksPtr();
 	unsigned int* GetStepsPtr();
 	unsigned int GetTicks();
@@ -54,6 +56,7 @@ public:
 private:
 	void RunCommand();
 
+	unsigned int TimeDelta;
 	unsigned int CurTicks;
 	unsigned int StopTicks;
 	unsigned int RunTime;

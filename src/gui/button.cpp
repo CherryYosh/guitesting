@@ -50,12 +50,15 @@ bool Button::OnMouseClick(unsigned short num, bool final) {
 
 void Button::OnMouseEnter() {
 	if(Callbacks["onHover"] != NULL){
-		Callbacks["onHover"]->Step(50);
-		Root->UpdateControl(this);
+		Callbacks["onHover"]->Begin();
+		Root->AddEvent(Callbacks["onHover"]);
 	}
 }
 
 void Button::OnMouseLeave() {
-	SetColor(0, 0, 0, 0);
-	Root->UpdateControl(this);
+	if(Callbacks["onHover"] != NULL){
+		Callbacks["onHover"]->End();
+		Root->UpdateControl(this);
+		Root->RemoveEvent(Callbacks["onHover"]);
+	}
 }

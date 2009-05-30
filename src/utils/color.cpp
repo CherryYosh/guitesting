@@ -18,6 +18,8 @@ Color::Color() : r(0), b(0), g(0), a(0) { }
 Color::Color(const Color& o) : r(o.r), g(o.g), b(o.b), a(o.a) { }
 
 Color::Color(std::string sc) {
+	printf("Here %s\n", sc.c_str());
+
 	if (IsHexStr(sc)) {
 		unsigned int v1, v2, v3, v4;
 
@@ -76,7 +78,7 @@ float Color::AFromStr(std::string sc) {
  * Returns true if the string is a hex string. Starting with # and consisting of atleast 6 hex values
  */
 bool Color::IsHexStr(std::string s) {
-	return(s.find_first_not_of("0123456789abcdefABCDEF") == std::string::npos && (s.size() == 7 || s.size() == 9));
+	return(s.find_first_not_of("#0123456789abcdefABCDEF") == std::string::npos && (s.size() == 7 || s.size() == 9));
 }
 
 /**

@@ -33,7 +33,7 @@ public:
 	LUABase();
 	virtual ~LUABase();
 
-	void Init();
+	static void Init();
 
 	static lua_State* GetLuaState();
 	static bool CallScript(std::string, DebugLevel = __M_DebugLevel);

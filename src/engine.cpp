@@ -13,7 +13,7 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 #ifdef _DEBUG_
-	#include <stdio.h>
+#include <stdio.h>
 #endif
 
 #include <boost/bind.hpp>
@@ -27,11 +27,10 @@
 
 Engine* Engine::engine;
 
-Engine::Engine(){
+Engine::Engine() {
 	engine = this;
 
-	lua = new LUABase();
-	lua->Init();
+	LUABase::Init();
 
 	display = new Display();
 
@@ -43,34 +42,34 @@ Engine::Engine(){
 
 	input = new Input();
 
-	input->BindAction( "default", "QUIT", true, boost::bind<void>( &Engine::Quit, Engine::engine ) );
-	input->BindKey( "default", SDLK_q, KMOD_LCTRL, "QUIT" );
-	input->BindKey( "default", SDLK_q, KMOD_NONE, "QUIT" );
+	input->BindAction("default", "QUIT", true, boost::bind<void>(&Engine::Quit, Engine::engine));
+	input->BindKey("default", SDLK_q, KMOD_LCTRL, "QUIT");
+	input->BindKey("default", SDLK_q, KMOD_NONE, "QUIT");
 
-	input->BindAction( "typing", "QUIT", true, boost::bind<void>( &Engine::Quit, Engine::engine ) );
-	input->BindKey( "typing", SDLK_q, KMOD_LCTRL, "QUIT" );
+	input->BindAction("typing", "QUIT", true, boost::bind<void>(&Engine::Quit, Engine::engine));
+	input->BindKey("typing", SDLK_q, KMOD_LCTRL, "QUIT");
 }
 
-Engine::~Engine(){
+Engine::~Engine() {
 	delete input;
 	delete display;
 	engine = NULL;
 }
 
-void Engine::Quit(){
+void Engine::Quit() {
 	running = false;
 }
 
-void Engine::Run(){
+void Engine::Run() {
 	running = true;
 
-	while ( running ){
+	while (running) {
 		display->Start();
 		input->Start();
 	}
 }
 
-void Engine::Start(){
+void Engine::Start() {
 	Run();
 
 	delete this;

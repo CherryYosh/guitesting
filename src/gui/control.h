@@ -90,10 +90,10 @@ public:
 	virtual void AddDepth(float);
 	virtual void SetLayer(LayerT);
 
-	virtual const Window* GetRoot();
 	virtual util::matrix4<float>* GetRotation();
 	virtual float* GetRotationfv();
 
+	Window* GetRoot();
 	void SetRoot(Window*);
 
 	float GetX();

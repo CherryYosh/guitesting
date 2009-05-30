@@ -8,8 +8,9 @@ class Control;
 class Event {
 public:
 
-	Event() { };
-	Event(const Event& e) : start(e.start), duration(e.duration), delay(e.delay) { };
+	Event() : start(0), duration(1000), delay(0), remainingTime(0) { };
+	Event(const Event& e) : start(e.start), duration(e.duration), delay(e.delay),
+		remainingTime(0){ };
 
 	virtual ~Event() { };
 
@@ -36,7 +37,7 @@ public:
 	virtual void End() { };
 
 	virtual void Step(unsigned int) { };
-protected:
+//protected:
 	unsigned int start;
 	unsigned int duration;
 	unsigned int delay;

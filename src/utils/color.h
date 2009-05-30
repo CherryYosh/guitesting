@@ -33,6 +33,11 @@ namespace util {
 			return _array[i];
 		};
 
+		Color& operator=(const std::string& s) {
+			*this = Color(s.c_str());
+			return *this;
+		}
+
 		union {
 
 			struct {

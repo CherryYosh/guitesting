@@ -25,6 +25,7 @@ Timer::Timer(unsigned int runtime, bool cont) {
 	RunTime = runtime;
 	Ticks = 0;
 	Steps = 0;
+	TimeDelta = 0;
 	Contious = cont;
 	Function = NULL;
 }
@@ -65,7 +66,9 @@ void Timer::Update() {
 	if (!Running)
 		return;
 
+	TimeDelta = CurTicks;
 	CurTicks = SDL_GetTicks();
+	TimeDelta = CurTicks - TimeDelta;
 
 	if (CurTicks >= StopTicks) {
 		if (!Contious) {
@@ -85,7 +88,9 @@ void Timer::Update(unsigned int ticks) {
 	if (!Running)
 		return;
 
+	TimeDelta = ticks - CurTicks;
 	CurTicks = ticks;
+
 
 	if (CurTicks >= StopTicks) {
 		if (!Contious) {
@@ -118,8 +123,15 @@ void Timer::RunCommand() {
 }
 
 void Timer::SetRuntime(unsigned int time) {
-	//NOTE: this doesnt need to be locked, not used by the timer thread
 	RunTime = time;
+}
+
+unsigned int* Timer::GetDeltaPtr(){
+	return &TimeDelta;
+}
+
+unsigned int* Timer::GetTimePtr(){
+	return &CurTicks;
 }
 
 unsigned int* Timer::GetTicksPtr() {

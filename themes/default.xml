@@ -12,7 +12,7 @@
 	    <child type="rule.top" x="0" y="0"/>
 	    <child type="button.close" x="10" y="2" layer="top">
 		<effects>
-			<onHover class="changecolor" duration="10"/>
+			<onHover class="changecolor" color="#F00000" duration="2000"/>
 		</effects>
 	    </child>
 	</widget>

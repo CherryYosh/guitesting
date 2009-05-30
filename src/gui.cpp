@@ -14,17 +14,24 @@
  */
 
 #include "gui.h"
+#include "theme.h"
 #include "gui/controls.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
-#include "theme.h"
 
 oglWidgetRenderer* renderer;
+
 
 GUI::GUI() : System() {
 	MouseOverWindow = NULL;
 	ActiveWindow = NULL;
 	IsRecevingInput = false;
 	renderer = new oglWidgetRenderer;
+
+	Timer* t = new Timer(0, true);
+	t->SetFunction(boost::bind<void>(&GUI::UpdateWindowEvents, this, t->GetDeltaPtr()));
+	t->Start();
+	
+	AddTimerToPool(t);
 }
 
 GUI::~GUI() {
@@ -32,6 +39,8 @@ GUI::~GUI() {
 }
 
 void GUI::Render() {
+	timers.Update();
+	
 	renderer->Draw();
 }
 
@@ -122,6 +131,12 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
 	return false;
 }
 
+void GUI::UpdateWindowEvents(unsigned int* step){
+	size_t size = Windows.size();
+	for(size_t i = 0; i < size; i++)
+		Windows[i]->StepEvents(*step);
+}
+
 void GUI::CreateWindow( std::string name, float x, float y) {
 	Theme t;
 	Window* window = t.GetWindow(name);
@@ -142,4 +157,8 @@ void GUI::CloseWindow(Window* w) {
 
 	renderer->RemoveObject(w);
 	renderer->Refresh();
+}
+
+void GUI::AddTimerToPool(Timer* t, bool tick, bool step){
+	timers.AddTimer(t, tick, step);
 }

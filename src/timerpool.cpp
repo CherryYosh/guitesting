@@ -14,6 +14,12 @@
  */
 #include "timerpool.h"
 
+struct timerpool_Data {
+	Timer* timer;
+	bool tick; //do we tick on update
+	bool step; //do we step on update
+};
+
 timerpool::timerpool(){
 }
 

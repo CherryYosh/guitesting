@@ -364,7 +364,7 @@ float* Control::GetRotationfv() {
 /**
  * Returns a const pointer to the Root window
  */
-const Window* Control::GetRoot() {
+Window* Control::GetRoot() {
 	return Root;
 }
 

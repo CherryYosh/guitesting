@@ -61,13 +61,17 @@ public:
 
 	void SetRenderer(Renderer*);
 	Renderer* GetRenderer();
+
+	void AddEvent(Event*);
+	void RemoveEvent(Event*);
+	void StepEvents(unsigned int);
 protected:
 private:
 	GUI* gui;
 	Renderer* renderer;
 
-	std::vector<Event*> EventList;
-	util::matrix4<float> Rotation;
+	std::vector<Event*> activeEvents;
+	util::matrix4<float> rotation;
 
 	bool awatingUpdate;
 };

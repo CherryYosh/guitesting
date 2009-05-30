@@ -70,8 +70,11 @@ local function effects(name, args)
 
 	for i=1,#args do
 		if args[i] ~= "class" then
-			print("setting value " .. args[i] .. " to " .. args[args[i]])
-			event[args[i]] = args[args[i]]
+			if args[i] == "color" then
+				event : SetColor(args[args[i]])
+			else
+				event[args[i]] = args[args[i]]
+			end
 		end
 	end
 

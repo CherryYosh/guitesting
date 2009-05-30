@@ -20,6 +20,9 @@
 
 #include "system.h"
 
+#include "timer.h"
+#include "timerpool.h"
+
 class Window;
 
 class GUI : public System {
@@ -38,13 +41,18 @@ public:
 	bool OnMouseClick(unsigned short, bool);
 	bool OnMouseMotion(float, float, unsigned short);
 
+	void UpdateWindowEvents(unsigned int*);
+
 	void CreateWindow(std::string, float = 0, float = 0);
 	void CloseWindow(Window*);
+
+	void AddTimerToPool(Timer*, bool = false, bool = false);
 protected:
 	std::vector<Window*> Windows;
 	Window* MouseOverWindow;
 	Window* ActiveWindow;
 private:
+	timerpool timers;
 	bool IsRecevingInput;
 };
 

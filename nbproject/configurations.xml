@@ -8,12 +8,10 @@
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <logicalFolder name="events" displayName="events" projectFiles="true">
           <logicalFolder name="gui" displayName="gui" projectFiles="true">
-            <itemPath>src/events/gui/changecolor.cpp</itemPath>
-            <itemPath>src/events/gui/changecolor.h</itemPath>
-            <itemPath>src/events/gui/changecolor.o</itemPath>
+            <itemPath>src/events/gui/colorchange.cpp</itemPath>
+            <itemPath>src/events/gui/colorchange.h</itemPath>
             <itemPath>src/events/gui/move.cpp</itemPath>
             <itemPath>src/events/gui/move.h</itemPath>
-            <itemPath>src/events/gui/move.o</itemPath>
           </logicalFolder>
           <itemPath>src/events/event.h</itemPath>
           <itemPath>src/events/eventmgr.h</itemPath>

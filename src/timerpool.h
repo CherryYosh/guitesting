@@ -13,16 +13,12 @@
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
 #ifndef TIMERPOOL_H
-#define TIMERPOLL_H
+#define TIMERPOOL_H
 
 #include "timer.h"
 #include <vector>
 
-struct timerpool_Data {
-	Timer* timer;
-	bool tick; //do we tick on update
-	bool step; //do we step on update
-};
+struct timerpool_Data;
 
 class timerpool {
 public:

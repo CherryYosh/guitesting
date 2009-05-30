@@ -1,18 +1,18 @@
 %module events
 %{
     #include "../events/event.h"
-    #include "../events/gui/changecolor.h"
+    #include "../events/gui/colorchange.h"
 
-    Event* NewEventByName(std::string e){
-        if(e == "event" )
-            return new Event();
-        else if (e == "changecolor")
-            return new changecolor();
+    ColorChangeEvent* NewEventByName(std::string e){
+        //if(e == "event" )
+         //   return new Event();
+        //else if (e == "changecolor")
+            return new ColorChangeEvent();
     }
 %}
 
 %include <std_string.i>
 %include "../events/event.h"
-%include "../events/gui/changecolor.h"
+%include "../events/gui/colorchange.h"
 
-Event* NewEventByName(std::string);
+ColorChangeEvent* NewEventByName(std::string);
