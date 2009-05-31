@@ -9,11 +9,9 @@
 
 #include "../../gui/window.h"
 
-ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), object(NULL) { }
+ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), object(NULL), Event() { }
 
-ColorChangeEvent::ColorChangeEvent(Control* o) {
-	object = o;
-}
+ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), object(o), Event() { }
 
 ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), object(c.object), Event(c) { }
 
@@ -32,7 +30,6 @@ void ColorChangeEvent::Init() { }
 void ColorChangeEvent::Begin() {
 	if (object != NULL) {
 		remainingTime = duration;
-		delay = 0;
 	}
 }
 

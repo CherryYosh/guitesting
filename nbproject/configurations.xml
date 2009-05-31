@@ -98,8 +98,6 @@
         <itemPath>src/mouse.cpp</itemPath>
         <itemPath>src/mouse.h</itemPath>
         <itemPath>src/myext.h</itemPath>
-        <itemPath>src/nvMatrix.h</itemPath>
-        <itemPath>src/nvVector.h</itemPath>
         <itemPath>src/system.cpp</itemPath>
         <itemPath>src/system.h</itemPath>
         <itemPath>src/theme.cpp</itemPath>

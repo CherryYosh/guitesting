@@ -11,19 +11,27 @@
 #include "../event.h"
 #include "../../gui/control.h"
 
-class Move : public Event{
+class MoveEvent : public Event{
 public:
-	Move();
-	Move(const Move& orig);
-	virtual ~Move();
+	MoveEvent();
+	MoveEvent(Control*);
+	MoveEvent(const MoveEvent& orig);
+	virtual ~MoveEvent();
+
+	Event* clone();
+
+	void SetObject(Control*);
 
 	void Init();
 	void Begin();
 	void End();
 	void Step(unsigned int);
+
+	void Linear(unsigned int);
+	void Translation(int, int);
 private:
-	util::vec3<float> startPoint;
-	util::vec3<float> endPoint;
+	util::vec2<float> delta;
+	Control* object;
 };
 
 #endif	/* _MOVE_H */

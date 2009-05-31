@@ -74,6 +74,8 @@ local function effects(name, args)
 		if args[i] ~= "class" then
 			if args[i] == "color" then
 				event : SetColor(args[args[i]])
+			elseif args[i] == "translation" then
+				event : Translation(string.match(args[args[i]], "([^,]*),(.*)"))
 			else
 				event[args[i]] = args[args[i]]
 			end

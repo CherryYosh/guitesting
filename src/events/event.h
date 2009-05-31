@@ -29,7 +29,7 @@ public:
 	/**
 	 * Called when ever we start the event 
 	 */
-	virtual void Begin() { };
+	virtual void Begin() { printf("wtf!!!!\n"); };
 
 	/**
 	 * Called after the event is finsihed
