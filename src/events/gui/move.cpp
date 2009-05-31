@@ -9,11 +9,11 @@
 
 #include "../../gui/window.h"
 
-MoveEvent::MoveEvent() : object(NULL), delta(0, 0), Event() { }
+MoveEvent::MoveEvent() : delta(0, 0), GUIEvent(), Event() { }
 
-MoveEvent::MoveEvent(Control* c) : object(c), delta(0, 0), Event() { }
+MoveEvent::MoveEvent(Control* c) : delta(0, 0), GUIEvent(c), Event() { }
 
-MoveEvent::MoveEvent(const MoveEvent& orig) : object(orig.object), delta(orig.delta), Event(orig) { }
+MoveEvent::MoveEvent(const MoveEvent& orig) : delta(orig.delta), GUIEvent(orig.object), Event(orig) { }
 
 MoveEvent::~MoveEvent() { }
 

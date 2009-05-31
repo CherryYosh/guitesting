@@ -1512,11 +1512,12 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_ColorChangeEvent swig_types[0]
 #define SWIGTYPE_p_Control swig_types[1]
 #define SWIGTYPE_p_Event swig_types[2]
-#define SWIGTYPE_p_MoveEvent swig_types[3]
-#define SWIGTYPE_p_std__string swig_types[4]
-#define SWIGTYPE_p_util__Color swig_types[5]
-static swig_type_info *swig_types[7];
-static swig_module_info swig_module = {swig_types, 6, 0, 0, 0, 0};
+#define SWIGTYPE_p_GUIEvent swig_types[3]
+#define SWIGTYPE_p_MoveEvent swig_types[4]
+#define SWIGTYPE_p_std__string swig_types[5]
+#define SWIGTYPE_p_util__Color swig_types[6]
+static swig_type_info *swig_types[8];
+static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1535,6 +1536,7 @@ typedef struct{} LANGUAGE_OBJ;
 
 
     #include "../events/event.h"
+    #include "../events/gui/guievent.h"
     #include "../events/gui/colorchange.h"
     #include "../events/gui/move.h"
 
@@ -2227,6 +2229,51 @@ static swig_lua_class *swig_Event_bases[] = {0};
 static const char *swig_Event_base_names[] = {0};
 static swig_lua_class _wrap_class_Event = { "Event", &SWIGTYPE_p_Event,_wrap_new_Event, swig_delete_Event, swig_Event_methods, swig_Event_attributes, swig_Event_bases, swig_Event_base_names };
 
+static int _wrap_GUIEvent_SetObject(lua_State* L) {
+  int SWIG_arg = 0;
+  GUIEvent *arg1 = (GUIEvent *) 0 ;
+  Control *arg2 = (Control *) 0 ;
+  
+  SWIG_check_num_args("SetObject",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetObject",1,"GUIEvent *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SetObject",2,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_GUIEvent,0))){
+    SWIG_fail_ptr("GUIEvent_SetObject",1,SWIGTYPE_p_GUIEvent);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("GUIEvent_SetObject",2,SWIGTYPE_p_Control);
+  }
+  
+  (arg1)->SetObject(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_GUIEvent(void *obj) {
+GUIEvent *arg1 = (GUIEvent *) obj;
+delete arg1;
+}
+static swig_lua_method swig_GUIEvent_methods[] = {
+    {"SetObject", _wrap_GUIEvent_SetObject}, 
+    {0,0}
+};
+static swig_lua_attribute swig_GUIEvent_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_GUIEvent_bases[] = {0};
+static const char *swig_GUIEvent_base_names[] = {0};
+static swig_lua_class _wrap_class_GUIEvent = { "GUIEvent", &SWIGTYPE_p_GUIEvent,0, swig_delete_GUIEvent, swig_GUIEvent_methods, swig_GUIEvent_attributes, swig_GUIEvent_bases, swig_GUIEvent_base_names };
+
 static int _wrap_new_ColorChangeEvent__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
   ColorChangeEvent *result = 0 ;
@@ -2589,8 +2636,8 @@ static swig_lua_method swig_ColorChangeEvent_methods[] = {
 static swig_lua_attribute swig_ColorChangeEvent_attributes[] = {
     {0,0,0}
 };
-static swig_lua_class *swig_ColorChangeEvent_bases[] = {0,0};
-static const char *swig_ColorChangeEvent_base_names[] = {"Event *",0};
+static swig_lua_class *swig_ColorChangeEvent_bases[] = {0,0,0};
+static const char *swig_ColorChangeEvent_base_names[] = {"Event *","GUIEvent *",0};
 static swig_lua_class _wrap_class_ColorChangeEvent = { "ColorChangeEvent", &SWIGTYPE_p_ColorChangeEvent,_wrap_new_ColorChangeEvent, swig_delete_ColorChangeEvent, swig_ColorChangeEvent_methods, swig_ColorChangeEvent_attributes, swig_ColorChangeEvent_bases, swig_ColorChangeEvent_base_names };
 
 static int _wrap_new_MoveEvent__SWIG_0(lua_State* L) {
@@ -2703,6 +2750,30 @@ static int _wrap_new_MoveEvent(lua_State* L) {
     "    MoveEvent(Control *)\n"
     "    MoveEvent(MoveEvent const &)\n");
   lua_error(L);return 0;
+}
+
+
+static int _wrap_MoveEvent_clone(lua_State* L) {
+  int SWIG_arg = 0;
+  MoveEvent *arg1 = (MoveEvent *) 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("clone",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("clone",1,"MoveEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_MoveEvent,0))){
+    SWIG_fail_ptr("MoveEvent_clone",1,SWIGTYPE_p_MoveEvent);
+  }
+  
+  result = (Event *)(arg1)->clone();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
 }
 
 
@@ -2893,6 +2964,7 @@ MoveEvent *arg1 = (MoveEvent *) obj;
 delete arg1;
 }
 static swig_lua_method swig_MoveEvent_methods[] = {
+    {"clone", _wrap_MoveEvent_clone}, 
     {"SetObject", _wrap_MoveEvent_SetObject}, 
     {"Init", _wrap_MoveEvent_Init}, 
     {"Begin", _wrap_MoveEvent_Begin}, 
@@ -2905,8 +2977,8 @@ static swig_lua_method swig_MoveEvent_methods[] = {
 static swig_lua_attribute swig_MoveEvent_attributes[] = {
     {0,0,0}
 };
-static swig_lua_class *swig_MoveEvent_bases[] = {0,0};
-static const char *swig_MoveEvent_base_names[] = {"Event *",0};
+static swig_lua_class *swig_MoveEvent_bases[] = {0,0,0};
+static const char *swig_MoveEvent_base_names[] = {"Event *","GUIEvent *",0};
 static swig_lua_class _wrap_class_MoveEvent = { "MoveEvent", &SWIGTYPE_p_MoveEvent,_wrap_new_MoveEvent, swig_delete_MoveEvent, swig_MoveEvent_methods, swig_MoveEvent_attributes, swig_MoveEvent_bases, swig_MoveEvent_base_names };
 
 #ifdef __cplusplus
@@ -2927,6 +2999,12 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_ColorChangeEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GUIEvent *)  ((ColorChangeEvent *) x));
+}
+static void *_p_MoveEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GUIEvent *)  ((MoveEvent *) x));
+}
 static void *_p_ColorChangeEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((Event *)  ((ColorChangeEvent *) x));
 }
@@ -2936,6 +3014,7 @@ static void *_p_MoveEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static swig_type_info _swigt__p_ColorChangeEvent = {"_p_ColorChangeEvent", "ColorChangeEvent *", 0, 0, (void*)&_wrap_class_ColorChangeEvent, 0};
 static swig_type_info _swigt__p_Control = {"_p_Control", "Control *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)&_wrap_class_Event, 0};
+static swig_type_info _swigt__p_GUIEvent = {"_p_GUIEvent", "GUIEvent *", 0, 0, (void*)&_wrap_class_GUIEvent, 0};
 static swig_type_info _swigt__p_MoveEvent = {"_p_MoveEvent", "MoveEvent *", 0, 0, (void*)&_wrap_class_MoveEvent, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 static swig_type_info _swigt__p_util__Color = {"_p_util__Color", "util::Color *", 0, 0, (void*)0, 0};
@@ -2944,6 +3023,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ColorChangeEvent,
   &_swigt__p_Control,
   &_swigt__p_Event,
+  &_swigt__p_GUIEvent,
   &_swigt__p_MoveEvent,
   &_swigt__p_std__string,
   &_swigt__p_util__Color,
@@ -2952,6 +3032,7 @@ static swig_type_info *swig_type_initial[] = {
 static swig_cast_info _swigc__p_ColorChangeEvent[] = {  {&_swigt__p_ColorChangeEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Control[] = {  {&_swigt__p_Control, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_Event, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_Event, 0, 0},  {&_swigt__p_Event, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GUIEvent[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_GUIEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_MoveEvent[] = {  {&_swigt__p_MoveEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_util__Color[] = {  {&_swigt__p_util__Color, 0, 0, 0},{0, 0, 0, 0}};
@@ -2960,6 +3041,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ColorChangeEvent,
   _swigc__p_Control,
   _swigc__p_Event,
+  _swigc__p_GUIEvent,
   _swigc__p_MoveEvent,
   _swigc__p_std__string,
   _swigc__p_util__Color,

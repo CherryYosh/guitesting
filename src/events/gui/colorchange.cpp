@@ -7,13 +7,11 @@
 
 #include "colorchange.h"
 
-#include "../../gui/window.h"
+ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), GUIEvent(), Event() {}
 
-ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), object(NULL), Event() { }
+ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), GUIEvent(o), Event() {}
 
-ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), object(o), Event() { }
-
-ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), object(c.object), Event(c) { }
+ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), GUIEvent(c.object), Event(c) { }
 
 ColorChangeEvent::~ColorChangeEvent() { }
 
@@ -50,7 +48,7 @@ void ColorChangeEvent::Linear(unsigned int step) {
 
 	bool stop = false;
 	//first we need to scale it to UNORM length
-	if (step > remainingTime){
+	if (step > remainingTime) {
 		step = remainingTime;
 		stop = true;
 	}
@@ -66,7 +64,7 @@ void ColorChangeEvent::Linear(unsigned int step) {
 		oc.a + (timeDelta * color.a)
 		));
 
-	if(stop)
+	if (stop)
 		object->GetRoot()->RemoveEvent(this);
 }
 

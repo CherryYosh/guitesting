@@ -72,12 +72,9 @@
           <itemPath>src/renderer/renderer.h</itemPath>
         </logicalFolder>
         <logicalFolder name="swig" displayName="swig" projectFiles="true">
-          <itemPath>src/swig/events.cxx</itemPath>
+          <itemPath>src/swig/color.i</itemPath>
           <itemPath>src/swig/events.i</itemPath>
-          <itemPath>src/swig/events.o</itemPath>
-          <itemPath>src/swig/theme.cxx</itemPath>
           <itemPath>src/swig/theme.i</itemPath>
-          <itemPath>src/swig/theme.o</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <itemPath>src/utils/vector.h</itemPath>
@@ -116,8 +113,8 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>scripts</Elem>
     <Elem>src</Elem>
+    <Elem>scripts</Elem>
   </sourceRootList>
   <projectmakefile>guitesting-Makefile.mk</projectmakefile>
   <confs>

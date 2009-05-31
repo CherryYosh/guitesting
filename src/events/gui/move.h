@@ -8,10 +8,10 @@
 #ifndef _MOVE_H
 #define	_MOVE_H
 
+#include "guievent.h"
 #include "../event.h"
-#include "../../gui/control.h"
 
-class MoveEvent : public Event{
+class MoveEvent : public Event, public GUIEvent{
 public:
 	MoveEvent();
 	MoveEvent(Control*);
@@ -31,7 +31,6 @@ public:
 	void Translation(int, int);
 private:
 	util::vec2<float> delta;
-	Control* object;
 };
 
 #endif	/* _MOVE_H */

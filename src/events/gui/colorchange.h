@@ -8,11 +8,11 @@
 #ifndef _CHANGECOLOR_H
 #define	_CHANGECOLOR_H
 
+#include "guievent.h"
 #include "../event.h"
-#include "../../gui/control.h"
 #include "../../utils/color.h"
 
-class ColorChangeEvent : public Event {
+class ColorChangeEvent : public Event, public GUIEvent {
 public:
 	ColorChangeEvent();
 	ColorChangeEvent(Control*);
@@ -35,7 +35,6 @@ public:
 
 private:
 	util::Color color;
-	Control* object;
 };
 
 #endif	/* _CHANGECOLOR_H */
