@@ -8,6 +8,8 @@ local curWidget = nil
 local curChild = nul
 local isInEffects = false;
 
+--load the utils file for GetEventByName, cant use swig for this sadly
+dofile("scripts/utils.lua")
 
 local function import(name, args)
 	main(args["file"]) --load the new file
@@ -66,7 +68,7 @@ local function effects(name, args)
 		return
 	end
 
-	local event = events.NewEventByName(args["class"])
+	local event = GetEventByName(args["class"])
 
 	for i=1,#args do
 		if args[i] ~= "class" then
@@ -82,23 +84,23 @@ local function effects(name, args)
 end
 
 local callbacks = {
-    StartElement = function (parser, name, attribs)
-	if name == "textures" then
-		textures(name, attribs)
-	elseif name == "texture" then
-		texture(name, attribs)
-	elseif name == "widget" then
-		widget(name, attribs)
-	elseif name == "child" then
-		child(name, attribs)
-	elseif name == "import" then
-		import(name, attribs)
-	elseif name == "effects" then
-		effectsStart(name, attribs)
-	elseif isInEffects then
-		effects(name, attribs)
-	end
-    end,
+	StartElement = function (parser, name, attribs)
+		if name == "textures" then
+			textures(name, attribs)
+		elseif name == "texture" then
+			texture(name, attribs)
+		elseif name == "widget" then
+			widget(name, attribs)
+		elseif name == "child" then
+			child(name, attribs)
+		elseif name == "import" then
+			import(name, attribs)
+		elseif name == "effects" then
+			effectsStart(name, attribs)
+		elseif isInEffects then
+			effects(name, attribs)
+		end
+	end,
 
 	EndElement = function(parser, name)
 		if name == "widget" then
