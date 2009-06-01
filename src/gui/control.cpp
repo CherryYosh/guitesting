@@ -18,39 +18,24 @@
 #include "window.h"
 #include "../events/gui/guievent.h"
 
-//This should only be called when a new theme has been loaded or when the control is initlized
+Control::Control() : isEnabled(true), hasFocus(false), type(""), x(0), y(0), z(-TOP_LAYER), color(),
+	parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) {}
 
-void Control::GetControlData() {
-}
+Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), type(orig.type),
+	x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
+	mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild) {}
 
-Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) {
-	isEnabled = true;
-	hasFocus = false;
-	Type = t;
-	x = ix;
-	y = iy;
-	z = -TOP_LAYER;
+Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) :  isEnabled(true), hasFocus(false),
+	type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL){
 	SetLayer(l);
-
-	SetColor(util::vec4<float>(0.0));
-
-	Attributes = 0;
-	GetControlData();
-	Parent = p;
-	Root = r;
-
-	MouseOverChild = NULL;
-	ActiveChild = NULL;
 }
 
 Control::~Control() {
-	Children.clear();
+	children.clear();
 }
 
-void Control::OnActivate() { }
-
-void Control::OnUnactivate() {
-	HitTest(5,5);
+Control* Control::clone(){
+	return new Control(*this);
 }
 
 /**
@@ -61,49 +46,49 @@ void Control::OnUnactivate() {
  */
 bool Control::HitTest(int mx, int my) {
 	if (mx > x && my > y &&
-		mx < x + Width && my < y + Height) {
-		if (MouseOverChild != NULL) {
-			if (MouseOverChild->HitTest(mx, my)) {
+		mx < x + width && my < y + height) {
+		if (mouseOverChild != NULL) {
+			if (mouseOverChild->HitTest(mx, my)) {
 				return true;
 			} else {
-				MouseOverChild->OnMouseLeave();
+				mouseOverChild->OnMouseLeave();
 			}
 		}
 
-		unsigned int i = Children.size();
+		unsigned int i = children.size();
 		while (0 < i) {
 			i--;
-			if (Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)) {
-				MouseOverChild = Children[i];
-				MouseOverChild->OnMouseEnter();
+			if (children[i] != mouseOverChild && children[i]->HitTest(mx, my)) {
+				mouseOverChild = children[i];
+				mouseOverChild->OnMouseEnter();
 				return true;
 			}
 		}
 
-		MouseOverChild = NULL;
+		mouseOverChild = NULL;
 		return true;
 	}
 
-	MouseOverChild = NULL;
+	mouseOverChild = NULL;
 	return false;
 }
 
 void Control::OnMousePress(unsigned short button, int mx, int my) {
-	if (MouseOverChild != NULL) {
-		ActiveChild = MouseOverChild;
-		ActiveChild->OnMousePress(button, mx, my);
+	if (mouseOverChild != NULL) {
+		activeChild = mouseOverChild;
+		activeChild->OnMousePress(button, mx, my);
 	} else {
-		if (ActiveChild != NULL)
-			ActiveChild->OnUnactivate();
-		ActiveChild = NULL;
+		//if (activeChild != NULL)
+			//activeChild->OnUnactivate();
+		activeChild = NULL;
 	}
 }
 
 void Control::OnMouseRelease(int button) { }
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
-	if (ActiveChild != NULL) {
-		return ActiveChild->OnMouseClick(num, final);
+	if (activeChild != NULL) {
+		return activeChild->OnMouseClick(num, final);
 	}
 	return false;
 }
@@ -116,8 +101,8 @@ bool Control::OnMouseClick(unsigned short num, bool final) {
  * @returns false if nothing was handeled
  */
 bool Control::OnMouseMotion(float x, float y, unsigned short button) {
-	if (ActiveChild != NULL)
-		return ActiveChild->OnMouseMotion(x, y, button);
+	if (activeChild != NULL)
+		return activeChild->OnMouseMotion(x, y, button);
 	return false;
 }
 
@@ -133,9 +118,9 @@ void Control::Move(float cx, float cy) {
 	x += cx;
 	y += cy;
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->Move(cx, cy);
+		children[i]->Move(cx, cy);
 	}
 }
 
@@ -148,9 +133,9 @@ void Control::SetPosition(float cx, float cy) {
 	x = cx;
 	y = cy;
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->SetPosition(cx, cy);
+		children[i]->SetPosition(cx, cy);
 	}
 }
 
@@ -162,25 +147,20 @@ void Control::SetFocus(bool value) {
 	hasFocus = value;
 }
 
-bool Control::HasAttrib(unsigned short a) {
-	//will only return true if all the attributes are there
-	return a == (Attributes & a);
-}
-
 float Control::GetWidth() {
-	return Width;
+	return width;
 }
 
 float Control::GetHeight() {
-	return Height;
+	return height;
 }
 
 void Control::SetWidth(float w) {
-	Width = w;
+	width = w;
 }
 
 void Control::SetHeight(float h) {
-	Height = h;
+	height = h;
 }
 
 void Control::SetColor(util::Color c){
@@ -194,12 +174,15 @@ void Control::SetColor(float r, float g, float b, float a) {
 	color.a = a;
 }
 
-void Control::SetColor(util::vec4<float> c) {
-	//Color = c;
+void Control::AddColor(util::Color c){
+	color += c;
 }
 
-void Control::AddColor(util::vec4<float> c) {
-	//Color += c;
+void Control::AddColor(float r, float g, float b, float a) {
+	color.r += r;
+	color.g += g;
+	color.b += b;
+	color.a += a;
 }
 
 util::Color Control::GetColor(){
@@ -210,12 +193,12 @@ float* Control::GetColorv() {
 	return color._array;
 }
 
-void Control::OnMouseEnter() { }
+void Control::OnMouseEnter() { StartEvent("onHover"); }
 
-void Control::OnMouseLeave() { }
+void Control::OnMouseLeave() { EndEvent("onHover"); }
 
 void Control::AddChild(Control* c) {
-	Children.push_back(c);
+	children.push_back(c);
 }
 
 /**
@@ -226,28 +209,28 @@ unsigned int Control::Size() {
 }
 
 unsigned int Control::TotalChildren() {
-	size_t size = Children.size();
+	size_t size = children.size();
 	unsigned int ret = size;
 	for (unsigned int i = 0; i < size; i++)
-		ret += Children[i]->TotalChildren();
+		ret += children[i]->TotalChildren();
 
 	return ret;
 }
 
 unsigned int Control::NumChildren() {
-	return Children.size();
+	return children.size();
 }
 
 Control* Control::GetChild(unsigned int num) {
-	if (num < Children.size()) {
-		return Children[num];
+	if (num < children.size()) {
+		return children[num];
 	} else {
 		return NULL;
 	}
 }
 
 Control* Control::IterateChild(unsigned int num) {
-	if (IsLeaf()) {
+	if (NumChildren() == 0) {
 		return NULL;
 	} else {
 		Control* root = NULL;
@@ -257,7 +240,7 @@ Control* Control::IterateChild(unsigned int num) {
 
 		size_t size = NumChildren();
 		for (unsigned int i = 0; i < size; i++) {
-			root = Children[i];
+			root = children[i];
 			child = root;
 			z = 0;
 
@@ -276,7 +259,7 @@ Control* Control::IterateChild(unsigned int num) {
 }
 
 int Control::IterateChild(Control* c) {
-	if (IsLeaf()) {
+	if (NumChildren() == 0) {
 		return -1;
 	} else if (c == this) {
 		return 0;
@@ -288,7 +271,7 @@ int Control::IterateChild(Control* c) {
 
 		size_t size = NumChildren();
 		for (unsigned int i = 0; i < size; i++) {
-			root = Children[i];
+			root = children[i];
 			child = root;
 			z = 0;
 
@@ -306,23 +289,15 @@ int Control::IterateChild(Control* c) {
 	return -1;
 }
 
-bool Control::IsRoot() {
-	return false; //only windows can be roots
-}
-
-bool Control::IsLeaf() {
-	return(0 == NumChildren());
-}
-
 /**
  * Sets the Depth for this control, and all children.
  */
 void Control::SetDepth(float depth) {
 	this->z = depth;
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->SetDepth(depth);
+		children[i]->SetDepth(depth);
 	}
 }
 
@@ -332,9 +307,9 @@ void Control::SetDepth(float depth) {
 void Control::AddDepth(float depth) {
 	this->z += depth;
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->AddDepth(depth);
+		children[i]->AddDepth(depth);
 	}
 }
 
@@ -346,31 +321,31 @@ void Control::SetLayer(LayerT l) {
  * returns a pointer to the roots rotation matrix, or NULL
  */
 util::matrix4<float>* Control::GetRotation() {
-	if (Root == NULL)
+	if (root == NULL)
 		return NULL;
 
-	return Root->GetRotation();
+	return root->GetRotation();
 }
 
 /**
  * returns a float[16] containing the roots rotation matrix, or NULL
  */
 float* Control::GetRotationfv() {
-	if (Root == NULL)
+	if (root == NULL)
 		return NULL;
 
-	return Root->GetRotationfv();
+	return root->GetRotationfv();
 }
 
 /**
  * Returns a const pointer to the Root window
  */
 Window* Control::GetRoot() {
-	return Root;
+	return root;
 }
 
 void Control::SetRoot(Window* nr){
-	Root = nr;
+	root = nr;
 }
 
 float Control::GetX() {
@@ -395,15 +370,37 @@ float Control::GetDepth() {
 
 void Control::SetCallback(std::string name, Event* event){
 	//create a new event so we can safyly set the object
-	Event* newEvent = event->clone();
-	((GUIEvent*)newEvent)->SetObject(this);
+	GUIEvent* newEvent = static_cast<GUIEvent*>(event->clone());
+	newEvent->SetObject(this);
 
-	Callbacks[name] = newEvent;
+	events.insert(std::pair<std::string, Event*>(name, newEvent));
 }
 
-void Control::SetCallbacks(std::map<std::string, Event*> c){
-	std::map<std::string, Event*>::iterator it;
+void Control::SetCallbacks(std::multimap<std::string, Event*> c){
+	std::multimap<std::string, Event*>::iterator it;
 	for(it = c.begin(); it != c.end(); it++){
 		SetCallback(it->first, it->second);
+	}
+}
+
+void Control::StartEvent(std::string str){
+	if(events.count(str) > 0){
+		std::multimap<std::string, Event*>::iterator it;
+		for (it=events.equal_range(str).first; it!=events.equal_range(str).second; ++it){
+			it->second->Begin();
+			root->AddEvent(it->second);
+		}
+	}
+}
+
+void Control::EndEvent(std::string str){
+	printf("Ending event %s\n", str.c_str());
+	
+	if(events.count(str) > 0){
+		std::multimap<std::string, Event*>::iterator it;
+		for (it=events.equal_range(str).first; it!=events.equal_range(str).second; ++it){
+			it->second->End();
+			root->RemoveEvent(it->second);
+		}
 	}
 }

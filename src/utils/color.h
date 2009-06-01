@@ -38,6 +38,15 @@ namespace util {
 			return *this;
 		}
 
+		Color& operator+=(const Color& rhs){
+			r += rhs.r;
+			g += rhs.g;
+			b += rhs.b;
+			a += rhs.a;
+			
+			return *this;
+		}
+
 		union {
 
 			struct {

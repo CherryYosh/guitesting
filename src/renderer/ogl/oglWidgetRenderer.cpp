@@ -164,7 +164,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	Control* root = object;
 	Control* child;
 
-	if (object->IsRoot())
+	if (object->GetRoot() == object)
 		root = NULL;
 
 	unsigned int dataSize = object->Size() * 4;

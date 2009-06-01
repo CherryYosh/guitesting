@@ -31,14 +31,14 @@ struct WidgetData {
 
 struct ChildData {
 	WidgetData* Data;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
 	LayerT layer;
 	float x, y, z;
 };
 
 struct WindowData {
 	std::vector<ChildData*> Children;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
 };
 
 Theme::Theme() { }

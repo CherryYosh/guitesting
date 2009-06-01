@@ -31,8 +31,12 @@ class GUI;
 
 class Window : public Control {
 public:
+	Window();
 	Window(GUI*, Renderer*);
+	Window(const Window&);
 	~Window();
+
+	Control* clone();
 
 	void AddChild(Control*);
 	void Move(float, float);
@@ -40,6 +44,7 @@ public:
 	void Close();
 
 	void UpdateControl(Control*);
+
 	void OnKeyPress(unsigned short);
 	void OnMousePress(unsigned short, int, int);
 	bool OnMouseClick(unsigned short, bool);
@@ -47,19 +52,13 @@ public:
 
 	void Unproject(float, float, float*, float*);
 
-	bool IsRoot();
 	unsigned int Size();
 
 	util::matrix4<float>* GetRotation();
 	float* GetRotationfv();
 
-	bool NeedsUpdate();
-	void NeedsUpdate(bool);
-
 	void SetGUI(GUI*);
 	GUI* GetGUI();
-
-	Window* GetRoot();
 
 	void SetRenderer(Renderer*);
 	Renderer* GetRenderer();
@@ -76,8 +75,6 @@ private:
 
 	std::vector<Event*> activeEvents;
 	util::matrix4<float> rotation;
-
-	bool awatingUpdate;
 };
 
 #endif

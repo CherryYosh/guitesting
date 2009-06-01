@@ -23,7 +23,7 @@ struct LABEL_VBOVertex {
 };
 
 Label::Label(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
-	TextWidth = Width;
+	TextWidth = width;
 	Multiline = false;
 
 	BottomLine = 0;
@@ -39,8 +39,6 @@ Label::Label(std::string t, Window* p, Control* c, LayerT l, float x, float y) :
 
 	TextPosition = 0;
 	TextLength = 0;
-
-	Attributes |= CTRL_INPUT;
 }
 
 Label::~Label() {
@@ -509,12 +507,12 @@ void Label::onKeyRelease(int key, int mod) {
 }
 
 void Label::SetWidth(unsigned short w) {
-	Width = w;
-	TextWidth = Width;
+	width = w;
+	TextWidth = width;
 }
 
 void Label::SetHeight(unsigned short h) {
-	Height = h;
+	height = h;
 }
 
 void Label::Move(float cx, float cy) {

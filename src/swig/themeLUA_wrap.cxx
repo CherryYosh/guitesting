@@ -1516,7 +1516,7 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_WidgetData swig_types[4]
 #define SWIGTYPE_p_Window swig_types[5]
 #define SWIGTYPE_p_WindowData swig_types[6]
-#define SWIGTYPE_p_std__mapT_std__string_Event_p_t swig_types[7]
+#define SWIGTYPE_p_std__multimapT_std__string_Event_p_t swig_types[7]
 #define SWIGTYPE_p_std__string swig_types[8]
 #define SWIGTYPE_p_std__vectorT_ChildData_p_t swig_types[9]
 static swig_type_info *swig_types[11];
@@ -1561,22 +1561,22 @@ struct ChildData {
 	}
 
         void AddEvent(std::string name, Event* event){
-            Callbacks[name] = event;
+            Callbacks.insert(std::pair<std::string, Event*>(name, event));
         }
 
 	WidgetData* Data;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };
 
 struct WindowData {
         void AddEvent(std::string name, Event* event){
-            Callbacks[name] = event;
+            Callbacks.insert(std::pair<std::string, Event*>(name, event));
         }
 
 	std::vector<ChildData*> Children;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
 };
 
 
@@ -2489,20 +2489,20 @@ fail:
 static int _wrap_ChildData_Callbacks_set(lua_State* L) {
   int SWIG_arg = 0;
   ChildData *arg1 = (ChildData *) 0 ;
-  std::map< std::string,Event * > arg2 ;
-  std::map< std::string,Event * > *argp2 ;
+  std::multimap< std::string,Event * > arg2 ;
+  std::multimap< std::string,Event * > *argp2 ;
   
   SWIG_check_num_args("Callbacks",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"ChildData *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::map< std::string,Event * >");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::multimap< std::string,Event * >");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ChildData,0))){
     SWIG_fail_ptr("ChildData_Callbacks_set",1,SWIGTYPE_p_ChildData);
   }
   
   
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__mapT_std__string_Event_p_t,0))){
-    SWIG_fail_ptr("ChildData_Callbacks_set",2,SWIGTYPE_p_std__mapT_std__string_Event_p_t);
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__multimapT_std__string_Event_p_t,0))){
+    SWIG_fail_ptr("ChildData_Callbacks_set",2,SWIGTYPE_p_std__multimapT_std__string_Event_p_t);
   }
   arg2 = *argp2;
   
@@ -2521,7 +2521,7 @@ fail:
 static int _wrap_ChildData_Callbacks_get(lua_State* L) {
   int SWIG_arg = 0;
   ChildData *arg1 = (ChildData *) 0 ;
-  std::map< std::string,Event * > result;
+  std::multimap< std::string,Event * > result;
   
   SWIG_check_num_args("Callbacks",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"ChildData *");
@@ -2532,8 +2532,8 @@ static int _wrap_ChildData_Callbacks_get(lua_State* L) {
   
   result =  ((arg1)->Callbacks);
   {
-    std::map< std::string,Event * > * resultptr = new std::map< std::string,Event * >((const std::map< std::string,Event * > &) result);
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__mapT_std__string_Event_p_t,1); SWIG_arg++;
+    std::multimap< std::string,Event * > * resultptr = new std::multimap< std::string,Event * >((const std::multimap< std::string,Event * > &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__multimapT_std__string_Event_p_t,1); SWIG_arg++;
   }
   return SWIG_arg;
   
@@ -2874,20 +2874,20 @@ fail:
 static int _wrap_WindowData_Callbacks_set(lua_State* L) {
   int SWIG_arg = 0;
   WindowData *arg1 = (WindowData *) 0 ;
-  std::map< std::string,Event * > arg2 ;
-  std::map< std::string,Event * > *argp2 ;
+  std::multimap< std::string,Event * > arg2 ;
+  std::multimap< std::string,Event * > *argp2 ;
   
   SWIG_check_num_args("Callbacks",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"WindowData *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::map< std::string,Event * >");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::multimap< std::string,Event * >");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
     SWIG_fail_ptr("WindowData_Callbacks_set",1,SWIGTYPE_p_WindowData);
   }
   
   
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__mapT_std__string_Event_p_t,0))){
-    SWIG_fail_ptr("WindowData_Callbacks_set",2,SWIGTYPE_p_std__mapT_std__string_Event_p_t);
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__multimapT_std__string_Event_p_t,0))){
+    SWIG_fail_ptr("WindowData_Callbacks_set",2,SWIGTYPE_p_std__multimapT_std__string_Event_p_t);
   }
   arg2 = *argp2;
   
@@ -2906,7 +2906,7 @@ fail:
 static int _wrap_WindowData_Callbacks_get(lua_State* L) {
   int SWIG_arg = 0;
   WindowData *arg1 = (WindowData *) 0 ;
-  std::map< std::string,Event * > result;
+  std::multimap< std::string,Event * > result;
   
   SWIG_check_num_args("Callbacks",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"WindowData *");
@@ -2917,8 +2917,8 @@ static int _wrap_WindowData_Callbacks_get(lua_State* L) {
   
   result =  ((arg1)->Callbacks);
   {
-    std::map< std::string,Event * > * resultptr = new std::map< std::string,Event * >((const std::map< std::string,Event * > &) result);
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__mapT_std__string_Event_p_t,1); SWIG_arg++;
+    std::multimap< std::string,Event * > * resultptr = new std::multimap< std::string,Event * >((const std::multimap< std::string,Event * > &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__multimapT_std__string_Event_p_t,1); SWIG_arg++;
   }
   return SWIG_arg;
   
@@ -2995,7 +2995,7 @@ static swig_type_info _swigt__p_Theme = {"_p_Theme", "Theme *", 0, 0, (void*)&_w
 static swig_type_info _swigt__p_WidgetData = {"_p_WidgetData", "WidgetData *", 0, 0, (void*)&_wrap_class_WidgetData, 0};
 static swig_type_info _swigt__p_Window = {"_p_Window", "Window *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_WindowData = {"_p_WindowData", "WindowData *", 0, 0, (void*)&_wrap_class_WindowData, 0};
-static swig_type_info _swigt__p_std__mapT_std__string_Event_p_t = {"_p_std__mapT_std__string_Event_p_t", "std::map< std::string,Event * > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__multimapT_std__string_Event_p_t = {"_p_std__multimapT_std__string_Event_p_t", "std::multimap< std::string,Event * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 static swig_type_info _swigt__p_std__vectorT_ChildData_p_t = {"_p_std__vectorT_ChildData_p_t", "std::vector< ChildData * > *", 0, 0, (void*)0, 0};
 
@@ -3007,7 +3007,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_WidgetData,
   &_swigt__p_Window,
   &_swigt__p_WindowData,
-  &_swigt__p_std__mapT_std__string_Event_p_t,
+  &_swigt__p_std__multimapT_std__string_Event_p_t,
   &_swigt__p_std__string,
   &_swigt__p_std__vectorT_ChildData_p_t,
 };
@@ -3019,7 +3019,7 @@ static swig_cast_info _swigc__p_Theme[] = {  {&_swigt__p_Theme, 0, 0, 0},{0, 0, 
 static swig_cast_info _swigc__p_WidgetData[] = {  {&_swigt__p_WidgetData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WindowData[] = {  {&_swigt__p_WindowData, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_std__string_Event_p_t[] = {  {&_swigt__p_std__mapT_std__string_Event_p_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__multimapT_std__string_Event_p_t[] = {  {&_swigt__p_std__multimapT_std__string_Event_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_ChildData_p_t[] = {  {&_swigt__p_std__vectorT_ChildData_p_t, 0, 0, 0},{0, 0, 0, 0}};
 
@@ -3031,7 +3031,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_WidgetData,
   _swigc__p_Window,
   _swigc__p_WindowData,
-  _swigc__p_std__mapT_std__string_Event_p_t,
+  _swigc__p_std__multimapT_std__string_Event_p_t,
   _swigc__p_std__string,
   _swigc__p_std__vectorT_ChildData_p_t,
 };

@@ -20,14 +20,13 @@ Event* ColorChangeEvent::clone() {
 }
 
 void ColorChangeEvent::Begin() {
-	if (object != NULL) {
 		remainingTime = duration;
-	}
 }
 
 void ColorChangeEvent::End() {
 	object->SetColor(util::Color(0.0, 0.0, 0.0, 0.0));
 	object->GetRoot()->RemoveEvent(this);
+	object->GetRoot()->UpdateControl(object);
 }
 
 void ColorChangeEvent::Step(unsigned int step) {
@@ -58,6 +57,7 @@ void ColorChangeEvent::Linear(unsigned int step) {
 		oc.a + (timeDelta * color.a)
 		));
 
+	//dont use End() because we dont want to reset the color
 	if (stop)
 		object->GetRoot()->RemoveEvent(this);
 }

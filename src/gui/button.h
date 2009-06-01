@@ -19,14 +19,16 @@
 
 class Button : public Control {
 public:
+	Button();
+	Button(const Button&);
 	Button(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Button();
+
+	Control* clone();
 
 	bool HitTest(int, int);
 	bool OnMouseClick(unsigned short, bool);
 	void OnMousePress(unsigned short, int, int);
-	void OnMouseEnter();
-	void OnMouseLeave();
 
 protected:
 private:

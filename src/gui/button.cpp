@@ -30,13 +30,21 @@
 
 #include <iostream>
 
+Button::Button() : Control(){}
+
+Button::Button(const Button& orig) : Control(orig) { }
+
 Button::Button(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) { }
 
 Button::~Button() { }
 
+Control* Button::clone(){
+	return new Button(*this);
+}
+
 bool Button::HitTest(int mouseX, int mouseY) {
-	if (mouseX > x && mouseX < x + Width &&
-		mouseY > y && mouseY < y + Height) {
+	if (mouseX > x && mouseX < x + width &&
+		mouseY > y && mouseY < y + height) {
 		return true;
 	}
 	return false;
@@ -45,20 +53,6 @@ bool Button::HitTest(int mouseX, int mouseY) {
 void Button::OnMousePress(unsigned short button, int mx, int my) { }
 
 bool Button::OnMouseClick(unsigned short num, bool final) {
+	StartEvent("onClick"); //keep in mind, onClick events MUST call End() and remove themself from the roots event list
 	return false; //we dont do anything
-}
-
-void Button::OnMouseEnter() {
-	if(Callbacks["onHover"] != NULL){
-		Callbacks["onHover"]->Begin();
-		Root->AddEvent(Callbacks["onHover"]);
-	}
-}
-
-void Button::OnMouseLeave() {
-	if(Callbacks["onHover"] != NULL){
-		Callbacks["onHover"]->End();
-		Root->UpdateControl(this);
-		Root->RemoveEvent(Callbacks["onHover"]);
-	}
 }

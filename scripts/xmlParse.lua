@@ -6,7 +6,7 @@ require "lxp"
 local Theme = theme.Theme()
 local curWidget = nil
 local curChild = nul
-local isInEffects = false;
+local isInEvent = false;
 
 --load the utils file for GetEventByName, cant use swig for this sadly
 dofile("scripts/utils.lua")
@@ -55,16 +55,16 @@ local function childEnd(name)
 	curChild = nil
 end
 
-local function effectsStart(name, args)
-	isInEffects = true
+local function eventsStart(name, args)
+	isInEvent = true
 end
 
-local function effectsEnd(name)
-	isInEffects = false
+local function eventsEnd(name)
+	isInEvent = false
 end
 
-local function effects(name, args)
-	if not isInEffects then
+local function events(name, args)
+	if not isInEvent then
 		return
 	end
 
@@ -101,10 +101,10 @@ local callbacks = {
 			child(name, attribs)
 		elseif name == "import" then
 			import(name, attribs)
-		elseif name == "effects" then
-			effectsStart(name, attribs)
-		elseif isInEffects then
-			effects(name, attribs)
+		elseif name == "events" then
+			eventsStart(name, attribs)
+		elseif isInEvent then
+			events(name, attribs)
 		end
 	end,
 
@@ -114,7 +114,7 @@ local callbacks = {
 		elseif name == "child" then
 			childEnd(name)
 		elseif name == "effects" then
-			effectsEnd(name)
+			eventsEnd(name)
 		end
 	end
 }

@@ -11,12 +11,11 @@
 	<widget name="console">
 	    <child type="rule.top" x="0" y="0"/>
 	    <child type="button.close" x="10" y="2" layer="top">
+		<events>
+			<onHover class="colorchange" color="#FF0000"/>
+			<onClick class="close" />
+		</events>
 	    </child>
-
-
-	    	<effects>
-			<onHover class="rotation" z="45.0"/>
-		</effects>
 	</widget>
     </widgets>
 </theme>

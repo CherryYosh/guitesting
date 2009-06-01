@@ -23,22 +23,22 @@ struct ChildData {
 	}
 
         void AddEvent(std::string name, Event* event){
-            Callbacks[name] = event;
+            Callbacks.insert(std::pair<std::string, Event*>(name, event));
         }
 
 	WidgetData* Data;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };
 
 struct WindowData {
         void AddEvent(std::string name, Event* event){
-            Callbacks[name] = event;
+            Callbacks.insert(std::pair<std::string, Event*>(name, event));
         }
 
 	std::vector<ChildData*> Children;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
 };
 
 %}
@@ -60,7 +60,7 @@ struct ChildData {
         void AddEvent(std::string name, Event* event);
 
 	WidgetData* Data;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
 };
@@ -69,5 +69,5 @@ struct WindowData {
         void AddEvent(std::string name, Event* event);
 
 	std::vector<ChildData*> Children;
-	std::map<std::string, Event*> Callbacks;
+	std::multimap<std::string, Event*> Callbacks;
 };

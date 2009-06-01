@@ -38,11 +38,12 @@ enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
 class Control {
 public:
+	Control();
+	Control(const Control&);
 	Control(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Control();
 
-	virtual void OnActivate();
-	virtual void OnUnactivate();
+	virtual Control* clone();
 
 	virtual bool HitTest(int, int);
 
@@ -58,16 +59,17 @@ public:
 
 	virtual void Move(float, float);
 	virtual void SetPosition(float, float);
-	virtual bool HasAttrib(unsigned short);
+
 	virtual void SetEnabled(bool);
 	virtual void SetFocus(bool);
 
-	virtual void SetColor(util::Color);
-	virtual void SetColor(float, float, float, float);
-	virtual void SetColor(util::vec4<float>);
-	virtual void AddColor(util::vec4<float>);
-	virtual util::Color GetColor();
-	virtual float* GetColorv();
+	void SetColor(util::Color);
+	void SetColor(float, float, float, float);
+	void AddColor(util::Color);
+	void AddColor(float, float, float, float);
+
+	util::Color GetColor();
+	float* GetColorv();
 
 	virtual void AddChild(Control*);
 	virtual Control* GetChild(unsigned int);
@@ -83,15 +85,12 @@ public:
 	virtual void SetWidth(float);
 	virtual void SetHeight(float);
 
-	virtual bool IsRoot();
-	virtual bool IsLeaf();
-
 	virtual void SetDepth(float);
 	virtual void AddDepth(float);
 	virtual void SetLayer(LayerT);
 
-	virtual util::matrix4<float>* GetRotation();
-	virtual float* GetRotationfv();
+	util::matrix4<float>* GetRotation();
+	float* GetRotationfv();
 
 	virtual Window* GetRoot();
 	void SetRoot(Window*);
@@ -103,27 +102,28 @@ public:
 	float GetDepth();
 
 	void SetCallback(std::string, Event*);
-	void SetCallbacks(std::map<std::string, Event*>);
+	void SetCallbacks(std::multimap<std::string, Event*>);
+	
+	void StartEvent(std::string);
+	void EndEvent(std::string);
 
 	float s, t, s2, t2;
 protected:
-	unsigned short Attributes;
-	Window* Root;
-	Control* Parent;
-	Control* MouseOverChild;
-	Control* ActiveChild;
-	std::vector<Control*> Children;
-	std::map<std::string, Event*> Callbacks;
+	Window* root;
+	Control* parent;
+	Control* mouseOverChild;
+	Control* activeChild;
+	std::vector<Control*> children;
+	std::multimap<std::string, Event*> events;
 
-	float Width, Height;
+	float width, height;
 	float x, y, z;
 	float layer;
 private:
-	void GetControlData();
 
 	bool hasFocus, isEnabled;
 	util::Color color;
 
-	std::string Type;
+	std::string type;
 };
 #endif

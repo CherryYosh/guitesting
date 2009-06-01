@@ -9,7 +9,7 @@ Slider::Slider(std::string t, Window* p, Control* c, LayerT l, float x, float y)
 	UpdateStep();
 
 	//Still must be put in to allow for rendering
-	Children.push_back(Thumb);
+	children.push_back(Thumb);
 }
 
 Slider::~Slider() { }
@@ -78,7 +78,7 @@ float Slider::GetStep() {
 
 void Slider::UpdateStep() {
 	float delta = maxValue - minValue;
-	step = (Width - Thumb->GetWidth()) / delta;
+	step = (width - Thumb->GetWidth()) / delta;
 }
 
 void Slider::SetCallback(boost::function<void(float) > callback) {

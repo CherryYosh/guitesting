@@ -33,13 +33,16 @@
 #include "../camera.h"
 #include <SDL/SDL.h>
 
-Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
+Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control("", this) {
 	rotation.make_identity();
-
-	gui = p;
-	renderer = r;
-	Root = this;
 }
+
+Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control("", this) {
+	rotation.make_identity();
+}
+
+Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
+rotation(orig.rotation), Control("", this) { };
 
 Window::~Window() {
 	gui->CloseWindow(this);
@@ -47,9 +50,13 @@ Window::~Window() {
 
 	renderer->RemoveObject(this);
 	renderer = NULL;
-	MouseOverChild = NULL;
+	mouseOverChild = NULL;
 
 	activeEvents.clear();
+}
+
+Control* Window::clone(){
+	return new Window(*this);
 }
 
 void Window::AddChild(Control *child) {
@@ -65,15 +72,15 @@ void Window::AddChild(Control *child) {
 		SetHeight(GetHeight() + delta);
 	}
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		if (Children[i]->HitTest(child->GetX(), child->GetY())) {
-			Children[i]->AddChild(child);
+		if (children[i]->HitTest(child->GetX(), child->GetY())) {
+			children[i]->AddChild(child);
 			return;
 		}
 	}
 
-	Children.push_back(child);
+	children.push_back(child);
 }
 
 void Window::Move(float xChange, float yChange) {
@@ -84,9 +91,9 @@ void Window::Move(float xChange, float yChange) {
 	x += change.x;
 	y += change.y;
 
-	size_t size = Children.size();
+	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Children[i]->Move(change.x, change.y);
+		children[i]->Move(change.x, change.y);
 	}
 }
 
@@ -100,10 +107,6 @@ void Window::UpdateControl(Control* control) {
 		return;
 
 	renderer->Update(control, RENDERER_REFRESH);
-}
-
-bool Window::IsRoot() {
-	return true;
 }
 
 /**
@@ -128,63 +131,58 @@ bool Window::HitTest(float mx, float my) {
 	Unproject(mx, my, &mx, &my);
 
 	if (mx > x && my > y &&
-		mx < (x + Width) && my < (y + Height)) {
-		
-	if(Callbacks["onHover"] != NULL){
-		Callbacks["onHover"]->Begin();
-		AddEvent(Callbacks["onHover"]);
-	} else {
-				printf("FAIL!!!\n");
-	}
+		mx < (x + width) && my < (y + height)) {
 
-		if (MouseOverChild != NULL) {
-			if (MouseOverChild->HitTest(mx, my)) {
+		StartEvent("onHover");
+
+		if (mouseOverChild != NULL) {
+			if (mouseOverChild->HitTest(mx, my)) {
 				return true;
 			} else {
-				MouseOverChild->OnMouseLeave();
+				mouseOverChild->OnMouseLeave();
 			}
 		}
 
 		//we iterate past the controls backwards so that we will get the top itmes
 		//FILO order
-		unsigned int i = Children.size();
+		unsigned int i = children.size();
 		while (0 < i) {
 			i--;
 
-			if (Children[i] != MouseOverChild && Children[i]->HitTest(mx, my)) {
-				MouseOverChild = Children[i];
-				MouseOverChild->OnMouseEnter();
+			if (children[i] != mouseOverChild && children[i]->HitTest(mx, my)) {
+				mouseOverChild = children[i];
+				mouseOverChild->OnMouseEnter();
 				return true;
 			}
 		}
 
-		MouseOverChild = NULL;
+		mouseOverChild = NULL;
 		return true;
 	}
 
-	if (MouseOverChild != NULL) {
-		MouseOverChild->OnMouseLeave();
-		MouseOverChild = NULL;
+	if (mouseOverChild != NULL) {
+		mouseOverChild->OnMouseLeave();
+		mouseOverChild = NULL;
 	}
 
 	return false;
 }
 
 void Window::OnKeyPress(unsigned short key) {
-	if (ActiveChild != NULL)
-		ActiveChild->OnKeyPress(key);
+	if (activeChild != NULL)
+		activeChild->OnKeyPress(key);
 }
 
 void Window::OnMousePress(unsigned short button, int mx, int my) {
-	if (MouseOverChild != NULL) {
-		ActiveChild = MouseOverChild;
-		ActiveChild->OnMousePress(button, mx, my);
+	if (mouseOverChild != NULL) {
+		activeChild = mouseOverChild;
+		activeChild->OnMousePress(button, mx, my);
 	}
 }
 
 bool Window::OnMouseClick(unsigned short num, bool final) {
-	if (ActiveChild != NULL) {
-		return ActiveChild->OnMouseClick(num, final);
+	if (activeChild != NULL) {
+		return activeChild->OnMouseClick(num, final);
 	}
 	return false;
 }
@@ -217,55 +215,43 @@ float* Window::GetRotationfv() {
 	return rotation._array;
 }
 
-void Window::SetGUI(GUI* g){
+void Window::SetGUI(GUI* g) {
 	gui = g;
 }
 
-GUI* Window::GetGUI(){
+GUI* Window::GetGUI() {
 	return gui;
 }
 
-Window* Window::GetRoot(){
-	return this;
-}
-
-bool Window::NeedsUpdate(){
-	return awatingUpdate;
-}
-
-void Window::NeedsUpdate(bool v){
-	awatingUpdate = v;
-}
-
-void Window::SetRenderer(Renderer* r){
+void Window::SetRenderer(Renderer* r) {
 	renderer = r;
 }
 
-Renderer* Window::GetRenderer(){
+Renderer* Window::GetRenderer() {
 	return renderer;
 }
 
-void Window::AddEvent(Event* e){
+void Window::AddEvent(Event* e) {
 	activeEvents.push_back(e);
 }
 
-void Window::RemoveEvent(Event* e){
+void Window::RemoveEvent(Event* e) {
 	std::vector<Event*>::iterator it;
-	for( it = activeEvents.begin(); it != activeEvents.end(); it++){
-		if(*it == e){
+	for (it = activeEvents.begin(); it != activeEvents.end(); it++) {
+		if (*it == e) {
 			activeEvents.erase(it);
 			return;
 		}
 	}
 }
 
-void Window::StepEvents(unsigned int step){
+void Window::StepEvents(unsigned int step) {
 	size_t size = activeEvents.size();
-	for(size_t i = 0; i < size; i++){
+	for (size_t i = 0; i < size; i++) {
 		activeEvents[i]->Step(step);
 	}
 }
 
-void Window::Rotate(float a, float x, float y, float z){
+void Window::Rotate(float a, float x, float y, float z) {
 	rotation.rotate(a, x, y, z);
 }
