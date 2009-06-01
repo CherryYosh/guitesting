@@ -7,23 +7,17 @@
 
 #include "colorchange.h"
 
-ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), GUIEvent(), Event() {}
+ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), GUIEvent() {}
 
-ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), GUIEvent(o), Event() {}
+ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), GUIEvent(o) {}
 
-ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), GUIEvent(c.object), Event(c) { }
+ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), GUIEvent(c) { }
 
 ColorChangeEvent::~ColorChangeEvent() { }
 
 Event* ColorChangeEvent::clone() {
 	return new ColorChangeEvent(*this);
 }
-
-void ColorChangeEvent::SetObject(Control* o) {
-	object = o;
-}
-
-void ColorChangeEvent::Init() { }
 
 void ColorChangeEvent::Begin() {
 	if (object != NULL) {

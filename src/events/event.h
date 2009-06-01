@@ -19,17 +19,10 @@ public:
 	 */
 	virtual Event* clone() { return new Event(*this); };
 
-	virtual void SetObject(Control*){ };
-
-	/**
-	 * Initlizes all values
-	 */
-	virtual void Init() { };
-
 	/**
 	 * Called when ever we start the event 
 	 */
-	virtual void Begin() { printf("wtf!!!!\n"); };
+	virtual void Begin() { };
 
 	/**
 	 * Called after the event is finsihed
@@ -37,7 +30,7 @@ public:
 	virtual void End() { };
 
 	virtual void Step(unsigned int) { };
-//protected:
+protected:
 	unsigned int start;
 	unsigned int duration;
 	unsigned int delay;

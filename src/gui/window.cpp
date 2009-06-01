@@ -42,7 +42,13 @@ Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 
 Window::~Window() {
 	gui->CloseWindow(this);
+	gui = NULL;
+
+	renderer->RemoveObject(this);
+	renderer = NULL;
 	MouseOverChild = NULL;
+
+	activeEvents.clear();
 }
 
 void Window::AddChild(Control *child) {
@@ -84,7 +90,8 @@ void Window::Move(float xChange, float yChange) {
 }
 
 void Window::Close() {
-	delete this;
+	gui->CloseWindow(this);
+	//delete [] this;
 }
 
 void Window::UpdateControl(Control* control) {
@@ -121,7 +128,6 @@ bool Window::HitTest(float mx, float my) {
 
 	if (mx > x && my > y &&
 		mx < (x + Width) && my < (y + Height)) {
-
 		if (MouseOverChild != NULL) {
 			if (MouseOverChild->HitTest(mx, my)) {
 				return true;
@@ -210,6 +216,10 @@ GUI* Window::GetGUI(){
 	return gui;
 }
 
+Window* Window::GetRoot(){
+	return this;
+}
+
 bool Window::NeedsUpdate(){
 	return awatingUpdate;
 }
@@ -245,4 +255,8 @@ void Window::StepEvents(unsigned int step){
 	for(size_t i = 0; i < size; i++){
 		activeEvents[i]->Step(step);
 	}
+}
+
+void Window::Rotate(float a, float x, float y, float z){
+	rotation.rotate(a, x, y, z);
 }

@@ -50,7 +50,6 @@ bool Button::OnMouseClick(unsigned short num, bool final) {
 
 void Button::OnMouseEnter() {
 	if(Callbacks["onHover"] != NULL){
-		printf("here 1\n");
 		Callbacks["onHover"]->Begin();
 		Root->AddEvent(Callbacks["onHover"]);
 	}

@@ -8,19 +8,24 @@
 #ifndef _GUIEVENT_H
 #define	_GUIEVENT_H
 
+#include "../event.h"
 #include "../../gui/control.h"
 #include "../../gui/window.h"
 
-class GUIEvent {
+class GUIEvent : public Event {
 public:
 
-	GUIEvent() : object(NULL) { };
+	GUIEvent() : object(NULL), Event() { };
 
-	GUIEvent(Control* o) : object(o) { };
+	GUIEvent(Control* o) : object(o), Event() { };
+
+	GUIEvent(const GUIEvent& orig) : object(orig.object), Event(orig) { };
 
 	virtual ~GUIEvent() { };
 
-	virtual void SetObject(Control*) = 0;
+	virtual void SetObject(Control* c) {
+		object = c;
+	};
 protected:
 	Control* object;
 };

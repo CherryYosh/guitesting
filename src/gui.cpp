@@ -153,9 +153,10 @@ void GUI::CloseWindow(Window* w) {
 	std::vector<Window*>::iterator it = Windows.begin();
 	while (*it != w)
 		it++;
+
+	renderer->RemoveObject(*it);
 	Windows.erase(it);
 
-	renderer->RemoveObject(w);
 	renderer->Refresh();
 }
 

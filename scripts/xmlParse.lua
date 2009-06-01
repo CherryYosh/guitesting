@@ -73,16 +73,20 @@ local function effects(name, args)
 	for i=1,#args do
 		if args[i] ~= "class" then
 			if args[i] == "color" then
-				event : SetColor(args[args[i]])
+				event : SetColor(args["color"])
 			elseif args[i] == "translation" then
-				event : Translation(string.match(args[args[i]], "([^,]*),(.*)"))
+				event : Translation(string.match(args["translation"], "([^,]*),(.*)"))
 			else
 				event[args[i]] = args[args[i]]
 			end
 		end
 	end
 
-	curChild : AddEvent(name, event)
+	if curChild ~= nil then
+		curChild : AddEvent(name, event)
+	elseif curWidget ~= nil then
+		curWidget : AddEvent(name, event)
+	end
 end
 
 local callbacks = {

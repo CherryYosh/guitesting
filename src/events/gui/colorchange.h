@@ -12,7 +12,7 @@
 #include "../event.h"
 #include "../../utils/color.h"
 
-class ColorChangeEvent : public Event, public GUIEvent {
+class ColorChangeEvent : public GUIEvent {
 public:
 	ColorChangeEvent();
 	ColorChangeEvent(Control*);
@@ -21,9 +21,6 @@ public:
 
 	Event* clone();
 
-	void SetObject(Control*);
-
-	void Init();
 	void Begin();
 	void End();
 	void Step(unsigned int);

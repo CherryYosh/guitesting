@@ -11,7 +11,7 @@
 #include "guievent.h"
 #include "../event.h"
 
-class MoveEvent : public Event, public GUIEvent{
+class MoveEvent : public GUIEvent{
 public:
 	MoveEvent();
 	MoveEvent(Control*);
@@ -22,7 +22,6 @@ public:
 
 	void SetObject(Control*);
 
-	void Init();
 	void Begin();
 	void End();
 	void Step(unsigned int);

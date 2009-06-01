@@ -1509,15 +1509,17 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_ColorChangeEvent swig_types[0]
-#define SWIGTYPE_p_Control swig_types[1]
-#define SWIGTYPE_p_Event swig_types[2]
-#define SWIGTYPE_p_GUIEvent swig_types[3]
-#define SWIGTYPE_p_MoveEvent swig_types[4]
-#define SWIGTYPE_p_std__string swig_types[5]
-#define SWIGTYPE_p_util__Color swig_types[6]
-static swig_type_info *swig_types[8];
-static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
+#define SWIGTYPE_p_CloseEvent swig_types[0]
+#define SWIGTYPE_p_ColorChangeEvent swig_types[1]
+#define SWIGTYPE_p_Control swig_types[2]
+#define SWIGTYPE_p_Event swig_types[3]
+#define SWIGTYPE_p_GUIEvent swig_types[4]
+#define SWIGTYPE_p_MoveEvent swig_types[5]
+#define SWIGTYPE_p_RotationEvent swig_types[6]
+#define SWIGTYPE_p_std__string swig_types[7]
+#define SWIGTYPE_p_util__Color swig_types[8]
+static swig_type_info *swig_types[10];
+static swig_module_info swig_module = {swig_types, 9, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1539,6 +1541,8 @@ typedef struct{} LANGUAGE_OBJ;
     #include "../events/gui/guievent.h"
     #include "../events/gui/colorchange.h"
     #include "../events/gui/move.h"
+    #include "../events/gui/close.h"
+    #include "../events/gui/rotation.h"
 
 
 	#include <string>
@@ -1875,59 +1879,6 @@ fail:
 }
 
 
-static int _wrap_Event_SetObject(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  Control *arg2 = (Control *) 0 ;
-  
-  SWIG_check_num_args("SetObject",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetObject",1,"Event *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SetObject",2,"Control *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_SetObject",1,SWIGTYPE_p_Event);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Control,0))){
-    SWIG_fail_ptr("Event_SetObject",2,SWIGTYPE_p_Control);
-  }
-  
-  (arg1)->SetObject(arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_Init(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  
-  SWIG_check_num_args("Init",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Init",1,"Event *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_Init",1,SWIGTYPE_p_Event);
-  }
-  
-  (arg1)->Init();
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_Event_Begin(lua_State* L) {
   int SWIG_arg = 0;
   Event *arg1 = (Event *) 0 ;
@@ -2001,233 +1952,136 @@ fail:
 }
 
 
-static int _wrap_Event_start_set(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int arg2 ;
-  
-  SWIG_check_num_args("start",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("start",1,"Event *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("start",2,"unsigned int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_start_set",1,SWIGTYPE_p_Event);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (unsigned int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->start = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_start_get(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int result;
-  
-  SWIG_check_num_args("start",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("start",1,"Event *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_start_get",1,SWIGTYPE_p_Event);
-  }
-  
-  result = (unsigned int) ((arg1)->start);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_duration_set(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int arg2 ;
-  
-  SWIG_check_num_args("duration",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("duration",1,"Event *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("duration",2,"unsigned int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_duration_set",1,SWIGTYPE_p_Event);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (unsigned int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->duration = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_duration_get(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int result;
-  
-  SWIG_check_num_args("duration",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("duration",1,"Event *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_duration_get",1,SWIGTYPE_p_Event);
-  }
-  
-  result = (unsigned int) ((arg1)->duration);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_delay_set(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int arg2 ;
-  
-  SWIG_check_num_args("delay",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("delay",1,"Event *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("delay",2,"unsigned int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_delay_set",1,SWIGTYPE_p_Event);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (unsigned int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->delay = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_delay_get(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int result;
-  
-  SWIG_check_num_args("delay",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("delay",1,"Event *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_delay_get",1,SWIGTYPE_p_Event);
-  }
-  
-  result = (unsigned int) ((arg1)->delay);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_remainingTime_set(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int arg2 ;
-  
-  SWIG_check_num_args("remainingTime",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("remainingTime",1,"Event *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("remainingTime",2,"unsigned int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_remainingTime_set",1,SWIGTYPE_p_Event);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (unsigned int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->remainingTime = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Event_remainingTime_get(lua_State* L) {
-  int SWIG_arg = 0;
-  Event *arg1 = (Event *) 0 ;
-  unsigned int result;
-  
-  SWIG_check_num_args("remainingTime",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("remainingTime",1,"Event *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Event,0))){
-    SWIG_fail_ptr("Event_remainingTime_get",1,SWIGTYPE_p_Event);
-  }
-  
-  result = (unsigned int) ((arg1)->remainingTime);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static void swig_delete_Event(void *obj) {
 Event *arg1 = (Event *) obj;
 delete arg1;
 }
 static swig_lua_method swig_Event_methods[] = {
     {"clone", _wrap_Event_clone}, 
-    {"SetObject", _wrap_Event_SetObject}, 
-    {"Init", _wrap_Event_Init}, 
     {"Begin", _wrap_Event_Begin}, 
     {"End", _wrap_Event_End}, 
     {"Step", _wrap_Event_Step}, 
     {0,0}
 };
 static swig_lua_attribute swig_Event_attributes[] = {
-    { "start", _wrap_Event_start_get, _wrap_Event_start_set},
-    { "duration", _wrap_Event_duration_get, _wrap_Event_duration_set},
-    { "delay", _wrap_Event_delay_get, _wrap_Event_delay_set},
-    { "remainingTime", _wrap_Event_remainingTime_get, _wrap_Event_remainingTime_set},
     {0,0,0}
 };
 static swig_lua_class *swig_Event_bases[] = {0};
 static const char *swig_Event_base_names[] = {0};
 static swig_lua_class _wrap_class_Event = { "Event", &SWIGTYPE_p_Event,_wrap_new_Event, swig_delete_Event, swig_Event_methods, swig_Event_attributes, swig_Event_bases, swig_Event_base_names };
+
+static int _wrap_new_GUIEvent__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  GUIEvent *result = 0 ;
+  
+  SWIG_check_num_args("GUIEvent",0,0)
+  result = (GUIEvent *)new GUIEvent();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GUIEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_GUIEvent__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Control *arg1 = (Control *) 0 ;
+  GUIEvent *result = 0 ;
+  
+  SWIG_check_num_args("GUIEvent",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("GUIEvent",1,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("new_GUIEvent",1,SWIGTYPE_p_Control);
+  }
+  
+  result = (GUIEvent *)new GUIEvent(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GUIEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_GUIEvent__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  GUIEvent *arg1 = 0 ;
+  GUIEvent *result = 0 ;
+  
+  SWIG_check_num_args("GUIEvent",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("GUIEvent",1,"GUIEvent const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_GUIEvent,0))){
+    SWIG_fail_ptr("new_GUIEvent",1,SWIGTYPE_p_GUIEvent);
+  }
+  
+  result = (GUIEvent *)new GUIEvent((GUIEvent const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GUIEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_GUIEvent(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_GUIEvent__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Control, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_GUIEvent__SWIG_1(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_GUIEvent, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_GUIEvent__SWIG_2(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_GUIEvent'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    GUIEvent()\n"
+    "    GUIEvent(Control *)\n"
+    "    GUIEvent(GUIEvent const &)\n");
+  lua_error(L);return 0;
+}
+
 
 static int _wrap_GUIEvent_SetObject(lua_State* L) {
   int SWIG_arg = 0;
@@ -2270,9 +2124,9 @@ static swig_lua_method swig_GUIEvent_methods[] = {
 static swig_lua_attribute swig_GUIEvent_attributes[] = {
     {0,0,0}
 };
-static swig_lua_class *swig_GUIEvent_bases[] = {0};
-static const char *swig_GUIEvent_base_names[] = {0};
-static swig_lua_class _wrap_class_GUIEvent = { "GUIEvent", &SWIGTYPE_p_GUIEvent,0, swig_delete_GUIEvent, swig_GUIEvent_methods, swig_GUIEvent_attributes, swig_GUIEvent_bases, swig_GUIEvent_base_names };
+static swig_lua_class *swig_GUIEvent_bases[] = {0,0};
+static const char *swig_GUIEvent_base_names[] = {"Event *",0};
+static swig_lua_class _wrap_class_GUIEvent = { "GUIEvent", &SWIGTYPE_p_GUIEvent,_wrap_new_GUIEvent, swig_delete_GUIEvent, swig_GUIEvent_methods, swig_GUIEvent_attributes, swig_GUIEvent_bases, swig_GUIEvent_base_names };
 
 static int _wrap_new_ColorChangeEvent__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
@@ -2401,59 +2255,6 @@ static int _wrap_ColorChangeEvent_clone(lua_State* L) {
   
   result = (Event *)(arg1)->clone();
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_ColorChangeEvent_SetObject(lua_State* L) {
-  int SWIG_arg = 0;
-  ColorChangeEvent *arg1 = (ColorChangeEvent *) 0 ;
-  Control *arg2 = (Control *) 0 ;
-  
-  SWIG_check_num_args("SetObject",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SetObject",1,"ColorChangeEvent *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SetObject",2,"Control *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ColorChangeEvent,0))){
-    SWIG_fail_ptr("ColorChangeEvent_SetObject",1,SWIGTYPE_p_ColorChangeEvent);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Control,0))){
-    SWIG_fail_ptr("ColorChangeEvent_SetObject",2,SWIGTYPE_p_Control);
-  }
-  
-  (arg1)->SetObject(arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_ColorChangeEvent_Init(lua_State* L) {
-  int SWIG_arg = 0;
-  ColorChangeEvent *arg1 = (ColorChangeEvent *) 0 ;
-  
-  SWIG_check_num_args("Init",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Init",1,"ColorChangeEvent *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ColorChangeEvent,0))){
-    SWIG_fail_ptr("ColorChangeEvent_Init",1,SWIGTYPE_p_ColorChangeEvent);
-  }
-  
-  (arg1)->Init();
-  
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -2623,8 +2424,6 @@ delete arg1;
 }
 static swig_lua_method swig_ColorChangeEvent_methods[] = {
     {"clone", _wrap_ColorChangeEvent_clone}, 
-    {"SetObject", _wrap_ColorChangeEvent_SetObject}, 
-    {"Init", _wrap_ColorChangeEvent_Init}, 
     {"Begin", _wrap_ColorChangeEvent_Begin}, 
     {"End", _wrap_ColorChangeEvent_End}, 
     {"Step", _wrap_ColorChangeEvent_Step}, 
@@ -2636,8 +2435,8 @@ static swig_lua_method swig_ColorChangeEvent_methods[] = {
 static swig_lua_attribute swig_ColorChangeEvent_attributes[] = {
     {0,0,0}
 };
-static swig_lua_class *swig_ColorChangeEvent_bases[] = {0,0,0};
-static const char *swig_ColorChangeEvent_base_names[] = {"Event *","GUIEvent *",0};
+static swig_lua_class *swig_ColorChangeEvent_bases[] = {0,0};
+static const char *swig_ColorChangeEvent_base_names[] = {"GUIEvent *",0};
 static swig_lua_class _wrap_class_ColorChangeEvent = { "ColorChangeEvent", &SWIGTYPE_p_ColorChangeEvent,_wrap_new_ColorChangeEvent, swig_delete_ColorChangeEvent, swig_ColorChangeEvent_methods, swig_ColorChangeEvent_attributes, swig_ColorChangeEvent_bases, swig_ColorChangeEvent_base_names };
 
 static int _wrap_new_MoveEvent__SWIG_0(lua_State* L) {
@@ -2807,29 +2606,6 @@ fail:
 }
 
 
-static int _wrap_MoveEvent_Init(lua_State* L) {
-  int SWIG_arg = 0;
-  MoveEvent *arg1 = (MoveEvent *) 0 ;
-  
-  SWIG_check_num_args("Init",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Init",1,"MoveEvent *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_MoveEvent,0))){
-    SWIG_fail_ptr("MoveEvent_Init",1,SWIGTYPE_p_MoveEvent);
-  }
-  
-  (arg1)->Init();
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_MoveEvent_Begin(lua_State* L) {
   int SWIG_arg = 0;
   MoveEvent *arg1 = (MoveEvent *) 0 ;
@@ -2966,7 +2742,6 @@ delete arg1;
 static swig_lua_method swig_MoveEvent_methods[] = {
     {"clone", _wrap_MoveEvent_clone}, 
     {"SetObject", _wrap_MoveEvent_SetObject}, 
-    {"Init", _wrap_MoveEvent_Init}, 
     {"Begin", _wrap_MoveEvent_Begin}, 
     {"End", _wrap_MoveEvent_End}, 
     {"Step", _wrap_MoveEvent_Step}, 
@@ -2977,9 +2752,674 @@ static swig_lua_method swig_MoveEvent_methods[] = {
 static swig_lua_attribute swig_MoveEvent_attributes[] = {
     {0,0,0}
 };
-static swig_lua_class *swig_MoveEvent_bases[] = {0,0,0};
-static const char *swig_MoveEvent_base_names[] = {"Event *","GUIEvent *",0};
+static swig_lua_class *swig_MoveEvent_bases[] = {0,0};
+static const char *swig_MoveEvent_base_names[] = {"GUIEvent *",0};
 static swig_lua_class _wrap_class_MoveEvent = { "MoveEvent", &SWIGTYPE_p_MoveEvent,_wrap_new_MoveEvent, swig_delete_MoveEvent, swig_MoveEvent_methods, swig_MoveEvent_attributes, swig_MoveEvent_bases, swig_MoveEvent_base_names };
+
+static int _wrap_new_CloseEvent__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *result = 0 ;
+  
+  SWIG_check_num_args("CloseEvent",0,0)
+  result = (CloseEvent *)new CloseEvent();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CloseEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_CloseEvent__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Control *arg1 = (Control *) 0 ;
+  CloseEvent *result = 0 ;
+  
+  SWIG_check_num_args("CloseEvent",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CloseEvent",1,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("new_CloseEvent",1,SWIGTYPE_p_Control);
+  }
+  
+  result = (CloseEvent *)new CloseEvent(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CloseEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_CloseEvent__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = 0 ;
+  CloseEvent *result = 0 ;
+  
+  SWIG_check_num_args("CloseEvent",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("CloseEvent",1,"CloseEvent const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("new_CloseEvent",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  result = (CloseEvent *)new CloseEvent((CloseEvent const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CloseEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_CloseEvent(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_CloseEvent__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Control, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_CloseEvent__SWIG_1(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_CloseEvent, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_CloseEvent__SWIG_2(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_CloseEvent'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CloseEvent()\n"
+    "    CloseEvent(Control *)\n"
+    "    CloseEvent(CloseEvent const &)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_CloseEvent_clone(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = (CloseEvent *) 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("clone",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("clone",1,"CloseEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("CloseEvent_clone",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  result = (Event *)(arg1)->clone();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CloseEvent_Begin(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = (CloseEvent *) 0 ;
+  
+  SWIG_check_num_args("Begin",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Begin",1,"CloseEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("CloseEvent_Begin",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  (arg1)->Begin();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CloseEvent_End(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = (CloseEvent *) 0 ;
+  
+  SWIG_check_num_args("End",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("End",1,"CloseEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("CloseEvent_End",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  (arg1)->End();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CloseEvent_Step(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = (CloseEvent *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Step",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Step",1,"CloseEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Step",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("CloseEvent_Step",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Step(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CloseEvent_Linear(lua_State* L) {
+  int SWIG_arg = 0;
+  CloseEvent *arg1 = (CloseEvent *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Linear",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Linear",1,"CloseEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Linear",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CloseEvent,0))){
+    SWIG_fail_ptr("CloseEvent_Linear",1,SWIGTYPE_p_CloseEvent);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Linear(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_CloseEvent(void *obj) {
+CloseEvent *arg1 = (CloseEvent *) obj;
+delete arg1;
+}
+static swig_lua_method swig_CloseEvent_methods[] = {
+    {"clone", _wrap_CloseEvent_clone}, 
+    {"Begin", _wrap_CloseEvent_Begin}, 
+    {"End", _wrap_CloseEvent_End}, 
+    {"Step", _wrap_CloseEvent_Step}, 
+    {"Linear", _wrap_CloseEvent_Linear}, 
+    {0,0}
+};
+static swig_lua_attribute swig_CloseEvent_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_CloseEvent_bases[] = {0,0};
+static const char *swig_CloseEvent_base_names[] = {"GUIEvent *",0};
+static swig_lua_class _wrap_class_CloseEvent = { "CloseEvent", &SWIGTYPE_p_CloseEvent,_wrap_new_CloseEvent, swig_delete_CloseEvent, swig_CloseEvent_methods, swig_CloseEvent_attributes, swig_CloseEvent_bases, swig_CloseEvent_base_names };
+
+static int _wrap_new_RotationEvent__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *result = 0 ;
+  
+  SWIG_check_num_args("RotationEvent",0,0)
+  result = (RotationEvent *)new RotationEvent();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_RotationEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_RotationEvent__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Control *arg1 = (Control *) 0 ;
+  RotationEvent *result = 0 ;
+  
+  SWIG_check_num_args("RotationEvent",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("RotationEvent",1,"Control *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Control,0))){
+    SWIG_fail_ptr("new_RotationEvent",1,SWIGTYPE_p_Control);
+  }
+  
+  result = (RotationEvent *)new RotationEvent(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_RotationEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_RotationEvent__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = 0 ;
+  RotationEvent *result = 0 ;
+  
+  SWIG_check_num_args("RotationEvent",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("RotationEvent",1,"RotationEvent const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("new_RotationEvent",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  result = (RotationEvent *)new RotationEvent((RotationEvent const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_RotationEvent,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_RotationEvent(lua_State* L) {
+  int argc;
+  int argv[2]={
+    1,2
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_RotationEvent__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Control, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_RotationEvent__SWIG_1(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_RotationEvent, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_RotationEvent__SWIG_2(L);
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_RotationEvent'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    RotationEvent()\n"
+    "    RotationEvent(Control *)\n"
+    "    RotationEvent(RotationEvent const &)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_RotationEvent_clone(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  Event *result = 0 ;
+  
+  SWIG_check_num_args("clone",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("clone",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_clone",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  result = (Event *)(arg1)->clone();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Event,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_Begin(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  
+  SWIG_check_num_args("Begin",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Begin",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_Begin",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  (arg1)->Begin();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_End(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  
+  SWIG_check_num_args("End",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("End",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_End",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  (arg1)->End();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_Step(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Step",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Step",1,"RotationEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Step",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_Step",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Step(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_Linear(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  unsigned int arg2 ;
+  
+  SWIG_check_num_args("Linear",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Linear",1,"RotationEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Linear",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_Linear",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  (arg1)->Linear(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_x_set(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("x",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("x",1,"RotationEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("x",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_x_set",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->x = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_x_get(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("x",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("x",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_x_get",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  result = (float) ((arg1)->x);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_y_set(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("y",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("y",1,"RotationEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("y",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_y_set",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->y = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_y_get(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("y",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("y",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_y_get",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  result = (float) ((arg1)->y);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_z_set(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float arg2 ;
+  
+  SWIG_check_num_args("z",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("z",1,"RotationEvent *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("z",2,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_z_set",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  if (arg1) (arg1)->z = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_RotationEvent_z_get(lua_State* L) {
+  int SWIG_arg = 0;
+  RotationEvent *arg1 = (RotationEvent *) 0 ;
+  float result;
+  
+  SWIG_check_num_args("z",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("z",1,"RotationEvent *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_RotationEvent,0))){
+    SWIG_fail_ptr("RotationEvent_z_get",1,SWIGTYPE_p_RotationEvent);
+  }
+  
+  result = (float) ((arg1)->z);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_RotationEvent(void *obj) {
+RotationEvent *arg1 = (RotationEvent *) obj;
+delete arg1;
+}
+static swig_lua_method swig_RotationEvent_methods[] = {
+    {"clone", _wrap_RotationEvent_clone}, 
+    {"Begin", _wrap_RotationEvent_Begin}, 
+    {"End", _wrap_RotationEvent_End}, 
+    {"Step", _wrap_RotationEvent_Step}, 
+    {"Linear", _wrap_RotationEvent_Linear}, 
+    {0,0}
+};
+static swig_lua_attribute swig_RotationEvent_attributes[] = {
+    { "x", _wrap_RotationEvent_x_get, _wrap_RotationEvent_x_set},
+    { "y", _wrap_RotationEvent_y_get, _wrap_RotationEvent_y_set},
+    { "z", _wrap_RotationEvent_z_get, _wrap_RotationEvent_z_set},
+    {0,0,0}
+};
+static swig_lua_class *swig_RotationEvent_bases[] = {0,0};
+static const char *swig_RotationEvent_base_names[] = {"GUIEvent *",0};
+static swig_lua_class _wrap_class_RotationEvent = { "RotationEvent", &SWIGTYPE_p_RotationEvent,_wrap_new_RotationEvent, swig_delete_RotationEvent, swig_RotationEvent_methods, swig_RotationEvent_attributes, swig_RotationEvent_bases, swig_RotationEvent_base_names };
 
 #ifdef __cplusplus
 }
@@ -2999,50 +3439,73 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_ColorChangeEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *) (GUIEvent *) ((ColorChangeEvent *) x));
+}
+static void *_p_CloseEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *) (GUIEvent *) ((CloseEvent *) x));
+}
+static void *_p_MoveEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *) (GUIEvent *) ((MoveEvent *) x));
+}
+static void *_p_GUIEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *)  ((GUIEvent *) x));
+}
+static void *_p_RotationEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Event *) (GUIEvent *) ((RotationEvent *) x));
+}
 static void *_p_ColorChangeEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((GUIEvent *)  ((ColorChangeEvent *) x));
+}
+static void *_p_CloseEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GUIEvent *)  ((CloseEvent *) x));
 }
 static void *_p_MoveEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((GUIEvent *)  ((MoveEvent *) x));
 }
-static void *_p_ColorChangeEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((Event *)  ((ColorChangeEvent *) x));
+static void *_p_RotationEventTo_p_GUIEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GUIEvent *)  ((RotationEvent *) x));
 }
-static void *_p_MoveEventTo_p_Event(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((Event *)  ((MoveEvent *) x));
-}
+static swig_type_info _swigt__p_CloseEvent = {"_p_CloseEvent", "CloseEvent *", 0, 0, (void*)&_wrap_class_CloseEvent, 0};
 static swig_type_info _swigt__p_ColorChangeEvent = {"_p_ColorChangeEvent", "ColorChangeEvent *", 0, 0, (void*)&_wrap_class_ColorChangeEvent, 0};
 static swig_type_info _swigt__p_Control = {"_p_Control", "Control *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)&_wrap_class_Event, 0};
 static swig_type_info _swigt__p_GUIEvent = {"_p_GUIEvent", "GUIEvent *", 0, 0, (void*)&_wrap_class_GUIEvent, 0};
 static swig_type_info _swigt__p_MoveEvent = {"_p_MoveEvent", "MoveEvent *", 0, 0, (void*)&_wrap_class_MoveEvent, 0};
+static swig_type_info _swigt__p_RotationEvent = {"_p_RotationEvent", "RotationEvent *", 0, 0, (void*)&_wrap_class_RotationEvent, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 static swig_type_info _swigt__p_util__Color = {"_p_util__Color", "util::Color *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_CloseEvent,
   &_swigt__p_ColorChangeEvent,
   &_swigt__p_Control,
   &_swigt__p_Event,
   &_swigt__p_GUIEvent,
   &_swigt__p_MoveEvent,
+  &_swigt__p_RotationEvent,
   &_swigt__p_std__string,
   &_swigt__p_util__Color,
 };
 
+static swig_cast_info _swigc__p_CloseEvent[] = {  {&_swigt__p_CloseEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ColorChangeEvent[] = {  {&_swigt__p_ColorChangeEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Control[] = {  {&_swigt__p_Control, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_Event, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_Event, 0, 0},  {&_swigt__p_Event, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_GUIEvent[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_GUIEvent, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_Event, 0, 0},  {&_swigt__p_CloseEvent, _p_CloseEventTo_p_Event, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_Event, 0, 0},  {&_swigt__p_GUIEvent, _p_GUIEventTo_p_Event, 0, 0},  {&_swigt__p_Event, 0, 0, 0},  {&_swigt__p_RotationEvent, _p_RotationEventTo_p_Event, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GUIEvent[] = {  {&_swigt__p_ColorChangeEvent, _p_ColorChangeEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_CloseEvent, _p_CloseEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_MoveEvent, _p_MoveEventTo_p_GUIEvent, 0, 0},  {&_swigt__p_GUIEvent, 0, 0, 0},  {&_swigt__p_RotationEvent, _p_RotationEventTo_p_GUIEvent, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_MoveEvent[] = {  {&_swigt__p_MoveEvent, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RotationEvent[] = {  {&_swigt__p_RotationEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_util__Color[] = {  {&_swigt__p_util__Color, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_CloseEvent,
   _swigc__p_ColorChangeEvent,
   _swigc__p_Control,
   _swigc__p_Event,
   _swigc__p_GUIEvent,
   _swigc__p_MoveEvent,
+  _swigc__p_RotationEvent,
   _swigc__p_std__string,
   _swigc__p_util__Color,
 };

@@ -59,12 +59,16 @@ public:
 	void SetGUI(GUI*);
 	GUI* GetGUI();
 
+	Window* GetRoot();
+
 	void SetRenderer(Renderer*);
 	Renderer* GetRenderer();
 
 	void AddEvent(Event*);
 	void RemoveEvent(Event*);
 	void StepEvents(unsigned int);
+
+	void Rotate(float,float,float,float);
 protected:
 private:
 	GUI* gui;

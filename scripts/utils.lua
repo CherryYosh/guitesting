@@ -5,6 +5,8 @@ function GetEventByName(name)
 		return events.MoveEvent()
 	elseif name == "close" then
 		return events.CloseEvent()
+	elseif name == "rotation" then
+		return events.RotationEvent()
 	else
 		return events.Event()
 	end

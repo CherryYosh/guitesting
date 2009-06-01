@@ -7,21 +7,17 @@
 
 #include "move.h"
 
-#include "../../gui/window.h"
+MoveEvent::MoveEvent() : delta(0, 0), GUIEvent() { }
 
-MoveEvent::MoveEvent() : delta(0, 0), GUIEvent(), Event() { }
+MoveEvent::MoveEvent(Control* c) : delta(0, 0), GUIEvent(c) { }
 
-MoveEvent::MoveEvent(Control* c) : delta(0, 0), GUIEvent(c), Event() { }
-
-MoveEvent::MoveEvent(const MoveEvent& orig) : delta(orig.delta), GUIEvent(orig.object), Event(orig) { }
+MoveEvent::MoveEvent(const MoveEvent& orig) : delta(orig.delta), GUIEvent(orig) { }
 
 MoveEvent::~MoveEvent() { }
 
 Event* MoveEvent::clone() {
 	return new MoveEvent(*this);
 }
-
-void MoveEvent::Init() { };
 
 void MoveEvent::Begin() {
 	if (object != NULL) {

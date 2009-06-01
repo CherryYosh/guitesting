@@ -16,6 +16,7 @@
 
 #include "control.h"
 #include "window.h"
+#include "../events/gui/guievent.h"
 
 //This should only be called when a new theme has been loaded or when the control is initlized
 
@@ -395,7 +396,7 @@ float Control::GetDepth() {
 void Control::SetCallback(std::string name, Event* event){
 	//create a new event so we can safyly set the object
 	Event* newEvent = event->clone();
-	newEvent->SetObject(this);
+	((GUIEvent*)newEvent)->SetObject(this);
 
 	Callbacks[name] = newEvent;
 }

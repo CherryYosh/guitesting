@@ -62,6 +62,7 @@ void oglWidgetRenderer::AddObject(void* obj) {
 /**
  * Removes the object from the list
  * @param obj the object to be removed
+ * @BUG does not remove the data from the vbo..
  */
 void oglWidgetRenderer::RemoveObject(void* obj) {
 	if (obj == NULL)
@@ -77,6 +78,8 @@ void oglWidgetRenderer::RemoveObject(void* obj) {
 			it++;
 		}
 	}
+
+
 
 	printf("Unable to remove object, object not found! \n");
 }
