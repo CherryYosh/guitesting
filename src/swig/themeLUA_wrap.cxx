@@ -1518,8 +1518,9 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_WindowData swig_types[6]
 #define SWIGTYPE_p_std__mapT_std__string_Event_p_t swig_types[7]
 #define SWIGTYPE_p_std__string swig_types[8]
-static swig_type_info *swig_types[10];
-static swig_module_info swig_module = {swig_types, 9, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__vectorT_ChildData_p_t swig_types[9]
+static swig_type_info *swig_types[11];
+static swig_module_info swig_module = {swig_types, 10, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1568,6 +1569,16 @@ struct ChildData {
         LayerT layer;
 	float x, y, z;
 };
+
+struct WindowData {
+        void AddEvent(std::string name, Event* event){
+            Callbacks[name] = event;
+        }
+
+	std::vector<ChildData*> Children;
+	std::map<std::string, Event*> Callbacks;
+};
+
 
 
 	#include <string>
@@ -2773,6 +2784,186 @@ static swig_lua_class *swig_ChildData_bases[] = {0};
 static const char *swig_ChildData_base_names[] = {0};
 static swig_lua_class _wrap_class_ChildData = { "ChildData", &SWIGTYPE_p_ChildData,_wrap_new_ChildData, swig_delete_ChildData, swig_ChildData_methods, swig_ChildData_attributes, swig_ChildData_bases, swig_ChildData_base_names };
 
+static int _wrap_WindowData_AddEvent(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *arg1 = (WindowData *) 0 ;
+  std::string arg2 ;
+  Event *arg3 = (Event *) 0 ;
+  
+  SWIG_check_num_args("AddEvent",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("AddEvent",1,"WindowData *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("AddEvent",2,"std::string");
+  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("AddEvent",3,"Event *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
+    SWIG_fail_ptr("WindowData_AddEvent",1,SWIGTYPE_p_WindowData);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_Event,0))){
+    SWIG_fail_ptr("WindowData_AddEvent",3,SWIGTYPE_p_Event);
+  }
+  
+  (arg1)->AddEvent(arg2,arg3);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WindowData_Children_set(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *arg1 = (WindowData *) 0 ;
+  std::vector< ChildData * > *arg2 = (std::vector< ChildData * > *) 0 ;
+  
+  SWIG_check_num_args("Children",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Children",1,"WindowData *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("Children",2,"std::vector< ChildData * > *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
+    SWIG_fail_ptr("WindowData_Children_set",1,SWIGTYPE_p_WindowData);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_std__vectorT_ChildData_p_t,0))){
+    SWIG_fail_ptr("WindowData_Children_set",2,SWIGTYPE_p_std__vectorT_ChildData_p_t);
+  }
+  
+  if (arg1) (arg1)->Children = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WindowData_Children_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *arg1 = (WindowData *) 0 ;
+  std::vector< ChildData * > *result = 0 ;
+  
+  SWIG_check_num_args("Children",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Children",1,"WindowData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
+    SWIG_fail_ptr("WindowData_Children_get",1,SWIGTYPE_p_WindowData);
+  }
+  
+  result = (std::vector< ChildData * > *)& ((arg1)->Children);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorT_ChildData_p_t,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WindowData_Callbacks_set(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *arg1 = (WindowData *) 0 ;
+  std::map< std::string,Event * > arg2 ;
+  std::map< std::string,Event * > *argp2 ;
+  
+  SWIG_check_num_args("Callbacks",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"WindowData *");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Callbacks",2,"std::map< std::string,Event * >");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
+    SWIG_fail_ptr("WindowData_Callbacks_set",1,SWIGTYPE_p_WindowData);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_std__mapT_std__string_Event_p_t,0))){
+    SWIG_fail_ptr("WindowData_Callbacks_set",2,SWIGTYPE_p_std__mapT_std__string_Event_p_t);
+  }
+  arg2 = *argp2;
+  
+  if (arg1) (arg1)->Callbacks = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WindowData_Callbacks_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *arg1 = (WindowData *) 0 ;
+  std::map< std::string,Event * > result;
+  
+  SWIG_check_num_args("Callbacks",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Callbacks",1,"WindowData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WindowData,0))){
+    SWIG_fail_ptr("WindowData_Callbacks_get",1,SWIGTYPE_p_WindowData);
+  }
+  
+  result =  ((arg1)->Callbacks);
+  {
+    std::map< std::string,Event * > * resultptr = new std::map< std::string,Event * >((const std::map< std::string,Event * > &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_std__mapT_std__string_Event_p_t,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_WindowData(lua_State* L) {
+  int SWIG_arg = 0;
+  WindowData *result = 0 ;
+  
+  SWIG_check_num_args("WindowData::WindowData",0,0)
+  result = (WindowData *)new WindowData();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_WindowData,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_WindowData(void *obj) {
+WindowData *arg1 = (WindowData *) obj;
+delete arg1;
+}
+static swig_lua_method swig_WindowData_methods[] = {
+    {"AddEvent", _wrap_WindowData_AddEvent}, 
+    {0,0}
+};
+static swig_lua_attribute swig_WindowData_attributes[] = {
+    { "Children", _wrap_WindowData_Children_get, _wrap_WindowData_Children_set},
+    { "Callbacks", _wrap_WindowData_Callbacks_get, _wrap_WindowData_Callbacks_set},
+    {0,0,0}
+};
+static swig_lua_class *swig_WindowData_bases[] = {0};
+static const char *swig_WindowData_base_names[] = {0};
+static swig_lua_class _wrap_class_WindowData = { "WindowData", &SWIGTYPE_p_WindowData,_wrap_new_WindowData, swig_delete_WindowData, swig_WindowData_methods, swig_WindowData_attributes, swig_WindowData_bases, swig_WindowData_base_names };
+
 #ifdef __cplusplus
 }
 #endif
@@ -2803,9 +2994,10 @@ static swig_type_info _swigt__p_Image = {"_p_Image", "Image *", 0, 0, (void*)0, 
 static swig_type_info _swigt__p_Theme = {"_p_Theme", "Theme *", 0, 0, (void*)&_wrap_class_Theme, 0};
 static swig_type_info _swigt__p_WidgetData = {"_p_WidgetData", "WidgetData *", 0, 0, (void*)&_wrap_class_WidgetData, 0};
 static swig_type_info _swigt__p_Window = {"_p_Window", "Window *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_WindowData = {"_p_WindowData", "WindowData *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_WindowData = {"_p_WindowData", "WindowData *", 0, 0, (void*)&_wrap_class_WindowData, 0};
 static swig_type_info _swigt__p_std__mapT_std__string_Event_p_t = {"_p_std__mapT_std__string_Event_p_t", "std::map< std::string,Event * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
+static swig_type_info _swigt__p_std__vectorT_ChildData_p_t = {"_p_std__vectorT_ChildData_p_t", "std::vector< ChildData * > *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ChildData,
@@ -2817,6 +3009,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_WindowData,
   &_swigt__p_std__mapT_std__string_Event_p_t,
   &_swigt__p_std__string,
+  &_swigt__p_std__vectorT_ChildData_p_t,
 };
 
 static swig_cast_info _swigc__p_ChildData[] = {  {&_swigt__p_ChildData, 0, 0, 0},{0, 0, 0, 0}};
@@ -2828,6 +3021,7 @@ static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_WindowData[] = {  {&_swigt__p_WindowData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_std__string_Event_p_t[] = {  {&_swigt__p_std__mapT_std__string_Event_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_ChildData_p_t[] = {  {&_swigt__p_std__vectorT_ChildData_p_t, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ChildData,
@@ -2839,6 +3033,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_WindowData,
   _swigc__p_std__mapT_std__string_Event_p_t,
   _swigc__p_std__string,
+  _swigc__p_std__vectorT_ChildData_p_t,
 };
 
 

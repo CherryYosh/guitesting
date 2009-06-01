@@ -31,6 +31,16 @@ struct ChildData {
         LayerT layer;
 	float x, y, z;
 };
+
+struct WindowData {
+        void AddEvent(std::string name, Event* event){
+            Callbacks[name] = event;
+        }
+
+	std::vector<ChildData*> Children;
+	std::map<std::string, Event*> Callbacks;
+};
+
 %}
 
 %include <std_string.i>
@@ -53,4 +63,11 @@ struct ChildData {
 	std::map<std::string, Event*> Callbacks;
         LayerT layer;
 	float x, y, z;
+};
+
+struct WindowData {
+        void AddEvent(std::string name, Event* event);
+
+	std::vector<ChildData*> Children;
+	std::map<std::string, Event*> Callbacks;
 };

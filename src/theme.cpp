@@ -38,6 +38,7 @@ struct ChildData {
 
 struct WindowData {
 	std::vector<ChildData*> Children;
+	std::map<std::string, Event*> Callbacks;
 };
 
 Theme::Theme() { }
@@ -94,6 +95,8 @@ Window* Theme::GetWindow(std::string name) {
 	Control* child;
 	WidgetData* wd;
 	ChildData* cd;
+
+	ret->SetCallbacks(data->Callbacks);
 
 	double wRecp = 1.0 / image->Width();
 	double hRecp = 1.0 / image->Height();

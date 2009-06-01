@@ -93,7 +93,7 @@ public:
 	virtual util::matrix4<float>* GetRotation();
 	virtual float* GetRotationfv();
 
-	Window* GetRoot();
+	virtual Window* GetRoot();
 	void SetRoot(Window*);
 
 	float GetX();

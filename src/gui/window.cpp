@@ -38,6 +38,7 @@ Window::Window(GUI* p, Renderer* r) : Control("", NULL) {
 
 	gui = p;
 	renderer = r;
+	Root = this;
 }
 
 Window::~Window() {
@@ -128,6 +129,14 @@ bool Window::HitTest(float mx, float my) {
 
 	if (mx > x && my > y &&
 		mx < (x + Width) && my < (y + Height)) {
+		
+	if(Callbacks["onHover"] != NULL){
+		Callbacks["onHover"]->Begin();
+		AddEvent(Callbacks["onHover"]);
+	} else {
+				printf("FAIL!!!\n");
+	}
+
 		if (MouseOverChild != NULL) {
 			if (MouseOverChild->HitTest(mx, my)) {
 				return true;
