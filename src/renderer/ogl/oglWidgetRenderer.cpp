@@ -15,6 +15,8 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
+#include <cassert>
+
 /**
  * The data structor to use with the VBO
  * Spacers are there to make extendening the data
@@ -65,8 +67,7 @@ void oglWidgetRenderer::AddObject(void* obj) {
  * @BUG does not remove the data from the vbo..
  */
 void oglWidgetRenderer::RemoveObject(void* obj) {
-	if (obj == NULL)
-		throw 20;
+	assert(obj != NULL);
 
 	TotalObjects -= static_cast<Control*> (obj)->Size();
 	std::vector<Control*>::iterator it = Objects.begin();
@@ -78,8 +79,6 @@ void oglWidgetRenderer::RemoveObject(void* obj) {
 			it++;
 		}
 	}
-
-
 
 	printf("Unable to remove object, object not found! \n");
 }

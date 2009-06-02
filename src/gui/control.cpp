@@ -19,14 +19,14 @@
 #include "../events/gui/guievent.h"
 
 Control::Control() : isEnabled(true), hasFocus(false), type(""), x(0), y(0), z(-TOP_LAYER), color(),
-	parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) {}
+parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) { }
 
 Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), type(orig.type),
-	x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
-	mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild) {}
+x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
+mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild) { }
 
-Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) :  isEnabled(true), hasFocus(false),
-	type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL){
+Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) : isEnabled(true), hasFocus(false),
+type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL) {
 	SetLayer(l);
 }
 
@@ -34,7 +34,7 @@ Control::~Control() {
 	children.clear();
 }
 
-Control* Control::clone(){
+Control* Control::clone() {
 	return new Control(*this);
 }
 
@@ -74,12 +74,14 @@ bool Control::HitTest(int mx, int my) {
 }
 
 void Control::OnMousePress(unsigned short button, int mx, int my) {
+	StartEvent("onMousePress");
+
 	if (mouseOverChild != NULL) {
 		activeChild = mouseOverChild;
 		activeChild->OnMousePress(button, mx, my);
 	} else {
 		//if (activeChild != NULL)
-			//activeChild->OnUnactivate();
+		//activeChild->OnUnactivate();
 		activeChild = NULL;
 	}
 }
@@ -87,6 +89,8 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 void Control::OnMouseRelease(int button) { }
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
+	StartEvent("onClick");
+
 	if (activeChild != NULL) {
 		return activeChild->OnMouseClick(num, final);
 	}
@@ -101,16 +105,20 @@ bool Control::OnMouseClick(unsigned short num, bool final) {
  * @returns false if nothing was handeled
  */
 bool Control::OnMouseMotion(float x, float y, unsigned short button) {
+	StartEvent("onDrag");
+
 	if (activeChild != NULL)
 		return activeChild->OnMouseMotion(x, y, button);
 	return false;
 }
 
 void Control::OnKeyPress(unsigned short unicode) {
+	StartEvent("onKey");
 	//called by input
 }
 
 void Control::OnKeyRelease(int key, int mod) {
+	EndEvent("onKey");
 	//called by input
 }
 
@@ -163,7 +171,7 @@ void Control::SetHeight(float h) {
 	height = h;
 }
 
-void Control::SetColor(util::Color c){
+void Control::SetColor(util::Color c) {
 	color = c;
 }
 
@@ -174,7 +182,7 @@ void Control::SetColor(float r, float g, float b, float a) {
 	color.a = a;
 }
 
-void Control::AddColor(util::Color c){
+void Control::AddColor(util::Color c) {
 	color += c;
 }
 
@@ -185,7 +193,7 @@ void Control::AddColor(float r, float g, float b, float a) {
 	color.a += a;
 }
 
-util::Color Control::GetColor(){
+util::Color Control::GetColor() {
 	return color;
 }
 
@@ -193,9 +201,13 @@ float* Control::GetColorv() {
 	return color._array;
 }
 
-void Control::OnMouseEnter() { StartEvent("onHover"); }
+void Control::OnMouseEnter() {
+	StartEvent("onHover");
+}
 
-void Control::OnMouseLeave() { EndEvent("onHover"); }
+void Control::OnMouseLeave() {
+	EndEvent("onHover");
+}
 
 void Control::AddChild(Control* c) {
 	children.push_back(c);
@@ -344,7 +356,7 @@ Window* Control::GetRoot() {
 	return root;
 }
 
-void Control::SetRoot(Window* nr){
+void Control::SetRoot(Window* nr) {
 	root = nr;
 }
 
@@ -368,37 +380,44 @@ float Control::GetDepth() {
 	return z + layer;
 }
 
-void Control::SetCallback(std::string name, Event* event){
+void Control::SetCallback(std::string name, Event* event) {
 	//create a new event so we can safyly set the object
-	GUIEvent* newEvent = static_cast<GUIEvent*>(event->clone());
+	GUIEvent* newEvent = static_cast<GUIEvent*> (event->clone());
 	newEvent->SetObject(this);
 
 	events.insert(std::pair<std::string, Event*>(name, newEvent));
 }
 
-void Control::SetCallbacks(std::multimap<std::string, Event*> c){
+void Control::SetCallbacks(std::multimap<std::string, Event*> c) {
 	std::multimap<std::string, Event*>::iterator it;
-	for(it = c.begin(); it != c.end(); it++){
+	for (it = c.begin(); it != c.end(); it++) {
 		SetCallback(it->first, it->second);
 	}
 }
 
-void Control::StartEvent(std::string str){
-	if(events.count(str) > 0){
+void Control::StartEvent(std::string str) {
+	//VALID (gui) EVENTS
+	//onHover - called when the mouse is over the object
+	//onKeyPress - called when a key is pressed
+	//onActivate -- called when the window is made active (clicked)
+	//onHide -- called when the window is hidden
+	//onShow -- called when the window is made visible
+	//onClick -- called when the user clicks the object
+	//onResize -- called when resized;
+
+	if (events.count(str) > 0) {
 		std::multimap<std::string, Event*>::iterator it;
-		for (it=events.equal_range(str).first; it!=events.equal_range(str).second; ++it){
+		for (it = events.equal_range(str).first; it != events.equal_range(str).second; ++it) {
 			it->second->Begin();
 			root->AddEvent(it->second);
 		}
 	}
 }
 
-void Control::EndEvent(std::string str){
-	printf("Ending event %s\n", str.c_str());
-	
-	if(events.count(str) > 0){
+void Control::EndEvent(std::string str) {
+	if (events.count(str) > 0) {
 		std::multimap<std::string, Event*>::iterator it;
-		for (it=events.equal_range(str).first; it!=events.equal_range(str).second; ++it){
+		for (it = events.equal_range(str).first; it != events.equal_range(str).second; ++it) {
 			it->second->End();
 			root->RemoveEvent(it->second);
 		}

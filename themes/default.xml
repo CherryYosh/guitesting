@@ -16,6 +16,11 @@
 			<onClick class="close" />
 		</events>
 	    </child>
+	    <child type="rule.side" x="0" y="20"/>
+	    <child type="rule.side" x="174" y="20"/>
+	    <child type="rule.bottom" x="12" y="179"/>
+	    <child type="rule.background" x="12" y="20"/>
+	    <child type="editbox.input" x="12" y="150"/>
 	</widget>
     </widgets>
 </theme>

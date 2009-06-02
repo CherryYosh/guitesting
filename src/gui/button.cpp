@@ -30,7 +30,7 @@
 
 #include <iostream>
 
-Button::Button() : Control(){}
+Button::Button() : Control() { }
 
 Button::Button(const Button& orig) : Control(orig) { }
 
@@ -38,7 +38,7 @@ Button::Button(std::string t, Window* p, Control* c, LayerT l, float x, float y)
 
 Button::~Button() { }
 
-Control* Button::clone(){
+Control* Button::clone() {
 	return new Button(*this);
 }
 
@@ -50,9 +50,12 @@ bool Button::HitTest(int mouseX, int mouseY) {
 	return false;
 }
 
-void Button::OnMousePress(unsigned short button, int mx, int my) { }
+void Button::OnMousePress(unsigned short button, int mx, int my) {
+	StartEvent("onPress");
+}
 
 bool Button::OnMouseClick(unsigned short num, bool final) {
-	StartEvent("onClick"); //keep in mind, onClick events MUST call End() and remove themself from the roots event list
+	//keep in mind, onClick events MUST call End() and remove their self from the roots event list
+	StartEvent("onClick");
 	return false; //we dont do anything
 }

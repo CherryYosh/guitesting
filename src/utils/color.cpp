@@ -18,8 +18,6 @@ Color::Color() : r(0), b(0), g(0), a(0) { }
 Color::Color(const Color& o) : r(o.r), g(o.g), b(o.b), a(o.a) { }
 
 Color::Color(std::string sc) {
-	printf("Here %s\n", sc.c_str());
-
 	if (IsHexStr(sc)) {
 		unsigned int v1, v2, v3, v4;
 

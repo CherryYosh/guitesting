@@ -5,6 +5,7 @@
 	<texture name="rule.side" x="58" y="41" width="12" height="166" />
 	<texture name="rule.bottom" x="76" y="34" width="161" height="7"/>
 	<texture name="editbox.input" x="82"  y="194" width="155" height="20"/>
+	<texture name="rule.background" x="85" y="50" width="155" height="130"/>
 
 	<!-- alias isnt working yet-->
 	<alias name="exitbutton" ref="button.close"/>

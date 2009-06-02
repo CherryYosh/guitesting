@@ -30,6 +30,7 @@
 	    if(str == "control"){ ptr = new Control("", NULL); }		\
 	    else if(str == "button"){ ptr = new Button("", NULL); }		\
 	    else if(str == "rule"){ ptr = new Rule("", NULL); }			\
+	    else if(str == "editbox"){ ptr = new Editbox("", NULL); }			\
 	    else { ptr = NULL; }
 
 #endif
