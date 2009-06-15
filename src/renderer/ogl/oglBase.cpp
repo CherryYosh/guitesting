@@ -5,6 +5,7 @@
  * Created on May 4, 2009, 12:06 AM
  */
 
+
 #include "oglBase.h"
 
 #include <GL/glew.h>
@@ -16,9 +17,7 @@
 #include "devilImage.h"
 #include "../../camera.h"
 
-//Static varibles are here instead of in the class to make the code cleaner
-//no oglBase::Varible :)
-static Camera* camera;
+Camera* oglBase::camera;
 
 oglBase::oglBase() { }
 
@@ -27,7 +26,7 @@ oglBase::~oglBase() { }
 /**
  * Creates the opengl context, using SDL. This also inits glew.
  */
-void oglBase::CreateContex() {
+void oglBase::CreateContext() {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		printf("Unable to init SDL: %s\n", SDL_GetError());
 		exit(1);
@@ -50,7 +49,7 @@ void oglBase::CreateContex() {
  * Setup the extra data for the context.. Things such as depth size and
  * color size should go here..
  */
-void oglBase::SetupContex() {
+void oglBase::SetupContext() {
 	SDL_EnableUNICODE(true);
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -88,10 +87,9 @@ void oglBase::EndRender() {
  * @param cam a pointer to the new camera
  */
 void oglBase::SetCamera(Camera* cam) {
-	if (cam == NULL)
-		return;
-
-	camera = cam;
+	if (cam != NULL){
+		oglBase::camera = cam;
+	}
 }
 
 /**
@@ -99,7 +97,7 @@ void oglBase::SetCamera(Camera* cam) {
  * @returns a pointer to the camera
  */
 Camera* oglBase::GetCamera() {
-	return camera;
+	return oglBase::camera;
 }
 
 /**

@@ -10,19 +10,19 @@
 
 class Camera;
 
-class Base{
+class Base {
 public:
-	virtual void CreateContext(){};
-	virtual void SetupContext(){};
+	virtual void CreateContext() = 0;
+	virtual void SetupContext() = 0;
 
-	virtual void BeginRender(){};
-	virtual void EndRender(){};
+	virtual void BeginRender() = 0;
+	virtual void EndRender() = 0;
 
-	virtual void SetCamera(Camera*){};
-	virtual Camera* GetCamera(){return 0;};
+	virtual void SetCamera(Camera*) = 0;
+	virtual Camera* GetCamera() = 0;
 
-	virtual void SetViewport(int,int,int,int){};
-	virtual int* GetViewport(){return 0;};
+	virtual void SetViewport(int, int, int, int) = 0;
+	virtual int* GetViewport() = 0;
 private:
 };
 

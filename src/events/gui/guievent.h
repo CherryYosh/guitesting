@@ -24,7 +24,6 @@ public:
 	virtual ~GUIEvent() { };
 
 	virtual void SetObject(Control* c) {
-		printf("here! %p\n", c);
 		object = c;
 	};
 

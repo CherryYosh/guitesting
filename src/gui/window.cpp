@@ -33,16 +33,16 @@
 #include "../camera.h"
 #include <SDL/SDL.h>
 
-Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control("", this) {
+Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control(WindowType, this) {
 	rotation.make_identity();
 }
 
-Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control("", this) {
+Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control(WindowType, this) {
 	rotation.make_identity();
 }
 
 Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
-rotation(orig.rotation), Control("", this) { };
+rotation(orig.rotation), Control(WindowType, this) { };
 
 Window::~Window() {
 	gui->CloseWindow(this);

@@ -21,7 +21,7 @@ class Button : public Control {
 public:
 	Button();
 	Button(const Button&);
-	Button(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Button(Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Button();
 
 	Control* clone();

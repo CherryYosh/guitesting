@@ -12,7 +12,7 @@
 
 class Checkbox : public Control {
 public:
-	Checkbox(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Checkbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Checkbox();
 
 	bool OnMouseClick(unsigned short, bool);

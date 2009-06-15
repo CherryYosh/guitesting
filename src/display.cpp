@@ -14,30 +14,24 @@
  */
 #include <boost/bind.hpp>
 
-#include "renderer/ogl/oglBase.h"
-
 #include "display.h"
 
-#include "renderer/ogl/devilImage.h"
 #include "mouse.h"
 #include "engine.h"
-#include "fontmgr.h"
+#include "renderer/ogl/oglBase.h"
+#include "renderer/ogl/devilImage.h"
 
-oglBase contex;
 
 Display::Display() : System() {
 	display = this;
 
-	contex.CreateContex();
-	contex.SetupContex();
-
-	//start up the fontmgr, thanks rj
-	FontMgr_Init();
-	FontMgr_LoadFont(0, "/usr/share/fonts/corefonts/arial.ttf", 16);
+	context = new oglBase;
+	context->CreateContext();
+	context->SetupContext();
 
 	gui = new GUI();
 	camera = new Camera();
-	contex.SetCamera(camera);
+	context->SetCamera(camera);
 
 	camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
 	camera->SetOrtho(0, 640, 480, 0, 0, 1000);
@@ -61,6 +55,7 @@ void Display::InitTimers() {
 
 	timers.AddTimer(FPSTimer, true, false);
 	timers.AddTimer(Mouse_GetTimer());
+
 }
 
 void Display::DrawFPS(unsigned int* data) {
@@ -74,16 +69,16 @@ void Display::Start() {
 }
 
 void Display::Render() {
-	contex.BeginRender();
+	context->BeginRender();
 
 	//here we draw the gui
 	gui->Render();
 
-	contex.EndRender();
+	context->EndRender();
 }
 
 void Display::Resize(unsigned int width, unsigned int height) {
-	contex.SetViewport(0, 0, width, height);
+	context->SetViewport(0, 0, width, height);
 	camera->SetProjection(camera->fov, width / height, camera->zNear, camera->zFar);
 	camera->SetOrtho(0, width, height, 0, 0, 1000);
 }

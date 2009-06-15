@@ -17,6 +17,6 @@
 
 #include "rule.h"
 
-Rule::Rule(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) { }
+Rule::Rule(Window* p, Control* c, LayerT l, float x, float y) : Control(RuleType, p, c, l, x, y) { }
 
 Rule::~Rule() { }

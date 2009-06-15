@@ -22,6 +22,7 @@
 #include <GL/glew.h>
 #include "vbo.h"
 
+#include <cassert>
 #include <iostream>
 #include <cstring>
 
@@ -69,8 +70,7 @@ bool VBO::InitData(unsigned int length, void* data) {
 
 /* Sets the existing portions of the vbo to data */
 bool VBO::SetData(unsigned int start, unsigned int length, void* data) {
-	if (!isBound)
-		return false;
+	assert(isBound);
 
 	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, start, length, GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 
@@ -89,8 +89,7 @@ bool VBO::SetData(unsigned int start, unsigned int length, void* data) {
 
 /* Adds length data to the end of the vbo, increasing the size by length after. */
 bool VBO::AddData(unsigned int length, void* data, unsigned int* position) {
-	if (!isBound)
-		return false;
+	assert(isBound);
 
 	if (position != NULL)
 		*position = size;
@@ -122,8 +121,7 @@ bool VBO::AddData(unsigned int length, void* data, unsigned int* position) {
 
 /* Inserts data at a given position, with changing lengths. */
 bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int newLength, void* data) {
-	if (!isBound)
-		return false;
+	assert(isBound);
 
 	int change = newLength - oldLength;
 	void* ptr = glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);
@@ -148,7 +146,7 @@ bool VBO::InsertData(unsigned int start, unsigned int oldLength, unsigned int ne
 }
 
 bool VBO::RemoveData(unsigned int start, unsigned int length) {
-	if (!isBound)
+	if (!isBound || size == 0)
 		return false;
 
 	char* ptr = (char*) glMapBufferRange(GL_ARRAY_BUFFER, 0, size, GL_MAP_READ_BIT);

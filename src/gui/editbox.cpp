@@ -12,13 +12,10 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-#include "editbox.h"
-#include "../fontmgr.h"
 
-Editbox::Editbox(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Label(t, p, c, l, x, y) {
-	FlashCaret = true;
-	Editable = true;
-	Multiline = true;
+#include "editbox.h"
+
+Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : currentLine(0), Label(EditboxType, p, c, l, x, y) {
 }
 
 Editbox::~Editbox() {
@@ -33,9 +30,8 @@ bool Editbox::HitTest(int mX, int mY) {
 	return false;
 }
 
-//TODO: FIX THIS
-
 void Editbox::OnMousePress(unsigned short button, int mX, int mY) {
+	/*
 	if (button == 0) {
 		//tell if they clicked a line
 		short size = lines.size();
@@ -66,10 +62,24 @@ void Editbox::OnMousePress(unsigned short button, int mX, int mY) {
 				return;
 			}
 		}
-	}
+	}*/
 }
 
 void Editbox::OnKeyPress(unsigned short unicode) {
+	if(unicode > 31 && unicode < 126){
+		text[currentLine].append(unicode);
+	} else if (unicode == 8) { //backspace
+		if(text[currentLine].size() > 0)
+			text[currentLine].pop_back();
+		else if(currentLine > 0){
+			//nothing.. yet
+		}
+	} else if(unicode == 13) { //enter
+		text.push_back(colorstring(""));
+		currentLine++;
+	}
+
+	/*
 	FontString* line = &lines[CaretLine];
 	if (unicode > 31 && unicode < 126 && NumCharacters < MaxCharacters) {
 
@@ -81,7 +91,7 @@ void Editbox::OnKeyPress(unsigned short unicode) {
 		c.b = 1.0;
 		c.a = 1.0;
 		char p = 0; //char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
-		FontMgr_GetCharData(line->font, p, c);
+		//FontMgr_GetCharData(line->font, p, c);
 
 		AddChar(c, true);
 		return;

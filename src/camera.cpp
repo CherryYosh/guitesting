@@ -28,7 +28,6 @@ Camera::Camera(){
 }
 
 Camera::~Camera(){
-	//TODO
 }
 
 void Camera::Move( float x, float y, float z ){

@@ -14,18 +14,19 @@
  */
 
 #include "gui.h"
+#include "input.h"
 #include "theme.h"
 #include "gui/controls.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
+#include "renderer/ogl/oglFontRenderer.h"
 
 oglWidgetRenderer* renderer;
+oglFontRenderer* fontRenderer;
 
 
-GUI::GUI() : System() {
-	MouseOverWindow = NULL;
-	ActiveWindow = NULL;
-	IsRecevingInput = false;
+GUI::GUI() : MouseOverWindow(NULL), ActiveWindow(NULL), System() {
 	renderer = new oglWidgetRenderer;
+	fontRenderer = new oglFontRenderer;
 
 	Timer* t = new Timer(0, true);
 	t->SetFunction(boost::bind<void>(&GUI::UpdateWindowEvents, this, t->GetDeltaPtr()));
@@ -40,7 +41,10 @@ GUI::~GUI() {
 
 void GUI::Render() {
 	timers.Update();
-	
+
+	fontRenderer->Refresh();
+	fontRenderer->Draw();
+
 	renderer->Draw();
 }
 
@@ -81,7 +85,6 @@ void GUI::Move(int x, int y) {
 /**
  * Makes the given window the active, also pops it to the top of the list
  * @param w the window to be made active
- * @returns TODO
  */
 void GUI::MakeActive(Window* w) {
 	ActiveWindow = w;
@@ -96,6 +99,10 @@ void GUI::MakeActive(Window* w) {
 
 	w->SetDepth(-TOP_LAYER);
 	renderer->Refresh();
+
+	//if(ActiveWindow->HasAttribute(TEXT_INPUT)){
+		input->SetProfile("typing");
+	//}
 }
 
 void GUI::OnKeyPress(unsigned short unicode) {
@@ -145,6 +152,9 @@ void GUI::CreateWindow( std::string name, float x, float y) {
 	window->Move(x,y);
 	Windows.push_back(window);
 
+	fontRenderer->AddObject(window);
+	fontRenderer->Update(window, RENDERER_ADD);
+
 	renderer->AddObject(window);
 	renderer->Update(window, RENDERER_ADD);
 }
@@ -154,9 +164,11 @@ void GUI::CloseWindow(Window* w) {
 	while (*it != w)
 		it++;
 
+	fontRenderer->RemoveObject(*it);
 	renderer->RemoveObject(*it);
 	Windows.erase(it);
 
+	fontRenderer->Refresh();
 	renderer->Refresh();
 }
 

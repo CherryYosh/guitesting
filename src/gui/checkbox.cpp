@@ -7,8 +7,8 @@
 
 #include "checkbox.h"
 
-Checkbox::Checkbox(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
-	Control* c2 = new Control("checkbox-check", p, this);
+Checkbox::Checkbox(Window* p, Control* c, LayerT l, float x, float y) : Control(CheckboxType, p, c, l, x, y) {
+	Control* c2 = new Control(CheckboxType, p, this);
 	c2->SetColor(0.0, 0.0, 0.0, -1.0); //make it invis, need a better way
 	children.push_back(c2);
 

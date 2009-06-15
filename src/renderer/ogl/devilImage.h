@@ -17,6 +17,7 @@ public:
 	static bool InitDevIL();
 
 	devilImage();
+	devilImage(const char*);
 	devilImage(std::string);
 	devilImage(const devilImage& orig);
 	virtual ~devilImage();
@@ -29,11 +30,11 @@ public:
 	unsigned int BPP();
 
 private:
-	unsigned int _id;
-	unsigned int _width;
-	unsigned int _height;
-	unsigned int _format;
-	unsigned int _bpp;
+	unsigned int id;
+	unsigned int width;
+	unsigned int height;
+	unsigned int format;
+	unsigned int bpp;
 };
 
 #endif	/* _DEVILIMAGE_H */

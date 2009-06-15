@@ -31,13 +31,13 @@ public:
 
 	void Start();
 
-	void BindAction( std::string, std::string, bool, boost::function<void()> );
-	void BindKey( std::string, SDLKey, SDLMod, std::string );
-	void ProcessKey( bool, SDL_keysym );
+	void BindAction(std::string, std::string, bool, boost::function<void()>);
+	void BindKey(std::string, SDLKey, SDLMod, std::string);
+	void ProcessKey(bool, SDL_keysym);
 	void ProcessInput();
 
-	Input_ProfileDataT* GetProfile( std::string );
-	bool SetProfile( std::string name );
+	Input_ProfileDataT* GetProfile(std::string);
+	bool SetProfile(std::string name);
 private:
 	std::vector<Input_ProfileDataT*> Profiles;
 	Input_ProfileDataT *ActiveProfile;

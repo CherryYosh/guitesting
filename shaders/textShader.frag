@@ -1,21 +1,15 @@
-//
-//
-//
-//
-//
 #version 130
 
-precision mediump float;
+//this reall does nothing, according to the API
+precision highp float;
 
 uniform sampler2D tex0;
 
-centroid in vec4 texColor;
-centroid in vec2 texCoord;
+in vec2 texCoord;
+in vec4 color;
 
 out vec4 pixelColor;
 
 void main(){
-	
-	vec4 color = texture( tex0, texCoord );
-	pixelColor =  texColor * color;
+	pixelColor = color * texture(tex0, texCoord);
 }

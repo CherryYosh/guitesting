@@ -53,7 +53,6 @@ protected:
 	Window* ActiveWindow;
 private:
 	timerpool timers;
-	bool IsRecevingInput;
 };
 
 #endif

@@ -12,18 +12,6 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-/**********************
- * a simple square button
- * executes a function when clicked
- *
- * TODO:
- * 	double click
- * 	text
- * 	fit to the size of the screen
- *
- * Known bugs:
- * 	none :P
- */
 
 #include "button.h"
 #include "window.h"
@@ -34,7 +22,7 @@ Button::Button() : Control() { }
 
 Button::Button(const Button& orig) : Control(orig) { }
 
-Button::Button(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) { }
+Button::Button(Window* p, Control* c, LayerT l, float x, float y) : Control(ButtonType, p, c, l, x, y) { }
 
 Button::~Button() { }
 

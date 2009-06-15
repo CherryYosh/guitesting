@@ -16,17 +16,18 @@
 
 #include "control.h"
 #include "window.h"
+#include "label.h"
 #include "../events/gui/guievent.h"
 
-Control::Control() : isEnabled(true), hasFocus(false), type(""), x(0), y(0), z(-TOP_LAYER), color(),
+Control::Control() : isEnabled(true), hasFocus(false), _type(ControlType), x(0), y(0), z(-TOP_LAYER), color(),
 parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) { }
 
-Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), type(orig.type),
+Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), _type(orig._type),
 x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
 mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild) { }
 
-Control::Control(std::string t, Window* r, Control* p, LayerT l, float ix, float iy) : isEnabled(true), hasFocus(false),
-type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL) {
+Control::Control(TypeE t, Window* r, Control* p, LayerT l, float ix, float iy) : isEnabled(true), hasFocus(false),
+_type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL) {
 	SetLayer(l);
 }
 
@@ -36,6 +37,10 @@ Control::~Control() {
 
 Control* Control::clone() {
 	return new Control(*this);
+}
+
+TypeE Control::type(){
+	return _type;
 }
 
 /**
@@ -86,7 +91,9 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 	}
 }
 
-void Control::OnMouseRelease(int button) { }
+void Control::OnMouseRelease(int button) {
+	EndEvent("onMousePress");
+}
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
 	StartEvent("onClick");
@@ -114,12 +121,10 @@ bool Control::OnMouseMotion(float x, float y, unsigned short button) {
 
 void Control::OnKeyPress(unsigned short unicode) {
 	StartEvent("onKey");
-	//called by input
 }
 
 void Control::OnKeyRelease(int key, int mod) {
 	EndEvent("onKey");
-	//called by input
 }
 
 void Control::Move(float cx, float cy) {
@@ -376,6 +381,9 @@ float Control::GetLayer() {
 	return layer;
 }
 
+/**
+ * Returns the depth (z + layer) of the control
+ */
 float Control::GetDepth() {
 	return z + layer;
 }
@@ -422,4 +430,28 @@ void Control::EndEvent(std::string str) {
 			root->RemoveEvent(it->second);
 		}
 	}
+}
+
+
+/**
+ * returns all label children
+ */
+std::vector<Label*> Control::GetTextObjs(){
+	std::vector<Label*> ret;
+	std::vector<Label*> temp;
+
+	if(type() == LabelType || type() == EditboxType){
+		ret.push_back(dynamic_cast<Label*>(this));
+	} else {
+	}
+
+	size_t size = children.size();
+	for(unsigned int i = 0; i < size; i++){
+		temp = children[i]->GetTextObjs();
+		for(std::vector<Label*>::iterator it = temp.begin(); it != temp.end(); it++ ){
+			ret.push_back(*it);
+		}
+	}
+
+	return ret;
 }

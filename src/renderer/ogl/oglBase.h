@@ -15,8 +15,8 @@ public:
 	oglBase();
 	virtual ~oglBase();
 
-	void CreateContex();
-	void SetupContex();
+	void CreateContext();
+	void SetupContext();
 
 	void BeginRender();
 	void EndRender();
@@ -27,6 +27,7 @@ public:
 	void SetViewport(int,int,int,int);
 	int* GetViewport();
 private:
+        static Camera* camera;
 };
 
 #endif	/* _OGLRENDERER_H */

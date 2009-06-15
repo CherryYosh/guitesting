@@ -19,7 +19,7 @@
 
 class Rule : public Control {
 public:
-	Rule(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Rule( Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Rule();
 protected:
 private:

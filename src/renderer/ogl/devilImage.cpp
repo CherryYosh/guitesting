@@ -33,46 +33,48 @@ bool devilImage::InitDevIL(){
 	return true;
 }
 
-devilImage::devilImage() : _id(0), _width(0), _height(0), _format(0), _bpp(0) { }
+devilImage::devilImage() : id(0), width(0), height(0), format(0), bpp(0) { }
+
+devilImage::devilImage(const char* filename ){ Load(filename); }
 
 devilImage::devilImage(std::string filename){ Load(filename); }
 
-devilImage::devilImage(const devilImage& orig) { }
+devilImage::devilImage(const devilImage& orig) : id(orig.id), width(orig.width), height(orig.height), format(orig.format), bpp(orig.bpp) { }
 
 devilImage::~devilImage() { }
 
 void devilImage::Load(std::string filename) {
-	ILuint id;
-	ilGenImages(1, &id);
-	ilBindImage(id);
+	ILuint tid;
+	ilGenImages(1, &tid);
+	ilBindImage(tid);
 
 	if (ilLoadImage(filename.c_str()) == false) {
 		ILenum error = ilGetError();
 		printf("ERROR:: DevIL error (%d) %s\n", error, iluErrorString(error));
 
-		_id = 0;
-		_width = 0;
-		_height = 0;
-		_format = 0;
-		_bpp = 0;
+		id = 0;
+		width = 0;
+		height = 0;
+		format = 0;
+		bpp = 0;
 
 		ilBindImage(0);
-		ilDeleteImages(1, &id);
+		ilDeleteImages(1, &tid);
 		return;
 	}
 
-	_id = ilutGLBindTexImage();
-	_width = ilGetInteger(IL_IMAGE_WIDTH);
-	_height = ilGetInteger(IL_IMAGE_HEIGHT);
-	_format = ilGetInteger(IL_IMAGE_FORMAT);
-	_bpp = ilGetInteger(IL_IMAGE_BPP);
+	id = ilutGLBindTexImage();
+	width = ilGetInteger(IL_IMAGE_WIDTH);
+	height = ilGetInteger(IL_IMAGE_HEIGHT);
+	format = ilGetInteger(IL_IMAGE_FORMAT);
+	bpp = ilGetInteger(IL_IMAGE_BPP);
 
 	ilBindImage(0);
-	ilDeleteImages(1, &id);
+	ilDeleteImages(1, &tid);
 }
 
-unsigned int devilImage::GetID(){ return _id; }
-unsigned int devilImage::Width(){ return _width; }
-unsigned int devilImage::Height(){ return _height; }
-unsigned int devilImage::Format(){ return _format; }
-unsigned int devilImage::BPP(){ return _bpp; }
+unsigned int devilImage::GetID(){ return id; }
+unsigned int devilImage::Width(){ return width; }
+unsigned int devilImage::Height(){ return height; }
+unsigned int devilImage::Format(){ return format; }
+unsigned int devilImage::BPP(){ return bpp; }

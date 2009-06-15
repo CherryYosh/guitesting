@@ -48,8 +48,7 @@ oglWidgetRenderer::oglWidgetRenderer() {
 
 oglWidgetRenderer::~oglWidgetRenderer() { }
 
-/** * @param TODO TODO
- * @returns TODO
+/**
  * Adds a object to the list
  * @param obj a pointer to the new object, cannot be null.
  */

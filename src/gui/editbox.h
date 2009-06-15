@@ -19,7 +19,7 @@
 
 class Editbox : public Label {
 public:
-	Editbox(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Editbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Editbox();
 
 	bool HitTest(int, int);
@@ -29,6 +29,7 @@ public:
 	void OnMouseRelease(int);
 private:
 protected:
+	int currentLine;
 };
 
 #endif

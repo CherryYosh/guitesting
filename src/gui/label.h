@@ -16,38 +16,18 @@
 #define TEXTBOX_H
 
 #include "control.h"
-#include "../fontmgr.h"
+#include "../colorstring.h"
 
 #include <string>
 #include <vector>
 #include <list>
 
-struct FontChar {
-	char c; //the actual char
-	float r, g, b, a; //colors
-	float s, t, s2, t2; //texcoords
-	float x, y; //vertex position
-	float width, height; //width of the texture
-	float advance;
-};
-
-struct FontString {
-	unsigned short font; //the font id
-	unsigned short Size; //the number of characters
-	unsigned int Start; //the first position in the VBO
-	unsigned int Length; //the length (in bytes) we occupy in the vbo
-	float y; //the y coord wont change inside of a string
-	unsigned int Width, Height; //the current width of the string (used to find the x of the next char) and the height (needed?)
-	std::list<FontChar> Text;
-	unsigned int vao;
-};
 
 class Label : public Control {
 public:
-	Label(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+        Label(TypeE, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Label(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Label();
-
-	virtual void RenderText(int, int, int);
 
 	virtual void onMousePress(int);
 	virtual void onMouseRelease(int);
@@ -55,30 +35,13 @@ public:
 	virtual void onKeyPress(unsigned short);
 	virtual void onKeyRelease(int, int);
 
-	virtual void Move(float, float);
-
 	virtual void SetWidth(unsigned short);
 	virtual void SetHeight(unsigned short);
 
-	virtual void UpdateVBO();
-	virtual void AddStringsToVBO();
-	virtual void ReplaceCharVBO(FontChar);
-	virtual void RebuildVBOLine(FontString);
-
-	virtual void AddChar(FontChar, bool);
-	virtual void AppendString(unsigned int, unsigned int, FontString);
+	void AddString(std::string , util::Color = "#FFFFFF");
+        std::vector<colorstring>& GetText();
 protected:
-	unsigned short TextWidth;
-	unsigned short CaretPos, CaretLine;
-	unsigned short BottomLine; //the index of the bottome line
-	unsigned short NumCharacters, NumLines;
-	unsigned short MaxCharacters, MaxLines;
-	unsigned int TextPosition, TextLength;
-	bool Multiline;
-	bool FlashCaret;
-	bool ShowingCaret;
-	bool Editable;
-	std::vector<FontString> lines;
+	std::vector<colorstring> text;
 private:
 };
 

@@ -19,12 +19,14 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+
 #include "system.h"
 
 #include "gui.h"
 #include "timer.h"
 #include "camera.h"
 #include "timerpool.h"
+#include "renderer/base.h"
 
 class Display : public System {
 public:
@@ -51,6 +53,7 @@ private:
 	Camera* camera;
 	timerpool timers;
 	GUI* gui;
+	Base* context;
 };
 
 #endif

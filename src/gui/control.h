@@ -15,8 +15,6 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#define CTRL_INPUT (1) << 0 //does the control allow input
-
 #include "../utils/color.h"
 #include "../utils/matrix.h"
 #include "../utils/vector.h"
@@ -32,18 +30,23 @@
 #include <boost/function.hpp>
 
 class Window;
+class Label;
 
+enum TypeE{ ControlType, WindowType, ButtonType, RuleType, EditboxType, LabelType, CheckboxType, SliderType };
 enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
-//the basic control class of all GUI objects
 
+/**
+ * the basic control class of all GUI objects
+ */
 class Control {
 public:
 	Control();
 	Control(const Control&);
-	Control(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Control(TypeE, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Control();
 
 	virtual Control* clone();
+        virtual TypeE type();
 
 	virtual bool HitTest(int, int);
 
@@ -107,23 +110,25 @@ public:
 	void StartEvent(std::string);
 	void EndEvent(std::string);
 
+        std::vector<Label*> GetTextObjs();
+
 	float s, t, s2, t2;
 protected:
 	Window* root;
 	Control* parent;
 	Control* mouseOverChild;
 	Control* activeChild;
+
 	std::vector<Control*> children;
 	std::multimap<std::string, Event*> events;
 
 	float width, height;
 	float x, y, z;
 	float layer;
+
+        TypeE _type;
+        util::Color color;
 private:
-
 	bool hasFocus, isEnabled;
-	util::Color color;
-
-	std::string type;
 };
 #endif

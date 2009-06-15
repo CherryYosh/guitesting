@@ -1,25 +1,20 @@
-//James Brandon Stevensn
-//a simple text shader
-//more to come!
-//
-//
-#version 130
+//James Brandon Stevenson
 
-//fix a ati bug
-precision mediump float;
+#version 130
 
 uniform mat4 projection;
 uniform mat4 modelview;
 
-in vec2 vertex;
+in vec3 vertex;
 in vec2 tcoord;
 in vec4 tcolor;
 
-centroid out vec2 texCoord;
-centroid out vec4 texColor;
+out vec2 texCoord;
+out vec4 color;
 
 void main(){
 	texCoord = tcoord;
-	texColor = tcolor;
-	gl_Position = projection * modelview * vec4(vertex, 0.0, 1.0 );
+	color = tcolor;
+
+	gl_Position = projection * modelview * vec4(vertex,1.0);
 }

@@ -17,15 +17,30 @@ Color::Color() : r(0), b(0), g(0), a(0) { }
 
 Color::Color(const Color& o) : r(o.r), g(o.g), b(o.b), a(o.a) { }
 
+Color::Color(const char* sc) {
+	Init(sc);
+}
+
 Color::Color(std::string sc) {
+	Init(sc.c_str());
+}
+
+Color::Color(float a, float b, float c, float d) : r(a), g(b), b(c), a(d) { }
+
+Color::~Color() { }
+
+/**
+ * The private Init function used for string based init
+ */
+void Color::Init(const char* sc) {
 	if (IsHexStr(sc)) {
 		unsigned int v1, v2, v3, v4;
 
 		if (HasAlpha(sc)) {
-			sscanf(sc.c_str(), "%*c%2x%2x%2x%2x", &v1, &v2, &v3, &v4);
+			sscanf(sc, "%*c%2x%2x%2x%2x", &v1, &v2, &v3, &v4);
 		} else {
-			v4 = 0;
-			sscanf(sc.c_str(), "%*c%2x%2x%2x", &v1, &v2, &v3);
+			v4 = MAX_VALUE; //fully alpha if not specifyed
+			sscanf(sc, "%*c%2x%2x%2x", &v1, &v2, &v3);
 		}
 
 		r = float(v1 / MAX_VALUE);
@@ -33,43 +48,16 @@ Color::Color(std::string sc) {
 		b = float(v3 / MAX_VALUE);
 		a = float(v4 / MAX_VALUE);
 	} else {
-		printf("Not a valid color!\n");
+		printf("%s is not a valid color!\n", sc);
 	}
 }
 
-Color::Color(float a, float b, float c, float d) : r(a), g(b), b(c), a(d) { }
 
-Color::~Color() { }
-
-float Color::RFromStr(std::string sc) {
-	unsigned int i;
-	sscanf(sc.c_str(), "%*c%2x", &i);
-
-	return float(i / MAX_VALUE);
-}
-
-float Color::GFromStr(std::string sc) {
-	unsigned int i;
-	sscanf(sc.c_str(), "%*c%*2x%2x", &i);
-
-	return float(i / MAX_VALUE);
-}
-
-float Color::BFromStr(std::string sc) {
-	unsigned int i;
-	sscanf(sc.c_str(), "%*c%*2x%*2x%2x", &i);
-
-	return float(i / MAX_VALUE);
-}
-
-float Color::AFromStr(std::string sc) {
-	if (!HasAlpha(sc))
-		return 0.0;
-
-	unsigned int i;
-	sscanf(sc.c_str(), "%*c%*2x%*2x%*2x%2x", &i);
-
-	return float(i / MAX_VALUE);
+/**
+ * Returns a pointer to the color's array
+ */
+float* Color::array() {
+	return _array;
 }
 
 /**

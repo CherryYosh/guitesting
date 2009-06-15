@@ -13,7 +13,7 @@
 #include "base.h"
 
 enum {
-	RENDERER_ADD, RENDERER_REMOVE, RENDERER_REFRESH
+    RENDERER_ADD, RENDERER_REMOVE, RENDERER_REFRESH
 };
 
 class Shader;
@@ -21,27 +21,26 @@ class Camera;
 
 class Renderer {
 public:
-	Renderer(){};
-	virtual ~Renderer(){};
+    virtual ~Renderer() { base = NULL; };
 
-	virtual void AddObject(void*){};
-	virtual void RemoveObject(void*){};
+    virtual void AddObject(void*) = 0;
+    virtual void RemoveObject(void*) = 0;
 
-	virtual void Begin(){};
-	virtual void Render(){};
-	virtual void End(){};
-	virtual void Draw(){};
+    virtual void Begin() = 0;
+    virtual void Render() = 0;
+    virtual void End() = 0;
+    virtual void Draw() = 0;
 
-	virtual void Refresh(){};
-	virtual void Update(void*, unsigned int){};
+    virtual void Refresh() = 0;
+    virtual void Update(void*, unsigned int) = 0;
 
-	virtual Shader* GetShader(){return 0;};
-	virtual void SetShader(Shader*){};
+    virtual Shader* GetShader() = 0;
+    virtual void SetShader(Shader*) = 0;
 
-	virtual int* GetViewport(){return 0;};
-	virtual Camera* GetCamera(){return 0;};
+    virtual int* GetViewport() = 0;
+    virtual Camera* GetCamera() = 0;
 protected:
-	Base* base;
+    Base* base;
 };
 
 #endif	/* _RENDERER_H */

@@ -25,7 +25,7 @@ struct FontChar;
 void FontMgr_Init();
 void FontMgr_Release();
 void FontMgr_LoadFont(int fontID, const char *fontname, int fontsize);
-void FontMgr_GetCharData( int font, char p, FontChar& c );
+//void FontMgr_GetCharData( int font, char p, FontChar& c );
 int FontMgr_GetFontAscender(int fontID);
 int FontMgr_GetFontDescender(int fontID);
 unsigned int FontMgr_GetLineHeight(int fontID);

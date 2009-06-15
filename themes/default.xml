@@ -10,10 +10,11 @@
     <widgets>
 	<widget name="console">
 	    <child type="rule.top" x="0" y="0"/>
+	    <child type="label.test" x="50" y="20" layer="top"/>
 	    <child type="button.close" x="10" y="2" layer="top">
 		<events>
-			<onHover class="colorchange" color="#FF0000"/>
-			<onClick class="close" />
+			<onHover class="colorchange" color="#FF000000"/>
+			<onClick class="close"/>
 		</events>
 	    </child>
 	    <child type="rule.side" x="0" y="20"/>

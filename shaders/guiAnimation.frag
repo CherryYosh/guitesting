@@ -11,5 +11,5 @@ in vec4 color;
 out vec4 pixelColor;
 
 void main(){
-	pixelColor = color + texture( tex0, texCoord );
+	pixelColor = color + texture(tex0, texCoord);
 }

@@ -27,10 +27,11 @@
 #include "slider.h"
 
 #define __M_ControlCast(ptr,str)						\
-	    if(str == "control"){ ptr = new Control("", NULL); }		\
-	    else if(str == "button"){ ptr = new Button("", NULL); }		\
-	    else if(str == "rule"){ ptr = new Rule("", NULL); }			\
-	    else if(str == "editbox"){ ptr = new Editbox("", NULL); }			\
-	    else { ptr = NULL; }
-
+	    if(str == "control"){ ptr = new Control(); }		\
+	    else if(str == "button"){ ptr = new Button(); }		\
+	    else if(str == "rule"){ ptr = new Rule(); }			\
+	    else if(str == "editbox"){ ptr = new Editbox(); }		\
+            else if(str == "label"){ ptr = new Label(); }               \
+            else if(str == "checkbox"){ ptr = new Checkbox(); }         \
+	    else { printf("%s not found!\n", str.c_str()); ptr = NULL; }
 #endif

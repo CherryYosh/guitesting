@@ -42,7 +42,6 @@ private:
 	util::matrix4<float> projection;
 	util::matrix4<float> ortho;
 	util::matrix4<float> modelview;
-
 };
 
 #endif

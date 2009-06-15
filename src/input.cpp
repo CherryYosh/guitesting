@@ -32,45 +32,45 @@
 #include "engine.h"
 #include "display.h"
 
-struct Input_ActionDataT{
+struct Input_ActionDataT {
 	std::string Name; //the name of the action (IE: MOVEUP)
 	bool UseOnce; //only handle once per press?
 	bool Handled; //has it been handled yet?
 	short Count; //number of keys being pressed
-	boost::function<void()> Function;
+	boost::function<void() > Function;
 };
 
-struct Input_KeyDataT{
+struct Input_KeyDataT {
 	SDLKey Key; //the key
 	SDLMod Mod;
 	Input_ActionDataT *Action;
 };
 
-struct Input_ProfileDataT{
+struct Input_ProfileDataT {
 	std::string Name;
 	std::vector<Input_ActionDataT*> Actions;
 	std::vector<Input_KeyDataT*> Keys;
-	boost::function<void (SDL_keysym)> DefaultFunction;
+	boost::function<void (SDL_keysym) > DefaultFunction;
 };
 
-Input::Input() : System(){
+Input::Input() : System() {
 	input = this;
 
 	//create a few empty profiles
 	Input_ProfileDataT* temp = new Input_ProfileDataT;
 	temp->Name = "default";
 	temp->DefaultFunction = NULL;
-	Profiles.push_back( temp );
+	Profiles.push_back(temp);
 
 	temp = new Input_ProfileDataT;
 	temp->Name = "typing";
-	temp->DefaultFunction = std::bind1st( std::mem_fun(&Display::OnKeyPress), display );
-	Profiles.push_back( temp );
+	temp->DefaultFunction = std::bind1st(std::mem_fun(&Display::OnKeyPress), display);
+	Profiles.push_back(temp);
 
-	SetProfile( "default" );
+	SetProfile("default");
 }
 
-Input::~Input(){
+Input::~Input() {
 	Profiles.clear();
 	delete ActiveProfile;
 	input = NULL;
@@ -79,47 +79,46 @@ Input::~Input(){
 /*
  * key events are polled and processed
  */
-void Input::Start(){
+void Input::Start() {
 	SDL_Event keyevent;
 
 	ProcessInput();
 
-	while( SDL_PollEvent( &keyevent ) ){
-		switch( keyevent.type ){
-			case SDL_KEYDOWN:
-				ProcessKey( true, keyevent.key.keysym );
-				break;
-			case SDL_KEYUP:
-				ProcessKey( false, keyevent.key.keysym );
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-			case SDL_MOUSEBUTTONUP:
-				display->OnMouseButtonChange();
-				break;
-			case SDL_MOUSEMOTION:
-				display->OnMouseMotion();
-				break;
-			case SDL_ACTIVEEVENT:
-				break;
-			case SDL_VIDEOEXPOSE:
-				break;
-			case SDL_VIDEORESIZE:
-				display->Resize( keyevent.resize.w, keyevent.resize.h );
-				break;
-			case SDL_QUIT:
-				Engine::engine->Quit();
-				return;
-			default:
+	while (SDL_PollEvent(&keyevent)) {
+		switch (keyevent.type) {
+		case SDL_KEYDOWN:
+			ProcessKey(true, keyevent.key.keysym);
+			break;
+		case SDL_KEYUP:
+			ProcessKey(false, keyevent.key.keysym);
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+			display->OnMouseButtonChange();
+			break;
+		case SDL_MOUSEMOTION:
+			display->OnMouseMotion();
+			break;
+		case SDL_ACTIVEEVENT:
+			break;
+		case SDL_VIDEOEXPOSE:
+			break;
+		case SDL_VIDEORESIZE:
+			display->Resize(keyevent.resize.w, keyevent.resize.h);
+			break;
+		case SDL_QUIT:
+			Engine::engine->Quit();
+			return;
+		default:
 #ifdef _DEBUG_
-				printf( "ERROR: Unkown sdl event type %i presented to Input\n", keyevent.type );
+			printf("ERROR: Unkown sdl event type %i presented to Input\n", keyevent.type);
 #endif
-				break;
+			break;
 		}
 	}
 }
 
-
-void Input::BindAction( std::string profile, std::string action, bool useOnce, boost::function<void()> function){
+void Input::BindAction(std::string profile, std::string action, bool useOnce, boost::function<void() > function) {
 	Input_ActionDataT *newAction = new Input_ActionDataT;
 
 	newAction->Name = action;
@@ -130,30 +129,30 @@ void Input::BindAction( std::string profile, std::string action, bool useOnce, b
 
 	//get the profile
 	size_t size = Profiles.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( Profiles[i]->Name == profile ){
-			Profiles[i]->Actions.push_back( newAction );
+	for (unsigned int i = 0; i < size; i++) {
+		if (Profiles[i]->Name == profile) {
+			Profiles[i]->Actions.push_back(newAction);
 		}
 	}
 }
 
-void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string action ){
-	Input_ProfileDataT* prof = GetProfile( profile );
+void Input::BindKey(std::string profile, SDLKey key, SDLMod mod, std::string action) {
+	Input_ProfileDataT* prof = GetProfile(profile);
 	std::vector<Input_ActionDataT*> actions = prof->Actions;
 	Input_ActionDataT* a = NULL;
 
 	//make sure the action is bound, if it isnt we return
 	size_t size = actions.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( actions[i]->Name == action ){
+	for (unsigned int i = 0; i < size; i++) {
+		if (actions[i]->Name == action) {
 			a = actions[i];
 			break;
 		}
 	}
 
-	if( a == NULL ){
+	if (a == NULL) {
 #ifdef _DEBUG_
-		printf( "ERROR: Unable to bind key (%i) to %s, action %s not found!\n", key, profile.c_str(), action.c_str() );
+		printf("ERROR: Unable to bind key (%i) to %s, action %s not found!\n", key, profile.c_str(), action.c_str());
 #endif
 		return;
 	}
@@ -163,11 +162,11 @@ void Input::BindKey( std::string profile, SDLKey key, SDLMod mod, std::string ac
 	newKey->Mod = mod;
 	newKey->Action = a;
 
-	prof->Keys.push_back( newKey );
+	prof->Keys.push_back(newKey);
 }
 
-void Input::ProcessKey( bool pressed, SDL_keysym sym ){
-	if( ActiveProfile == NULL ){
+void Input::ProcessKey(bool pressed, SDL_keysym sym) {
+	if (ActiveProfile == NULL) {
 		return;
 	}
 
@@ -175,18 +174,18 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){
 	Input_ActionDataT* action;
 
 	size_t size = keys.size();
-	for( unsigned int i = 0; i < size; i++ ){
+	for (unsigned int i = 0; i < size; i++) {
 		//				this allows use to have caps / numlock on while typeing
-		if( keys[i]->Key == sym.sym && ( sym.mod & ~( KMOD_NUM | KMOD_CAPS ) ) == keys[i]->Mod ){
+		if (keys[i]->Key == sym.sym && (sym.mod & ~(KMOD_NUM | KMOD_CAPS)) == keys[i]->Mod) {
 			action = keys[i]->Action;
 
-			if( pressed )
+			if (pressed)
 				action->Count++;
-			else{
-				if( action->Count > 0 ) //wtf happens to make it == 0 when a key is still down??
+			else {
+				if (action->Count > 0) //wtf happens to make it == 0 when a key is still down??
 					action->Count--;
 				//reset the handeld flag if no keys are down
-				if( action->Count == 0 && action->UseOnce )
+				if (action->Count == 0 && action->UseOnce)
 					action->Handled = false;
 			}
 			//auidios..
@@ -195,46 +194,46 @@ void Input::ProcessKey( bool pressed, SDL_keysym sym ){
 	}
 
 	//else we do the default action
-	if( pressed && ActiveProfile->DefaultFunction != NULL ){
+	if (pressed && ActiveProfile->DefaultFunction != NULL) {
 		ActiveProfile->DefaultFunction(sym);
 	}
 }
 
-void Input::ProcessInput(){
+void Input::ProcessInput() {
 	std::vector<Input_ActionDataT*> actions = ActiveProfile->Actions;
 	Input_ActionDataT* action;
 
 	size_t size = actions.size();
-	for( unsigned int i = 0; i < size; i++ ){
+	for (unsigned int i = 0; i < size; i++) {
 		action = actions[i];
 
-		if( action->Count > 0 && !action->Handled ){
+		if (action->Count > 0 && !action->Handled) {
 			action->Function();
 
-			if( action->UseOnce )
+			if (action->UseOnce)
 				action->Handled = true;
 		}
 	}
 }
 
-Input_ProfileDataT* Input::GetProfile( std::string name ){
+Input_ProfileDataT* Input::GetProfile(std::string name) {
 	size_t size = Profiles.size();
-	for( unsigned int i = 0; i < size; i++ ){
-		if( Profiles[i]->Name == name )
+	for (unsigned int i = 0; i < size; i++) {
+		if (Profiles[i]->Name == name)
 			return Profiles[i];
 	}
 	return NULL;
 }
 
-bool Input::SetProfile( std::string name ){
-	Input_ProfileDataT* profile = GetProfile( name );
+bool Input::SetProfile(std::string name) {
+	Input_ProfileDataT* profile = GetProfile(name);
 
-	if( profile != NULL ){
+	if (profile != NULL) {
 		ActiveProfile = profile;
 		return true;
 	}
 
 	//if we get here it errored, so we set the default profile
-	ActiveProfile = GetProfile( "default" );
+	ActiveProfile = GetProfile("default");
 	return false;
 }

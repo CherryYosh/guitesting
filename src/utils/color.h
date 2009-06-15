@@ -16,15 +16,12 @@ namespace util {
 	public:
 		Color();
 		Color(const Color& orig);
-		virtual ~Color();
-
+		Color(const char*);
 		Color(std::string);
 		Color(float, float, float, float);
-
-		float RFromStr(std::string);
-		float GFromStr(std::string);
-		float BFromStr(std::string);
-		float AFromStr(std::string);
+		virtual ~Color();
+		
+		float* array();
 
 		bool HasAlpha(std::string);
 		bool IsHexStr(std::string);
@@ -32,6 +29,11 @@ namespace util {
 		float operator[](int i) {
 			return _array[i];
 		};
+
+		Color& operator=(const char* s) {
+			*this = Color(s);
+			return *this;
+		}
 
 		Color& operator=(const std::string& s) {
 			*this = Color(s.c_str());
@@ -60,6 +62,7 @@ namespace util {
 		};
 
 	private:
+	    void Init(const char*);
 	};
 };
 

@@ -5,7 +5,7 @@
 
 class Slider : public Control {
 public:
-	Slider(std::string, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Slider(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Slider();
 
 	bool OnMouseMotion(float, float, unsigned short);

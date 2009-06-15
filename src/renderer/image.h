@@ -13,27 +13,17 @@
 class Image {
 public:
 
-	virtual void Load(std::string) { }
+	virtual void Load(std::string) = 0;
 
-	virtual unsigned int GetID() {
-		return 0;
-	}
+	virtual unsigned int GetID() = 0;
 
-	virtual unsigned int Width() {
-		return 0;
-	}
+	virtual unsigned int Width() = 0;
 
-	virtual unsigned int Height() {
-		return 0;
-	}
+	virtual unsigned int Height() = 0;
 
-	virtual unsigned int Format() {
-		return 0;
-	}
+	virtual unsigned int Format() = 0;
 
-	virtual unsigned int BPP() {
-		return 0;
-	}
+	virtual unsigned int BPP() = 0;
 };
 
 #endif	/* _IMAGE_H */

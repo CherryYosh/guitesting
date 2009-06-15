@@ -2,8 +2,8 @@
 
 //NOTE:Felt lazy, so a lot of this code is taken from TWL, a java gui
 
-Slider::Slider(std::string t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
-	Thumb = new Control("slider-thumb", p, this, TOP_LAYER);
+Slider::Slider(Window* p, Control* c, LayerT l, float x, float y) : Control(SliderType, p, c, l, x, y) {
+	//Thumb = new Control(p, this, TOP_LAYER);
 
 	SetRange(0, 100);
 	UpdateStep();
