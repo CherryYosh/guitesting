@@ -150,7 +150,8 @@ void oglFontRenderer::Refresh() {
 
 void oglFontRenderer::Update(void* obj, unsigned int update) {
 	float h;
-	int height, lines;
+	int height;
+	int lines = 0;
 
 	std::vector<Label*> labels = static_cast<Control*> (obj)->GetTextObjs();
 	if (labels.empty())
@@ -221,6 +222,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outL
 
 		size2 = strings.size();
 		for (unsigned int j = 0; j < size2; j++) {
+			numLines++;
 			str = strings[j];
 			x = label->GetX();
 			by = label->GetY();
