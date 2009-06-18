@@ -36,7 +36,7 @@ public:
 	void Move(int, int);
 	void MakeActive(Window*);
 
-	void OnKeyPress(unsigned short);
+	void OnKeyPress(unsigned short, int, int);
 	void OnMousePress(unsigned short, int, int);
 	bool OnMouseClick(unsigned short, bool);
 	bool OnMouseMotion(float, float, unsigned short);

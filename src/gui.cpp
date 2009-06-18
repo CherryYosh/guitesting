@@ -23,7 +23,6 @@
 oglWidgetRenderer* renderer;
 oglFontRenderer* fontRenderer;
 
-
 GUI::GUI() : MouseOverWindow(NULL), ActiveWindow(NULL), System() {
 	renderer = new oglWidgetRenderer;
 	fontRenderer = new oglFontRenderer;
@@ -31,7 +30,7 @@ GUI::GUI() : MouseOverWindow(NULL), ActiveWindow(NULL), System() {
 	Timer* t = new Timer(0, true);
 	t->SetFunction(boost::bind<void>(&GUI::UpdateWindowEvents, this, t->GetDeltaPtr()));
 	t->Start();
-	
+
 	AddTimerToPool(t);
 }
 
@@ -100,14 +99,14 @@ void GUI::MakeActive(Window* w) {
 	w->SetDepth(-TOP_LAYER);
 	renderer->Refresh();
 
-	//if(ActiveWindow->HasAttribute(TEXT_INPUT)){
+	//if (ActiveWindow->type() == LabelType || ActiveWindow->type() == EditboxType) {
 		input->SetProfile("typing");
 	//}
 }
 
-void GUI::OnKeyPress(unsigned short unicode) {
+void GUI::OnKeyPress(unsigned short unicode, int key, int mod) {
 	if (ActiveWindow != NULL)
-		ActiveWindow->OnKeyPress(unicode);
+		ActiveWindow->OnKeyPress(unicode, key, mod);
 }
 
 void GUI::OnMousePress(unsigned short button, int mx, int my) {
@@ -138,18 +137,18 @@ bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
 	return false;
 }
 
-void GUI::UpdateWindowEvents(unsigned int* step){
+void GUI::UpdateWindowEvents(unsigned int* step) {
 	size_t size = Windows.size();
-	for(size_t i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 		Windows[i]->StepEvents(*step);
 }
 
-void GUI::CreateWindow( std::string name, float x, float y) {
+void GUI::CreateWindow(std::string name, float x, float y) {
 	Theme t;
 	Window* window = t.GetWindow(name);
 	window->SetGUI(this);
 	window->SetRenderer(renderer);
-	window->Move(x,y);
+	window->Move(x, y);
 	Windows.push_back(window);
 
 	fontRenderer->AddObject(window);
@@ -172,6 +171,6 @@ void GUI::CloseWindow(Window* w) {
 	renderer->Refresh();
 }
 
-void GUI::AddTimerToPool(Timer* t, bool tick, bool step){
+void GUI::AddTimerToPool(Timer* t, bool tick, bool step) {
 	timers.AddTimer(t, tick, step);
 }

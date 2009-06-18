@@ -15,123 +15,80 @@
 
 #include "editbox.h"
 
-Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : currentLine(0), Label(EditboxType, p, c, l, x, y) {
+Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : caretPos(0), currentLine(0), Label(EditboxType, p, c, l, x, y) {
+    text.push_back("");
+}
+
+Editbox::Editbox(const Editbox& orig) : caretPos(orig.caretPos), currentLine(orig.currentLine), Label(orig) {
+    text.push_back("");
 }
 
 Editbox::~Editbox() {
-	//nothing right now
+    //nothing right now
 }
 
 bool Editbox::HitTest(int mX, int mY) {
-	if (mX > x && mX < x + width
-		&& mY > y && mY < y + height) {
-		return true;
-	}
-	return false;
+    if (mX > x && mX < x + width
+	    && mY > y && mY < y + height) {
+	return true;
+    }
+    return false;
 }
 
 void Editbox::OnMousePress(unsigned short button, int mX, int mY) {
-	/*
-	if (button == 0) {
-		//tell if they clicked a line
-		short size = lines.size();
-		short height = FontMgr_GetLineHeight(0);
-		FontString line;
-
-		for (unsigned short i = 0; i < size; i++) {
-			//first a check to get the line
-			if (mY < y + (height * (NumLines - i))) {
-				CaretLine = i;
-				line = lines[i];
-
-				std::list<FontChar>::iterator it;
-				unsigned int j = line.Text.size();
-				unsigned int width = line.Width;
-				for (it = line.Text.end(); it != line.Text.begin(); it--) {
-					if (mX > x + width) {
-						CaretPos = j;
-						return;
-					}
-
-					width -= ((FontChar) * it).advance;
-					j--;
-				}
-
-				//so if we are here its in the line, but not the text sooo....
-				CaretPos = line.Size;
-				return;
-			}
-		}
-	}*/
 }
 
-void Editbox::OnKeyPress(unsigned short unicode) {
-	if(unicode > 31 && unicode < 126){
-		text[currentLine].append(unicode);
-	} else if (unicode == 8) { //backspace
-		if(text[currentLine].size() > 0)
-			text[currentLine].pop_back();
-		else if(currentLine > 0){
-			//nothing.. yet
-		}
-	} else if(unicode == 13) { //enter
-		text.push_back(colorstring(""));
-		currentLine++;
+void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
+    if (unicode > 31 && unicode < 126) { //alphabet
+	text[currentLine].insert(caretPos++, unicode);
+    } else if (unicode == 8) { //backspace
+	if (text[currentLine].size() > 0)
+	    text[currentLine].erase(caretPos--);
+	else if (currentLine > 0) {
+	    text[currentLine - 1].append(text[currentLine]);
+
+	    std::vector<colorstring>::iterator it = text.begin();
+	    std::advance(it, currentLine);
+	    text.erase(it);
 	}
+    } else if (unicode == 13) { //enter
+	text.push_back("");
+	currentLine++;
+	caretPos = 0;
+    }
 
-	/*
-	FontString* line = &lines[CaretLine];
-	if (unicode > 31 && unicode < 126 && NumCharacters < MaxCharacters) {
-
-		//WARNING: Error might occure with the wunicode
-		FontChar c;
-		c.c = unicode;
-		c.r = 0.0;
-		c.g = 0.0;
-		c.b = 1.0;
-		c.a = 1.0;
-		char p = 0; //char p = ( CaretPos > 0 ) ? (*--line->Text.end()).c : 0;
-		//FontMgr_GetCharData(line->font, p, c);
-
-		AddChar(c, true);
-		return;
-	}
-
-	if (unicode == 8) { //backspace
-		if (CaretPos > 0) { //just remove one char
-			std::list<FontChar>::iterator it = line->Text.begin();
-			std::advance(it, --CaretPos);
-			line->Width -= (*it).advance;
-			line->Text.erase(it);
-			NumCharacters--;
-			return;
-		} else if (Multiline && CaretLine > 0) {
-			//backspaced pressed at the end of the line..
-			//all this does and delet the current line, moving its
-			//content to the new line ( after the cursor )
-			CaretPos = line[CaretLine - 1].Text.size();
-			if (line->Text.size() > 0) {
-				AppendString(CaretLine - 1, CaretPos, *line);
-			}
-			return;
-		}
-	}
-	/*
-		if( Multiline ){
-			if( unicode == 13 ){ //enter
-				lines.push_back( "" );
-
-				if( BottomLine == CaretLine )
-					BottomLine++;
-				CaretLine++;
-				CaretPos = 0;
-				NumLines++;
-				return;
-			}
-		}
-	 */
+    /* Arrow keys, unicode does not show these. */
+    if (key == 273) { //up
+	ChangeCaretLine(currentLine - 1);
+    } else if (key == 274) { //down
+	ChangeCaretLine(currentLine + 1);
+    } else if (key == 275) { //right
+	MoveCaret(1);
+    } else if (key == 276) { //left
+	MoveCaret(-1);
+    }
 }
 
-void Editbox::OnKeyRelease(int key, int mod) { }
+void Editbox::ChangeCaretLine(int newLine) {
+    if (newLine > -1 && newLine < text.size()) {
+	currentLine = newLine;
 
-void Editbox::OnMouseRelease(int button) { }
+	if(caretPos > text[currentLine].size()){
+	    caretPos = text[currentLine].size();
+	}
+    }
+}
+
+void Editbox::MoveCaret(int dir) {
+    caretPos += dir;
+}
+
+void Editbox::SetCaretPos(int pos) {
+    caretPos = pos;
+}
+
+void Editbox::OnKeyRelease(int key, int mod) {
+}
+
+void Editbox::OnMouseRelease(int button) {
+}

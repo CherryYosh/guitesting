@@ -40,7 +40,10 @@ public:
 
 	void AddString(std::string , util::Color = "#FFFFFF");
         std::vector<colorstring>& GetText();
+
+	bool multiline();
 protected:
+	bool isMultiline;
 	std::vector<colorstring> text;
 private:
 };

@@ -168,9 +168,9 @@ bool Window::HitTest(float mx, float my) {
 	return false;
 }
 
-void Window::OnKeyPress(unsigned short key) {
+void Window::OnKeyPress(unsigned short unicode, int key, int mod) {
 	if (activeChild != NULL)
-		activeChild->OnKeyPress(key);
+		activeChild->OnKeyPress(unicode, key, mod);
 }
 
 void Window::OnMousePress(unsigned short button, int mx, int my) {

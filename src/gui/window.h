@@ -45,7 +45,7 @@ public:
 
 	void UpdateControl(Control*);
 
-	void OnKeyPress(unsigned short);
+	void OnKeyPress(unsigned short, int, int);
 	void OnMousePress(unsigned short, int, int);
 	bool OnMouseClick(unsigned short, bool);
 	bool HitTest(float, float);

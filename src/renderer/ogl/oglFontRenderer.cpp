@@ -43,7 +43,7 @@ unsigned int oglFontRenderer::GetTotalChars(void* obj) {
 	size_t size1, size2;
 
 	std::vector<Label*> labels = static_cast<Control*> (obj)->GetTextObjs();
-	if (labels.empty()){
+	if (labels.empty()) {
 		return 0;
 	}
 
@@ -53,12 +53,9 @@ unsigned int oglFontRenderer::GetTotalChars(void* obj) {
 
 		size2 = strings.size();
 		for (unsigned int j = 0; j < size2; j++) {
-			//printf("size is %i\n", strings[j].size());
 			ret += strings[j].size();
 		}
 	}
-
-	//printf("returning %i\n", ret);
 	return ret;
 }
 
@@ -142,6 +139,8 @@ void oglFontRenderer::Refresh() {
 	Buffer.RemoveData(0, Buffer.GetSize());
 	Buffer.Unbind();
 
+	TotalObjects = 0; //reset this, will be set in Update()
+
 	size_t size = Objects.size();
 	for (unsigned int i = 0; i < size; i++) {
 		Update(Objects[0], RENDERER_ADD);
@@ -150,34 +149,42 @@ void oglFontRenderer::Refresh() {
 
 void oglFontRenderer::Update(void* obj, unsigned int update) {
 	float h;
-	int height;
-	int lines = 0;
+	int height, lines;
 
 	std::vector<Label*> labels = static_cast<Control*> (obj)->GetTextObjs();
 	if (labels.empty())
 		return;
-	
-	TotalObjects = GetTotalChars(obj);
 
-	size_t size1, size2;
+	unsigned int dataSize = GetTotalChars(obj);
+	size_t size1, oldSize;
+	size_t size2 = 0;
 
-	FontData* data = new FontData[4 * TotalObjects];
+	FontData* data = new FontData[4 * dataSize];
 
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
 		height = labels[i]->GetHeight();
-		GenerateStringData(static_cast<Control*>(labels[i]), data, lines, size2);
-		for (unsigned int j = 0; j < size2; j++) {
-			h = (data[j*4].y - lines) * height;
-			data[j*4].y = data[j*4+1].y + h;
-			data[j*4+1].y += h;
-			data[j*4+2].y += h;
-			data[j*4+3].y += h;
+		oldSize = size2;
+		GenerateStringData(static_cast<Control*> (labels[i]), data, lines, size2);
+		for (unsigned int j = oldSize; j < (size2); j += 4) {
+			h = (data[j].y - lines) * height;
+
+			data[j].y = data[j + 1].y + h;
+			data[j + 1].y += h;
+			data[j + 2].y += h;
+			data[j + 3].y += h;
 		}
 	}
 
 	Buffer.Bind();
-	Buffer.AddData(sizeof(FontData) * 4 * TotalObjects, data);
+
+	if (update == RENDERER_ADD) {
+		TotalObjects += dataSize;
+		Buffer.AddData(sizeof(FontData) * 4 * dataSize, data);
+	} else if (update == RENDERER_REFRESH) {
+		printf("fail!!\n");
+	}
+
 	Buffer.Unbind();
 
 	delete [] data;
@@ -189,17 +196,14 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
  * @param obj the control object to use
  * @param outLines out - the number of total lines, used when setting the y correctly
  */
-void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outLines, size_t& size) {
+void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numLines, size_t& slot) {
 	float x, by, y, z;
 	float* color;
 	FontChar* c;
-	int slot = 0;
-	int numLines = 0;
+	numLines = 0;
 
 	std::vector<Label*> labels = obj->GetTextObjs();
-	if(labels.empty()){
-		outLines = 0;
-		size = 0;
+	if (labels.empty()) {
 		return;
 	}
 
@@ -211,9 +215,6 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outL
 
 	size_t size1, size2, size3;
 
-	//unsigned int numChars = GetTotalChars(obj);
-	//printf("numChars is %i %i\n", numChars, labels.size());
-
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
 		label = labels[i];
@@ -222,7 +223,6 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outL
 
 		size2 = strings.size();
 		for (unsigned int j = 0; j < size2; j++) {
-			numLines++;
 			str = strings[j];
 			x = label->GetX();
 			by = label->GetY();
@@ -233,7 +233,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outL
 				x += c->bearingX;
 				y = by - c->bearingY;
 
-				if (x + c->width >= (label->GetX() + label->GetWidth())) {
+				if (x + c->width >= (label->GetX() + label->GetWidth()) && label->multiline()) {
 					x = label->GetX();
 					numLines++;
 				}
@@ -290,10 +290,10 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& outL
 				if ((l + 1) < size3)
 					x += font->GetKerning(str.at(l).character, str.at(l + 1).character);
 			}
+
+			if (numLines < size2  && label->multiline()) numLines++;
 		}
 	}
-	outLines = numLines;
-	size = slot * 0.25;
 }
 
 Shader* oglFontRenderer::GetShader() {
@@ -301,9 +301,8 @@ Shader* oglFontRenderer::GetShader() {
 }
 
 void oglFontRenderer::SetShader(Shader* s) {
-	if (s == NULL)
-		return;
-	shader = s;
+	if (s != NULL)
+		shader = s;
 }
 
 int* oglFontRenderer::GetViewport() {

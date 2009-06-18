@@ -39,7 +39,7 @@ Control* Control::clone() {
 	return new Control(*this);
 }
 
-TypeE Control::type(){
+TypeE Control::type() {
 	return _type;
 }
 
@@ -119,7 +119,7 @@ bool Control::OnMouseMotion(float x, float y, unsigned short button) {
 	return false;
 }
 
-void Control::OnKeyPress(unsigned short unicode) {
+void Control::OnKeyPress(unsigned short unicode, int key, int mod) {
 	StartEvent("onKey");
 }
 
@@ -432,23 +432,21 @@ void Control::EndEvent(std::string str) {
 	}
 }
 
-
 /**
  * returns all label children
  */
-std::vector<Label*> Control::GetTextObjs(){
+std::vector<Label*> Control::GetTextObjs() {
 	std::vector<Label*> ret;
 	std::vector<Label*> temp;
 
-	if(type() == LabelType || type() == EditboxType){
-		ret.push_back(dynamic_cast<Label*>(this));
-	} else {
+	if (type() == LabelType || type() == EditboxType) {
+		ret.push_back(dynamic_cast<Label*> (this));
 	}
 
 	size_t size = children.size();
-	for(unsigned int i = 0; i < size; i++){
+	for (unsigned int i = 0; i < size; i++) {
 		temp = children[i]->GetTextObjs();
-		for(std::vector<Label*>::iterator it = temp.begin(); it != temp.end(); it++ ){
+		for (std::vector<Label*>::iterator it = temp.begin(); it != temp.end(); it++) {
 			ret.push_back(*it);
 		}
 	}

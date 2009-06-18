@@ -34,6 +34,7 @@ public:
 class colorstring {
 public:
     colorstring();
+    colorstring(const char*, util::Color = util::Color("#FFFFFF"));
     colorstring(std::string, util::Color = util::Color("#FFFFFF"));
     colorstring(const colorstring& orig);
     virtual ~colorstring();
@@ -42,6 +43,8 @@ public:
     void append(char, util::Color = util::Color("#FFFFFF"));
     void append(colorchar);
     void append(colorstring);
+    void insert(size_t, char);
+    void erase(size_t);
 
     void push_back(const colorchar&);
     void pop_back();
@@ -61,6 +64,8 @@ public:
     colorchar& operator[](int);
 
 private:
+	void Init(std::string, util::Color);
+
     std::vector<colorchar> str;
 };
 

@@ -57,7 +57,7 @@ public:
 	virtual bool OnMouseClick(unsigned short, bool);
 	virtual bool OnMouseMotion(float, float, unsigned short);
 
-	virtual void OnKeyPress(unsigned short);
+	virtual void OnKeyPress(unsigned short, int, int);
 	virtual void OnKeyRelease(int, int);
 
 	virtual void Move(float, float);

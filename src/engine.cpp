@@ -42,11 +42,11 @@ Engine::Engine() {
 
 	input = new Input();
 
-	input->BindAction("default", "QUIT", true, boost::bind<void>(&Engine::Quit, Engine::engine));
+	input->BindAction("default", "QUIT", true, boost::bind<void>(&Engine::Quit, this));
 	input->BindKey("default", SDLK_q, KMOD_LCTRL, "QUIT");
 	input->BindKey("default", SDLK_q, KMOD_NONE, "QUIT");
 
-	input->BindAction("typing", "QUIT", true, boost::bind<void>(&Engine::Quit, Engine::engine));
+	input->BindAction("typing", "QUIT", true, boost::bind<void>(&Engine::Quit, this));
 	input->BindKey("typing", SDLK_q, KMOD_LCTRL, "QUIT");
 }
 

@@ -20,16 +20,22 @@
 class Editbox : public Label {
 public:
 	Editbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Editbox(const Editbox& orig);
 	~Editbox();
 
 	bool HitTest(int, int);
-	void OnKeyPress(unsigned short);
+	void OnKeyPress(unsigned short, int, int);
 	void OnKeyRelease(int, int);
 	void OnMousePress(unsigned short, int, int);
 	void OnMouseRelease(int);
+
+	void ChangeCaretLine(int);
+	void MoveCaret(int);
+	void SetCaretPos(int);
 private:
 protected:
-	int currentLine;
+	size_t caretPos;
+	unsigned int currentLine;
 };
 
 #endif

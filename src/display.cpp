@@ -21,94 +21,93 @@
 #include "renderer/ogl/oglBase.h"
 #include "renderer/ogl/devilImage.h"
 
-
 Display::Display() : System() {
-	display = this;
+    display = this;
 
-	context = new oglBase;
-	context->CreateContext();
-	context->SetupContext();
+    context = new oglBase;
+    context->CreateContext();
+    context->SetupContext();
 
-	gui = new GUI();
-	camera = new Camera();
-	context->SetCamera(camera);
+    gui = new GUI();
+    camera = new Camera();
+    context->SetCamera(camera);
 
-	camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
-	camera->SetOrtho(0, 640, 480, 0, 0, 1000);
-	camera->Move(0, 0, -1);
+    camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
+    camera->SetOrtho(0, 640, 480, 0, 0, 1000);
+    camera->Move(0, 0, -1);
 
-	Mouse_Init(this);
-	InitTimers();
+    Mouse_Init(this);
+    InitTimers();
 }
 
 Display::~Display() {
-	delete camera;
-	delete gui;
-	Mouse_Die();
-	display = NULL;
+    delete camera;
+    delete gui;
+    Mouse_Die();
+    display = NULL;
 }
 
 void Display::InitTimers() {
-	Timer* FPSTimer = new Timer(5000, true);
-	FPSTimer->SetFunction(boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr()));
-	FPSTimer->Start();
+    Timer* FPSTimer = new Timer(5000, true);
+    FPSTimer->SetFunction(boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr()));
+    FPSTimer->Start();
 
-	timers.AddTimer(FPSTimer, true, false);
-	timers.AddTimer(Mouse_GetTimer());
+    timers.AddTimer(FPSTimer, true, false);
+    timers.AddTimer(Mouse_GetTimer());
 
 }
 
 void Display::DrawFPS(unsigned int* data) {
-	printf("FPS: %f\n", (*data) * 0.2);
+    printf("FPS: %f\n", (*data) * 0.2);
 }
 
 void Display::Start() {
-	timers.Update();
+    timers.Update();
 
-	Render();
+    Render();
 }
 
 void Display::Render() {
-	context->BeginRender();
+    context->BeginRender();
 
-	//here we draw the gui
-	gui->Render();
+    //here we draw the gui
+    gui->Render();
 
-	context->EndRender();
+    context->EndRender();
 }
 
 void Display::Resize(unsigned int width, unsigned int height) {
-	context->SetViewport(0, 0, width, height);
-	camera->SetProjection(camera->fov, width / height, camera->zNear, camera->zFar);
-	camera->SetOrtho(0, width, height, 0, 0, 1000);
+    context->SetViewport(0, 0, width, height);
+    camera->SetProjection(camera->fov, width / height, camera->zNear, camera->zFar);
+    camera->SetOrtho(0, width, height, 0, 0, 1000);
 }
 
 void Display::OnMouseClick(unsigned short* num, bool final) {
-	if (!gui->OnMouseClick(*num, final)) {
-		Mouse_StopTimer();
-	}
+    if (!gui->OnMouseClick(*num, final)) {
+	Mouse_StopTimer();
+    }
 }
 
 void Display::OnMouseButtonChange() {
-	Mouse_SetButtonState();
+    Mouse_SetButtonState();
 
-	gui->OnMousePress(Mouse_GetButtonState(), Mouse_GetX(), Mouse_GetY());
+    gui->OnMousePress(Mouse_GetButtonState(), Mouse_GetX(), Mouse_GetY());
 }
 
 void Display::OnMouseMotion() {
-	Mouse_SetPosition();
+    Mouse_SetPosition();
 
-	if (!gui->OnMouseMotion((float) Mouse_GetX(), (float) Mouse_GetY(), Mouse_GetButtonState())) {
-		if (Mouse_GetButtonState(0)) { //dragging
-			gui->Move(Mouse_GetChangeX(), Mouse_GetChangeY());
-		}
+    if (!gui->OnMouseMotion((float) Mouse_GetX(), (float) Mouse_GetY(), Mouse_GetButtonState())) {
+	if (Mouse_GetButtonState(0)) { //dragging
+	    gui->Move(Mouse_GetChangeX(), Mouse_GetChangeY());
 	}
+    }
 }
 
 void Display::OnKeyPress(SDL_keysym sym) {
-	gui->OnKeyPress(sym.unicode);
+	gui->OnKeyPress(sym.unicode, sym.sym, sym.mod);
 }
 
-void Display::CreateWindow(std::string name){
-	gui->CreateWindow(name);
+void Display::CreateWindow(std::string name) {
+    gui->CreateWindow(name);
 }
