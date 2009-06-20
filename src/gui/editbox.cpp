@@ -40,21 +40,43 @@ void Editbox::OnMousePress(unsigned short button, int mX, int mY) {
 
 void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
     if (unicode > 31 && unicode < 126) { //alphabet
-	text[currentLine].insert(caretPos++, unicode);
+	text[currentLine].insert(caretPos, unicode);
+	MoveCaret(1);
     } else if (unicode == 8) { //backspace
-	if (text[currentLine].size() > 0)
-	    text[currentLine].erase(caretPos--);
-	else if (currentLine > 0) {
+	if (0 < caretPos) {
+	    text[currentLine].erase(caretPos - 1, 1);
+	    MoveCaret(-1);
+	} else if (0 < currentLine) {
+	    MoveCaret(text[currentLine - 1].size());
+
 	    text[currentLine - 1].append(text[currentLine]);
 
 	    std::vector<colorstring>::iterator it = text.begin();
 	    std::advance(it, currentLine);
 	    text.erase(it);
+
+	    ChangeCaretLine(currentLine - 1);
 	}
     } else if (unicode == 13) { //enter
-	text.push_back("");
-	currentLine++;
-	caretPos = 0;
+	if (currentLine == text.size() - 1) {
+	    if (caretPos == text[currentLine].size()) {
+		text.push_back("");
+	    } else {
+		text.push_back(text[currentLine].split(caretPos));
+	    }
+	} else {
+	    std::vector<colorstring>::iterator it = text.begin();
+	    std::advance(it, currentLine);
+
+	    if (caretPos == text[currentLine].size()) {
+		text.insert(it, "");
+	    } else {
+		text.insert(it, text[currentLine].split(caretPos));
+	    }
+	}
+
+	ChangeCaretLine(currentLine + 1);
+	SetCaretPos(0);
     }
 
     /* Arrow keys, unicode does not show these. */
@@ -73,18 +95,30 @@ void Editbox::ChangeCaretLine(int newLine) {
     if (newLine > -1 && newLine < text.size()) {
 	currentLine = newLine;
 
-	if(caretPos > text[currentLine].size()){
+	if (caretPos > text[currentLine].size()) {
 	    caretPos = text[currentLine].size();
 	}
     }
 }
 
 void Editbox::MoveCaret(int dir) {
+
+    //FIX!!! cp = unsigned
     caretPos += dir;
+
+    if (text[currentLine].size() < caretPos) {
+	caretPos = text[currentLine].size();
+    }
 }
 
 void Editbox::SetCaretPos(int pos) {
     caretPos = pos;
+
+    if (text[currentLine].size() < caretPos) {
+	caretPos = text[currentLine].size();
+    } else if (caretPos < 0) {
+	caretPos = 0;
+    }
 }
 
 void Editbox::OnKeyRelease(int key, int mod) {

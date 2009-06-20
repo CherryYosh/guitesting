@@ -13,18 +13,30 @@
 #include <vector>
 #include <string>
 
-class colorchar{
+class colorchar {
 public:
-    colorchar() : character(0), color(){};
-    colorchar(const colorchar& orig) : character(orig.c), color(orig.color){};
-    colorchar(char _c, util::Color _color = util::Color("#FFFFFF")) : character(_c), color(_color){};
 
-    virtual ~colorchar(){};
+    colorchar() : character(0), color() {
+    };
 
-    bool operator==(const char& _c){ return character == _c; };
-    bool operator==(const colorchar& _c){ return character == _c.character; };
+    colorchar(const colorchar& orig) : character(orig.c), color(orig.color) {
+    };
 
-    union{
+    colorchar(char _c, util::Color _color = util::Color("#FFFFFF")) : character(_c), color(_color) {
+    };
+
+    virtual ~colorchar() {
+    };
+
+    bool operator==(const char& _c) {
+	return character == _c;
+    };
+
+    bool operator==(const colorchar& _c) {
+	return character == _c.character;
+    };
+
+    union {
 	char c;
 	char character;
     };
@@ -44,7 +56,7 @@ public:
     void append(colorchar);
     void append(colorstring);
     void insert(size_t, char);
-    void erase(size_t);
+    colorstring& erase(size_t, size_t = std::string::npos);
 
     void push_back(const colorchar&);
     void pop_back();
@@ -58,13 +70,17 @@ public:
     //accessors
     colorchar at(int);
 
+
+    colorstring split(size_t);
+    colorstring substr(size_t, size_t = std::string::npos);
+
     //overloads
-    colorstring& operator=(const colorstring& s);
-    colorstring& operator=(const std::string&);
-    colorchar& operator[](int);
+    colorstring & operator=(const colorstring& s);
+    colorstring & operator=(const std::string&);
+    colorchar & operator[](int);
 
 private:
-	void Init(std::string, util::Color);
+    void Init(std::string, util::Color);
 
     std::vector<colorchar> str;
 };
