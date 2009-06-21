@@ -61,7 +61,7 @@ public:
 	unsigned int GetImageID();
 
 	FontChar* GetChar(char c);
-	unsigned int GetKerning(char, char);
+	int GetKerning(char, char);
 private:
 	static FT_Library library;
 

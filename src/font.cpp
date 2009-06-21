@@ -49,7 +49,7 @@ void Font::Load(std::string font, unsigned int size) {
 	memset(img_buffer, 0, 131072);
 
 	FT_New_Face(library, font.c_str(), 0, &face);
-	//FT_Select_Charmap(face, FT_ENCODING_UNICODE);
+	FT_Select_Charmap(face, FT_ENCODING_UNICODE);
 	FT_Set_Char_Size(face, 0, size << 6, 72, 72);
 
 	int gHighestHeight = 0;
@@ -138,10 +138,11 @@ FontChar* Font::GetChar(char c) {
 /**
  * Returns the kerning between the left and right characters
  */
-unsigned int Font::GetKerning(char left, char right){
+int Font::GetKerning(char left, char right){
 	if(hasKerning){
 		FT_Vector delta;
-		unsigned int error;
+		int error;
+
 		if(error = FT_Get_Kerning(face, glyphs[left].index, glyphs[right].index, FT_KERNING_DEFAULT, &delta)){
 			printf("Error getting the kerning between %i and %i : %i", left, right, error);
 			return 0;
