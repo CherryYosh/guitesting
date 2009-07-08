@@ -27,7 +27,10 @@ class Label : public Control {
 public:
         Label(TypeE, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	Label(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+        Label(const Label&);
 	~Label();
+
+        Control* clone();
 
 	virtual void onMousePress(int);
 	virtual void onMouseRelease(int);
@@ -42,6 +45,7 @@ public:
 	virtual void AddString(std::string , util::Color = "#FFFFFF");
         std::vector<colorstring>& GetText();
 
+        void multiline(bool);
 	bool multiline();
 protected:
 	bool isMultiline;

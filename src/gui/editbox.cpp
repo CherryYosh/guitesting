@@ -29,6 +29,10 @@ Editbox::~Editbox() {
 	//nothing right now
 }
 
+Control* Editbox::clone(){
+	return new Editbox(*this);
+}
+
 bool Editbox::HitTest(int mX, int mY) {
 	if (mX > x && mX < x + width
 		&& mY > y && mY < y + height) {
@@ -109,7 +113,6 @@ void Editbox::ChangeCaretLine(int newLine) {
 	if (newLine > -1 && newLine < text.size()) {
 		currentLine = newLine;
 
-		printf("caret num is %i\n", currentLine);
 		if (caretPos > text[currentLine].size()) {
 			caretPos = text[currentLine].size();
 		}

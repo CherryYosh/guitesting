@@ -300,7 +300,9 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 					x += font->GetKerning(str.at(l).character, str.at(l + 1).character);
 			}
 
-			if (numLines < size2 && label->multiline()) numLines++;
+			if (numLines < size2 && label->multiline()){
+				numLines++;
+			}
 		}
 	}
 

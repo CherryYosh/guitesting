@@ -41,6 +41,10 @@ local function child(name, args)
 	    curChild = curWidget : NewChild(args["type"], args["x"], args["y"])
 	end
     end
+
+    if args["multiline"] then
+	curChild : ToLabel() : multiline( true )
+    end
 end
 
 local function childEnd(name)
@@ -60,6 +64,10 @@ local function dialog(name, args)
 	    temp = curWidget : NewChild(args["type"], args["x"], args["y"], ToLayer(args["layer"]))
 	else
 	    temp = curWidget : NewChild(args["type"], args["x"], args["y"])
+	end
+
+	if args["multiline"] then
+	    temp : ToLabel() : multiline( true )
 	end
 
 	curChild : ToEditbox() : SetDialog( temp : ToEditbox() )

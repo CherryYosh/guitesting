@@ -17,17 +17,19 @@
 #include "../fontmgr.h"
 
 Label::Label(TypeE t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
-    //AddString("Testing");
-    isMultiline = true;
 }
 
 Label::Label(Window* p, Control* c, LayerT l, float x, float y) : Control(LabelType, p, c, l, x, y) {
-    //AddString("Console");
-    isMultiline = false;
 }
+
+Label::Label(const Label& orig) : text(orig.text), isMultiline(orig.isMultiline), Control(orig) {}
 
 Label::~Label() {
     //nothing
+}
+
+Control* Label::clone() {
+	return new Label(*this);
 }
 
 void Label::onMousePress(int button) {
@@ -65,6 +67,10 @@ std::vector<colorstring>& Label::GetText() {
     return text;
 }
 
+void Label::multiline(bool v){
+	printf("here %i\n", v);
+	isMultiline = v;
+}
 bool Label::multiline() {
     return isMultiline;
 }

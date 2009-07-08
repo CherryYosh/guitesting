@@ -23,6 +23,8 @@ public:
     Editbox(const Editbox& orig);
     ~Editbox();
 
+    Control* clone();
+
     bool HitTest(int, int);
     void OnKeyPress(unsigned short, int, int);
     void OnKeyRelease(int, int);
