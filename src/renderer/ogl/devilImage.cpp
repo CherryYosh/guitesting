@@ -43,7 +43,7 @@ devilImage::devilImage(const devilImage& orig) : id(orig.id), width(orig.width),
 
 devilImage::~devilImage() { }
 
-void devilImage::Load(std::string filename) {
+bool devilImage::Load(std::string filename) {
 	ILuint tid;
 	ilGenImages(1, &tid);
 	ilBindImage(tid);
@@ -60,7 +60,7 @@ void devilImage::Load(std::string filename) {
 
 		ilBindImage(0);
 		ilDeleteImages(1, &tid);
-		return;
+		return false;
 	}
 
 	id = ilutGLBindTexImage();
@@ -71,6 +71,7 @@ void devilImage::Load(std::string filename) {
 
 	ilBindImage(0);
 	ilDeleteImages(1, &tid);
+	return true;
 }
 
 unsigned int devilImage::GetID(){ return id; }

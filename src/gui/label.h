@@ -38,7 +38,8 @@ public:
 	virtual void SetWidth(unsigned short);
 	virtual void SetHeight(unsigned short);
 
-	void AddString(std::string , util::Color = "#FFFFFF");
+        virtual void AddString(colorstring);
+	virtual void AddString(std::string , util::Color = "#FFFFFF");
         std::vector<colorstring>& GetText();
 
 	bool multiline();

@@ -1,8 +1,6 @@
 FILE(GLOB SRC *.cpp *.h)
 FILE(GLOB OSRC */*.cpp */*.h */*/*.cpp */*/*.h)
 
-add_subdirectory(swig)
-
 include_directories(${SDL_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR}
 ${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR} ${IL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} "/usr/include/freetype2")
 

@@ -71,6 +71,9 @@ public:
     colorchar at(int);
 
 
+    std::string toString() const;
+    const char* c_str() const;
+
     colorstring split(size_t);
     colorstring substr(size_t, size_t = std::string::npos);
 

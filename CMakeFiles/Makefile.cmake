@@ -43,8 +43,8 @@ SET(CMAKE_MAKEFILE_OUTPUTS
   "Makefile"
   "CMakeFiles/cmake.check_cache"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/swig/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Byproducts of CMake generate step:
@@ -54,8 +54,9 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/run.dir/DependInfo.cmake"
-  "src/CMakeFiles/../test.dir/DependInfo.cmake"
   "src/swig/CMakeFiles/../../color.dir/DependInfo.cmake"
   "src/swig/CMakeFiles/../../events.dir/DependInfo.cmake"
   "src/swig/CMakeFiles/../../theme.dir/DependInfo.cmake"
+  "src/swig/CMakeFiles/../../widgets.dir/DependInfo.cmake"
+  "src/CMakeFiles/../test.dir/DependInfo.cmake"
   )

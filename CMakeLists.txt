@@ -1,10 +1,8 @@
-
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 SET(APPNAME "test")
 SET(USEOPENGL TRUE)
 SET(ISDEBUG true)
 SET(CMAKE_BUILD_TYPE Debug)
-
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
@@ -66,6 +64,7 @@ ENDIF(${ISDEBUG})
 
 
 #run the CMakeList in these dir
+ADD_SUBDIRECTORY(src/swig)
 ADD_SUBDIRECTORY(src)
 
 #create a run command `make run` that calls the binary

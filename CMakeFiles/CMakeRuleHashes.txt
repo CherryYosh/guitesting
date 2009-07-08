@@ -3,3 +3,4 @@
 aab27c1322a13388fc8bdaf8f4887032 src/swig/colorLUA_wrap.cxx
 5252935f7045aaa6d510d9ac97c382a8 src/swig/eventsLUA_wrap.cxx
 3eaf1550968fa4b5dc749c9aa53fe99c src/swig/themeLUA_wrap.cxx
+629c16abd0f251ad31a2a424ba2e39f8 src/swig/widgetsLUA_wrap.cxx

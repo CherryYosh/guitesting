@@ -19,23 +19,28 @@
 
 class Editbox : public Label {
 public:
-	Editbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
-	Editbox(const Editbox& orig);
-	~Editbox();
+    Editbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+    Editbox(const Editbox& orig);
+    ~Editbox();
 
-	bool HitTest(int, int);
-	void OnKeyPress(unsigned short, int, int);
-	void OnKeyRelease(int, int);
-	void OnMousePress(unsigned short, int, int);
-	void OnMouseRelease(int);
+    bool HitTest(int, int);
+    void OnKeyPress(unsigned short, int, int);
+    void OnKeyRelease(int, int);
+    void OnMousePress(unsigned short, int, int);
+    void OnMouseRelease(int);
 
-	void ChangeCaretLine(int);
-	void MoveCaret(int);
-	void SetCaretPos(int);
-private:
+    void ChangeCaretLine(int);
+    void MoveCaret(int);
+    void SetCaretPos(int);
+
+    void AddString(std::string , util::Color = "#FFFFFF");
+
+    void SetDialog(Label*);
 protected:
-	size_t caretPos;
-	unsigned int currentLine;
+    Label* peer;
+
+    int caretPos;
+    int currentLine;
 };
 
 #endif

@@ -26,17 +26,14 @@
 #include <iostream>
 #include <cstring>
 
-VBO::VBO(GLenum t) {
-	isBound = false;
-	size = 0;
-	type = t;
+VBO::VBO(GLenum t) : isBound(false), size(0), type(t){
 	glGenBuffers(1, &id);
 }
 
-VBO::VBO(unsigned int length, void* data, GLenum t) {
-	isBound = false;
-	size = length;
-	type = t;
+VBO::VBO(const VBO& orig) : isBound(false), size(orig.size), type(orig.type), id(orig.id){
+}
+
+VBO::VBO(unsigned int length, void* data, GLenum t) : isBound(false), size(length), type(t) {
 	glGenBuffers(1, &id);
 
 	if (length != 0) {

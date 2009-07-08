@@ -10,6 +10,8 @@
 
 #include "../../gui/label.h"
 
+#include <stdexcept>
+
 struct FontData {
 	float x, y, z;
 	float spacer1;
@@ -21,7 +23,6 @@ struct FontData {
 
 oglFontRenderer::oglFontRenderer() : TotalObjects(0) {
 	base = new oglBase;
-
 	shader = new Shader("textShader");
 
 	shader->GetUniformLoc(0, "projection");
@@ -163,16 +164,24 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
 
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
-		height = labels[i]->GetHeight();
 		oldSize = size2;
-		GenerateStringData(static_cast<Control*> (labels[i]), data, lines, size2);
+		GenerateStringData(static_cast<Control*> (labels[i]), data, lines, size2, height);
 		for (unsigned int j = oldSize; j < (size2); j += 4) {
-			h = (data[j].y - lines) * height;
+			h = (data[j].y - lines) * (height);
 
-			data[j].y = data[j + 1].y + h;
-			data[j + 1].y += h;
-			data[j + 2].y += h;
-			data[j + 3].y += h;
+			//TODO: Remove this hack
+			//Find a better way to clip
+			if (data[j + 1].y + h > labels[i]->GetY()) {
+				data[j].y = data[j + 1].y + h;
+				data[j + 1].y += h;
+				data[j + 2].y += h;
+				data[j + 3].y += h;
+			} else {
+				data[j].y = 0;
+				data[j + 1].y = 0;
+				data[j + 2].y = 0;
+				data[j + 3].y = 0;
+			}
 		}
 	}
 
@@ -181,8 +190,8 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
 	if (update == RENDERER_ADD) {
 		TotalObjects += dataSize;
 		Buffer.AddData(sizeof(FontData) * 4 * dataSize, data);
-	} else if (update == RENDERER_REFRESH) {
-		printf("fail!!\n");
+	} else {
+		throw std::invalid_argument("oglFontRenderer::Update::wtf_are_you_thinking");
 	}
 
 	Buffer.Unbind();
@@ -196,11 +205,11 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
  * @param obj the control object to use
  * @param outLines out - the number of total lines, used when setting the y correctly
  */
-void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numLines, size_t& slot) {
+void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numLines, size_t& slot, int& height) {
 	float x, by, y, z;
 	float* color;
 	FontChar* c;
-	numLines = 0;
+	numLines = 1; //new
 
 	std::vector<Label*> labels = obj->GetTextObjs();
 	if (labels.empty()) {
@@ -225,7 +234,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 		for (unsigned int j = 0; j < size2; j++) {
 			str = strings[j];
 			x = label->GetX();
-			by = label->GetY();
+			by = label->GetY() + label->GetHeight();
 
 			size3 = str.size();
 			for (unsigned int l = 0; l < size3; l++) {
@@ -233,7 +242,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 				x += c->bearingX;
 				y = by - c->bearingY;
 
-				if (x + c->width >= (label->GetX() + label->GetWidth()) && label->multiline()) {
+				if ((x + c->width > (label->GetX() + label->GetWidth())) && label->multiline()) {
 					x = label->GetX();
 					numLines++;
 				}
@@ -291,9 +300,12 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 					x += font->GetKerning(str.at(l).character, str.at(l + 1).character);
 			}
 
-			if (numLines < size2  && label->multiline()) numLines++;
+			if (numLines < size2 && label->multiline()) numLines++;
 		}
 	}
+
+	//currently this is easy, but will need to be changed when multi-fonts are allowed
+	height = font->GetHeight();
 }
 
 Shader* oglFontRenderer::GetShader() {

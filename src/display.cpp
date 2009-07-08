@@ -24,7 +24,7 @@
 Display::Display() : System() {
     display = this;
 
-    context = new oglBase;
+    context = new oglBase();
     context->CreateContext();
     context->SetupContext();
 

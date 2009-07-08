@@ -19,35 +19,35 @@ struct FontData;
 
 class oglFontRenderer : public FontRenderer {
 public:
-	oglFontRenderer();
-	oglFontRenderer(const oglFontRenderer& orig);
-	virtual ~oglFontRenderer();
+    oglFontRenderer();
+    oglFontRenderer(const oglFontRenderer& orig);
+    virtual ~oglFontRenderer();
 
-	unsigned int GetTotalChars(void*);
+    unsigned int GetTotalChars(void*);
 
-	void AddObject(void*);
-	void RemoveObject(void*);
+    void AddObject(void*);
+    void RemoveObject(void*);
 
-	void Begin();
-	void Render();
-	void End();
-	void Draw();
+    void Begin();
+    void Render();
+    void End();
+    void Draw();
 
-	void Refresh();
-	void Update(void*, unsigned int = RENDERER_REFRESH);
+    void Refresh();
+    void Update(void*, unsigned int = RENDERER_REFRESH);
 
-	Shader* GetShader();
-	void SetShader(Shader*);
+    Shader* GetShader();
+    void SetShader(Shader*);
 
-	int* GetViewport();
-	Camera* GetCamera();
+    int* GetViewport();
+    Camera* GetCamera();
 private:
-	void GenerateStringData(Control*, FontData* ,int&, size_t&);
+    void GenerateStringData(Control*, FontData*, int&, size_t&, int&);
 
-	unsigned int TotalObjects;
-	std::vector<Control*> Objects;
-	Shader* shader;
-	VBO Buffer;
+    unsigned int TotalObjects;
+    std::vector<Control*> Objects;
+    Shader* shader;
+    VBO Buffer;
 };
 
 #endif	/* _OGLFONTRENDERER_H */

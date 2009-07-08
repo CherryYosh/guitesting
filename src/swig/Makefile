@@ -140,6 +140,20 @@ src/swig/CMakeFiles/../../theme.dir/rule:
 	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/build
 .PHONY : ../../theme/fast
 
+# Convenience name for target.
+src/swig/CMakeFiles/../../widgets.dir/rule:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f CMakeFiles/Makefile2 src/swig/CMakeFiles/../../widgets.dir/rule
+.PHONY : src/swig/CMakeFiles/../../widgets.dir/rule
+
+# Convenience name for target.
+../../widgets: src/swig/CMakeFiles/../../widgets.dir/rule
+.PHONY : ../../widgets
+
+# fast build rule for target.
+../../widgets/fast:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../widgets.dir/build.make src/swig/CMakeFiles/../../widgets.dir/build
+.PHONY : ../../widgets/fast
+
 colorLUA_wrap.o: colorLUA_wrap.cxx.o
 .PHONY : colorLUA_wrap.o
 
@@ -212,6 +226,30 @@ themeLUA_wrap.cxx.s:
 	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../theme.dir/build.make src/swig/CMakeFiles/../../theme.dir/themeLUA_wrap.cxx.s
 .PHONY : themeLUA_wrap.cxx.s
 
+widgetsLUA_wrap.o: widgetsLUA_wrap.cxx.o
+.PHONY : widgetsLUA_wrap.o
+
+# target to build an object file
+widgetsLUA_wrap.cxx.o:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../widgets.dir/build.make src/swig/CMakeFiles/../../widgets.dir/widgetsLUA_wrap.cxx.o
+.PHONY : widgetsLUA_wrap.cxx.o
+
+widgetsLUA_wrap.i: widgetsLUA_wrap.cxx.i
+.PHONY : widgetsLUA_wrap.i
+
+# target to preprocess a source file
+widgetsLUA_wrap.cxx.i:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../widgets.dir/build.make src/swig/CMakeFiles/../../widgets.dir/widgetsLUA_wrap.cxx.i
+.PHONY : widgetsLUA_wrap.cxx.i
+
+widgetsLUA_wrap.s: widgetsLUA_wrap.cxx.s
+.PHONY : widgetsLUA_wrap.s
+
+# target to generate assembly for a file
+widgetsLUA_wrap.cxx.s:
+	cd /home/brandon/Dev/guitesting && $(MAKE) -f src/swig/CMakeFiles/../../widgets.dir/build.make src/swig/CMakeFiles/../../widgets.dir/widgetsLUA_wrap.cxx.s
+.PHONY : widgetsLUA_wrap.cxx.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -221,6 +259,7 @@ help:
 	@echo "... ../../color"
 	@echo "... ../../events"
 	@echo "... ../../theme"
+	@echo "... ../../widgets"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... colorLUA_wrap.o"
@@ -232,6 +271,9 @@ help:
 	@echo "... themeLUA_wrap.o"
 	@echo "... themeLUA_wrap.i"
 	@echo "... themeLUA_wrap.s"
+	@echo "... widgetsLUA_wrap.o"
+	@echo "... widgetsLUA_wrap.i"
+	@echo "... widgetsLUA_wrap.s"
 .PHONY : help
 
 

@@ -1513,14 +1513,15 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_Event swig_types[1]
 #define SWIGTYPE_p_Image swig_types[2]
 #define SWIGTYPE_p_Theme swig_types[3]
-#define SWIGTYPE_p_WidgetData swig_types[4]
-#define SWIGTYPE_p_Window swig_types[5]
-#define SWIGTYPE_p_WindowData swig_types[6]
-#define SWIGTYPE_p_std__multimapT_std__string_Event_p_t swig_types[7]
-#define SWIGTYPE_p_std__string swig_types[8]
-#define SWIGTYPE_p_std__vectorT_ChildData_p_t swig_types[9]
-static swig_type_info *swig_types[11];
-static swig_module_info swig_module = {swig_types, 10, 0, 0, 0, 0};
+#define SWIGTYPE_p_ThemeData swig_types[4]
+#define SWIGTYPE_p_WidgetData swig_types[5]
+#define SWIGTYPE_p_Window swig_types[6]
+#define SWIGTYPE_p_WindowData swig_types[7]
+#define SWIGTYPE_p_std__multimapT_std__string_Event_p_t swig_types[8]
+#define SWIGTYPE_p_std__string swig_types[9]
+#define SWIGTYPE_p_std__vectorT_ChildData_p_t swig_types[10]
+static swig_type_info *swig_types[12];
+static swig_module_info swig_module = {swig_types, 11, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1817,6 +1818,313 @@ static swig_lua_class *swig_std_string_bases[] = {0};
 static const char *swig_std_string_base_names[] = {0};
 static swig_lua_class _wrap_class_std_string = { "string", &SWIGTYPE_p_std__string,_wrap_new_string, swig_delete_string, swig_std_string_methods, swig_std_string_attributes, swig_std_string_bases, swig_std_string_base_names };
 
+static int _wrap_ThemeData_s_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("s",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("s",1,"ThemeData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("s",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_s_set",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->s = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_s_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("s",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("s",1,"ThemeData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_s_get",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  result = (int) ((arg1)->s);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_t_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("t",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("t",1,"ThemeData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("t",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_t_set",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->t = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_t_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("t",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("t",1,"ThemeData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_t_get",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  result = (int) ((arg1)->t);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_width_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("width",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("width",1,"ThemeData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("width",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_width_set",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->width = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_width_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("width",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("width",1,"ThemeData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_width_get",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  result = (int) ((arg1)->width);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_height_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("height",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("height",1,"ThemeData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("height",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_height_set",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->height = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_height_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("height",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("height",1,"ThemeData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_height_get",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  result = (int) ((arg1)->height);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ThemeData__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *result = 0 ;
+  
+  SWIG_check_num_args("ThemeData",0,0)
+  result = (ThemeData *)new ThemeData();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ThemeData,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ThemeData__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  int arg2 ;
+  int arg3 ;
+  int arg4 ;
+  ThemeData *result = 0 ;
+  
+  SWIG_check_num_args("ThemeData",4,4)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("ThemeData",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("ThemeData",2,"int");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("ThemeData",3,"int");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("ThemeData",4,"int");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (int)lua_tonumber(L, 2);
+  arg3 = (int)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  result = (ThemeData *)new ThemeData(arg1,arg2,arg3,arg4);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ThemeData,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_ThemeData(lua_State* L) {
+  int argc;
+  int argv[5]={
+    1,2,3,4,5
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_ThemeData__SWIG_0(L);
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isnumber(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isnumber(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_new_ThemeData__SWIG_1(L);
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'new_ThemeData'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    ThemeData()\n"
+    "    ThemeData(int,int,int,int)\n");
+  lua_error(L);return 0;
+}
+
+
+static void swig_delete_ThemeData(void *obj) {
+ThemeData *arg1 = (ThemeData *) obj;
+delete arg1;
+}
+static swig_lua_method swig_ThemeData_methods[] = {
+    {0,0}
+};
+static swig_lua_attribute swig_ThemeData_attributes[] = {
+    { "s", _wrap_ThemeData_s_get, _wrap_ThemeData_s_set},
+    { "t", _wrap_ThemeData_t_get, _wrap_ThemeData_t_set},
+    { "width", _wrap_ThemeData_width_get, _wrap_ThemeData_width_set},
+    { "height", _wrap_ThemeData_height_get, _wrap_ThemeData_height_set},
+    {0,0,0}
+};
+static swig_lua_class *swig_ThemeData_bases[] = {0};
+static const char *swig_ThemeData_base_names[] = {0};
+static swig_lua_class _wrap_class_ThemeData = { "ThemeData", &SWIGTYPE_p_ThemeData,_wrap_new_ThemeData, swig_delete_ThemeData, swig_ThemeData_methods, swig_ThemeData_attributes, swig_ThemeData_bases, swig_ThemeData_base_names };
+
 static int _wrap_new_Theme(lua_State* L) {
   int SWIG_arg = 0;
   Theme *result = 0 ;
@@ -1884,90 +2192,29 @@ fail:
 }
 
 
-static int _wrap_Theme_NewWindowData(lua_State* L) {
+static int _wrap_Theme_NewWidget__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
   Theme *arg1 = (Theme *) 0 ;
   std::string arg2 ;
-  WindowData *arg3 = (WindowData *) 0 ;
-  WindowData *result = 0 ;
-  
-  SWIG_check_num_args("NewWindowData",3,3)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("NewWindowData",1,"Theme *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("NewWindowData",2,"std::string");
-  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("NewWindowData",3,"WindowData *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
-    SWIG_fail_ptr("Theme_NewWindowData",1,SWIGTYPE_p_Theme);
-  }
-  
-  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_WindowData,0))){
-    SWIG_fail_ptr("Theme_NewWindowData",3,SWIGTYPE_p_WindowData);
-  }
-  
-  result = (WindowData *)(arg1)->NewWindowData(arg2,arg3);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_WindowData,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Theme_NewWidgetData(lua_State* L) {
-  int SWIG_arg = 0;
-  Theme *arg1 = (Theme *) 0 ;
-  std::string arg2 ;
-  WidgetData *arg3 = (WidgetData *) 0 ;
-  WidgetData *result = 0 ;
-  
-  SWIG_check_num_args("NewWidgetData",3,3)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("NewWidgetData",1,"Theme *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("NewWidgetData",2,"std::string");
-  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("NewWidgetData",3,"WidgetData *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
-    SWIG_fail_ptr("Theme_NewWidgetData",1,SWIGTYPE_p_Theme);
-  }
-  
-  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_WidgetData,0))){
-    SWIG_fail_ptr("Theme_NewWidgetData",3,SWIGTYPE_p_WidgetData);
-  }
-  
-  result = (WidgetData *)(arg1)->NewWidgetData(arg2,arg3);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_WidgetData,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Theme_GetWindow(lua_State* L) {
-  int SWIG_arg = 0;
-  Theme *arg1 = (Theme *) 0 ;
-  std::string arg2 ;
+  Window *arg3 = (Window *) 0 ;
   Window *result = 0 ;
   
-  SWIG_check_num_args("GetWindow",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("GetWindow",1,"Theme *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("GetWindow",2,"std::string");
+  SWIG_check_num_args("NewWidget",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("NewWidget",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("NewWidget",2,"std::string");
+  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("NewWidget",3,"Window *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
-    SWIG_fail_ptr("Theme_GetWindow",1,SWIGTYPE_p_Theme);
+    SWIG_fail_ptr("Theme_NewWidget",1,SWIGTYPE_p_Theme);
   }
   
   (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
-  result = (Window *)(arg1)->GetWindow(arg2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_Window,0))){
+    SWIG_fail_ptr("Theme_NewWidget",3,SWIGTYPE_p_Window);
+  }
+  
+  result = (Window *)(arg1)->NewWidget(arg2,arg3);
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_Window,0); SWIG_arg++; 
   return SWIG_arg;
   
@@ -1979,30 +2226,221 @@ fail:
 }
 
 
-static int _wrap_Theme_PushWidget(lua_State* L) {
+static int _wrap_Theme_NewWidget__SWIG_1(lua_State* L) {
   int SWIG_arg = 0;
   Theme *arg1 = (Theme *) 0 ;
-  WindowData *arg2 = (WindowData *) 0 ;
-  std::string arg3 ;
-  ChildData *result = 0 ;
+  std::string arg2 ;
+  Window *result = 0 ;
   
-  SWIG_check_num_args("PushWidget",3,3)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("PushWidget",1,"Theme *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("PushWidget",2,"WindowData *");
-  if(!lua_isstring(L,3)) SWIG_fail_arg("PushWidget",3,"std::string");
+  SWIG_check_num_args("NewWidget",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("NewWidget",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("NewWidget",2,"std::string");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
-    SWIG_fail_ptr("Theme_PushWidget",1,SWIGTYPE_p_Theme);
+    SWIG_fail_ptr("Theme_NewWidget",1,SWIGTYPE_p_Theme);
   }
   
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  result = (Window *)(arg1)->NewWidget(arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Window,0); SWIG_arg++; 
+  return SWIG_arg;
   
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_WindowData,0))){
-    SWIG_fail_ptr("Theme_PushWidget",2,SWIGTYPE_p_WindowData);
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_NewWidget(lua_State* L) {
+  int argc;
+  int argv[4]={
+    1,2,3,4
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 2) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Theme, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      {
+        _v = lua_isstring(L,argv[1]);
+      }
+      if (_v) {
+        return _wrap_Theme_NewWidget__SWIG_1(L);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      void *ptr;
+      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_Theme, 0)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      {
+        _v = lua_isstring(L,argv[1]);
+      }
+      if (_v) {
+        {
+          void *ptr;
+          if (SWIG_isptrtype(L,argv[2])==0 || SWIG_ConvertPtr(L,argv[2], (void **) &ptr, SWIGTYPE_p_Window, 0)) {
+            _v = 0;
+          } else {
+            _v = 1;
+          }
+        }
+        if (_v) {
+          return _wrap_Theme_NewWidget__SWIG_0(L);
+        }
+      }
+    }
   }
   
+  lua_pushstring(L,"Wrong arguments for overloaded function 'Theme_NewWidget'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    NewWidget(Theme *,std::string,Window *)\n"
+    "    NewWidget(Theme *,std::string)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Theme_Widget(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string arg1 ;
+  Window *result = 0 ;
+  
+  SWIG_check_num_args("Theme::Widget",1,1)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("Theme::Widget",1,"std::string");
+  (&arg1)->assign(lua_tostring(L,1),lua_strlen(L,1));
+  result = (Window *)Theme::Widget(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Window,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_GetWidget(lua_State* L) {
+  int SWIG_arg = 0;
+  Theme *arg1 = (Theme *) 0 ;
+  std::string arg2 ;
+  Window *result = 0 ;
+  
+  SWIG_check_num_args("GetWidget",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("GetWidget",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("GetWidget",2,"std::string");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
+    SWIG_fail_ptr("Theme_GetWidget",1,SWIGTYPE_p_Theme);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  result = (Window *)(arg1)->GetWidget(arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Window,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_AddTextureData(lua_State* L) {
+  int SWIG_arg = 0;
+  Theme *arg1 = (Theme *) 0 ;
+  std::string arg2 ;
+  int arg3 ;
+  int arg4 ;
+  int arg5 ;
+  int arg6 ;
+  
+  SWIG_check_num_args("AddTextureData",6,6)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("AddTextureData",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("AddTextureData",2,"std::string");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("AddTextureData",3,"int");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("AddTextureData",4,"int");
+  if(!lua_isnumber(L,5)) SWIG_fail_arg("AddTextureData",5,"int");
+  if(!lua_isnumber(L,6)) SWIG_fail_arg("AddTextureData",6,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
+    SWIG_fail_ptr("Theme_AddTextureData",1,SWIGTYPE_p_Theme);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
+  arg3 = (int)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  arg5 = (int)lua_tonumber(L, 5);
+  arg6 = (int)lua_tonumber(L, 6);
+  (arg1)->AddTextureData(arg2,arg3,arg4,arg5,arg6);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_Alias(lua_State* L) {
+  int SWIG_arg = 0;
+  Theme *arg1 = (Theme *) 0 ;
+  std::string arg2 ;
+  std::string arg3 ;
+  
+  SWIG_check_num_args("Alias",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Alias",1,"Theme *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Alias",2,"std::string");
+  if(!lua_isstring(L,3)) SWIG_fail_arg("Alias",3,"std::string");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
+    SWIG_fail_ptr("Theme_Alias",1,SWIGTYPE_p_Theme);
+  }
+  
+  (&arg2)->assign(lua_tostring(L,2),lua_strlen(L,2));
   (&arg3)->assign(lua_tostring(L,3),lua_strlen(L,3));
-  result = (ChildData *)(arg1)->PushWidget(arg2,arg3);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ChildData,0); SWIG_arg++; 
+  (arg1)->Alias(arg2,arg3);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_GetData(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string arg1 ;
+  ThemeData *result = 0 ;
+  
+  SWIG_check_num_args("Theme::GetData",1,1)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("Theme::GetData",1,"std::string");
+  (&arg1)->assign(lua_tostring(L,1),lua_strlen(L,1));
+  result = (ThemeData *) &Theme::GetData(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ThemeData,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -2016,12 +2454,47 @@ fail:
 static int _wrap_Theme_SetImage(lua_State* L) {
   int SWIG_arg = 0;
   std::string arg1 ;
+  bool result;
   
   SWIG_check_num_args("Theme::SetImage",1,1)
   if(!lua_isstring(L,1)) SWIG_fail_arg("Theme::SetImage",1,"std::string");
   (&arg1)->assign(lua_tostring(L,1),lua_strlen(L,1));
-  Theme::SetImage(arg1);
+  result = (bool)Theme::SetImage(arg1);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
   
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_ImageWidth(lua_State* L) {
+  int SWIG_arg = 0;
+  unsigned int result;
+  
+  SWIG_check_num_args("Theme::ImageWidth",0,0)
+  result = (unsigned int)Theme::ImageWidth();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Theme_ImageHeight(lua_State* L) {
+  int SWIG_arg = 0;
+  unsigned int result;
+  
+  SWIG_check_num_args("Theme::ImageHeight",0,0)
+  result = (unsigned int)Theme::ImageHeight();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -2073,10 +2546,10 @@ delete arg1;
 static swig_lua_method swig_Theme_methods[] = {
     {"Init", _wrap_Theme_Init}, 
     {"LoadTheme", _wrap_Theme_LoadTheme}, 
-    {"NewWindowData", _wrap_Theme_NewWindowData}, 
-    {"NewWidgetData", _wrap_Theme_NewWidgetData}, 
-    {"GetWindow", _wrap_Theme_GetWindow}, 
-    {"PushWidget", _wrap_Theme_PushWidget}, 
+    {"NewWidget", _wrap_Theme_NewWidget}, 
+    {"GetWidget", _wrap_Theme_GetWidget}, 
+    {"AddTextureData", _wrap_Theme_AddTextureData}, 
+    {"Alias", _wrap_Theme_Alias}, 
     {0,0}
 };
 static swig_lua_attribute swig_Theme_attributes[] = {
@@ -2969,7 +3442,11 @@ static swig_lua_class _wrap_class_WindowData = { "WindowData", &SWIGTYPE_p_Windo
 #endif
 
 static const struct luaL_reg swig_commands[] = {
+    { "Theme_Widget", _wrap_Theme_Widget},
+    { "Theme_GetData", _wrap_Theme_GetData},
     { "Theme_SetImage", _wrap_Theme_SetImage},
+    { "Theme_ImageWidth", _wrap_Theme_ImageWidth},
+    { "Theme_ImageHeight", _wrap_Theme_ImageHeight},
     { "Theme_GetImage", _wrap_Theme_GetImage},
     { "Theme_GetImageID", _wrap_Theme_GetImageID},
     {0,0}
@@ -2992,6 +3469,7 @@ static swig_type_info _swigt__p_ChildData = {"_p_ChildData", "ChildData *", 0, 0
 static swig_type_info _swigt__p_Event = {"_p_Event", "Event *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Image = {"_p_Image", "Image *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Theme = {"_p_Theme", "Theme *", 0, 0, (void*)&_wrap_class_Theme, 0};
+static swig_type_info _swigt__p_ThemeData = {"_p_ThemeData", "ThemeData *", 0, 0, (void*)&_wrap_class_ThemeData, 0};
 static swig_type_info _swigt__p_WidgetData = {"_p_WidgetData", "WidgetData *", 0, 0, (void*)&_wrap_class_WidgetData, 0};
 static swig_type_info _swigt__p_Window = {"_p_Window", "Window *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_WindowData = {"_p_WindowData", "WindowData *", 0, 0, (void*)&_wrap_class_WindowData, 0};
@@ -3004,6 +3482,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Event,
   &_swigt__p_Image,
   &_swigt__p_Theme,
+  &_swigt__p_ThemeData,
   &_swigt__p_WidgetData,
   &_swigt__p_Window,
   &_swigt__p_WindowData,
@@ -3016,6 +3495,7 @@ static swig_cast_info _swigc__p_ChildData[] = {  {&_swigt__p_ChildData, 0, 0, 0}
 static swig_cast_info _swigc__p_Event[] = {  {&_swigt__p_Event, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Image[] = {  {&_swigt__p_Image, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Theme[] = {  {&_swigt__p_Theme, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ThemeData[] = {  {&_swigt__p_ThemeData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WidgetData[] = {  {&_swigt__p_WidgetData, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WindowData[] = {  {&_swigt__p_WindowData, 0, 0, 0},{0, 0, 0, 0}};
@@ -3028,6 +3508,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Event,
   _swigc__p_Image,
   _swigc__p_Theme,
+  _swigc__p_ThemeData,
   _swigc__p_WidgetData,
   _swigc__p_Window,
   _swigc__p_WindowData,

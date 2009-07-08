@@ -11,3 +11,13 @@ function GetEventByName(name)
 		return events.Event()
 	end
 end
+
+function ToLayer(str)
+	if str == "top" then
+		return widgets.TOP_LAYER
+	elseif str == "default" then
+		return widgets.DEFAULT_LAYER
+	elseif str == "bottom" then
+		return widgets.BOTTOM_LAYER
+	end
+end

@@ -34,20 +34,19 @@ Engine::Engine() {
 
 	display = new Display();
 
-	Theme theme;
-	theme.Init();
-	theme.LoadTheme("themes/default.xml");
-
-	display->CreateWindow("console");
-
 	input = new Input();
-
 	input->BindAction("default", "QUIT", true, boost::bind<void>(&Engine::Quit, this));
 	input->BindKey("default", SDLK_q, KMOD_LCTRL, "QUIT");
 	input->BindKey("default", SDLK_q, KMOD_NONE, "QUIT");
 
 	input->BindAction("typing", "QUIT", true, boost::bind<void>(&Engine::Quit, this));
 	input->BindKey("typing", SDLK_q, KMOD_LCTRL, "QUIT");
+
+	Theme theme;
+	theme.Init();
+	theme.LoadTheme("themes/default.xml");
+	
+	display->CreateWindow("console");
 }
 
 Engine::~Engine() {

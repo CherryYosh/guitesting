@@ -12,34 +12,16 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
+
 #include "theme.h"
 
+#include "lua/luabase.h"
 #include "gui/controls.h"
 
 //static values
-std::map<std::string, WindowData*> Theme::windows;
-std::map<std::string, WidgetData*> Theme::widgets;
+std::map<std::string, ThemeData> Theme::textures;
+std::map<std::string, Window*> Theme::widgets;
 Image* Theme::image;
-
-class Event;
-
-struct WidgetData {
-	std::string name;
-	float x, y;
-	float width, height;
-};
-
-struct ChildData {
-	WidgetData* Data;
-	std::multimap<std::string, Event*> Callbacks;
-	LayerT layer;
-	float x, y, z;
-};
-
-struct WindowData {
-	std::vector<ChildData*> Children;
-	std::multimap<std::string, Event*> Callbacks;
-};
 
 Theme::Theme() { }
 
@@ -53,79 +35,51 @@ bool Theme::LoadTheme(std::string themefile) {
 	return LUABase::CallScript("scripts/xmlParse.lua", themefile);
 }
 
-WindowData* Theme::NewWindowData(std::string name, WindowData* data) {
+Window* Theme::NewWidget(std::string name, Window* data) {
 	if (data != NULL)
-		return windows[name] = data;
+		widgets[name] = (Window*) data->clone();
 	else
-		return windows[name] = new WindowData;
-}
+		widgets[name] = new Window();
 
-WidgetData* Theme::NewWidgetData(std::string name, WidgetData* data) {
-	if (data != NULL)
-		widgets[name] = data;
-	else
-		widgets[name] = new WidgetData;
-
-	widgets[name]->name = name;
+	widgets[name]->SetName(name);
 	return widgets[name];
 }
 
-ChildData* Theme::PushWidget(WindowData* window, std::string widget) {
-	ChildData* data = new ChildData;
-
-	data->Data = widgets[widget];
-	data->x = 0;
-	data->y = 0;
-	data->z = 0;
-	data->layer = DEFAULT_LAYER;
-
-	window->Children.push_back(data);
-	return data;
+/** Static version of GetWidget
+ * returns a copy of the given Widget
+ */
+Window* Theme::Widget(std::string name) {
+	return(Window*) widgets[name];
 }
 
-Window* Theme::GetWindow(std::string name) {
-	WindowData* data = windows[name];
-
-	if (data == NULL) {
-		printf("ERROR! creatwindow\n");
-		return NULL;
-	}
-
-	Window* ret = new Window(NULL, NULL);
-	Control* child;
-	WidgetData* wd;
-	ChildData* cd;
-
-	ret->SetCallbacks(data->Callbacks);
-
-	double wRecp = 1.0 / image->Width();
-	double hRecp = 1.0 / image->Height();
-
-	size_t size = data->Children.size();
-	for (unsigned int i = 0; i < size; i++) {
-		cd = data->Children[i];
-		wd = cd->Data;
-
-		__M_ControlCast(child, wd->name.substr(0, wd->name.find('.')));
-
-		child->SetPosition(cd->x, cd->y);
-		child->SetLayer(cd->layer);
-		child->SetWidth(wd->width);
-		child->SetHeight(wd->height);
-		child->s = wd->x * wRecp;
-		child->s2 = (wd->x + wd->width) * wRecp;
-		child->t = 1 - (wd->y * hRecp);
-		child->t2 = 1 - ((wd->y + wd->height) * hRecp);
-		child->SetCallbacks(cd->Callbacks);
-
-		ret->AddChild(child);
-	}
-	
-	return ret;
+/**
+ * returns a copy of the given Widget
+ */
+Window* Theme::GetWidget(std::string name) {
+	return(Window*) widgets[name];
 }
 
-void Theme::SetImage(std::string path) {
-	image->Load(path);
+/**
+ * adds or replaces the texturedata for name, only used in Lua
+ */
+void Theme::AddTextureData(std::string name, int x, int y, int width, int height) {
+	textures[name] = ThemeData(x, y, width, height);
+}
+
+/**
+ * Creates a alias to the old data
+ * NOTE: this is not a pointer, but new data
+ */
+void Theme::Alias(std::string newn, std::string old) {
+	textures[newn] = textures[old];
+}
+
+ThemeData& Theme::GetData(std::string type) {
+	return textures[type];
+}
+
+bool Theme::SetImage(std::string path) {
+	return image->Load(path);
 }
 
 Image* Theme::GetImage() {
@@ -134,4 +88,12 @@ Image* Theme::GetImage() {
 
 unsigned int Theme::GetImageID() {
 	return image->GetID();
+}
+
+unsigned int Theme::ImageWidth() {
+	return image->Width();
+}
+
+unsigned int Theme::ImageHeight() {
+	return image->Height();
 }

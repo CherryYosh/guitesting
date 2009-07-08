@@ -10,7 +10,6 @@
     <widgets>
 	<widget name="console">
 	    <child type="rule.top" x="0" y="0"/>
-	    <child type="label.test" x="50" y="20" layer="top"/>
 	    <child type="button.close" x="10" y="2" layer="top">
 		<events>
 			<onHover class="colorchange" color="#FF000000"/>
@@ -19,9 +18,10 @@
 	    </child>
 	    <child type="rule.side" x="0" y="20"/>
 	    <child type="rule.side" x="174" y="20"/>
+	    <child type="editbox.input" x="12" y="150">
+		    <dialog type="editbox.background" x="12" y="20"/>
+	    </child>
 	    <child type="rule.bottom" x="12" y="179"/>
-	    <child type="rule.background" x="12" y="20"/>
-	    <child type="editbox.input" x="12" y="150"/>
 	</widget>
     </widgets>
 </theme>

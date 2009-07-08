@@ -16,6 +16,7 @@
 #include <GL/glext.h>
 
 #include <cassert>
+#include <stdexcept>
 
 /**
  * The data structor to use with the VBO
@@ -32,9 +33,8 @@ struct WidgetData {
 	float spacer3[4];
 };
 
-oglWidgetRenderer::oglWidgetRenderer() {
-	base = new oglBase;
-	TotalObjects = 0;
+oglWidgetRenderer::oglWidgetRenderer() : TotalObjects(0), Buffer(){
+	base = new oglBase();
 
 	shader = new Shader("guiAnimation");
 
@@ -53,8 +53,7 @@ oglWidgetRenderer::~oglWidgetRenderer() { }
  * @param obj a pointer to the new object, cannot be null.
  */
 void oglWidgetRenderer::AddObject(void* obj) {
-	if (obj == NULL)
-		throw 19;
+	if (obj == NULL) throw std::invalid_argument("oglWidgetRenderer::AddObject::Obj_Is_NULL");
 
 	TotalObjects += static_cast<Control*> (obj)->Size();
 	Objects.push_back(static_cast<Control*> (obj));
@@ -176,9 +175,9 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	float* c;
 
 	unsigned int j = 0;
-	size_t size1 = object->NumChildren();
+	size_t size1 = object->Size();
 	size_t size2 = 0;
-	for (unsigned int i = 0; i <= size1; i++) {
+	for (unsigned int i = 0; i < size1; i++) {
 		if (root == NULL)
 			root = object->GetChild(i++);
 

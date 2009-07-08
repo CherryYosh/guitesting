@@ -3,7 +3,7 @@ require "events"
 require "color"
 require "lxp"
 
-local Theme = theme.Theme()
+local t = theme.Theme()
 local curWidget = nil
 local curChild = nul
 local isInEvent = false;
@@ -12,81 +12,67 @@ local isInEvent = false;
 dofile("scripts/utils.lua")
 
 local function import(name, args)
-	main(args["file"]) --load the new file
+    main(args["file"]) --load the new file
 end
 
 local function textures(name, args)
-    theme.Theme_SetImage("themes/" .. args["file"])
+    if not theme.Theme_SetImage("themes/" .. args["file"]) then
+	if not theme.Theme_SetImage(args["file"]) then error("Could not find image " .. args["file"]) end
+    end
 end
 
 local function texture(name, args)
-    local widget = Theme : NewWidgetData(args["name"], nil)	
+    t : AddTextureData( args["name"], args["x"], args["y"], args["width"], args["height"]);
+end
 
-    for i=1,#args do
-	if args[i] ~= "name" then
-	    widget[args[i]] = tonumber(args[args[i]])
+local function widget(name, args)
+    curWidget = t : NewWidget(args["name"])
+end
+
+local function widgetEnd(name)
+    curWidget = nil
+end
+
+local function child(name, args)
+    if curWidget then
+	if args["layer"] then
+	    curChild = curWidget : NewChild(args["type"], args["x"], args["y"], ToLayer(args["layer"]))
+	else
+	    curChild = curWidget : NewChild(args["type"], args["x"], args["y"])
 	end
     end
 end
 
-local function widget(name, args)
-    curWidget = Theme : NewWindowData(args["name"], nil)
-end
-
-local function widgetEnd(name)
-	curWidget = nil
-end
-
-local function child(name, args)
-	curChild = Theme : PushWidget( curWidget, args["type"] )
-
-	for i=1,#args do
-		if args[i] ~= "type" then
-			if args[i] == "layer" then
-				curChild : SetLayer(args["layer"])
-			else
-				curChild[args[i]] = args[args[i]]
-			end
-		end
-	end
-end
-
 local function childEnd(name)
-	curChild = nil
+    curChild = nil
 end
 
 local function eventsStart(name, args)
-	isInEvent = true
+    isInEvent = true
 end
 
 local function eventsEnd(name)
-	isInEvent = false
+    isInEvent = false
+end
+
+local function dialog(name, args)
+	if args["layer"] then
+	    temp = curWidget : NewChild(args["type"], args["x"], args["y"], ToLayer(args["layer"]))
+	else
+	    temp = curWidget : NewChild(args["type"], args["x"], args["y"])
+	end
+
+	curChild : ToEditbox() : SetDialog( temp : ToEditbox() )
 end
 
 local function events(name, args)
-	if not isInEvent then
-		return
-	end
+	if curChild then
+	    control = curChild
+	elseif curWidget then
+	    control = curWidget
+	else error() end
 
-	local event = GetEventByName(args["class"])
-
-	for i=1,#args do
-		if args[i] ~= "class" then
-			if args[i] == "color" then
-				event : SetColor(args["color"])
-			elseif args[i] == "translation" then
-				event : Translation(string.match(args["translation"], "([^,]*),(.*)"))
-			else
-				event[args[i]] = args[args[i]]
-			end
-		end
-	end
-
-	if curChild ~= nil then
-		curChild : AddEvent(name, event)
-	elseif curWidget ~= nil then
-		curWidget : AddEvent(name, event)
-	end
+	print("Events, TODO")
 end
 
 local callbacks = {
@@ -103,6 +89,8 @@ local callbacks = {
 			import(name, attribs)
 		elseif name == "events" then
 			eventsStart(name, attribs)
+		elseif name == "dialog" then
+			dialog(name, attribs)
 		elseif isInEvent then
 			events(name, attribs)
 		end
@@ -121,8 +109,6 @@ local callbacks = {
 
 -- the main function, used to allow argument passing
 function main(filepath)
-    print("-- Loading File " .. filepath .. " --")
-
     local parser = lxp.new(callbacks)
     local file = io.open(filepath, "r")
 
@@ -131,6 +117,4 @@ function main(filepath)
     end
 
     file:close()
-
-    print("-- Finished loading file " .. filepath .. " --")
 end

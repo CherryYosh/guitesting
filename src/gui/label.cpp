@@ -17,48 +17,54 @@
 #include "../fontmgr.h"
 
 Label::Label(TypeE t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
-	//AddString("Testing");
-	isMultiline = true;
+    //AddString("Testing");
+    isMultiline = true;
 }
 
 Label::Label(Window* p, Control* c, LayerT l, float x, float y) : Control(LabelType, p, c, l, x, y) {
-	//AddString("Console");
-	isMultiline = false;
+    //AddString("Console");
+    isMultiline = false;
 }
 
 Label::~Label() {
-	//nothing
+    //nothing
 }
+
 void Label::onMousePress(int button) {
-	//needed?
+    //needed?
 }
 
 void Label::onMouseRelease(int button) {
-	//needed?
+    //needed?
 }
 
-void Label::onKeyPress(unsigned short unicode) { }
+void Label::onKeyPress(unsigned short unicode) {
+}
 
 void Label::onKeyRelease(int key, int mod) {
-	//needed?
+    //needed?
 }
 
 void Label::SetWidth(unsigned short w) {
-	width = w;
+    width = w;
 }
 
 void Label::SetHeight(unsigned short h) {
-	height = h;
+    height = h;
 }
 
-void Label::AddString(std::string s, util::Color c){
-	text.push_back(colorstring(s, c));
+void Label::AddString(colorstring s){
+	 this->text.push_back(s);
 }
 
-std::vector<colorstring>& Label::GetText(){
-	return text;
+void Label::AddString(std::string s, util::Color c) {
+    this->text.push_back(colorstring(s, c));
 }
 
-bool Label::multiline(){
-	return isMultiline;
+std::vector<colorstring>& Label::GetText() {
+    return text;
+}
+
+bool Label::multiline() {
+    return isMultiline;
 }

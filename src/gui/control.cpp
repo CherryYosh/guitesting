@@ -18,13 +18,15 @@
 #include "window.h"
 #include "label.h"
 #include "../events/gui/guievent.h"
+#include "controls.h"
+#include "../theme.h"
 
 Control::Control() : isEnabled(true), hasFocus(false), _type(ControlType), x(0), y(0), z(-TOP_LAYER), color(),
 parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) { }
 
 Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), _type(orig._type),
 x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
-mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild) { }
+mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild), children(orig.children), events(orig.events) { }
 
 Control::Control(TypeE t, Window* r, Control* p, LayerT l, float ix, float iy) : isEnabled(true), hasFocus(false),
 _type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL) {
@@ -212,6 +214,19 @@ void Control::OnMouseEnter() {
 
 void Control::OnMouseLeave() {
 	EndEvent("onHover");
+}
+
+Control* Control::NewChild(std::string type, float x, float y, LayerT layer) {
+	Control* ret;
+	__M_ControlCast(ret, type.substr(0, type.find('.')));
+
+	ret->name = type;
+	ret->SetPosition(x, y);
+	ret->SetLayer(layer);
+	ret->ReloadTheme();
+
+	AddChild(ret);
+	return ret;
 }
 
 void Control::AddChild(Control* c) {
@@ -452,4 +467,23 @@ std::vector<Label*> Control::GetTextObjs() {
 	}
 
 	return ret;
+}
+
+void Control::ReloadTheme() {
+	ThemeData data = Theme::GetData(name);
+
+	SetWidth(data.width);
+	SetHeight(data.height);
+	s = data.s / float(Theme::ImageWidth());
+	t = 1.0 - data.t / float(Theme::ImageHeight());
+	s2 = float(data.s + data.width) / float(Theme::ImageWidth());
+	t2 = 1.0 - float((data.t + data.height)) / float(Theme::ImageHeight());
+}
+
+std::string Control::GetName() {
+	return name;
+}
+
+void Control::SetName(std::string n) {
+	name = n;
 }

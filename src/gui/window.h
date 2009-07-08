@@ -31,50 +31,51 @@ class GUI;
 
 class Window : public Control {
 public:
-	Window();
-	Window(GUI*, Renderer*);
-	Window(const Window&);
-	~Window();
+    Window();
+    Window(GUI*, Renderer*);
+    Window(const Window&);
+    ~Window();
 
-	Control* clone();
+    Control* clone();
 
-	void AddChild(Control*);
-	void Move(float, float);
+    void AddChild(Control*);
+    void Move(float, float);
 
-	void Close();
+    void Close();
 
-	void UpdateControl(Control*);
+    void UpdateControl(Control*);
 
-	void OnKeyPress(unsigned short, int, int);
-	void OnMousePress(unsigned short, int, int);
-	bool OnMouseClick(unsigned short, bool);
-	bool HitTest(float, float);
+    void OnKeyPress(unsigned short, int, int);
+    void OnMousePress(unsigned short, int, int);
+    bool OnMouseClick(unsigned short, bool);
+    bool HitTest(float, float);
 
-	void Unproject(float, float, float*, float*);
+    void Unproject(float, float, float*, float*);
 
-	unsigned int Size();
+    unsigned int Size();
 
-	util::matrix4<float>* GetRotation();
-	float* GetRotationfv();
+    util::matrix4<float>* GetRotation();
+    float* GetRotationfv();
 
-	void SetGUI(GUI*);
-	GUI* GetGUI();
+    void SetGUI(GUI*);
+    GUI* GetGUI();
 
-	void SetRenderer(Renderer*);
-	Renderer* GetRenderer();
+    void SetRenderer(Renderer*);
+    Renderer* GetRenderer();
 
-	void AddEvent(Event*);
-	void RemoveEvent(Event*);
-	void StepEvents(unsigned int);
+    void AddEvent(Event*);
+    void RemoveEvent(Event*);
+    void StepEvents(unsigned int);
 
-	void Rotate(float,float,float,float);
+    void Rotate(float, float, float, float);
+    void ReloadTheme();
 protected:
 private:
-	GUI* gui;
-	Renderer* renderer;
+    GUI* gui;
+    Renderer* renderer;
 
-	std::vector<Event*> activeEvents;
-	util::matrix4<float> rotation;
+    std::vector<Event*> activeEvents;
+    util::matrix4<float> rotation;
 };
 
 #endif

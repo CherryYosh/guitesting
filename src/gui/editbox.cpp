@@ -15,114 +15,140 @@
 
 #include "editbox.h"
 
+#include "../lua/luabase.h"
+
 Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : caretPos(0), currentLine(0), Label(EditboxType, p, c, l, x, y) {
-    text.push_back("");
+	text.push_back("");
 }
 
 Editbox::Editbox(const Editbox& orig) : caretPos(orig.caretPos), currentLine(orig.currentLine), Label(orig) {
-    text.push_back("");
+	text.push_back("");
 }
 
 Editbox::~Editbox() {
-    //nothing right now
+	//nothing right now
 }
 
 bool Editbox::HitTest(int mX, int mY) {
-    if (mX > x && mX < x + width
-	    && mY > y && mY < y + height) {
-	return true;
-    }
-    return false;
+	if (mX > x && mX < x + width
+		&& mY > y && mY < y + height) {
+		return true;
+	}
+	return false;
 }
 
-void Editbox::OnMousePress(unsigned short button, int mX, int mY) {
-}
+void Editbox::OnMousePress(unsigned short button, int mX, int mY) { }
 
 void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
-    if (unicode > 31 && unicode < 126) { //alphabet
-	text[currentLine].insert(caretPos, unicode);
-	MoveCaret(1);
-    } else if (unicode == 8) { //backspace
-	if (0 < caretPos) {
-	    text[currentLine].erase(caretPos - 1, 1);
-	    MoveCaret(-1);
-	} else if (0 < currentLine) {
-	    MoveCaret(text[currentLine - 1].size());
+	if (unicode > 31 && unicode < 126) { //alphabet
+		text[currentLine].insert(caretPos, unicode);
+		MoveCaret(1);
+	} else if (unicode == 8) { //backspace
+		if (0 < caretPos) {
+			text[currentLine].erase(caretPos - 1, 1);
+			MoveCaret(-1);
+		} else if (0 < currentLine) {
+			MoveCaret(text[currentLine - 1].size());
 
-	    text[currentLine - 1].append(text[currentLine]);
+			text[currentLine - 1].append(text[currentLine]);
 
-	    std::vector<colorstring>::iterator it = text.begin();
-	    std::advance(it, currentLine);
-	    text.erase(it);
+			std::vector<colorstring>::iterator it = text.begin();
+			std::advance(it, currentLine);
+			text.erase(it);
 
-	    ChangeCaretLine(currentLine - 1);
+			ChangeCaretLine(currentLine - 1);
+		}
+	} else if ((mod & 0x01) && unicode == 13) { //shift + enter TODO: Replace 0x01 with a define..
+		if (currentLine == text.size() - 1) {
+			if (caretPos == text[currentLine].size()) {
+				text.push_back("");
+			} else {
+				text.push_back(text[currentLine].split(caretPos));
+			}
+		} else {
+			std::vector<colorstring>::iterator it = text.begin();
+			std::advance(it, currentLine);
+
+			if (caretPos == text[currentLine].size()) {
+				text.insert(it, "");
+			} else {
+				text.insert(it, text[currentLine].split(caretPos));
+			}
+		}
+
+		ChangeCaretLine(currentLine + 1);
+		SetCaretPos(0);
+	} else if (unicode == 13) { //just enter
+		if (peer != NULL) {
+			LuaArgList args;
+			args.push_back(text[0].toString());
+			args.push_back(static_cast<void*> (peer));
+
+			LUABase::CallScript("scripts/textParser.lua", args);
+
+			//being lazy
+			text[0].clear();
+			SetCaretPos(0);
+			ChangeCaretLine(0);
+		}
 	}
-    } else if (unicode == 13) { //enter
-	if (currentLine == text.size() - 1) {
-	    if (caretPos == text[currentLine].size()) {
-		text.push_back("");
-	    } else {
-		text.push_back(text[currentLine].split(caretPos));
-	    }
-	} else {
-	    std::vector<colorstring>::iterator it = text.begin();
-	    std::advance(it, currentLine);
 
-	    if (caretPos == text[currentLine].size()) {
-		text.insert(it, "");
-	    } else {
-		text.insert(it, text[currentLine].split(caretPos));
-	    }
+	/* Arrow keys, unicode does not show these. */
+	if (key == 273) { //up
+		ChangeCaretLine(currentLine - 1);
+	} else if (key == 274) { //down
+		ChangeCaretLine(currentLine + 1);
+	} else if (key == 275) { //right
+		MoveCaret(1);
+	} else if (key == 276) { //left
+		MoveCaret(-1);
 	}
-
-	ChangeCaretLine(currentLine + 1);
-	SetCaretPos(0);
-    }
-
-    /* Arrow keys, unicode does not show these. */
-    if (key == 273) { //up
-	ChangeCaretLine(currentLine - 1);
-    } else if (key == 274) { //down
-	ChangeCaretLine(currentLine + 1);
-    } else if (key == 275) { //right
-	MoveCaret(1);
-    } else if (key == 276) { //left
-	MoveCaret(-1);
-    }
 }
 
 void Editbox::ChangeCaretLine(int newLine) {
-    if (newLine > -1 && newLine < text.size()) {
-	currentLine = newLine;
+	if (newLine > -1 && newLine < text.size()) {
+		currentLine = newLine;
 
-	if (caretPos > text[currentLine].size()) {
-	    caretPos = text[currentLine].size();
+		printf("caret num is %i\n", currentLine);
+		if (caretPos > text[currentLine].size()) {
+			caretPos = text[currentLine].size();
+		}
 	}
-    }
 }
 
 void Editbox::MoveCaret(int dir) {
+	caretPos += dir;
 
-    //FIX!!! cp = unsigned
-    caretPos += dir;
-
-    if (text[currentLine].size() < caretPos) {
-	caretPos = text[currentLine].size();
-    }
+	if (text[currentLine].size() < caretPos) {
+		caretPos = text[currentLine].size();
+	} else if (caretPos < 0) {
+		caretPos = 0;
+	}
 }
 
-void Editbox::SetCaretPos(int pos) {
-    caretPos = pos;
+void Editbox::AddString(std::string s, util::Color c) {
+	if (currentLine == text.size()) {
+		text.push_back(colorstring(s, c));
+	} else {
+		std::vector<colorstring>::iterator it = text.begin();
+		std::advance(it, currentLine + 1);
+		text.insert(it, colorstring(s, c));
+	}
 
-    if (text[currentLine].size() < caretPos) {
-	caretPos = text[currentLine].size();
-    } else if (caretPos < 0) {
-	caretPos = 0;
-    }
+	ChangeCaretLine(currentLine + 1);
 }
 
-void Editbox::OnKeyRelease(int key, int mod) {
+void Editbox::SetCaretPos(int newpos) {
+	MoveCaret(newpos - caretPos);
 }
 
-void Editbox::OnMouseRelease(int button) {
+void Editbox::OnKeyRelease(int key, int mod) { }
+
+void Editbox::OnMouseRelease(int button) { }
+
+/**
+ * TODO: Find a better name..
+ */
+void Editbox::SetDialog(Label* l) {
+	peer = l;
 }

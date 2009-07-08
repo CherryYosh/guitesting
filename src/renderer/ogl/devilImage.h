@@ -22,7 +22,7 @@ public:
 	devilImage(const devilImage& orig);
 	virtual ~devilImage();
 
-	void Load(std::string);
+	bool Load(std::string);
 	unsigned int GetID();
 	unsigned int Width();
 	unsigned int Height();

@@ -42,7 +42,7 @@ Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Contr
 }
 
 Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
-rotation(orig.rotation), Control(WindowType, this) { };
+rotation(orig.rotation), Control(orig) { };
 
 Window::~Window() {
 	gui->CloseWindow(this);
@@ -242,6 +242,13 @@ void Window::RemoveEvent(Event* e) {
 			activeEvents.erase(it);
 			return;
 		}
+	}
+}
+
+void Window::ReloadTheme(){
+	size_t size = children.size();
+	for(unsigned int i = 0; i < size; i++){
+		children[i]->ReloadTheme();
 	}
 }
 

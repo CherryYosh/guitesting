@@ -12,8 +12,8 @@
 
  * 	Copyright 2008,2009 James Brandon Stevenson
  */
-#ifndef THEMEMGR_H
-#define THEMEMGR_H
+#ifndef THEME_H
+#define THEME_H
 
 //one theme loaded at a time
 //static class
@@ -24,36 +24,42 @@
 #include <map>
 
 #include "renderer/ogl/devilImage.h"
-#include "lua/luabase.h"
 
-//protos, class defined in the .cpp
-struct WidgetData;
-struct WindowData;
-struct ChildData;
 class Window;
+
+struct ThemeData{
+	int s, t, width, height;
+
+	ThemeData(){}
+	ThemeData(int a, int b, int c, int d) : s(a), t(b), width(c), height(d) {}
+};
 
 class Theme {
 public:
-	Theme();
-	virtual ~Theme();
+    Theme();
+    virtual ~Theme();
 
-	void Init();
-	bool LoadTheme(std::string);
+    void Init();
+    bool LoadTheme(std::string);
 
-	WindowData* NewWindowData(std::string, WindowData*);
-	WidgetData* NewWidgetData(std::string, WidgetData*);
+    Window* NewWidget(std::string, Window* = NULL);
 
-	Window* GetWindow(std::string);
+    static Window* Widget(std::string);
+    Window* GetWidget(std::string);
 
-	ChildData* PushWidget(WindowData*, std::string);
+    void AddTextureData(std::string, int, int, int, int);
+    void Alias(std::string, std::string);
 
-	static void SetImage(std::string);
-	static Image* GetImage();
-	static unsigned int GetImageID();
+    static ThemeData& GetData(std::string);
+    static bool SetImage(std::string);
+    static unsigned int ImageWidth();
+    static unsigned int ImageHeight();
+    static Image* GetImage();
+    static unsigned int GetImageID();
 private:
-	static std::map<std::string, WindowData*> windows;
-	static std::map<std::string, WidgetData*> widgets;
-	static Image* image;
+    static std::map<std::string, ThemeData> textures;
+    static std::map<std::string, Window*> widgets;
+    static Image* image;
 };
 
 #endif

@@ -24,61 +24,61 @@ oglWidgetRenderer* renderer;
 oglFontRenderer* fontRenderer;
 
 GUI::GUI() : MouseOverWindow(NULL), ActiveWindow(NULL), System() {
-	renderer = new oglWidgetRenderer;
-	fontRenderer = new oglFontRenderer;
+    renderer = new oglWidgetRenderer();
+    fontRenderer = new oglFontRenderer();
 
-	Timer* t = new Timer(0, true);
-	t->SetFunction(boost::bind<void>(&GUI::UpdateWindowEvents, this, t->GetDeltaPtr()));
-	t->Start();
+    Timer* t = new Timer(0, true);
+    t->SetFunction(boost::bind<void>(&GUI::UpdateWindowEvents, this, t->GetDeltaPtr()));
+    t->Start();
 
-	AddTimerToPool(t);
+    AddTimerToPool(t);
 }
 
 GUI::~GUI() {
-	Windows.clear();
+    Windows.clear();
 }
 
 void GUI::Render() {
-	timers.Update();
+    timers.Update();
 
-	fontRenderer->Refresh();
-	fontRenderer->Draw();
+    fontRenderer->Refresh();
+    fontRenderer->Draw();
 
-	renderer->Draw();
+    renderer->Draw();
 }
 
 bool GUI::HitTest(float x, float y) {
-	//this is a quick excape..
-	if (MouseOverWindow != NULL) {
-		if (MouseOverWindow->HitTest(x, y)) {
-			return true;
-		} else {
-			MouseOverWindow = NULL;
-		}
+    //this is a quick excape..
+    if (MouseOverWindow != NULL) {
+	if (MouseOverWindow->HitTest(x, y)) {
+	    return true;
+	} else {
+	    MouseOverWindow = NULL;
 	}
+    }
 
-	size_t size = Windows.size();
-	for (unsigned int i = 0; i < size; i++) {
-		if (Windows[i]->HitTest(x, y)) {
-			MouseOverWindow = Windows[i];
-			return true;
-		}
+    size_t size = Windows.size();
+    for (unsigned int i = 0; i < size; i++) {
+	if (Windows[i]->HitTest(x, y)) {
+	    MouseOverWindow = Windows[i];
+	    return true;
 	}
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * Moves and updates the active window by x and y
  */
 void GUI::Move(int x, int y) {
-	if (x == 0 && y == 0)
-		return;
+    if (x == 0 && y == 0)
+	return;
 
-	if (ActiveWindow != NULL) {
-		ActiveWindow->Move(x, y);
-		renderer->Update(ActiveWindow);
-	}
+    if (ActiveWindow != NULL) {
+	ActiveWindow->Move(x, y);
+	renderer->Update(ActiveWindow);
+    }
 }
 
 /**
@@ -86,66 +86,68 @@ void GUI::Move(int x, int y) {
  * @param w the window to be made active
  */
 void GUI::MakeActive(Window* w) {
-	ActiveWindow = w;
-	if (w == NULL)
-		return;
+    ActiveWindow = w;
+    if (w == NULL)
+	return;
 
-	for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
-		if (*it != w && (*it)->GetZ() >= w->GetZ()) {
-			(*it)->AddDepth(-(TOP_LAYER + 1)); //TOP_LAYER is the total ammount of layers, prevents overlapping
-		}
+    for (std::vector<Window*>::iterator it = Windows.begin(); it != Windows.end(); it++) {
+	if (*it != w && (*it)->GetZ() >= w->GetZ()) {
+	    (*it)->AddDepth(-(TOP_LAYER + 1)); //TOP_LAYER is the total ammount of layers, prevents overlapping
 	}
+    }
 
-	w->SetDepth(-TOP_LAYER);
-	renderer->Refresh();
+    w->SetDepth(-TOP_LAYER);
+    renderer->Refresh();
 
-	//if (ActiveWindow->type() == LabelType || ActiveWindow->type() == EditboxType) {
-		input->SetProfile("typing");
-	//}
+    //if (ActiveWindow->type() == LabelType || ActiveWindow->type() == EditboxType) {
+    input->SetProfile("typing");
+    //}
 }
 
 void GUI::OnKeyPress(unsigned short unicode, int key, int mod) {
-	if (ActiveWindow != NULL)
-		ActiveWindow->OnKeyPress(unicode, key, mod);
+    if (ActiveWindow != NULL)
+	ActiveWindow->OnKeyPress(unicode, key, mod);
 }
 
 void GUI::OnMousePress(unsigned short button, int mx, int my) {
-	if (MouseOverWindow != NULL) {
-		MakeActive(MouseOverWindow);
-		ActiveWindow->OnMousePress(button, mx, my);
-	} else {
-		ActiveWindow = NULL;
-	}
+    if (MouseOverWindow != NULL) {
+	MakeActive(MouseOverWindow);
+	ActiveWindow->OnMousePress(button, mx, my);
+    } else {
+	ActiveWindow = NULL;
+    }
 }
 
 bool GUI::OnMouseClick(unsigned short num, bool final) {
-	if (ActiveWindow != NULL)
-		return ActiveWindow->OnMouseClick(num, final);
-	return false;
+    if (ActiveWindow != NULL)
+	return ActiveWindow->OnMouseClick(num, final);
+    return false;
 }
 
 bool GUI::OnMouseMotion(float x, float y, unsigned short button) {
-	HitTest(x, y);
+    HitTest(x, y);
 
-	if (MouseOverWindow != NULL) {
-		if (MouseOverWindow->OnMouseMotion(x, y, button)) {
-			renderer->Update(MouseOverWindow);
-			return true;
-		}
-		return false;
+    if (MouseOverWindow != NULL) {
+	if (MouseOverWindow->OnMouseMotion(x, y, button)) {
+	    renderer->Update(MouseOverWindow);
+	    return true;
 	}
 	return false;
+    }
+    return false;
 }
 
 void GUI::UpdateWindowEvents(unsigned int* step) {
-	size_t size = Windows.size();
-	for (size_t i = 0; i < size; i++)
-		Windows[i]->StepEvents(*step);
+    size_t size = Windows.size();
+    for (size_t i = 0; i < size; i++)
+	Windows[i]->StepEvents(*step);
 }
 
 void GUI::CreateWindow(std::string name, float x, float y) {
-	Theme t;
-	Window* window = t.GetWindow(name);
+    Window* window = Theme::Widget(name);
+
+    if (window != NULL) {
+	window->ReloadTheme();
 	window->SetGUI(this);
 	window->SetRenderer(renderer);
 	window->Move(x, y);
@@ -156,21 +158,24 @@ void GUI::CreateWindow(std::string name, float x, float y) {
 
 	renderer->AddObject(window);
 	renderer->Update(window, RENDERER_ADD);
+    } else {
+	printf("ERROR: Requested Widget type %s. Type not found!\n", name.c_str());
+    }
 }
 
 void GUI::CloseWindow(Window* w) {
-	std::vector<Window*>::iterator it = Windows.begin();
-	while (*it != w)
-		it++;
+    std::vector<Window*>::iterator it = Windows.begin();
+    while (*it != w)
+	it++;
 
-	fontRenderer->RemoveObject(*it);
-	renderer->RemoveObject(*it);
-	Windows.erase(it);
+    fontRenderer->RemoveObject(*it);
+    renderer->RemoveObject(*it);
+    Windows.erase(it);
 
-	fontRenderer->Refresh();
-	renderer->Refresh();
+    fontRenderer->Refresh();
+    renderer->Refresh();
 }
 
 void GUI::AddTimerToPool(Timer* t, bool tick, bool step) {
-	timers.AddTimer(t, tick, step);
+    timers.AddTimer(t, tick, step);
 }

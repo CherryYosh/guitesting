@@ -29,6 +29,7 @@
 
 class VBO {
 public:
+        VBO(const VBO&);
 	VBO(GLenum = GL_STREAM_DRAW);
 	VBO(unsigned int, void*, GLenum = GL_STREAM_DRAW);
 	virtual ~VBO();

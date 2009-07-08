@@ -13,7 +13,7 @@
 class Image {
 public:
 
-	virtual void Load(std::string) = 0;
+	virtual bool Load(std::string) = 0;
 
 	virtual unsigned int GetID() = 0;
 

@@ -74,6 +74,7 @@ public:
 	util::Color GetColor();
 	float* GetColorv();
 
+        virtual Control* NewChild(std::string, float, float, LayerT = DEFAULT_LAYER);
 	virtual void AddChild(Control*);
 	virtual Control* GetChild(unsigned int);
 	virtual Control* IterateChild(unsigned int);
@@ -95,8 +96,13 @@ public:
 	util::matrix4<float>* GetRotation();
 	float* GetRotationfv();
 
+	std::string GetName();
+	void SetName(std::string);
+
 	virtual Window* GetRoot();
 	void SetRoot(Window*);
+
+        virtual void ReloadTheme();
 
 	float GetX();
 	float GetY();
@@ -129,6 +135,7 @@ protected:
         TypeE _type;
         util::Color color;
 private:
+	std::string name;
 	bool hasFocus, isEnabled;
 };
 #endif
