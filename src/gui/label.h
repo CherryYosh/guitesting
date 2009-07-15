@@ -25,7 +25,7 @@
 
 class Label : public Control {
 public:
-        Label(TypeE, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+        Label(long, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	Label(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
         Label(const Label&);
 	~Label();

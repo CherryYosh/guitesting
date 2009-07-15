@@ -25,13 +25,15 @@
 #include "label.h"
 #include "checkbox.h"
 #include "slider.h"
+#include "edge.h"
 
-#define __M_ControlCast(ptr,str)						\
+#define __M_ControlCast(ptr,str)					\
 	    if(str == "control"){ ptr = new Control(); }		\
 	    else if(str == "button"){ ptr = new Button(); }		\
 	    else if(str == "rule"){ ptr = new Rule(); }			\
 	    else if(str == "editbox"){ ptr = new Editbox(); }		\
             else if(str == "label"){ ptr = new Label(); }               \
             else if(str == "checkbox"){ ptr = new Checkbox(); }         \
-	    else { printf("%s not found!\n", str.c_str()); ptr = NULL; }
+            else if(str == "edge"){ ptr = new Edge(); }         \
+	    else { throw std::invalid_argument("Controls::__M_ControlCast::" + str + "_not_valid_widget" ); }
 #endif

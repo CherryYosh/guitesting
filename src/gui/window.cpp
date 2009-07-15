@@ -33,11 +33,11 @@
 #include "../camera.h"
 #include <SDL/SDL.h>
 
-Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control(WindowType, this) {
+Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control(GUI_NONE, this) {
 	rotation.make_identity();
 }
 
-Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control(WindowType, this) {
+Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control(GUI_NONE, this) {
 	rotation.make_identity();
 }
 
@@ -261,4 +261,16 @@ void Window::StepEvents(unsigned int step) {
 
 void Window::Rotate(float a, float x, float y, float z) {
 	rotation.rotate(a, x, y, z);
+}
+
+void Window::Resize(int wdelta, int hdelta){
+	SetWidth(GetWidth() + wdelta);
+	SetHeight(GetHeight() + hdelta);
+
+	size_t size = children.size();
+	for(size_t i = 0; i < size; i++){
+		children[i]->Resize(wdelta, hdelta);
+	}
+
+	printf("Change is %i %i, Now %f %f\n", wdelta, hdelta, GetWidth(), GetHeight());
 }

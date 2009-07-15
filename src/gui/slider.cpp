@@ -2,7 +2,7 @@
 
 //NOTE:Felt lazy, so a lot of this code is taken from TWL, a java gui
 
-Slider::Slider(Window* p, Control* c, LayerT l, float x, float y) : Control(SliderType, p, c, l, x, y) {
+Slider::Slider(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_NONE, p, c, l, x, y) {
 	//Thumb = new Control(p, this, TOP_LAYER);
 
 	SetRange(0, 100);

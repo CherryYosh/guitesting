@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="60">
+<configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="guitesting" displayName="guitesting" projectFiles="true">
       <logicalFolder name="scripts" displayName="scripts" projectFiles="true">
@@ -13,8 +13,11 @@
             <itemPath>src/events/gui/close.h</itemPath>
             <itemPath>src/events/gui/colorchange.cpp</itemPath>
             <itemPath>src/events/gui/colorchange.h</itemPath>
+            <itemPath>src/events/gui/guievent.h</itemPath>
             <itemPath>src/events/gui/move.cpp</itemPath>
             <itemPath>src/events/gui/move.h</itemPath>
+            <itemPath>src/events/gui/rotation.cpp</itemPath>
+            <itemPath>src/events/gui/rotation.h</itemPath>
           </logicalFolder>
           <itemPath>src/events/event.h</itemPath>
           <itemPath>src/events/eventmgr.h</itemPath>
@@ -60,6 +63,8 @@
             <itemPath>src/renderer/ogl/oglBase.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglBase.h</itemPath>
             <itemPath>src/renderer/ogl/oglBase.o</itemPath>
+            <itemPath>src/renderer/ogl/oglFontRenderer.cpp</itemPath>
+            <itemPath>src/renderer/ogl/oglFontRenderer.h</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.cpp</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.h</itemPath>
             <itemPath>src/renderer/ogl/oglWidgetRenderer.o</itemPath>
@@ -71,6 +76,7 @@
             <itemPath>src/renderer/ogl/vbo.o</itemPath>
           </logicalFolder>
           <itemPath>src/renderer/base.h</itemPath>
+          <itemPath>src/renderer/fontrenderer.h</itemPath>
           <itemPath>src/renderer/image.h</itemPath>
           <itemPath>src/renderer/renderer.h</itemPath>
         </logicalFolder>
@@ -78,16 +84,24 @@
           <itemPath>src/swig/color.i</itemPath>
           <itemPath>src/swig/events.i</itemPath>
           <itemPath>src/swig/theme.i</itemPath>
+          <itemPath>src/swig/widgetsLUA_wrap.cxx</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
+          <itemPath>src/utils/color.cpp</itemPath>
+          <itemPath>src/utils/color.h</itemPath>
+          <itemPath>src/utils/matrix.h</itemPath>
           <itemPath>src/utils/vector.h</itemPath>
         </logicalFolder>
         <itemPath>src/camera.cpp</itemPath>
         <itemPath>src/camera.h</itemPath>
+        <itemPath>src/colorstring.cpp</itemPath>
+        <itemPath>src/colorstring.h</itemPath>
         <itemPath>src/display.cpp</itemPath>
         <itemPath>src/display.h</itemPath>
         <itemPath>src/engine.cpp</itemPath>
         <itemPath>src/engine.h</itemPath>
+        <itemPath>src/font.cpp</itemPath>
+        <itemPath>src/font.h</itemPath>
         <itemPath>src/fontmgr.cpp</itemPath>
         <itemPath>src/fontmgr.h</itemPath>
         <itemPath>src/gui.cpp</itemPath>
@@ -131,30 +145,8 @@
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>make -f Makefile</buildCommand>
-          <cleanCommand>make -f Makefile clean</cleanCommand>
+          <cleanCommand>make -f Makefile clean &amp;&amp; cmake .</cleanCommand>
           <executablePath>test</executablePath>
-          <ccTool>
-            <incDir>
-              <pElem>src/gui</pElem>
-              <pElem>/usr/include/boost/function</pElem>
-              <pElem>/usr/include/boost/mpl/aux_</pElem>
-              <pElem>/usr/include/IL</pElem>
-              <pElem>/usr/include/freetype2/freetype</pElem>
-              <pElem>src/renderer/ogl</pElem>
-              <pElem>/usr/include/boost/utility</pElem>
-              <pElem>/usr/include/boost</pElem>
-              <pElem>/usr/include/boost/config</pElem>
-              <pElem>.</pElem>
-              <pElem>/usr/include/boost/type_traits/detail</pElem>
-              <pElem>/usr/include/boost/mpl</pElem>
-              <pElem>/usr/include/boost/bind</pElem>
-              <pElem>src/renderer</pElem>
-              <pElem>/usr/include/SDL</pElem>
-              <pElem>/usr/include/boost/type_traits</pElem>
-              <pElem>src</pElem>
-              <pElem>/usr/include/GL</pElem>
-            </incDir>
-          </ccTool>
         </makeTool>
       </makefileType>
       <packaging>
@@ -168,11 +160,460 @@
                             group="bin"/>
         </packFileList>
       </packaging>
+      <folder path="guitesting/src/events">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>src/events/gui</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>src/events</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="guitesting/src/gui">
+        <ccTool>
+          <incDir>
+            <pElem>src/gui</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="guitesting/src/lua">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>src/gui</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>src/lua</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>src/events</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>src/swig</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="guitesting/src/renderer">
+        <ccTool>
+          <incDir>
+            <pElem>src/renderer/ogl</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="guitesting/src/utils">
+        <ccTool>
+          <incDir>
+            <pElem>src/utils</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="scripts/utils.lua" ex="true" tool="3">
+      </item>
+      <item path="scripts/xmlParse.lua" ex="true" tool="3">
+      </item>
+      <item path="src/camera.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>src/utils</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/colorstring.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>src/utils</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/display.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>/usr/include/SDL</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/engine.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/events/eventmgr.h" ex="true" tool="3">
+      </item>
+      <item path="src/font.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/freetype2/freetype</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/fontmgr.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/freetype2/freetype</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
       <item path="src/fontmgr.h" ex="true" tool="3">
+      </item>
+      <item path="src/gui.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>src/gui</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>src/renderer/ogl</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/button.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/button.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/checkbox.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/checkbox.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/control.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>src/events/gui</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/events</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/control.o" ex="true" tool="3">
       </item>
       <item path="src/gui/controls.h" ex="true" tool="3">
       </item>
+      <item path="src/gui/editbox.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/lua</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/editbox.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/label.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/label.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/makefile" ex="true" tool="3">
+      </item>
+      <item path="src/gui/rule.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/rule.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/slider.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/slider.o" ex="true" tool="3">
+      </item>
+      <item path="src/gui/window.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/events</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/window.o" ex="true" tool="3">
+      </item>
+      <item path="src/input.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/SDL</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/lua/luabase.o" ex="true" tool="3">
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/mouse.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </item>
       <item path="src/mouse.h" ex="true" tool="3">
+      </item>
+      <item path="src/renderer/ogl/devilImage.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/IL</pElem>
+            <pElem>src/renderer</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/devilImage.o" ex="true" tool="3">
+      </item>
+      <item path="src/renderer/ogl/oglBase.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/SDL</pElem>
+            <pElem>src/utils</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/oglBase.o" ex="true" tool="3">
+      </item>
+      <item path="src/renderer/ogl/oglFontRenderer.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/oglWidgetRenderer.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost/utility</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>src/renderer</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/oglWidgetRenderer.o" ex="true" tool="3">
+      </item>
+      <item path="src/renderer/ogl/shader.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/shader.o" ex="true" tool="3">
+      </item>
+      <item path="src/renderer/ogl/vbo.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/GL</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/renderer/ogl/vbo.o" ex="true" tool="3">
+      </item>
+      <item path="src/swig/color.i" ex="true" tool="0">
+      </item>
+      <item path="src/swig/events.i" ex="true" tool="0">
+      </item>
+      <item path="src/swig/theme.i" ex="true" tool="0">
+      </item>
+      <item path="src/system.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/theme.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/bind</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>src/utils</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/timer.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/type_traits/detail</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost/exception</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/timerpool.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/boost/function</pElem>
+            <pElem>/usr/include/boost/mpl/aux_</pElem>
+            <pElem>/usr/include/boost/mpl</pElem>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include/boost/type_traits</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/boost/config</pElem>
+          </incDir>
+        </ccTool>
       </item>
     </conf>
     <conf name="Profile" type="0">

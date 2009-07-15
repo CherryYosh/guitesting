@@ -22,7 +22,7 @@ Button::Button() : Control() { }
 
 Button::Button(const Button& orig) : Control(orig) { }
 
-Button::Button(Window* p, Control* c, LayerT l, float x, float y) : Control(ButtonType, p, c, l, x, y) { }
+Button::Button(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_CLICKABLE, p, c, l, x, y) { }
 
 Button::~Button() { }
 

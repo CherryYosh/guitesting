@@ -69,6 +69,8 @@ public:
 
     void Rotate(float, float, float, float);
     void ReloadTheme();
+
+    void Resize(int, int);
 protected:
 private:
     GUI* gui;

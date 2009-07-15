@@ -43,14 +43,14 @@ unsigned int oglFontRenderer::GetTotalChars(void* obj) {
 	std::vector<colorstring> strings;
 	size_t size1, size2;
 
-	std::vector<Label*> labels = static_cast<Control*> (obj)->GetTextObjs();
+	std::vector<Control*> labels = static_cast<Control*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
 	if (labels.empty()) {
 		return 0;
 	}
 
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
-		strings = labels[i]->GetText();
+		strings = static_cast<Label*>(labels[i])->GetText();
 
 		size2 = strings.size();
 		for (unsigned int j = 0; j < size2; j++) {
@@ -144,7 +144,7 @@ void oglFontRenderer::Refresh() {
 
 	size_t size = Objects.size();
 	for (unsigned int i = 0; i < size; i++) {
-		Update(Objects[0], RENDERER_ADD);
+		Update(Objects[i], RENDERER_ADD);
 	}
 }
 
@@ -152,7 +152,7 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
 	float h;
 	int height, lines;
 
-	std::vector<Label*> labels = static_cast<Control*> (obj)->GetTextObjs();
+	std::vector<Control*> labels = static_cast<Control*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
 	if (labels.empty())
 		return;
 
@@ -165,7 +165,7 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
 		oldSize = size2;
-		GenerateStringData(static_cast<Control*> (labels[i]), data, lines, size2, height);
+		GenerateStringData(labels[i], data, lines, size2, height);
 		for (unsigned int j = oldSize; j < (size2); j += 4) {
 			h = (data[j].y - lines) * (height);
 
@@ -211,7 +211,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 	FontChar* c;
 	numLines = 1; //new
 
-	std::vector<Label*> labels = obj->GetTextObjs();
+	std::vector<Control*> labels = obj->GetChildrenWith(GUI_HAS_TEXT);
 	if (labels.empty()) {
 		return;
 	}
@@ -226,7 +226,7 @@ void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numL
 
 	size1 = labels.size();
 	for (unsigned int i = 0; i < size1; i++) {
-		label = labels[i];
+		label = static_cast<Label*>(labels[i]);
 		strings = label->GetText();
 		z = label->GetDepth();
 

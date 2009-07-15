@@ -1,15 +1,18 @@
 <theme>
     <textures file="default.png" format="RGBA">
-	<texture name="rule.top" x="55" y="7" width="186" height="20" />
+	<!-- These MUST be defined for border to work -->
+	<texture name="rule.top" x="55" y="7" width="186" height="20" orientation="vertical"/>
+	<texture name="rule.side" x="58" y="41" width="12" height="166"  orientation="horizontal"/>
+	<texture name="rule.bottom" x="96" y="34" width="121" height="7" orientation="vertical"/>
+	<texture name="edge.bottomleft" x="76" y="34" width="20" height="7" orientation="none"/>
+	<texture name="edge.bottomright" x="217" y="34" width="20" height="7" orientation="none"/>
+
 	<texture name="button.close" x="10" y="10" width="10" height="10" />
-	<texture name="rule.side" x="58" y="41" width="12" height="166" />
-	<texture name="rule.bottom" x="76" y="34" width="161" height="7"/>
-	<texture name="editbox.input" x="82"  y="194" width="155" height="20"/>
+	<texture name="editbox.input" x="82"  y="194" width="155" height="20" orientation="vertical"/>
 	<texture name="editbox.background" x="85" y="50" width="155" height="130"/>
 	<texture name="rule.background" x="85" y="50" width="155" height="130"/>
-	<texture name="label.test" x="0" y="0" width="1" height="1"/>
+	<texture name="label.test" x="0" y="0" width="1" height="1" orientation="vertical"/>
 
-	<!-- alias isnt working yet-->
 	<alias name="exitbutton" ref="button.close"/>
     </textures>
 </theme>

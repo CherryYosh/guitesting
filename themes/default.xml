@@ -16,12 +16,14 @@
 			<onClick class="close"/>
 		</events>
 	    </child>
-	    <child type="rule.side" x="0" y="20"/>
-	    <child type="rule.side" x="174" y="20"/>
+	    <child type="rule.side" x="0" y="20" height="159"/>
+	    <child type="rule.side" x="174" y="20" height="159"/>
 	    <child type="editbox.input" x="12" y="150">
 		    <dialog type="editbox.background" x="12" y="20" multiline="true"/>
 	    </child>
-	    <child type="rule.bottom" x="12" y="179"/>
+	    <child type="edge.bottomleft" x="0" y="179"/>
+	    <child type="rule.bottom" x="20" y="179" width="146"/>
+	    <child type="edge.bottomright" x="166" y="179"/>
 	</widget>
     </widgets>
 </theme>

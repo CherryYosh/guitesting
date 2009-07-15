@@ -6,7 +6,7 @@
             <name>guitesting</name>
             <make-project-type>0</make-project-type>
             <c-extensions>i</c-extensions>
-            <cpp-extensions>cpp</cpp-extensions>
+            <cpp-extensions>cpp,cxx</cpp-extensions>
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>

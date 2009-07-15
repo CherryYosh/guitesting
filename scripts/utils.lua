@@ -21,3 +21,15 @@ function ToLayer(str)
 		return widgets.BOTTOM_LAYER
 	end
 end
+
+function ToOrientation(str)
+    if str == "all" then
+	return widgets.All
+    elseif str == "vertical" then
+	return widgets.Vertical
+    elseif str == "horizontal" then
+	return widgets.Horizontal
+    elseif str == "none" then
+	return widgets.DontResize
+    end
+end

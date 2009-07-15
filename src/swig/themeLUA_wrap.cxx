@@ -2018,6 +2018,56 @@ fail:
 }
 
 
+static int _wrap_ThemeData_orientation_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("orientation",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("orientation",1,"ThemeData *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("orientation",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_orientation_set",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->orientation = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ThemeData_orientation_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ThemeData *arg1 = (ThemeData *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("orientation",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("orientation",1,"ThemeData *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ThemeData,0))){
+    SWIG_fail_ptr("ThemeData_orientation_get",1,SWIGTYPE_p_ThemeData);
+  }
+  
+  result = (int) ((arg1)->orientation);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_new_ThemeData__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
   ThemeData *result = 0 ;
@@ -2041,18 +2091,21 @@ static int _wrap_new_ThemeData__SWIG_1(lua_State* L) {
   int arg2 ;
   int arg3 ;
   int arg4 ;
+  int arg5 ;
   ThemeData *result = 0 ;
   
-  SWIG_check_num_args("ThemeData",4,4)
+  SWIG_check_num_args("ThemeData",5,5)
   if(!lua_isnumber(L,1)) SWIG_fail_arg("ThemeData",1,"int");
   if(!lua_isnumber(L,2)) SWIG_fail_arg("ThemeData",2,"int");
   if(!lua_isnumber(L,3)) SWIG_fail_arg("ThemeData",3,"int");
   if(!lua_isnumber(L,4)) SWIG_fail_arg("ThemeData",4,"int");
+  if(!lua_isnumber(L,5)) SWIG_fail_arg("ThemeData",5,"int");
   arg1 = (int)lua_tonumber(L, 1);
   arg2 = (int)lua_tonumber(L, 2);
   arg3 = (int)lua_tonumber(L, 3);
   arg4 = (int)lua_tonumber(L, 4);
-  result = (ThemeData *)new ThemeData(arg1,arg2,arg3,arg4);
+  arg5 = (int)lua_tonumber(L, 5);
+  result = (ThemeData *)new ThemeData(arg1,arg2,arg3,arg4,arg5);
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_ThemeData,1); SWIG_arg++; 
   return SWIG_arg;
   
@@ -2066,15 +2119,15 @@ fail:
 
 static int _wrap_new_ThemeData(lua_State* L) {
   int argc;
-  int argv[5]={
-    1,2,3,4,5
+  int argv[6]={
+    1,2,3,4,5,6
   };
   
   argc = lua_gettop(L);
   if (argc == 0) {
     return _wrap_new_ThemeData__SWIG_0(L);
   }
-  if (argc == 4) {
+  if (argc == 5) {
     int _v;
     {
       _v = lua_isnumber(L,argv[0]);
@@ -2092,7 +2145,12 @@ static int _wrap_new_ThemeData(lua_State* L) {
             _v = lua_isnumber(L,argv[3]);
           }
           if (_v) {
-            return _wrap_new_ThemeData__SWIG_1(L);
+            {
+              _v = lua_isnumber(L,argv[4]);
+            }
+            if (_v) {
+              return _wrap_new_ThemeData__SWIG_1(L);
+            }
           }
         }
       }
@@ -2102,7 +2160,7 @@ static int _wrap_new_ThemeData(lua_State* L) {
   lua_pushstring(L,"Wrong arguments for overloaded function 'new_ThemeData'\n"
     "  Possible C/C++ prototypes are:\n"
     "    ThemeData()\n"
-    "    ThemeData(int,int,int,int)\n");
+    "    ThemeData(int,int,int,int,int)\n");
   lua_error(L);return 0;
 }
 
@@ -2119,6 +2177,7 @@ static swig_lua_attribute swig_ThemeData_attributes[] = {
     { "t", _wrap_ThemeData_t_get, _wrap_ThemeData_t_set},
     { "width", _wrap_ThemeData_width_get, _wrap_ThemeData_width_set},
     { "height", _wrap_ThemeData_height_get, _wrap_ThemeData_height_set},
+    { "orientation", _wrap_ThemeData_orientation_get, _wrap_ThemeData_orientation_set},
     {0,0,0}
 };
 static swig_lua_class *swig_ThemeData_bases[] = {0};
@@ -2372,14 +2431,16 @@ static int _wrap_Theme_AddTextureData(lua_State* L) {
   int arg4 ;
   int arg5 ;
   int arg6 ;
+  int arg7 ;
   
-  SWIG_check_num_args("AddTextureData",6,6)
+  SWIG_check_num_args("AddTextureData",7,7)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("AddTextureData",1,"Theme *");
   if(!lua_isstring(L,2)) SWIG_fail_arg("AddTextureData",2,"std::string");
   if(!lua_isnumber(L,3)) SWIG_fail_arg("AddTextureData",3,"int");
   if(!lua_isnumber(L,4)) SWIG_fail_arg("AddTextureData",4,"int");
   if(!lua_isnumber(L,5)) SWIG_fail_arg("AddTextureData",5,"int");
   if(!lua_isnumber(L,6)) SWIG_fail_arg("AddTextureData",6,"int");
+  if(!lua_isnumber(L,7)) SWIG_fail_arg("AddTextureData",7,"int");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Theme,0))){
     SWIG_fail_ptr("Theme_AddTextureData",1,SWIGTYPE_p_Theme);
@@ -2390,7 +2451,8 @@ static int _wrap_Theme_AddTextureData(lua_State* L) {
   arg4 = (int)lua_tonumber(L, 4);
   arg5 = (int)lua_tonumber(L, 5);
   arg6 = (int)lua_tonumber(L, 6);
-  (arg1)->AddTextureData(arg2,arg3,arg4,arg5,arg6);
+  arg7 = (int)lua_tonumber(L, 7);
+  (arg1)->AddTextureData(arg2,arg3,arg4,arg5,arg6,arg7);
   
   return SWIG_arg;
   

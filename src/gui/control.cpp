@@ -21,15 +21,16 @@
 #include "controls.h"
 #include "../theme.h"
 
-Control::Control() : isEnabled(true), hasFocus(false), _type(ControlType), x(0), y(0), z(-TOP_LAYER), color(),
-parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL) { }
+Control::Control() : _attributes(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(),
+parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL), orientation(All) { }
 
-Control::Control(const Control& orig) : isEnabled(orig.isEnabled), hasFocus(orig.hasFocus), _type(orig._type),
-x(orig.x), y(orig.y), z(orig.z), color(orig.color), parent(orig.parent), root(orig.root),
-mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild), children(orig.children), events(orig.events) { }
+Control::Control(const Control& orig) : _attributes(orig._attributes), x(orig.x), y(orig.y), z(orig.z),
+width(orig.width), height(orig.height), color(orig.color), parent(orig.parent), root(orig.root),
+mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild),
+children(orig.children), events(orig.events), orientation(orig.orientation) { }
 
-Control::Control(TypeE t, Window* r, Control* p, LayerT l, float ix, float iy) : isEnabled(true), hasFocus(false),
-_type(t), x(ix), y(iy), z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL) {
+Control::Control(long t, Window* r, Control* p, LayerT l, float ix, float iy) : _attributes(t), x(ix), y(iy),
+z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL), orientation(All) {
 	SetLayer(l);
 }
 
@@ -41,8 +42,15 @@ Control* Control::clone() {
 	return new Control(*this);
 }
 
-TypeE Control::type() {
-	return _type;
+/**
+ * returns true if all of the given flags are enabled
+ */
+bool Control::attributes(long flags) {
+	return ((_attributes & flags) == flags);
+}
+
+long Control::attributes() {
+	return _attributes;
 }
 
 /**
@@ -87,8 +95,6 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 		activeChild = mouseOverChild;
 		activeChild->OnMousePress(button, mx, my);
 	} else {
-		//if (activeChild != NULL)
-		//activeChild->OnUnactivate();
 		activeChild = NULL;
 	}
 }
@@ -154,14 +160,6 @@ void Control::SetPosition(float cx, float cy) {
 	}
 }
 
-void Control::SetEnabled(bool value) {
-	isEnabled = value;
-}
-
-void Control::SetFocus(bool value) {
-	hasFocus = value;
-}
-
 float Control::GetWidth() {
 	return width;
 }
@@ -171,15 +169,30 @@ float Control::GetHeight() {
 }
 
 void Control::SetWidth(float w) {
-	width = w;
+	if(w > 0) width = w;
 }
 
 void Control::SetHeight(float h) {
-	height = h;
+	if(h > 0) height = h;
 }
 
 void Control::SetColor(util::Color c) {
 	color = c;
+}
+
+void Control::Resize(int w, int h) {
+	Control* obj = (parent != NULL) ? parent : root;
+
+	float wdelta = GetWidth() / obj->GetWidth() * w;
+	float hdelta = GetHeight() / obj->GetHeight() * h;
+
+	float xdelta = (GetX() - root->GetX()) / root->GetWidth() * w;
+	float ydelta = (GetY() - root->GetY()) / root->GetHeight() * h;
+	
+	Move(xdelta, ydelta);
+
+	if (GetOrientation() == All || GetOrientation() == Vertical) SetWidth(GetWidth() + wdelta);
+	if (GetOrientation() == All || GetOrientation() == Horizontal) SetHeight(GetHeight() + hdelta);
 }
 
 void Control::SetColor(float r, float g, float b, float a) {
@@ -403,7 +416,7 @@ float Control::GetDepth() {
 	return z + layer;
 }
 
-void Control::SetCallback(std::string name, Event* event) {
+void Control::AddCallback(std::string name, Event* event) {
 	//create a new event so we can safyly set the object
 	GUIEvent* newEvent = static_cast<GUIEvent*> (event->clone());
 	newEvent->SetObject(this);
@@ -414,7 +427,7 @@ void Control::SetCallback(std::string name, Event* event) {
 void Control::SetCallbacks(std::multimap<std::string, Event*> c) {
 	std::multimap<std::string, Event*>::iterator it;
 	for (it = c.begin(); it != c.end(); it++) {
-		SetCallback(it->first, it->second);
+		AddCallback(it->first, it->second);
 	}
 }
 
@@ -448,20 +461,20 @@ void Control::EndEvent(std::string str) {
 }
 
 /**
- * returns all label children
+ * returns all children with the given flags
  */
-std::vector<Label*> Control::GetTextObjs() {
-	std::vector<Label*> ret;
-	std::vector<Label*> temp;
+std::vector<Control*> Control::GetChildrenWith(long flags) {
+	std::vector<Control*> ret;
+	std::vector<Control*> temp;
 
-	if (type() == LabelType || type() == EditboxType) {
-		ret.push_back(dynamic_cast<Label*> (this));
+	if (attributes(flags)) {
+		ret.push_back(this);
 	}
 
 	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		temp = children[i]->GetTextObjs();
-		for (std::vector<Label*>::iterator it = temp.begin(); it != temp.end(); it++) {
+		temp = children[i]->GetChildrenWith(flags);
+		for (std::vector<Control*>::iterator it = temp.begin(); it != temp.end(); it++) {
 			ret.push_back(*it);
 		}
 	}
@@ -469,11 +482,16 @@ std::vector<Label*> Control::GetTextObjs() {
 	return ret;
 }
 
+/**
+ * TODO: fix for resizing in .xml
+ */
 void Control::ReloadTheme() {
 	ThemeData data = Theme::GetData(name);
 
 	SetWidth(data.width);
 	SetHeight(data.height);
+	SetOrientation((OrientationT)data.orientation);
+
 	s = data.s / float(Theme::ImageWidth());
 	t = 1.0 - data.t / float(Theme::ImageHeight());
 	s2 = float(data.s + data.width) / float(Theme::ImageWidth());
@@ -486,4 +504,12 @@ std::string Control::GetName() {
 
 void Control::SetName(std::string n) {
 	name = n;
+}
+
+OrientationT Control::GetOrientation() {
+	return orientation;
+}
+
+void Control::SetOrientation(OrientationT t) {
+	orientation = t;
 }

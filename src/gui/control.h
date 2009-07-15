@@ -32,7 +32,15 @@
 class Window;
 class Label;
 
-enum TypeE{ ControlType, WindowType, ButtonType, RuleType, EditboxType, LabelType, CheckboxType, SliderType };
+/** TODO: clean up attribute*/
+#define GUI_NONE                0
+#define GUI_HAS_TEXT            1
+#define GUI_RECIEVE_KEYS        2
+#define GUI_RECIEVE_MOUSE       4
+#define GUI_CLICKABLE           8
+#define GUI_ALL                 ~0
+
+enum OrientationT{ DontResize, All, Horizontal, Vertical }; //TODO: rename / refactor
 enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
 
 /**
@@ -42,11 +50,13 @@ class Control {
 public:
 	Control();
 	Control(const Control&);
-	Control(TypeE, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Control(long, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Control();
 
 	virtual Control* clone();
-        virtual TypeE type();
+
+        bool attributes(long);
+        long attributes();
 
 	virtual bool HitTest(int, int);
 
@@ -63,19 +73,16 @@ public:
 	virtual void Move(float, float);
 	virtual void SetPosition(float, float);
 
-	virtual void SetEnabled(bool);
-	virtual void SetFocus(bool);
-
 	void SetColor(util::Color);
 	void SetColor(float, float, float, float);
 	void AddColor(util::Color);
 	void AddColor(float, float, float, float);
-
 	util::Color GetColor();
 	float* GetColorv();
 
         virtual Control* NewChild(std::string, float, float, LayerT = DEFAULT_LAYER);
 	virtual void AddChild(Control*);
+
 	virtual Control* GetChild(unsigned int);
 	virtual Control* IterateChild(unsigned int);
 	virtual int IterateChild(Control*);
@@ -88,6 +95,7 @@ public:
 	virtual float GetHeight();
 	virtual void SetWidth(float);
 	virtual void SetHeight(float);
+        virtual void Resize(int, int);
 
 	virtual void SetDepth(float);
 	virtual void AddDepth(float);
@@ -99,7 +107,7 @@ public:
 	std::string GetName();
 	void SetName(std::string);
 
-	virtual Window* GetRoot();
+	Window* GetRoot();
 	void SetRoot(Window*);
 
         virtual void ReloadTheme();
@@ -110,13 +118,16 @@ public:
 	float GetLayer();
 	float GetDepth();
 
-	void SetCallback(std::string, Event*);
+	void AddCallback(std::string, Event*);
 	void SetCallbacks(std::multimap<std::string, Event*>);
 	
 	void StartEvent(std::string);
 	void EndEvent(std::string);
 
-        std::vector<Label*> GetTextObjs();
+        OrientationT GetOrientation();
+        void SetOrientation(OrientationT);
+
+        std::vector<Control*> GetChildrenWith(long);
 
 	float s, t, s2, t2;
 protected:
@@ -132,10 +143,10 @@ protected:
 	float x, y, z;
 	float layer;
 
-        TypeE _type;
+        long _attributes;
         util::Color color;
 private:
 	std::string name;
-	bool hasFocus, isEnabled;
+        OrientationT orientation;
 };
 #endif

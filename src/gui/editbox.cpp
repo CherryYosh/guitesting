@@ -17,7 +17,7 @@
 
 #include "../lua/luabase.h"
 
-Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : caretPos(0), currentLine(0), Label(EditboxType, p, c, l, x, y) {
+Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : caretPos(0), currentLine(0), Label(GUI_RECIEVE_KEYS | GUI_RECIEVE_MOUSE | GUI_HAS_TEXT, p, c, l, x, y) {
 	text.push_back("");
 }
 

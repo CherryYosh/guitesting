@@ -99,9 +99,9 @@ void GUI::MakeActive(Window* w) {
     w->SetDepth(-TOP_LAYER);
     renderer->Refresh();
 
-    //if (ActiveWindow->type() == LabelType || ActiveWindow->type() == EditboxType) {
-    input->SetProfile("typing");
-    //}
+    //if (Active->attributes() & RECIEVE_KEYS) {
+	input->SetProfile("typing");
+ //   }
 }
 
 void GUI::OnKeyPress(unsigned short unicode, int key, int mod) {
@@ -147,7 +147,7 @@ void GUI::CreateWindow(std::string name, float x, float y) {
     Window* window = Theme::Widget(name);
 
     if (window != NULL) {
-	window->ReloadTheme();
+	//window->ReloadTheme();
 	window->SetGUI(this);
 	window->SetRenderer(renderer);
 	window->Move(x, y);

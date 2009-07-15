@@ -5,7 +5,8 @@ require "lxp"
 
 local t = theme.Theme()
 local curWidget = nil
-local curChild = nul
+local curChild = nil
+local tempChild = nil
 local isInEvent = false;
 
 --load the utils file for GetEventByName, cant use swig for this sadly
@@ -22,7 +23,10 @@ local function textures(name, args)
 end
 
 local function texture(name, args)
-    t : AddTextureData( args["name"], args["x"], args["y"], args["width"], args["height"]);
+    ori = widgets.All
+    if args["orientation"] then ori = ToOrientation(args["orientation"]) end
+
+    t : AddTextureData( args["name"], args["x"], args["y"], args["width"], args["height"], ori);
 end
 
 local function widget(name, args)
@@ -44,7 +48,13 @@ local function child(name, args)
 
     if args["multiline"] then
 	curChild : ToLabel() : multiline( true )
+	print("LUA::XML FIX THE HACK!!")
     end
+
+    if args["width"] then curChild : SetWidth( args["width"] ) end
+    if args["height"] then curChild : SetHeight( args["height"] ) end
+
+    if args["orientation"] then curChild : SetOrientation( ToOrientation(args["orientation"]) ) end
 end
 
 local function childEnd(name)
@@ -60,17 +70,17 @@ local function eventsEnd(name)
 end
 
 local function dialog(name, args)
-	if args["layer"] then
-	    temp = curWidget : NewChild(args["type"], args["x"], args["y"], ToLayer(args["layer"]))
-	else
-	    temp = curWidget : NewChild(args["type"], args["x"], args["y"])
-	end
+	tempChild = curChild
 
-	if args["multiline"] then
-	    temp : ToLabel() : multiline( true )
-	end
+	child(name, args)
 
-	curChild : ToEditbox() : SetDialog( temp : ToEditbox() )
+	--just sets the previous' childs dialog to the current
+	tempChild : ToEditbox() : SetDialog( curChild : ToEditbox() )
+end
+
+local function dialogEnd(name)
+	curChild = tempChild
+	tempChild = nil
 end
 
 local function events(name, args)
@@ -80,7 +90,11 @@ local function events(name, args)
 	    control = curWidget
 	else error() end
 
-	print("Events, TODO")
+	e = GetEventByName(args["class"])
+
+	if args["color"] then e : SetColor(args["color"]) end
+
+	control : AddCallback(name, e)
 end
 
 local callbacks = {
@@ -111,6 +125,8 @@ local callbacks = {
 			childEnd(name)
 		elseif name == "effects" then
 			eventsEnd(name)
+		elseif name == "dialog" then
+			dialogEnd(name)
 		end
 	end
 }

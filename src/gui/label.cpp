@@ -16,10 +16,10 @@
 #include "label.h"
 #include "../fontmgr.h"
 
-Label::Label(TypeE t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
+Label::Label(long t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
 }
 
-Label::Label(Window* p, Control* c, LayerT l, float x, float y) : Control(LabelType, p, c, l, x, y) {
+Label::Label(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_HAS_TEXT, p, c, l, x, y) {
 }
 
 Label::Label(const Label& orig) : text(orig.text), isMultiline(orig.isMultiline), Control(orig) {}
@@ -68,7 +68,6 @@ std::vector<colorstring>& Label::GetText() {
 }
 
 void Label::multiline(bool v){
-	printf("here %i\n", v);
 	isMultiline = v;
 }
 bool Label::multiline() {
