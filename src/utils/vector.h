@@ -561,7 +561,7 @@ namespace util {
 
 		// Construct from explicit values
 
-		vec4(const T v0, const T v1, const T v2, const T v3) {
+		vec4(const T v0, const T v1, const T v2 = 1, const T v3 = 1) {
 			x = v0;
 			y = v1;
 			z = v2;

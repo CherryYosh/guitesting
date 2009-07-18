@@ -25,11 +25,6 @@ public:
 	~Button();
 
 	Control* clone();
-
-	bool HitTest(int, int);
-	bool OnMouseClick(unsigned short, bool);
-	void OnMousePress(unsigned short, int, int);
-
 protected:
 private:
 };

@@ -48,7 +48,7 @@ public:
     void OnKeyPress(unsigned short, int, int);
     void OnMousePress(unsigned short, int, int);
     bool OnMouseClick(unsigned short, bool);
-    bool HitTest(float, float);
+    bool MouseTest(float, float);
 
     void Unproject(float, float, float*, float*);
 
@@ -70,7 +70,19 @@ public:
     void Rotate(float, float, float, float);
     void ReloadTheme();
 
+    void SetBorders(int, int, int, int);
+    void UpdateBorders();
+
+    void Resizable(bool);
+    bool Resizable();
     void Resize(int, int);
+
+    //TODO: find better names
+    float GetInternalX();
+    float GetInternalY();
+    float GetInternalWidth();
+    float GetInternalHeight();
+
 protected:
 private:
     GUI* gui;
@@ -78,6 +90,10 @@ private:
 
     std::vector<Event*> activeEvents;
     util::matrix4<float> rotation;
+
+    bool bordersSet;
+    bool resizable;
+    Control *topborder, *bottomborder, *leftborder, *rightborder, *leftedge, *rightedge;
 };
 
 #endif

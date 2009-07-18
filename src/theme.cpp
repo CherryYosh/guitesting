@@ -62,8 +62,8 @@ Window* Theme::GetWidget(std::string name) {
 /**
  * adds or replaces the texturedata for name, only used in Lua
  */
-void Theme::AddTextureData(std::string name, int x, int y, int width, int height, int orientation) {
-	textures[name] = ThemeData(x, y, width, height, orientation);
+void Theme::AddTextureData(std::string name, int x, int y, int width, int height) {
+	textures[name] = ThemeData(x, y, width, height);
 }
 
 /**

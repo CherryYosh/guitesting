@@ -25,25 +25,25 @@
  * also allow for 32bit alligment prefered by GPU's
  */
 struct WidgetData {
-	float x, y, z; //position
-	float spacer1;
-	float s, t; //texture
-	float spacer2[2];
-	float r, g, b, a; //color
-	float spacer3[4];
+    float x, y, z; //position
+    float spacer1;
+    float s, t; //texture
+    float spacer2[2];
+    float r, g, b, a; //color
+    float spacer3[4];
 };
 
-oglWidgetRenderer::oglWidgetRenderer() : TotalObjects(0), Buffer(){
-	base = new oglBase();
+oglWidgetRenderer::oglWidgetRenderer() : TotalObjects(0), Buffer() {
+    base = new oglBase();
 
-	shader = new Shader("guiAnimation");
+    shader = new Shader("guiAnimation");
 
-	shader->GetUniformLoc(0, "projection");
-	shader->GetUniformLoc(1, "modelview");
-	shader->GetUniformLoc(2, "tex0");
-	shader->GetAttributeLoc(0, "vertex");
-	shader->GetAttributeLoc(1, "tcoord");
-	shader->GetAttributeLoc(2, "tcolor");
+    shader->GetUniformLoc(0, "projection");
+    shader->GetUniformLoc(1, "modelview");
+    shader->GetUniformLoc(2, "tex0");
+    shader->GetAttributeLoc(0, "vertex");
+    shader->GetAttributeLoc(1, "tcoord");
+    shader->GetAttributeLoc(2, "tcolor");
 }
 
 oglWidgetRenderer::~oglWidgetRenderer() { }
@@ -53,10 +53,10 @@ oglWidgetRenderer::~oglWidgetRenderer() { }
  * @param obj a pointer to the new object, cannot be null.
  */
 void oglWidgetRenderer::AddObject(void* obj) {
-	if (obj == NULL) throw std::invalid_argument("oglWidgetRenderer::AddObject::Obj_Is_NULL");
+    if (obj == NULL) throw std::invalid_argument("oglWidgetRenderer::AddObject::obj_is_null");
 
-	TotalObjects += static_cast<Control*> (obj)->Size();
-	Objects.push_back(static_cast<Control*> (obj));
+    TotalObjects += static_cast<Control*> (obj)->Size();
+    Objects.push_back(static_cast<Control*> (obj));
 }
 
 /**
@@ -65,90 +65,90 @@ void oglWidgetRenderer::AddObject(void* obj) {
  * @BUG does not remove the data from the vbo..
  */
 void oglWidgetRenderer::RemoveObject(void* obj) {
-	assert(obj != NULL);
+    assert(obj != NULL);
 
-	TotalObjects -= static_cast<Control*> (obj)->Size();
-	std::vector<Control*>::iterator it = Objects.begin();
-	while (it != Objects.end()) {
-		if (*it == obj) {
-			it = Objects.erase(it);
-			return;
-		} else {
-			it++;
-		}
+    TotalObjects -= static_cast<Control*> (obj)->Size();
+    std::vector<Control*>::iterator it = Objects.begin();
+    while (it != Objects.end()) {
+	if (*it == obj) {
+	    it = Objects.erase(it);
+	    return;
+	} else {
+	    it++;
 	}
+    }
 
-	printf("Unable to remove object, object not found! \n");
+    printf("Unable to remove object, object not found! \n");
 }
 
 /**
  * Binds and sets up all, known, data for rendering
  */
 void oglWidgetRenderer::Begin() {
-	//NOTE: Crashing here means c is null,
-	//no check as there would be no way to handel this case
-	//atleast without preventing it from EVER happening, which we need to do
-	Camera* c = base->GetCamera();
+    Camera* c = base->GetCamera();
 
-	shader->Bind();
-	shader->SetProjection(c->GetOrthofv());
-	shader->SetModelview(c->GetModelviewfv());
+    shader->Bind();
+    shader->SetProjection(c->GetOrthofv());
+    shader->SetModelview(c->GetModelviewfv());
 
-	//We bind the theme image
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Theme::GetImageID());
+    //We bind the theme image
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Theme::GetImageID());
 
-	Buffer.Bind();
+    Buffer.Bind();
 
-	glEnableVertexAttribArray(shader->attribute[0]);
-	glEnableVertexAttribArray(shader->attribute[1]);
-	glEnableVertexAttribArray(shader->attribute[2]);
+    glEnableVertexAttribArray(shader->attribute[0]);
+    glEnableVertexAttribArray(shader->attribute[1]);
+    glEnableVertexAttribArray(shader->attribute[2]);
 
-	glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, sizeof(WidgetData), 0);
-	glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (4 * sizeof(float)));
-	glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (8 * sizeof(float)));
+    glVertexAttribPointer(shader->attribute[0], 3, GL_FLOAT, GL_FALSE, sizeof(WidgetData), 0);
+    glVertexAttribPointer(shader->attribute[1], 2, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (4 * sizeof(float)));
+    glVertexAttribPointer(shader->attribute[2], 4, GL_FLOAT, GL_FALSE, sizeof(WidgetData), (GLvoid*) (8 * sizeof(float)));
 }
 
 /**
  * Renders all objects
  */
 void oglWidgetRenderer::Render() {
-	glDrawArrays(GL_QUADS, 0, TotalObjects * 4);
+    glDrawArrays(GL_QUADS, 0, TotalObjects * 4);
 }
 
 /**
  * Unbinds all, known, data
  */
 void oglWidgetRenderer::End() {
-	glDisableVertexAttribArray(shader->attribute[0]);
-	glDisableVertexAttribArray(shader->attribute[1]);
-	glDisableVertexAttribArray(shader->attribute[2]);
+    glDisableVertexAttribArray(shader->attribute[0]);
+    glDisableVertexAttribArray(shader->attribute[1]);
+    glDisableVertexAttribArray(shader->attribute[2]);
 
-	Buffer.Unbind();
-	shader->Unbind();
+    Buffer.Unbind();
+    shader->Unbind();
 }
 
 /**
  * Does a full draw cycle, same as calling Begin(), Render(), End()
  */
 void oglWidgetRenderer::Draw() {
-	Begin();
-	Render();
-	End();
+    Begin();
+    Render();
+    End();
 }
 
 /**
  * 'Refreshes' the buffer. Clearning it before readding all data.
  */
 void oglWidgetRenderer::Refresh() {
-	Buffer.Bind();
-	Buffer.RemoveData(0, Buffer.GetSize());
-	Buffer.Unbind();
+    Buffer.Bind();
+    Buffer.RemoveData(0, Buffer.GetSize());
+    Buffer.Unbind();
 
-	size_t size = Objects.size();
-	for (unsigned int i = 0; i < size; i++) {
-		Update(Objects[i], RENDERER_ADD);
-	}
+    TotalObjects = 0;
+
+    size_t size = Objects.size();
+    for (unsigned int i = 0; i < size; i++) {
+	TotalObjects += Objects[i]->Size();
+	Update(Objects[i], RENDERER_ADD);
+    }
 }
 
 /**
@@ -157,157 +157,158 @@ void oglWidgetRenderer::Refresh() {
  * @param update a enum for the type of update to use.
  */
 void oglWidgetRenderer::Update(void* obj, unsigned int update) {
-	Control* object = static_cast<Control*> (obj);
-	Control* root = object;
-	Control* child;
+    Control* object = static_cast<Control*> (obj);
+    Control* root = object;
+    Control* child;
 
-	if (object->GetRoot() == object)
-		root = NULL;
+    if (object->GetRoot() == object)
+	root = NULL;
 
-	unsigned int dataSize = object->Size() * 4;
-	WidgetData* data = new WidgetData[ dataSize ];
+    unsigned int dataSize = object->Size() * 4;
+    WidgetData* data = new WidgetData[ dataSize ];
 
-	//these are for cleaner code
-	//also SHOULD allow for easyer SSE complation
-	unsigned int slot = 0;
-	util::vec4<float> v1, v2, v3, v4;
-	float vs, vs2, vt, vt2;
-	float* c;
+    //these are for cleaner code
+    //also SHOULD allow for easyer SSE complation
+    unsigned int slot = 0;
+    util::vec4<float> v1, v2, v3, v4;
+    float vs, vs2, vt, vt2;
+    float* c;
 
-	unsigned int j = 0;
-	size_t size1 = object->Size();
-	size_t size2 = 0;
-	for (unsigned int i = 0; i < size1; i++) {
-		if (root == NULL)
-			root = object->GetChild(i++);
+    //TODO: REWORK ALL OF THIS -__-
+    unsigned int j = 0;
+    size_t size1 = object->Size();
+    size_t size2 = 0;
+    for (unsigned int i = 0; i <= size1; i++) {
+	if (root == NULL)
+	    root = object->GetChild(i++);
 
-		size2 = root->TotalChildren();
-		child = root;
+	size2 = root->TotalChildren();
+	child = root;
 
-		j = 0;
-		do {
-			v1 = util::vec4<float>(child->GetX(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0);
-			v2 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY(), child->GetZ() + child->GetLayer(), 1.0);
-			v3 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0);
-			v4 = util::vec4<float>(child->GetX(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer(), 1.0);
+	j = 0;
+	do {
+	    v1 = util::vec4<float>(child->GetX(), child->GetY(), child->GetZ() + child->GetLayer());
+	    v2 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY(), child->GetZ() + child->GetLayer());
+	    v3 = util::vec4<float>(child->GetX() + child->GetWidth(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer());
+	    v4 = util::vec4<float>(child->GetX(), child->GetY() + child->GetHeight(), child->GetZ() + child->GetLayer());
 
-			//Will apply the roots rotation to the vbo so we dont need to pass
-			//the matrix to the gpu every call
-			if (child->GetRoot() != NULL) {
-				v1 = (*child->GetRotation()) * v1;
-				v2 = (*child->GetRotation()) * v2;
-				v3 = (*child->GetRotation()) * v3;
-				v4 = (*child->GetRotation()) * v4;
-			}
+	    //Will apply the roots rotation to the vbo so we dont need to pass
+	    //the matrix to the gpu every call
+	    if (child->GetRoot() != NULL) {
+		v1 = (*child->GetRotation()) * v1;
+		v2 = (*child->GetRotation()) * v2;
+		v3 = (*child->GetRotation()) * v3;
+		v4 = (*child->GetRotation()) * v4;
+	    }
 
-			vs = child->s;
-			vs2 = child->s2;
-			vt = child->t;
-			vt2 = child->t2;
+	    vs = child->s;
+	    vs2 = child->s2;
+	    vt = child->t;
+	    vt2 = child->t2;
 
-			//get the color
-			c = child->GetColorv();
+	    //get the color
+	    c = child->GetColorv();
 
-			//top left
-			data[slot].x = v1.x;
-			data[slot].y = v1.y;
-			data[slot].z = v1.z;
-			data[slot].s = vs;
-			data[slot].t = vt;
-			data[slot].r = c[0];
-			data[slot].g = c[1];
-			data[slot].b = c[2];
-			data[slot].a = c[3];
-			slot++;
+	    //top left
+	    data[slot].x = v1.x;
+	    data[slot].y = v1.y;
+	    data[slot].z = v1.z;
+	    data[slot].s = vs;
+	    data[slot].t = vt;
+	    data[slot].r = c[0];
+	    data[slot].g = c[1];
+	    data[slot].b = c[2];
+	    data[slot].a = c[3];
+	    slot++;
 
-			//top right
-			data[slot].x = v2.x;
-			data[slot].y = v2.y;
-			data[slot].z = v2.z;
-			data[slot].s = vs2;
-			data[slot].t = vt;
-			data[slot].r = c[0];
-			data[slot].g = c[1];
-			data[slot].b = c[2];
-			data[slot].a = c[3];
-			slot++;
+	    //top right
+	    data[slot].x = v2.x;
+	    data[slot].y = v2.y;
+	    data[slot].z = v2.z;
+	    data[slot].s = vs2;
+	    data[slot].t = vt;
+	    data[slot].r = c[0];
+	    data[slot].g = c[1];
+	    data[slot].b = c[2];
+	    data[slot].a = c[3];
+	    slot++;
 
-			//bottom right
-			data[slot].x = v3.x;
-			data[slot].y = v3.y;
-			data[slot].z = v3.z;
-			data[slot].s = vs2;
-			data[slot].t = vt2;
-			data[slot].r = c[0];
-			data[slot].g = c[1];
-			data[slot].b = c[2];
-			data[slot].a = c[3];
-			slot++;
+	    //bottom right
+	    data[slot].x = v3.x;
+	    data[slot].y = v3.y;
+	    data[slot].z = v3.z;
+	    data[slot].s = vs2;
+	    data[slot].t = vt2;
+	    data[slot].r = c[0];
+	    data[slot].g = c[1];
+	    data[slot].b = c[2];
+	    data[slot].a = c[3];
+	    slot++;
 
-			//bottom left
-			data[slot].x = v4.x;
-			data[slot].y = v4.y;
-			data[slot].z = v4.z;
-			data[slot].s = vs;
-			data[slot].t = vt2;
-			data[slot].r = c[0];
-			data[slot].g = c[1];
-			data[slot].b = c[2];
-			data[slot].a = c[3];
-			slot++;
+	    //bottom left
+	    data[slot].x = v4.x;
+	    data[slot].y = v4.y;
+	    data[slot].z = v4.z;
+	    data[slot].s = vs;
+	    data[slot].t = vt2;
+	    data[slot].r = c[0];
+	    data[slot].g = c[1];
+	    data[slot].b = c[2];
+	    data[slot].a = c[3];
+	    slot++;
 
-			child = root->IterateChild(j);
-			j++;
-		} while (j <= size2);
+	    child = root->IterateChild(j++);
+	} while (j <= size2); //Does this need to be '<='?
 
-		root = object->GetChild(i);
+	root = object->GetChild(i);
+    }
+
+    Buffer.Bind();
+
+    if (update == RENDERER_ADD) {
+	Buffer.AddData(dataSize * sizeof(WidgetData), data);
+    } else if (update == RENDERER_REFRESH) {
+	unsigned int start = 0;
+	int pos = 0;
+	int r = -1;
+
+	size_t size = Objects.size();
+	for (unsigned int j = 0; j < size; j++) {
+	    r = Objects[j]->IterateChild(object);
+
+	    if (r == -1) {
+		pos += Objects[j]->Size();
+	    } else {
+		pos += r;
+		break;
+	    }
 	}
 
-	Buffer.Bind();
+	start = pos * 4 * sizeof(WidgetData);
 
-	if (update == RENDERER_ADD) {
-		Buffer.AddData(dataSize * sizeof(WidgetData), data);
-	} else if (update == RENDERER_REFRESH) {
-		unsigned int start = 0;
-		int pos = 0;
-		int r = -1;
+	Buffer.SetData(start, dataSize * sizeof(WidgetData), data);
+    }
 
-		size_t size = Objects.size();
-		for (unsigned int j = 0; j < size; j++) {
-			r = Objects[j]->IterateChild(object);
+    Buffer.Unbind();
 
-			if (r == -1) {
-				pos += Objects[j]->Size();
-			} else {
-				pos += r;
-				break;
-			}
-		}
-
-		start = pos * 4 * sizeof(WidgetData);
-
-		Buffer.SetData(start, dataSize * sizeof(WidgetData), data);
-	}
-
-	Buffer.Unbind();
-
-	delete [] data;
+    delete [] data;
 }
 
 Shader* oglWidgetRenderer::GetShader() {
-	return shader;
+    return shader;
 }
 
 void oglWidgetRenderer::SetShader(Shader* s) {
-	if (s == NULL)
-		return;
-	shader = s;
+    if (s == NULL)
+	return;
+    
+    shader = s;
 }
 
 int* oglWidgetRenderer::GetViewport() {
-	return base->GetViewport();
+    return base->GetViewport();
 }
 
 Camera* oglWidgetRenderer::GetCamera() {
-	return base->GetCamera();
+    return base->GetCamera();
 }

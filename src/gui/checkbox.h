@@ -14,10 +14,7 @@ class Checkbox : public Control {
 public:
 	Checkbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Checkbox();
-
-	bool OnMouseClick(unsigned short, bool);
 private:
-	bool isChecked;
 };
 
 #endif	/* _CHECKBOX_H */

@@ -32,8 +32,8 @@ Display::Display() : System() {
     camera = new Camera();
     context->SetCamera(camera);
 
-    camera->SetProjection(45.0, 640.0 / 480.0, 1.0, 1000.0);
-    camera->SetOrtho(0, 640, 480, 0, 0, 1000);
+    camera->SetProjection(45.0, WINDOWWIDTH / WINDOWHEIGHT, 1.0, 1000.0);
+    camera->SetOrtho(0, WINDOWWIDTH, WINDOWHEIGHT, 0, 0, 1000);
     camera->Move(0, 0, -1);
 
     Mouse_Init(this);

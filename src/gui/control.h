@@ -40,113 +40,124 @@ class Label;
 #define GUI_CLICKABLE           8
 #define GUI_ALL                 ~0
 
-enum OrientationT{ DontResize, All, Horizontal, Vertical }; //TODO: rename / refactor
-enum LayerT{ BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER };
+enum OrientationT {
+    DontResize, All, Horizontal, Vertical
+}; //TODO: rename / refactor
+
+enum LayerT {
+    BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER
+};
 
 /**
  * the basic control class of all GUI objects
  */
 class Control {
 public:
-	Control();
-	Control(const Control&);
-	Control(long, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
-	virtual ~Control();
+    Control();
+    Control(const Control&);
+    Control(long, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+    virtual ~Control();
 
-	virtual Control* clone();
+    virtual Control* clone();
 
-        bool attributes(long);
-        long attributes();
+    bool attributes(long);
+    long attributes();
 
-	virtual bool HitTest(int, int);
+    virtual bool Contains(int, int);
+    virtual bool MouseTest(int, int);
 
-	virtual void OnMousePress(unsigned short, int, int);
-	virtual void OnMouseRelease(int);
-	virtual void OnMouseEnter();
-	virtual void OnMouseLeave();
-	virtual bool OnMouseClick(unsigned short, bool);
-	virtual bool OnMouseMotion(float, float, unsigned short);
+    virtual void OnMousePress(unsigned short, int, int);
+    virtual void OnMouseRelease(int);
+    virtual void OnMouseEnter();
+    virtual void OnMouseLeave();
+    virtual bool OnMouseClick(unsigned short, bool);
+    virtual bool OnMouseMotion(float, float, unsigned short);
 
-	virtual void OnKeyPress(unsigned short, int, int);
-	virtual void OnKeyRelease(int, int);
+    virtual void OnKeyPress(unsigned short, int, int);
+    virtual void OnKeyRelease(int, int);
 
-	virtual void Move(float, float);
-	virtual void SetPosition(float, float);
+    virtual void Move(float, float);
+    virtual void SetPosition(float, float);
 
-	void SetColor(util::Color);
-	void SetColor(float, float, float, float);
-	void AddColor(util::Color);
-	void AddColor(float, float, float, float);
-	util::Color GetColor();
-	float* GetColorv();
+    void SetColor(util::Color);
+    void SetColor(float, float, float, float);
+    void AddColor(util::Color);
+    void AddColor(float, float, float, float);
+    util::Color GetColor();
+    float* GetColorv();
 
-        virtual Control* NewChild(std::string, float, float, LayerT = DEFAULT_LAYER);
-	virtual void AddChild(Control*);
+    virtual Control* NewChild(std::string, float, float, LayerT = DEFAULT_LAYER, OrientationT = All);
+    virtual void AddChild(Control*);
 
-	virtual Control* GetChild(unsigned int);
-	virtual Control* IterateChild(unsigned int);
-	virtual int IterateChild(Control*);
+    virtual Control* GetChild(unsigned int);
+    virtual Control* IterateChild(unsigned int);
+    virtual int IterateChild(Control*);
 
-	virtual unsigned int Size();
-	virtual unsigned int TotalChildren();
-	virtual unsigned int NumChildren();
+    virtual unsigned int Size();
+    virtual unsigned int TotalChildren();
+    virtual unsigned int NumChildren();
 
-	virtual float GetWidth();
-	virtual float GetHeight();
-	virtual void SetWidth(float);
-	virtual void SetHeight(float);
-        virtual void Resize(int, int);
+    virtual float GetWidth();
+    virtual float GetHeight();
+    virtual void SetWidth(std::string);
+    virtual void SetWidth(float);
+    virtual void SetHeight(std::string);
+    virtual void SetHeight(float);
+    virtual void Resize(int, int);
 
-	virtual void SetDepth(float);
-	virtual void AddDepth(float);
-	virtual void SetLayer(LayerT);
+    virtual void SetDepth(float);
+    virtual void AddDepth(float);
+    virtual void SetLayer(LayerT);
 
-	util::matrix4<float>* GetRotation();
-	float* GetRotationfv();
+    util::matrix4<float>* GetRotation();
+    float* GetRotationfv();
 
-	std::string GetName();
-	void SetName(std::string);
+    std::string GetName();
+    void SetName(std::string);
 
-	Window* GetRoot();
-	void SetRoot(Window*);
+    Window* GetRoot();
+    void SetRoot(Window*);
 
-        virtual void ReloadTheme();
+    virtual void ReloadTheme();
 
-	float GetX();
-	float GetY();
-	float GetZ();
-	float GetLayer();
-	float GetDepth();
+    float GetX();
+    float GetY();
+    float GetZ();
+    float GetLayer();
+    float GetDepth();
 
-	void AddCallback(std::string, Event*);
-	void SetCallbacks(std::multimap<std::string, Event*>);
-	
-	void StartEvent(std::string);
-	void EndEvent(std::string);
+    void AddCallback(std::string, Event*);
+    void SetCallbacks(std::multimap<std::string, Event*>);
 
-        OrientationT GetOrientation();
-        void SetOrientation(OrientationT);
+    void StartEvent(std::string);
+    void EndEvent(std::string);
 
-        std::vector<Control*> GetChildrenWith(long);
+    OrientationT GetOrientation();
+    void SetOrientation(OrientationT);
 
-	float s, t, s2, t2;
+    std::vector<Control*> GetChildrenWith(long);
+
+    void SetMovementFlags(std::string);
+
+    float s, t, s2, t2;
 protected:
-	Window* root;
-	Control* parent;
-	Control* mouseOverChild;
-	Control* activeChild;
+    Window* root;
+    Control* parent;
+    Control* mouseOverChild;
+    Control* activeChild;
 
-	std::vector<Control*> children;
-	std::multimap<std::string, Event*> events;
+    std::vector<Control*> children;
+    std::multimap<std::string, Event*> events;
 
-	float width, height;
-	float x, y, z;
-	float layer;
+    float width, height;
+    float x, y, z;
+    float layer;
 
-        long _attributes;
-        util::Color color;
+    long _attributes;
+    util::Color color;
 private:
-	std::string name;
-        OrientationT orientation;
+    int movement; //FIND A BETTER NAME / FIX THE BUG
+    std::string name;
+    OrientationT orientation;
 };
 #endif

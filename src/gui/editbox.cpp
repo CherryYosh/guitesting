@@ -33,16 +33,6 @@ Control* Editbox::clone(){
 	return new Editbox(*this);
 }
 
-bool Editbox::HitTest(int mX, int mY) {
-	if (mX > x && mX < x + width
-		&& mY > y && mY < y + height) {
-		return true;
-	}
-	return false;
-}
-
-void Editbox::OnMousePress(unsigned short button, int mX, int mY) { }
-
 void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
 	if (unicode > 31 && unicode < 126) { //alphabet
 		text[currentLine].insert(caretPos, unicode);
@@ -144,10 +134,6 @@ void Editbox::AddString(std::string s, util::Color c) {
 void Editbox::SetCaretPos(int newpos) {
 	MoveCaret(newpos - caretPos);
 }
-
-void Editbox::OnKeyRelease(int key, int mod) { }
-
-void Editbox::OnMouseRelease(int button) { }
 
 /**
  * TODO: Find a better name..

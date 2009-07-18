@@ -29,21 +29,3 @@ Button::~Button() { }
 Control* Button::clone() {
 	return new Button(*this);
 }
-
-bool Button::HitTest(int mouseX, int mouseY) {
-	if (mouseX > x && mouseX < x + width &&
-		mouseY > y && mouseY < y + height) {
-		return true;
-	}
-	return false;
-}
-
-void Button::OnMousePress(unsigned short button, int mx, int my) {
-	StartEvent("onPress");
-}
-
-bool Button::OnMouseClick(unsigned short num, bool final) {
-	//keep in mind, onClick events MUST call End() and remove their self from the roots event list
-	StartEvent("onClick");
-	return false; //we dont do anything
-}

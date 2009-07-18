@@ -25,11 +25,7 @@ public:
 
     Control* clone();
 
-    bool HitTest(int, int);
     void OnKeyPress(unsigned short, int, int);
-    void OnKeyRelease(int, int);
-    void OnMousePress(unsigned short, int, int);
-    void OnMouseRelease(int);
 
     void ChangeCaretLine(int);
     void MoveCaret(int);

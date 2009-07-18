@@ -28,10 +28,10 @@
 class Window;
 
 struct ThemeData{
-	int s, t, width, height, orientation;
+	int s, t, width, height;
 
 	ThemeData(){}
-	ThemeData(int a, int b, int c, int d, int e) : s(a), t(b), width(c), height(d), orientation(e) {}
+	ThemeData(int a, int b, int c, int d) : s(a), t(b), width(c), height(d) {}
 };
 
 class Theme {
@@ -47,7 +47,7 @@ public:
     static Window* Widget(std::string);
     Window* GetWidget(std::string);
 
-    void AddTextureData(std::string, int, int, int, int, int);
+    void AddTextureData(std::string, int, int, int, int);
     void Alias(std::string, std::string);
 
     static ThemeData& GetData(std::string);

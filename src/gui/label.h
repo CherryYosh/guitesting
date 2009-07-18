@@ -32,15 +32,6 @@ public:
 
         Control* clone();
 
-	virtual void onMousePress(int);
-	virtual void onMouseRelease(int);
-
-	virtual void onKeyPress(unsigned short);
-	virtual void onKeyRelease(int, int);
-
-	virtual void SetWidth(unsigned short);
-	virtual void SetHeight(unsigned short);
-
         virtual void AddString(colorstring);
 	virtual void AddString(std::string , util::Color = "#FFFFFF");
         std::vector<colorstring>& GetText();

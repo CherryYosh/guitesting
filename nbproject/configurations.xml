@@ -129,10 +129,6 @@
       <itemPath>makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceRootList>
-    <Elem>src</Elem>
-    <Elem>scripts</Elem>
-  </sourceRootList>
   <projectmakefile>guitesting-Makefile.mk</projectmakefile>
   <confs>
     <conf name="Default" type="0">

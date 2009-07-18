@@ -10,10 +10,8 @@
       </gdbdebugger>
       <gizmo_options version="1">
         <profileOnRun>false</profileOnRun>
-        <tool name="CPU Usage" enabled="false"/>
         <tool name="Memory Tool" enabled="false"/>
         <tool name="Sync Tool" enabled="false"/>
-        <dataprovider>1</dataprovider>
       </gizmo_options>
       <runprofile version="5">
         <args></args>
@@ -31,7 +29,6 @@
         <array_repeat_threshold>10</array_repeat_threshold>
       </gdbdebugger>
       <gizmo_options version="1">
-        <dataprovider>1</dataprovider>
       </gizmo_options>
       <runprofile version="5">
         <args></args>

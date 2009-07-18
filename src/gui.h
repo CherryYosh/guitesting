@@ -34,7 +34,7 @@ public:
 
 	bool HitTest(float, float);
 	void Move(int, int);
-	void MakeActive(Window*);
+	void MakeActiveWindow(Window*);
 
 	void OnKeyPress(unsigned short, int, int);
 	void OnMousePress(unsigned short, int, int);

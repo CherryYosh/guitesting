@@ -10,6 +10,9 @@
 
 #include "../base.h"
 
+#define WINDOWWIDTH 800.0f
+#define WINDOWHEIGHT 600.0f
+
 class oglBase : public Base {
 public:
 	oglBase();

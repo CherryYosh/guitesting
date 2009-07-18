@@ -23,14 +23,20 @@ local function textures(name, args)
 end
 
 local function texture(name, args)
-    ori = widgets.All
-    if args["orientation"] then ori = ToOrientation(args["orientation"]) end
+    t : AddTextureData( args["name"], args["x"], args["y"], args["width"], args["height"]);
+end
 
-    t : AddTextureData( args["name"], args["x"], args["y"], args["width"], args["height"], ori);
+local function alias(name, args)
+    t : Alias( args["name"], args["ref"] )
 end
 
 local function widget(name, args)
     curWidget = t : NewWidget(args["name"])
+
+    if args["resizable"] then
+	print("LUA FIX THE BUG")
+	curWidget : Resizable( true )
+    end
 end
 
 local function widgetEnd(name)
@@ -53,8 +59,8 @@ local function child(name, args)
 
     if args["width"] then curChild : SetWidth( args["width"] ) end
     if args["height"] then curChild : SetHeight( args["height"] ) end
-
     if args["orientation"] then curChild : SetOrientation( ToOrientation(args["orientation"]) ) end
+    if args["move"] then curChild : SetMovementFlags( args["move"] ) end
 end
 
 local function childEnd(name)
@@ -83,6 +89,10 @@ local function dialogEnd(name)
 	tempChild = nil
 end
 
+local function border(name, args)
+    curWidget : SetBorders( args["top"], args["bottom"], args["left"], args["right"] )
+end
+
 local function events(name, args)
 	if curChild then
 	    control = curChild
@@ -103,6 +113,8 @@ local callbacks = {
 			textures(name, attribs)
 		elseif name == "texture" then
 			texture(name, attribs)
+		elseif name == "alias" then
+			alias(name, attribs)
 		elseif name == "widget" then
 			widget(name, attribs)
 		elseif name == "child" then
@@ -113,6 +125,8 @@ local callbacks = {
 			eventsStart(name, attribs)
 		elseif name == "dialog" then
 			dialog(name, attribs)
+		elseif name == "border" then
+			border(name, attribs)
 		elseif isInEvent then
 			events(name, attribs)
 		end

@@ -4,26 +4,15 @@
 	this allows us to to use the same image theme with diffrent themes -->
     <import file="themes/defaultmap.xml"/>
 
-    <register name="setcolor" class="changecolor"/>
-    <register name="move" event="move"/>
-
     <widgets>
-	<widget name="console">
-	    <child type="rule.top" x="0" y="0"/>
-	    <child type="button.close" x="10" y="2" layer="top">
-		<events>
-			<onHover class="colorchange" color="#FF000000"/>
-			<onClick class="close"/>
-		</events>
+	<widget name="console" resizable="true">
+	    <border top="14" bottom="7" left="2" right="2"><!-- values are the thickness -->
+		<close x="2" y="2"/><!--TODO-->
+	    </border>
+
+	    <child type="editbox.input" x="0" y="0" width="%100" move="none" orientation="vertical">
+		<dialog type="editbox.background" x="0" y="20" width="%100" move="none" multiline="true"/>
 	    </child>
-	    <child type="rule.side" x="0" y="20" height="159"/>
-	    <child type="rule.side" x="174" y="20" height="159"/>
-	    <child type="editbox.input" x="12" y="150">
-		    <dialog type="editbox.background" x="12" y="20" multiline="true"/>
-	    </child>
-	    <child type="edge.bottomleft" x="0" y="179"/>
-	    <child type="rule.bottom" x="20" y="179" width="146"/>
-	    <child type="edge.bottomright" x="166" y="179"/>
 	</widget>
     </widgets>
 </theme>

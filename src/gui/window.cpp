@@ -15,9 +15,6 @@
 /* The window class
  * 	Binds several Controls together, if one moves they all move
  *
- * TODO:
- * 	Fix close so that the window will stay in memory for X seconds before being handled by GC
- *
  * James Brandon Stevenson
  *
  */
@@ -33,16 +30,18 @@
 #include "../camera.h"
 #include <SDL/SDL.h>
 
-Window::Window() : gui(NULL), renderer(NULL), activeEvents(), Control(GUI_NONE, this) {
+Window::Window() : gui(NULL), renderer(NULL), activeEvents(), resizable(false), bordersSet(false), Control(GUI_NONE, this) {
 	rotation.make_identity();
 }
 
-Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), Control(GUI_NONE, this) {
+Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), bordersSet(false), Control(GUI_NONE, this) {
 	rotation.make_identity();
 }
 
 Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
-rotation(orig.rotation), Control(orig) { };
+rotation(orig.rotation), topborder(orig.topborder), bottomborder(orig.bottomborder), leftborder(orig.leftborder),
+rightborder(orig.rightborder), leftedge(orig.leftedge), rightedge(orig.rightedge), resizable(orig.resizable),
+bordersSet(orig.bordersSet), Control(orig) { };
 
 Window::~Window() {
 	gui->CloseWindow(this);
@@ -55,7 +54,7 @@ Window::~Window() {
 	activeEvents.clear();
 }
 
-Control* Window::clone(){
+Control* Window::clone() {
 	return new Window(*this);
 }
 
@@ -64,17 +63,19 @@ void Window::AddChild(Control *child) {
 
 	//need to check if we are adding something that will make it wider or higher
 	//NOTE:we assume the child's position is a offset..
-	int delta;
-	if ((delta = (child->GetX() + child->GetWidth()) - GetWidth()) > 0) {
-		SetWidth(GetWidth() + delta);
+	float delta = 0;
+	if ((delta = (child->GetX() + child->GetWidth()) - GetInternalWidth()) > 0) {
+		Resize(delta, 0);
 	}
-	if ((delta = (child->GetY() + child->GetHeight()) - GetHeight()) > 0) {
-		SetHeight(GetHeight() + delta);
+	if ((delta = (child->GetY() + child->GetHeight()) - GetInternalHeight()) > 0) {
+		Resize(0, delta);
 	}
+
+	if (bordersSet) child->Move(leftborder->GetWidth(), topborder->GetHeight());
 
 	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		if (children[i]->HitTest(child->GetX(), child->GetY())) {
+		if (children[i]->Contains(child->GetX(), child->GetY())) {
 			children[i]->AddChild(child);
 			return;
 		}
@@ -85,21 +86,20 @@ void Window::AddChild(Control *child) {
 
 void Window::Move(float xChange, float yChange) {
 	//allows for correct movement while rotated
-	util::vec4<float> change = util::vec4<float>(xChange, yChange, 0.0, 1.0);
-	change = inverse(rotation) * change;
+	util::vec4<float> delta = util::vec4<float>(xChange, yChange, 0.0, 1.0);
+	delta = inverse(rotation) * delta;
 
-	x += change.x;
-	y += change.y;
+	x += delta.x;
+	y += delta.y;
 
 	size_t size = children.size();
 	for (unsigned int i = 0; i < size; i++) {
-		children[i]->Move(change.x, change.y);
+		children[i]->Move(delta.x, delta.y);
 	}
 }
 
 void Window::Close() {
 	gui->CloseWindow(this);
-	//delete [] this;
 }
 
 void Window::UpdateControl(Control* control) {
@@ -127,45 +127,10 @@ unsigned int Window::Size() {
  * @returns true if the hit test was succful
  * @throws nothing
  */
-bool Window::HitTest(float mx, float my) {
+bool Window::MouseTest(float mx, float my) {
 	Unproject(mx, my, &mx, &my);
 
-	if (mx > x && my > y &&
-		mx < (x + width) && my < (y + height)) {
-
-		StartEvent("onHover");
-
-		if (mouseOverChild != NULL) {
-			if (mouseOverChild->HitTest(mx, my)) {
-				return true;
-			} else {
-				mouseOverChild->OnMouseLeave();
-			}
-		}
-
-		//we iterate past the controls backwards so that we will get the top itmes
-		//FILO order
-		unsigned int i = children.size();
-		while (0 < i) {
-			i--;
-
-			if (children[i] != mouseOverChild && children[i]->HitTest(mx, my)) {
-				mouseOverChild = children[i];
-				mouseOverChild->OnMouseEnter();
-				return true;
-			}
-		}
-
-		mouseOverChild = NULL;
-		return true;
-	}
-
-	if (mouseOverChild != NULL) {
-		mouseOverChild->OnMouseLeave();
-		mouseOverChild = NULL;
-	}
-
-	return false;
+	Control::MouseTest(mx, my);
 }
 
 void Window::OnKeyPress(unsigned short unicode, int key, int mod) {
@@ -177,6 +142,8 @@ void Window::OnMousePress(unsigned short button, int mx, int my) {
 	if (mouseOverChild != NULL) {
 		activeChild = mouseOverChild;
 		activeChild->OnMousePress(button, mx, my);
+	} else {
+		activeChild = NULL;
 	}
 }
 
@@ -245,9 +212,9 @@ void Window::RemoveEvent(Event* e) {
 	}
 }
 
-void Window::ReloadTheme(){
+void Window::ReloadTheme() {
 	size_t size = children.size();
-	for(unsigned int i = 0; i < size; i++){
+	for (unsigned int i = 0; i < size; i++) {
 		children[i]->ReloadTheme();
 	}
 }
@@ -263,14 +230,95 @@ void Window::Rotate(float a, float x, float y, float z) {
 	rotation.rotate(a, x, y, z);
 }
 
-void Window::Resize(int wdelta, int hdelta){
-	SetWidth(GetWidth() + wdelta);
-	SetHeight(GetHeight() + hdelta);
+void Window::SetBorders(int top, int bottom, int left, int right) {
+	topborder = NewChild("rule.top", 0, 0, DEFAULT_LAYER, Vertical);
+	topborder->SetHeight(top);
 
+	bottomborder = NewChild("rule.bottom", 0, GetHeight(), DEFAULT_LAYER, Vertical);
+	bottomborder->SetHeight(bottom);
+
+	leftborder = NewChild("rule.left", 0, top, DEFAULT_LAYER, Horizontal);
+	leftborder->SetWidth(left);
+
+	rightborder = NewChild("rule.right", GetWidth() - right, top, DEFAULT_LAYER, Horizontal);
+	rightborder->SetWidth(right);
+
+	if (resizable) {
+		leftedge = NewChild("edge.left", 0, GetHeight(), DEFAULT_LAYER, DontResize);
+		leftedge->SetHeight(bottom);
+
+		rightedge = NewChild("edge.right", 0, GetHeight(), DEFAULT_LAYER, DontResize);
+		rightedge->SetHeight(bottom);
+	}
+
+	bordersSet = true;
+	UpdateBorders();
+}
+
+void Window::UpdateBorders() {
+	if (bordersSet) {
+		topborder->SetPosition(GetX(), GetY()); // just to make sure
+		topborder->SetWidth(GetWidth());
+
+		if (resizable) {
+			leftedge->SetPosition(GetX(), GetY() + GetHeight() - leftedge->GetHeight());
+
+			bottomborder->SetPosition(GetX() + leftedge->GetWidth(), GetY() + GetHeight() - bottomborder->GetHeight());
+			bottomborder->SetWidth(GetWidth() - leftedge->GetWidth() - rightedge->GetWidth());
+
+			rightedge->SetPosition(bottomborder->GetX() + bottomborder->GetWidth(), GetY() + GetHeight() - rightedge->GetHeight());
+		} else {
+			bottomborder->SetPosition(GetX(), GetY() + GetHeight() - bottomborder->GetHeight());
+			bottomborder->SetWidth(GetWidth());
+		}
+
+		leftborder->SetPosition(GetX(), GetY() + topborder->GetHeight());
+		leftborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
+
+		rightborder->SetPosition(GetX() + GetWidth() - rightborder->GetWidth(), GetY() + topborder->GetHeight());
+		rightborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
+	}
+}
+
+void Window::Resizable(bool v) {
+	resizable = v;
+}
+
+bool Window::Resizable() {
+	return resizable;
+}
+
+void Window::Resize(int wdelta, int hdelta) {
 	size_t size = children.size();
-	for(size_t i = 0; i < size; i++){
+	for (size_t i = 0; i < size; i++) {
 		children[i]->Resize(wdelta, hdelta);
 	}
 
-	printf("Change is %i %i, Now %f %f\n", wdelta, hdelta, GetWidth(), GetHeight());
+	SetWidth(GetWidth() + wdelta);
+	SetHeight(GetHeight() + hdelta);
+	UpdateBorders();
+}
+
+float Window::GetInternalX() {
+	if (bordersSet) {
+		return GetX() + leftborder->GetWidth();
+	} else return GetX();
+}
+
+float Window::GetInternalY() {
+	if (bordersSet) {
+		return GetY() + topborder->GetHeight();
+	} else return GetY();
+}
+
+float Window::GetInternalWidth() {
+	if (bordersSet) {
+		return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
+	} else return GetWidth();
+}
+
+float Window::GetInternalHeight() {
+	if (bordersSet) {
+		return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
+	} else return GetHeight();
 }

@@ -32,29 +32,6 @@ Control* Label::clone() {
 	return new Label(*this);
 }
 
-void Label::onMousePress(int button) {
-    //needed?
-}
-
-void Label::onMouseRelease(int button) {
-    //needed?
-}
-
-void Label::onKeyPress(unsigned short unicode) {
-}
-
-void Label::onKeyRelease(int key, int mod) {
-    //needed?
-}
-
-void Label::SetWidth(unsigned short w) {
-    width = w;
-}
-
-void Label::SetHeight(unsigned short h) {
-    height = h;
-}
-
 void Label::AddString(colorstring s){
 	 this->text.push_back(s);
 }

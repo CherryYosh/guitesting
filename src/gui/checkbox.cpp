@@ -13,6 +13,3 @@ Checkbox::Checkbox(Window* p, Control* c, LayerT l, float x, float y) : Control(
 
 Checkbox::~Checkbox() { }
 
-bool Checkbox::OnMouseClick(unsigned short, bool) {
-}
-

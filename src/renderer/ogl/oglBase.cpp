@@ -8,6 +8,8 @@
 
 #include "oglBase.h"
 
+#include <stdexcept>
+
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -32,7 +34,7 @@ void oglBase::CreateContext() {
 		exit(1);
 	}
 
-	if (SDL_SetVideoMode(640, 480, 0, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE) == NULL) {
+	if (SDL_SetVideoMode(WINDOWWIDTH, WINDOWHEIGHT, 0, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE) == NULL) {
 		printf("Unable to init OpenGL: %s\n", SDL_GetError());
 		exit(2);
 	}
@@ -55,9 +57,9 @@ void oglBase::SetupContext() {
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
-	SDL_WM_SetCaption("Untitled Project", NULL);
+	SDL_WM_SetCaption("GUI Project", NULL);
 
-	glViewport(0, 0, 640, 480);
+	glViewport(0, 0, WINDOWWIDTH, WINDOWHEIGHT);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -72,11 +74,11 @@ void oglBase::SetupContext() {
  * prepairs the base for rendering
  */
 void oglBase::BeginRender() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 /**
- * stops the rendering for the base
+ * ends the rendering for the base
  */
 void oglBase::EndRender() {
 	SDL_GL_SwapBuffers();
@@ -97,6 +99,8 @@ void oglBase::SetCamera(Camera* cam) {
  * @returns a pointer to the camera
  */
 Camera* oglBase::GetCamera() {
+	if(oglBase::camera == NULL) throw std::runtime_error("oglBase::GetCamera::camera_is_null");
+
 	return oglBase::camera;
 }
 
