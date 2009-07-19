@@ -139,6 +139,10 @@ public:
 
     void SetMovementFlags(std::string);
 
+    bool CanReleaseMouse();
+    void LockMouse();
+    void ReleaseMouse();
+
     float s, t, s2, t2;
 protected:
     Window* root;
@@ -159,5 +163,6 @@ private:
     int movement; //FIND A BETTER NAME / FIX THE BUG
     std::string name;
     OrientationT orientation;
+    bool canReleaseMouse;
 };
 #endif

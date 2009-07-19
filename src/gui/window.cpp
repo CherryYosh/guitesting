@@ -31,11 +31,11 @@
 #include <SDL/SDL.h>
 
 Window::Window() : gui(NULL), renderer(NULL), activeEvents(), resizable(false), bordersSet(false), Control(GUI_NONE, this) {
-	rotation.make_identity();
+    rotation.make_identity();
 }
 
 Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), bordersSet(false), Control(GUI_NONE, this) {
-	rotation.make_identity();
+    rotation.make_identity();
 }
 
 Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
@@ -44,76 +44,76 @@ rightborder(orig.rightborder), leftedge(orig.leftedge), rightedge(orig.rightedge
 bordersSet(orig.bordersSet), Control(orig) { };
 
 Window::~Window() {
-	gui->CloseWindow(this);
-	gui = NULL;
+    gui->CloseWindow(this);
+    gui = NULL;
 
-	renderer->RemoveObject(this);
-	renderer = NULL;
-	mouseOverChild = NULL;
+    renderer->RemoveObject(this);
+    renderer = NULL;
+    mouseOverChild = NULL;
 
-	activeEvents.clear();
+    activeEvents.clear();
 }
 
 Control* Window::clone() {
-	return new Window(*this);
+    return new Window(*this);
 }
 
 void Window::AddChild(Control *child) {
-	child->SetRoot(this);
+    child->SetRoot(this);
 
-	//need to check if we are adding something that will make it wider or higher
-	//NOTE:we assume the child's position is a offset..
-	float delta = 0;
-	if ((delta = (child->GetX() + child->GetWidth()) - GetInternalWidth()) > 0) {
-		Resize(delta, 0);
+    //need to check if we are adding something that will make it wider or higher
+    //NOTE:we assume the child's position is a offset..
+    float delta = 0;
+    if ((delta = (child->GetX() + child->GetWidth()) - GetInternalWidth()) > 0) {
+	Resize(delta, 0);
+    }
+    if ((delta = (child->GetY() + child->GetHeight()) - GetInternalHeight()) > 0) {
+	Resize(0, delta);
+    }
+
+    if (bordersSet) child->Move(leftborder->GetWidth(), topborder->GetHeight());
+
+    size_t size = children.size();
+    for (unsigned int i = 0; i < size; i++) {
+	if (children[i]->Contains(child->GetX(), child->GetY())) {
+	    children[i]->AddChild(child);
+	    return;
 	}
-	if ((delta = (child->GetY() + child->GetHeight()) - GetInternalHeight()) > 0) {
-		Resize(0, delta);
-	}
+    }
 
-	if (bordersSet) child->Move(leftborder->GetWidth(), topborder->GetHeight());
-
-	size_t size = children.size();
-	for (unsigned int i = 0; i < size; i++) {
-		if (children[i]->Contains(child->GetX(), child->GetY())) {
-			children[i]->AddChild(child);
-			return;
-		}
-	}
-
-	children.push_back(child);
+    children.push_back(child);
 }
 
 void Window::Move(float xChange, float yChange) {
-	//allows for correct movement while rotated
-	util::vec4<float> delta = util::vec4<float>(xChange, yChange, 0.0, 1.0);
-	delta = inverse(rotation) * delta;
+    //allows for correct movement while rotated
+    util::vec4<float> delta = util::vec4<float>(xChange, yChange, 0.0, 1.0);
+    delta = inverse(rotation) * delta;
 
-	x += delta.x;
-	y += delta.y;
+    x += delta.x;
+    y += delta.y;
 
-	size_t size = children.size();
-	for (unsigned int i = 0; i < size; i++) {
-		children[i]->Move(delta.x, delta.y);
-	}
+    size_t size = children.size();
+    for (unsigned int i = 0; i < size; i++) {
+	children[i]->Move(delta.x, delta.y);
+    }
 }
 
 void Window::Close() {
-	gui->CloseWindow(this);
+    gui->CloseWindow(this);
 }
 
 void Window::UpdateControl(Control* control) {
-	if (control == NULL)
-		return;
+    if (control == NULL)
+	return;
 
-	renderer->Update(control, RENDERER_REFRESH);
+    renderer->Update(control, RENDERER_REFRESH);
 }
 
 /**
  * Returns the total size of the control, in this case the same as TotalChildren
  */
 unsigned int Window::Size() {
-	return TotalChildren();
+    return TotalChildren();
 }
 
 /** \brief Preforms a hit test on the window
@@ -128,197 +128,199 @@ unsigned int Window::Size() {
  * @throws nothing
  */
 bool Window::MouseTest(float mx, float my) {
-	Unproject(mx, my, &mx, &my);
+    Unproject(mx, my, &mx, &my);
 
-	Control::MouseTest(mx, my);
+    Control::MouseTest(mx, my);
 }
 
 void Window::OnKeyPress(unsigned short unicode, int key, int mod) {
-	if (activeChild != NULL)
-		activeChild->OnKeyPress(unicode, key, mod);
+    if (activeChild != NULL)
+	activeChild->OnKeyPress(unicode, key, mod);
 }
 
 void Window::OnMousePress(unsigned short button, int mx, int my) {
-	if (mouseOverChild != NULL) {
-		activeChild = mouseOverChild;
-		activeChild->OnMousePress(button, mx, my);
-	} else {
-		activeChild = NULL;
-	}
+    LockMouse();
+
+    if (mouseOverChild != NULL) {
+	activeChild = mouseOverChild;
+	activeChild->OnMousePress(button, mx, my);
+    } else {
+	activeChild = NULL;
+    }
 }
 
 bool Window::OnMouseClick(unsigned short num, bool final) {
-	if (activeChild != NULL) {
-		return activeChild->OnMouseClick(num, final);
-	}
-	return false;
+    if (activeChild != NULL) {
+	return activeChild->OnMouseClick(num, final);
+    }
+    return false;
 }
 
 void Window::Unproject(float winx, float winy, float* ox, float* oy) {
-	GLint* view = renderer->GetViewport();
+    GLint* view = renderer->GetViewport();
 
-	util::vec4<float> in = util::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
-		-(((winy - view[1]) * 2.0) / view[3] - 1.0),
-		(2 * (z * 0.001)) - 1,
-		1.0);
+    util::vec4<float> in = util::vec4<float>(((winx - view[0]) * 2.0) / view[2] - 1.0,
+	    -(((winy - view[1]) * 2.0) / view[3] - 1.0),
+	    (2 * (z * 0.001)) - 1,
+	    1.0);
 
-	util::matrix4<float> pm;
-	pm = (*renderer->GetCamera()->GetOrtho()) * rotation;
+    util::matrix4<float> pm;
+    pm = (*renderer->GetCamera()->GetOrtho()) * rotation;
 
-	util::vec4<float> ret = inverse(pm) * in;
+    util::vec4<float> ret = inverse(pm) * in;
 
-	if (ret.w == 0.0)
-		return;
+    if (ret.w == 0.0)
+	return;
 
-	*ox = ret.x / ret.w;
-	*oy = ret.y / ret.w;
+    *ox = ret.x / ret.w;
+    *oy = ret.y / ret.w;
 }
 
 util::matrix4<float>* Window::GetRotation() {
-	return &rotation;
+    return &rotation;
 }
 
 float* Window::GetRotationfv() {
-	return rotation._array;
+    return rotation._array;
 }
 
 void Window::SetGUI(GUI* g) {
-	gui = g;
+    gui = g;
 }
 
 GUI* Window::GetGUI() {
-	return gui;
+    return gui;
 }
 
 void Window::SetRenderer(Renderer* r) {
-	renderer = r;
+    renderer = r;
 }
 
 Renderer* Window::GetRenderer() {
-	return renderer;
+    return renderer;
 }
 
 void Window::AddEvent(Event* e) {
-	activeEvents.push_back(e);
+    activeEvents.push_back(e);
 }
 
 void Window::RemoveEvent(Event* e) {
-	std::vector<Event*>::iterator it;
-	for (it = activeEvents.begin(); it != activeEvents.end(); it++) {
-		if (*it == e) {
-			activeEvents.erase(it);
-			return;
-		}
+    std::vector<Event*>::iterator it;
+    for (it = activeEvents.begin(); it != activeEvents.end(); it++) {
+	if (*it == e) {
+	    activeEvents.erase(it);
+	    return;
 	}
+    }
 }
 
 void Window::ReloadTheme() {
-	size_t size = children.size();
-	for (unsigned int i = 0; i < size; i++) {
-		children[i]->ReloadTheme();
-	}
+    size_t size = children.size();
+    for (unsigned int i = 0; i < size; i++) {
+	children[i]->ReloadTheme();
+    }
 }
 
 void Window::StepEvents(unsigned int step) {
-	size_t size = activeEvents.size();
-	for (size_t i = 0; i < size; i++) {
-		activeEvents[i]->Step(step);
-	}
+    size_t size = activeEvents.size();
+    for (size_t i = 0; i < size; i++) {
+	activeEvents[i]->Step(step);
+    }
 }
 
 void Window::Rotate(float a, float x, float y, float z) {
-	rotation.rotate(a, x, y, z);
+    rotation.rotate(a, x, y, z);
 }
 
 void Window::SetBorders(int top, int bottom, int left, int right) {
-	topborder = NewChild("rule.top", 0, 0, DEFAULT_LAYER, Vertical);
-	topborder->SetHeight(top);
+    topborder = NewChild("rule.top", 0, 0, DEFAULT_LAYER, Vertical);
+    topborder->SetHeight(top);
 
-	bottomborder = NewChild("rule.bottom", 0, GetHeight(), DEFAULT_LAYER, Vertical);
-	bottomborder->SetHeight(bottom);
+    bottomborder = NewChild("rule.bottom", 0, GetHeight(), DEFAULT_LAYER, Vertical);
+    bottomborder->SetHeight(bottom);
 
-	leftborder = NewChild("rule.left", 0, top, DEFAULT_LAYER, Horizontal);
-	leftborder->SetWidth(left);
+    leftborder = NewChild("rule.left", 0, top, DEFAULT_LAYER, Horizontal);
+    leftborder->SetWidth(left);
 
-	rightborder = NewChild("rule.right", GetWidth() - right, top, DEFAULT_LAYER, Horizontal);
-	rightborder->SetWidth(right);
+    rightborder = NewChild("rule.right", GetWidth() - right, top, DEFAULT_LAYER, Horizontal);
+    rightborder->SetWidth(right);
 
-	if (resizable) {
-		leftedge = NewChild("edge.left", 0, GetHeight(), DEFAULT_LAYER, DontResize);
-		leftedge->SetHeight(bottom);
+    if (resizable) {
+	leftedge = NewChild("edge.left", 0, GetHeight(), DEFAULT_LAYER, DontResize);
+	leftedge->SetHeight(bottom);
 
-		rightedge = NewChild("edge.right", 0, GetHeight(), DEFAULT_LAYER, DontResize);
-		rightedge->SetHeight(bottom);
-	}
+	rightedge = NewChild("edge.right", 0, GetHeight(), DEFAULT_LAYER, DontResize);
+	rightedge->SetHeight(bottom);
+    }
 
-	bordersSet = true;
-	UpdateBorders();
+    bordersSet = true;
+    UpdateBorders();
 }
 
 void Window::UpdateBorders() {
-	if (bordersSet) {
-		topborder->SetPosition(GetX(), GetY()); // just to make sure
-		topborder->SetWidth(GetWidth());
+    if (bordersSet) {
+	topborder->SetPosition(GetX(), GetY()); // just to make sure
+	topborder->SetWidth(GetWidth());
 
-		if (resizable) {
-			leftedge->SetPosition(GetX(), GetY() + GetHeight() - leftedge->GetHeight());
+	if (resizable) {
+	    leftedge->SetPosition(GetX(), GetY() + GetHeight() - leftedge->GetHeight());
 
-			bottomborder->SetPosition(GetX() + leftedge->GetWidth(), GetY() + GetHeight() - bottomborder->GetHeight());
-			bottomborder->SetWidth(GetWidth() - leftedge->GetWidth() - rightedge->GetWidth());
+	    bottomborder->SetPosition(GetX() + leftedge->GetWidth(), GetY() + GetHeight() - bottomborder->GetHeight());
+	    bottomborder->SetWidth(GetWidth() - leftedge->GetWidth() - rightedge->GetWidth());
 
-			rightedge->SetPosition(bottomborder->GetX() + bottomborder->GetWidth(), GetY() + GetHeight() - rightedge->GetHeight());
-		} else {
-			bottomborder->SetPosition(GetX(), GetY() + GetHeight() - bottomborder->GetHeight());
-			bottomborder->SetWidth(GetWidth());
-		}
-
-		leftborder->SetPosition(GetX(), GetY() + topborder->GetHeight());
-		leftborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
-
-		rightborder->SetPosition(GetX() + GetWidth() - rightborder->GetWidth(), GetY() + topborder->GetHeight());
-		rightborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
+	    rightedge->SetPosition(bottomborder->GetX() + bottomborder->GetWidth(), GetY() + GetHeight() - rightedge->GetHeight());
+	} else {
+	    bottomborder->SetPosition(GetX(), GetY() + GetHeight() - bottomborder->GetHeight());
+	    bottomborder->SetWidth(GetWidth());
 	}
+
+	leftborder->SetPosition(GetX(), GetY() + topborder->GetHeight());
+	leftborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
+
+	rightborder->SetPosition(GetX() + GetWidth() - rightborder->GetWidth(), GetY() + topborder->GetHeight());
+	rightborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
+    }
 }
 
 void Window::Resizable(bool v) {
-	resizable = v;
+    resizable = v;
 }
 
 bool Window::Resizable() {
-	return resizable;
+    return resizable;
 }
 
 void Window::Resize(int wdelta, int hdelta) {
-	size_t size = children.size();
-	for (size_t i = 0; i < size; i++) {
-		children[i]->Resize(wdelta, hdelta);
-	}
+    size_t size = children.size();
+    for (size_t i = 0; i < size; i++) {
+	children[i]->Resize(wdelta, hdelta);
+    }
 
-	SetWidth(GetWidth() + wdelta);
-	SetHeight(GetHeight() + hdelta);
-	UpdateBorders();
+    SetWidth(GetWidth() + wdelta);
+    SetHeight(GetHeight() + hdelta);
+    UpdateBorders();
 }
 
 float Window::GetInternalX() {
-	if (bordersSet) {
-		return GetX() + leftborder->GetWidth();
-	} else return GetX();
+    if (bordersSet) {
+	return GetX() + leftborder->GetWidth();
+    } else return GetX();
 }
 
 float Window::GetInternalY() {
-	if (bordersSet) {
-		return GetY() + topborder->GetHeight();
-	} else return GetY();
+    if (bordersSet) {
+	return GetY() + topborder->GetHeight();
+    } else return GetY();
 }
 
 float Window::GetInternalWidth() {
-	if (bordersSet) {
-		return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
-	} else return GetWidth();
+    if (bordersSet) {
+	return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
+    } else return GetWidth();
 }
 
 float Window::GetInternalHeight() {
-	if (bordersSet) {
-		return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
-	} else return GetHeight();
+    if (bordersSet) {
+	return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
+    } else return GetHeight();
 }

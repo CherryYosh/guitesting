@@ -21,16 +21,16 @@
 #include "controls.h"
 #include "../theme.h"
 
-Control::Control() : _attributes(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(),
+Control::Control() : _attributes(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(), canReleaseMouse(true),
 parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL), orientation(All), movement(3) { }
 
 Control::Control(const Control& orig) : _attributes(orig._attributes), x(orig.x), y(orig.y), z(orig.z),
 width(orig.width), height(orig.height), color(orig.color), parent(orig.parent), root(orig.root),
 mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild), movement(orig.movement),
-children(orig.children), events(orig.events), orientation(orig.orientation) { }
+children(orig.children), events(orig.events), orientation(orig.orientation), canReleaseMouse(orig.canReleaseMouse) { }
 
 Control::Control(long t, Window* r, Control* p, LayerT l, float ix, float iy) : _attributes(t), x(ix), y(iy),
-z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL), orientation(All) {
+z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL), orientation(All), canReleaseMouse(true) {
     SetLayer(l);
 }
 
@@ -74,7 +74,12 @@ bool Control::MouseTest(int mx, int my) {
 	    if (mouseOverChild->MouseTest(mx, my)) {
 		return true;
 	    } else {
-		mouseOverChild->OnMouseLeave();
+		if (mouseOverChild->CanReleaseMouse()) {
+		    mouseOverChild->ReleaseMouse();
+		    mouseOverChild->OnMouseLeave();
+		} else {
+		    return false;
+		}
 	    }
 	}
 
@@ -100,6 +105,7 @@ bool Control::MouseTest(int mx, int my) {
 
 void Control::OnMousePress(unsigned short button, int mx, int my) {
     StartEvent("onMousePress");
+    LockMouse();
 
     if (mouseOverChild != NULL) {
 	activeChild = mouseOverChild;
@@ -111,6 +117,7 @@ void Control::OnMousePress(unsigned short button, int mx, int my) {
 
 void Control::OnMouseRelease(int button) {
     EndEvent("onMousePress");
+    ReleaseMouse();
 }
 
 bool Control::OnMouseClick(unsigned short num, bool final) {
@@ -226,7 +233,7 @@ void Control::Resize(int w, int h) {
 
     float xdelta = 0;
     float ydelta = 0;
-    
+
     if (movement == 1 || movement == 3) xdelta = (GetX() - root->GetInternalX()) / root->GetInternalWidth() * w;
     if (movement == 2 || movement == 3) (GetY() - root->GetInternalY()) / root->GetInternalHeight() * h;
     Move(xdelta, ydelta);
@@ -563,4 +570,16 @@ void Control::SetMovementFlags(std::string s) {
     else if (s == "y") movement = 2;
     else if (s == "both") movement = 3;
     else throw std::invalid_argument("Control::SetMovementFlags::Invalid_Flags");
+}
+
+bool Control::CanReleaseMouse() {
+    return canReleaseMouse;
+}
+
+void Control::LockMouse() {
+    canReleaseMouse = false;
+}
+
+void Control::ReleaseMouse() {
+    canReleaseMouse = true;
 }
