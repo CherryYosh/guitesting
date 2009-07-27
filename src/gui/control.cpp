@@ -564,6 +564,7 @@ void Control::SetOrientation(OrientationT t) {
     orientation = t;
 }
 
+/*TODO: Refactor?? */
 void Control::SetMovementFlags(std::string s) {
     if (s == "none") movement = 0;
     else if (s == "x") movement = 1;

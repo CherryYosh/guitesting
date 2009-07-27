@@ -40,6 +40,8 @@ public:
 	static bool CallScript(std::string, std::string, DebugLevel = __M_DebugLevel);
 	static bool CallScript(std::string, LuaArgList, DebugLevel = __M_DebugLevel);
 private:
+    static lua_State* L;
+    static bool initialized;
 };
 
 #endif

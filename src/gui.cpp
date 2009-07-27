@@ -106,7 +106,6 @@ void GUI::MakeActiveWindow(Window* w) {
     w->SetDepth(-TOP_LAYER);
     renderer->Refresh();
 
-    //TODO: Fix the hack
     input->SetProfile("typing");
 }
 
@@ -169,8 +168,11 @@ void GUI::CreateWindow(std::string name, float x, float y) {
 }
 
 void GUI::CloseWindow(Window* w) {
+    MakeActiveWindow(NULL);
+    MouseOverWindow = NULL;
+
     std::vector<Window*>::iterator it = Windows.begin();
-    while (*it != w)
+    while ((*it) != w)
 	it++;
 
     fontRenderer->RemoveObject(*it);

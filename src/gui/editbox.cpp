@@ -76,7 +76,7 @@ void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
 		if (peer != NULL) {
 			LuaArgList args;
 			args.push_back(text[0].toString());
-			args.push_back(static_cast<void*> (peer));
+			args.push_back(peer);
 
 			LUABase::CallScript("scripts/textParser.lua", args);
 

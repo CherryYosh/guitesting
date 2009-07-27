@@ -12,58 +12,62 @@
 
 namespace util {
 
-	class Color {
-	public:
-		Color();
-		Color(const Color& orig);
-		Color(const char*);
-		Color(std::string);
-		Color(float, float, float, float);
-		virtual ~Color();
-		
-		float* array();
+    class Color {
+    public:
+	Color();
+	Color(const Color& orig);
+	Color(const char*);
+	Color(std::string);
+	Color(float, float, float, float);
+	virtual ~Color();
 
-		bool HasAlpha(std::string);
-		bool IsHexStr(std::string);
+	float* array();
 
-		float operator[](int i) {
-			return _array[i];
-		};
+	bool HasAlpha(std::string);
+	bool IsHexStr(std::string);
 
-		Color& operator=(const char* s) {
-			*this = Color(s);
-			return *this;
-		}
-
-		Color& operator=(const std::string& s) {
-			*this = Color(s.c_str());
-			return *this;
-		}
-
-		Color& operator+=(const Color& rhs){
-			r += rhs.r;
-			g += rhs.g;
-			b += rhs.b;
-			a += rhs.a;
-			
-			return *this;
-		}
-
-		union {
-
-			struct {
-				float r, g, b, a;
-			};
-
-			struct {
-				float red, green, blue, alpha;
-			};
-			float _array[4];
-		};
-
-	private:
-	    void Init(const char*);
+	float operator[](int i) {
+	    return _array[i];
 	};
+
+	Color & operator=(const Color& c){
+	    if(this != &c){
+		this->~Color();
+		new (this) Color(c);
+	    }
+	    return *this;
+	}
+
+	Color & operator=(const char* s) {
+	    this->~Color();
+	    new (this) Color(s);
+	    return *this;
+	}
+
+	Color & operator+=(const Color& rhs) {
+	    r += rhs.r;
+	    g += rhs.g;
+	    b += rhs.b;
+	    a += rhs.a;
+
+	    return *this;
+	}
+
+	union {
+
+	    struct {
+		float r, g, b, a;
+	    };
+
+	    struct {
+		float red, green, blue, alpha;
+	    };
+	    float _array[4];
+	};
+
+    private:
+	void Init(const char*);
+    };
 };
 
 #endif	/* _COLOR_H */

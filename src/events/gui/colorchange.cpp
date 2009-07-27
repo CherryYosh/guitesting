@@ -62,6 +62,10 @@ void ColorChangeEvent::Linear(unsigned int step) {
 		object->GetRoot()->RemoveEvent(this);
 }
 
+void ColorChangeEvent::SetColor(util::Color c){
+    color = c;
+}
+
 void ColorChangeEvent::SetColor(std::string s) {
 	color = util::Color(s);
 }

@@ -7,7 +7,8 @@ local t = theme.Theme()
 local curWidget = nil
 local curChild = nil
 local tempChild = nil
-local isInEvent = false;
+local isInEvent = false
+local isInBorder = false
 
 --load the utils file for GetEventByName, cant use swig for this sadly
 dofile("scripts/utils.lua")
@@ -33,10 +34,7 @@ end
 local function widget(name, args)
     curWidget = t : NewWidget(args["name"])
 
-    if args["resizable"] then
-	print("LUA FIX THE BUG")
-	curWidget : Resizable( true )
-    end
+    if args["resizable"] == "true" then curWidget : Resizable( true ) end
 end
 
 local function widgetEnd(name)
@@ -52,11 +50,7 @@ local function child(name, args)
 	end
     end
 
-    if args["multiline"] then
-	curChild : ToLabel() : multiline( true )
-	print("LUA::XML FIX THE HACK!!")
-    end
-
+    if args["multiline"] == "true" then curChild : ToLabel() : multiline( true )  end
     if args["width"] then curChild : SetWidth( args["width"] ) end
     if args["height"] then curChild : SetHeight( args["height"] ) end
     if args["orientation"] then curChild : SetOrientation( ToOrientation(args["orientation"]) ) end
@@ -90,7 +84,18 @@ local function dialogEnd(name)
 end
 
 local function border(name, args)
+    isInBorder = true
     curWidget : SetBorders( args["top"], args["bottom"], args["left"], args["right"] )
+end
+
+local function borderEnd(name)
+    isInBorder = false
+end
+
+local function borderChild(name, args)
+    if name == "close" then
+	curWidget : CloseButton( args["x"], args["y"] )
+    end
 end
 
 local function events(name, args)
@@ -129,6 +134,8 @@ local callbacks = {
 			border(name, attribs)
 		elseif isInEvent then
 			events(name, attribs)
+		elseif isInBorder then
+			borderChild(name, attribs)
 		end
 	end,
 
@@ -141,6 +148,8 @@ local callbacks = {
 			eventsEnd(name)
 		elseif name == "dialog" then
 			dialogEnd(name)
+		elseif name == "border" then
+			borderEnd(name)
 		end
 	end
 }

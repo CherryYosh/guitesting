@@ -54,7 +54,6 @@ void Display::InitTimers() {
 
     timers.AddTimer(FPSTimer, true, false);
     timers.AddTimer(Mouse_GetTimer());
-
 }
 
 void Display::DrawFPS(unsigned int* data) {

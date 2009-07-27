@@ -72,13 +72,12 @@ void oglWidgetRenderer::RemoveObject(void* obj) {
     while (it != Objects.end()) {
 	if (*it == obj) {
 	    it = Objects.erase(it);
-	    return;
 	} else {
 	    it++;
 	}
     }
 
-    printf("Unable to remove object, object not found! \n");
+    Refresh();
 }
 
 /**
@@ -110,7 +109,8 @@ void oglWidgetRenderer::Begin() {
  * Renders all objects
  */
 void oglWidgetRenderer::Render() {
-    glDrawArrays(GL_QUADS, 0, TotalObjects * 4);
+    if (TotalObjects > 0)
+	glDrawArrays(GL_QUADS, 0, TotalObjects * 4);
 }
 
 /**
@@ -174,11 +174,10 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
     float vs, vs2, vt, vt2;
     float* c;
 
-    //TODO: REWORK ALL OF THIS -__-
     unsigned int j = 0;
     size_t size1 = object->Size();
     size_t size2 = 0;
-    for (unsigned int i = 0; i <= size1; i++) {
+    for (unsigned int i = 0; i < size1; i++) {
 	if (root == NULL)
 	    root = object->GetChild(i++);
 
@@ -258,7 +257,7 @@ void oglWidgetRenderer::Update(void* obj, unsigned int update) {
 	    slot++;
 
 	    child = root->IterateChild(j++);
-	} while (j <= size2); //Does this need to be '<='?
+	} while (j <= size2 && child != NULL);
 
 	root = object->GetChild(i);
     }
@@ -301,7 +300,7 @@ Shader* oglWidgetRenderer::GetShader() {
 void oglWidgetRenderer::SetShader(Shader* s) {
     if (s == NULL)
 	return;
-    
+
     shader = s;
 }
 

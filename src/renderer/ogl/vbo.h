@@ -29,28 +29,28 @@
 
 class VBO {
 public:
-        VBO(const VBO&);
-	VBO(GLenum = GL_STREAM_DRAW);
-	VBO(unsigned int, void*, GLenum = GL_STREAM_DRAW);
-	virtual ~VBO();
+    VBO(const VBO&);
+    VBO(GLenum = GL_STREAM_DRAW);
+    VBO(unsigned int, void*, GLenum = GL_STREAM_DRAW);
+    virtual ~VBO();
 
-	void Bind();
-	void Unbind();
+    void Bind();
+    void Unbind();
 
-	bool InitData(unsigned int, void*);
-	bool SetData(unsigned int, unsigned int, void*);
-	bool AddData(unsigned int, void*, unsigned int* = NULL);
-	bool InsertData(unsigned int, unsigned int, unsigned int, void *);
-	bool RemoveData(unsigned int, unsigned int);
+    bool InitData(unsigned int, void*);
+    bool SetData(unsigned int, unsigned int, void*);
+    bool AddData(unsigned int, void*, unsigned int* = NULL);
+    bool InsertData(unsigned int, unsigned int, unsigned int, void *);
+    bool RemoveData(unsigned int, unsigned int);
 
 
-	const GLuint GetID();
-	const unsigned int GetSize();
+    const GLuint GetID();
+    const unsigned int GetSize();
 private:
-	GLuint id;
-	GLenum type;
-	bool isBound;
-	unsigned int size;
+    GLuint id;
+    GLenum type;
+    bool isBound;
+    unsigned int size;
 };
 
 #endif	/* _VBO_H */

@@ -26,7 +26,7 @@ public:
 	void Step(unsigned int);
 	void Linear(unsigned int);
 
-	
+	void SetColor(util::Color);
 	void SetColor(std::string);
 	util::Color GetColor();
 

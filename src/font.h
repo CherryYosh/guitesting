@@ -73,8 +73,6 @@ private:
 
 	bool hasKerning;
 
-	unsigned int id;
-
 	Glyph glyphs[128];
 	FontChar chars[128];
 };

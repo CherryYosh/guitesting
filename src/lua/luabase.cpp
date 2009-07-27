@@ -4,25 +4,22 @@
 
 #include "../swig/widgetsLUA_wrap.cxx"
 
-static lua_State* L;
-static bool initialized = false;
+lua_State* LUABase::L = NULL;
+bool LUABase::initialized = false;
 
 extern int luaopen_widgets(lua_State* L);
 
-LUABase::LUABase() {
-}
+LUABase::LUABase() { }
 
-LUABase::~LUABase() {
-}
+LUABase::~LUABase() { }
 
 void LUABase::Init() {
-    if (initialized)
-	return;
-    initialized = true;
-
-    L = lua_open();
-    luaL_openlibs(L);
-    luaopen_widgets(L);
+    if (!initialized) {
+	L = lua_open();
+	luaL_openlibs(L);
+	luaopen_widgets(L);
+	initialized = true;
+    }
 }
 
 lua_State* LUABase::GetLuaState() {
@@ -43,7 +40,7 @@ bool LUABase::CallScript(std::string script, DebugLevel debug) {
 
     c = "local ok, errmsg = xpcall(function () dofile(\"" + script + "\") end, " + d + "); if not ok then print(errmsg) end";
 
-    luaL_dostring(GetLuaState(), c.c_str());
+    luaL_dostring(L, c.c_str());
     return true;
 }
 
@@ -55,7 +52,7 @@ bool LUABase::CallScript(std::string script, std::string arg1, DebugLevel debug)
 
     lua_getglobal(L, "main");
     if (!lua_isfunction(L, -1)) {
-	printf("LuaError: function `main` not found!!\n");
+	printf("LuaError: function `main` not found, or value main not a global function.\n");
 
 	lua_pop(L, 1);
 	return false;
@@ -81,7 +78,7 @@ bool LUABase::CallScript(std::string script, LuaArgList args, DebugLevel debug) 
 
     lua_getglobal(L, "main");
     if (!lua_isfunction(L, -1)) {
-	printf("LuaError: function `main` not found!!\n");
+	printf("LuaError: function `main` not found, or value main not a global function.\n");
 
 	lua_pop(L, 1);
 	return false;
@@ -92,14 +89,17 @@ bool LUABase::CallScript(std::string script, LuaArgList args, DebugLevel debug) 
 	if (__M_IsNumber(args[i])) {
 	    lua_pushnumber(L, boost::any_cast<double>(args[i]));
 	} else if (__M_IsString(args[i])) {
-	    lua_pushstring(L, boost::any_cast<std::string> (args[i]).c_str());
+	    lua_pushstring(L, boost::any_cast<std::string > (args[i]).c_str());
 	} else {
-	    SWIG_NewPointerObj(L, boost::any_cast<void *>(args[i]), SWIGTYPE_p_Editbox, 0);
+	    if(args[i].type() == typeid(Label*)){
+		void* ptr = dynamic_cast<void *>(boost::any_cast<Label *>(args[i]));
+		SWIG_NewPointerObj(L, ptr, SWIGTYPE_p_Label, 0);
+	    }
 	}
     }
 
     /* do the call (size arguments, 0 result) */
-    if (lua_pcall(L, size, 0, 0) != 0) {
+    if (lua_pcall(L, size, 0, 0)) {
 	printf("LuaError: error running script %s: %s\n", script.c_str(), lua_tostring(L, -1));
 	return false;
     }

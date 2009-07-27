@@ -28,6 +28,8 @@
 #include "controls.h"
 #include "../gui.h"
 #include "../camera.h"
+#include "../events/gui/close.h"
+#include "../events/gui/colorchange.h"
 #include <SDL/SDL.h>
 
 Window::Window() : gui(NULL), renderer(NULL), activeEvents(), resizable(false), bordersSet(false), Control(GUI_NONE, this) {
@@ -44,12 +46,10 @@ rightborder(orig.rightborder), leftedge(orig.leftedge), rightedge(orig.rightedge
 bordersSet(orig.bordersSet), Control(orig) { };
 
 Window::~Window() {
-    gui->CloseWindow(this);
-    gui = NULL;
-
-    renderer->RemoveObject(this);
-    renderer = NULL;
-    mouseOverChild = NULL;
+    std::vector<Event*>::iterator it;
+    for (it = activeEvents.begin(); it != activeEvents.end(); it++) {
+	(*it)->End();
+    }
 
     activeEvents.clear();
 }
@@ -323,4 +323,23 @@ float Window::GetInternalHeight() {
     if (bordersSet) {
 	return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
     } else return GetHeight();
+}
+
+bool Window::GetChildAttributes(long flags) {
+    if (activeChild != NULL) return activeChild->attributes(flags);
+    else return false;
+}
+
+void Window::CloseButton(int x, int y, util::Color color) {
+    //HACK!!!
+    bool t = bordersSet;
+    bordersSet = false;
+    Control* c = NewChild("button.close", x, y, TOP_LAYER, DontResize);
+    bordersSet = t;
+
+    ColorChangeEvent* ce = new ColorChangeEvent(c);
+    ce->SetColor(color);
+
+    c->AddCallback("onClick", new CloseEvent(c)); //OnClick we close
+    c->AddCallback("onHover", ce); //onHover we turn to color
 }

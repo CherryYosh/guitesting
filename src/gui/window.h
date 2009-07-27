@@ -83,6 +83,10 @@ public:
     float GetInternalWidth();
     float GetInternalHeight();
 
+    bool GetChildAttributes(long);
+
+    void CloseButton(int, int, util::Color = "#FF000000");
+
 protected:
 private:
     GUI* gui;

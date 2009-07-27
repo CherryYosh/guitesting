@@ -14,27 +14,29 @@
 
 class devilImage : public Image {
 public:
-	static bool InitDevIL();
+    static bool InitDevIL();
 
-	devilImage();
-	devilImage(const char*);
-	devilImage(std::string);
-	devilImage(const devilImage& orig);
-	virtual ~devilImage();
+    devilImage();
+    devilImage(const char*);
+    devilImage(std::string);
+    devilImage(int, int, int, int, int, char*, bool = true);
+    devilImage(const devilImage& orig);
+    virtual ~devilImage();
 
-	bool Load(std::string);
-	unsigned int GetID();
-	unsigned int Width();
-	unsigned int Height();
-	unsigned int Format();
-	unsigned int BPP();
+    bool Load(std::string);
+    
+    unsigned int GetID();
+    unsigned int Width();
+    unsigned int Height();
+    unsigned int Format();
+    unsigned int BPP();
 
 private:
-	unsigned int id;
-	unsigned int width;
-	unsigned int height;
-	unsigned int format;
-	unsigned int bpp;
+    unsigned int id;
+    unsigned int width;
+    unsigned int height;
+    unsigned int format;
+    unsigned int bpp;
 };
 
 #endif	/* _DEVILIMAGE_H */
