@@ -120,7 +120,10 @@ unsigned int Font::GetHeight() {
     return height;
 }
 
-unsigned int Font::GetWidth(std::string) { printf("Font::GetWidth::TODO\n"); }
+unsigned int Font::GetWidth(std::string) { 
+	printf("Font::GetWidth::TODO\n");
+	return 0;
+}
 
 Image* Font::GetImage() {
     return image;

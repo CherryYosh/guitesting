@@ -148,7 +148,11 @@ void GUI::UpdateWindowEvents(unsigned int* step) {
 	Windows[i]->StepEvents(*step);
 }
 
-void GUI::CreateWindow(std::string name, float x, float y) {
+#ifdef CreateWindow
+#undef CreateWindow
+#endif
+
+void GUI::CreateWindow( std::string name, float x, float y) {
     Window* window = Theme::Widget(name);
 
     if (window != NULL) {

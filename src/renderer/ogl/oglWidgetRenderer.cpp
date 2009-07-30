@@ -5,6 +5,8 @@
  * Created on May 3, 2009, 4:05 PM
  */
 
+#include <GL/glew.h> //needed on windows, Dont delete
+
 #include "oglBase.h"
 #include "oglWidgetRenderer.h"
 

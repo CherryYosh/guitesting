@@ -39,7 +39,7 @@ public:
 
     bool InitData(unsigned int, void*);
     bool SetData(unsigned int, unsigned int, void*);
-    bool AddData(unsigned int, void*, unsigned int* = NULL);
+    bool AddData(unsigned int, void*, unsigned int* = 0);
     bool InsertData(unsigned int, unsigned int, unsigned int, void *);
     bool RemoveData(unsigned int, unsigned int);
 

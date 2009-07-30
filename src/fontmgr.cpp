@@ -20,17 +20,10 @@
 
 #include <GL/glew.h>
 
-// Windows/OpenGL
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#define NOSERVICE
-#define NOMCX
-#include <windows.h>
-#endif
-
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <GL/glu.h>
+
 #include "myext.h"
 
 #include "utils/matrix.h"

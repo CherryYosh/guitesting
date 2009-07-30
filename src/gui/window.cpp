@@ -130,7 +130,7 @@ unsigned int Window::Size() {
 bool Window::MouseTest(float mx, float my) {
     Unproject(mx, my, &mx, &my);
 
-    Control::MouseTest(mx, my);
+    return Control::MouseTest(mx, my);
 }
 
 void Window::OnKeyPress(unsigned short unicode, int key, int mod) {
