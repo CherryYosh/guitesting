@@ -14,7 +14,6 @@
  */
 #include <GL/glew.h>
 #include "label.h"
-#include "../fontmgr.h"
 
 Label::Label(long t, Window* p, Control* c, LayerT l, float x, float y) : Control(t, p, c, l, x, y) {
 }
