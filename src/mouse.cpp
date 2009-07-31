@@ -68,8 +68,8 @@ void Mouse_SetState() {
 	oldy = y;
 
 	unsigned int value = SDL_GetMouseState(&x, &y);
-	Buttons[0] = value & SDL_BUTTON(1);
-	Buttons[1] = value & SDL_BUTTON(2);
+	Buttons[0] = ((value & SDL_BUTTON(1)) != 0);
+	Buttons[1] = ((value & SDL_BUTTON(2)) != 0);
 }
 
 void Mouse_SetButtonState() {
@@ -78,10 +78,10 @@ void Mouse_SetButtonState() {
 	bool old = Buttons[0];
 
 	//left
-	Buttons[0] = value & SDL_BUTTON(1);
+	Buttons[0] = ((value & SDL_BUTTON(1)) != 0);
 
 	//right
-	Buttons[1] = value & SDL_BUTTON(2);
+	Buttons[1] = ((value & SDL_BUTTON(2)) != 0);
 
 	if (old && !Buttons[0] && possibleClick) {
 		//we have a click and not a press

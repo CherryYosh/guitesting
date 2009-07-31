@@ -13,8 +13,8 @@
 
 #include "renderer/image.h"
 
-#if USEOGL
-#if USEDEVIL
+#ifdef USEOGL
+#ifdef USEDEVIL
 #include "renderer/ogl/devilImage.h"
 #define IMAGETYPE devilImage
 #endif
