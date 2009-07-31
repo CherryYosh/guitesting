@@ -64,7 +64,6 @@ ENDIF(${ISDEBUG})
 
 
 #run the CMakeList in these dir
-ADD_SUBDIRECTORY(src/swig)
 ADD_SUBDIRECTORY(src)
 
 #create a run command `make run` that calls the binary

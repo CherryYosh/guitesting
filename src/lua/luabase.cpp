@@ -2,12 +2,8 @@
 
 #include <stdio.h>
 
-#include "../swig/widgetsLUA_wrap.cxx"
-
 lua_State* LUABase::L = NULL;
 bool LUABase::initialized = false;
-
-extern int luaopen_widgets(lua_State* L);
 
 LUABase::LUABase() { }
 
@@ -17,7 +13,6 @@ void LUABase::Init() {
     if (!initialized) {
 	L = lua_open();
 	luaL_openlibs(L);
-	luaopen_widgets(L);
 	initialized = true;
     }
 }
@@ -91,10 +86,6 @@ bool LUABase::CallScript(std::string script, LuaArgList args, DebugLevel debug) 
 	} else if (__M_IsString(args[i])) {
 	    lua_pushstring(L, boost::any_cast<std::string > (args[i]).c_str());
 	} else {
-	    if(args[i].type() == typeid(Label*)){
-		void* ptr = dynamic_cast<void *>(boost::any_cast<Label *>(args[i]));
-		SWIG_NewPointerObj(L, ptr, SWIGTYPE_p_Label, 0);
-	    }
 	}
     }
 
