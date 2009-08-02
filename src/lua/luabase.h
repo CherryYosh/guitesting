@@ -19,15 +19,6 @@ enum DebugLevel {
 
 typedef std::vector<boost::any> LuaArgList;
 
-#define __M_IsNumber(arg) \
-	(arg.type() == typeid(unsigned int)	|| arg.type() == typeid(int)	|| \
-	 arg.type() == typeid(unsigned short)	|| arg.type() == typeid(short)	|| \
-	 arg.type() == typeid(unsigned long)	|| arg.type() == typeid(long)	|| \
-	 arg.type() == typeid(float)		|| arg.type() == typeid(double) )
-
-#define __M_IsString(arg) \
-	(arg.type() == typeid(std::string))
-
 class LUABase {
 public:
 	LUABase();

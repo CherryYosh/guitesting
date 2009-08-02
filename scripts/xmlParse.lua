@@ -1,9 +1,6 @@
-require "theme"
-require "events"
-require "color"
 require "lxp"
 
-local t = theme.Theme()
+local t = Theme()
 local curWidget = nil
 local curChild = nil
 local tempChild = nil
@@ -18,8 +15,8 @@ local function import(name, args)
 end
 
 local function textures(name, args)
-    if not theme.Theme_SetImage("themes/" .. args["file"]) then
-	if not theme.Theme_SetImage(args["file"]) then error("Could not find image " .. args["file"]) end
+    if not Theme.SetImage("themes/" .. args["file"]) then
+	if not Theme.SetImage(args["file"]) then error("Could not find image " .. args["file"]) end
     end
 end
 

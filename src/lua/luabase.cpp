@@ -1,6 +1,25 @@
 #include "luabase.h"
 
+#include <cassert>
 #include <stdio.h>
+#include <iostream>
+
+#include "lua_theme.h"
+
+//========================================================= Lua globals
+
+static int lua_panic(lua_State *L) {
+    lua_checkstack(L, 2);
+    if (lua_type(L, -1) == LUA_TTABLE) {
+	lua_rawgeti(L, -1, 2);
+    }
+
+    assert(false); //Fix this
+    return 0;
+}
+
+
+//========================================================= Base Class
 
 lua_State* LUABase::L = NULL;
 bool LUABase::initialized = false;
@@ -12,7 +31,28 @@ LUABase::~LUABase() { }
 void LUABase::Init() {
     if (!initialized) {
 	L = lua_open();
+	lua_atpanic(L, lua_panic);
+
 	luaL_openlibs(L);
+
+#define ADD_TABLE(name) {\
+	    lua_newtable(L); \
+	    luaL_register(L, NULL, name##_methods); \
+	    luaL_newmetatable(L, #name"_ud" ); \
+	    luaL_register(L, NULL, name##_metatable ); \
+	    lua_pushliteral(L, "__index"); \
+	    lua_pushvalue(L, -3); \
+	    lua_rawset(L, -3); \
+	    lua_pop(L, 2); }
+
+	luaL_openlib(L, "Theme", Theme_table_methods, 0);
+	luaL_newmetatable(L, "Theme");
+	luaL_register(L, NULL, Theme_table_metatable );
+	lua_setmetatable(L, -2);
+	lua_pop(L,1);
+	
+	ADD_TABLE(Theme);
+	
 	initialized = true;
     }
 }
@@ -22,20 +62,6 @@ lua_State* LUABase::GetLuaState() {
 }
 
 bool LUABase::CallScript(std::string script, DebugLevel debug) {
-    std::string d;
-    std::string c;
-
-    if (debug == None) {
-	d = "nil";
-    } else if (debug == Traceback) {
-	d = "debug.traceback";
-    } else if (debug == Interactive) {
-	d = "debug.debug";
-    }
-
-    c = "local ok, errmsg = xpcall(function () dofile(\"" + script + "\") end, " + d + "); if not ok then print(errmsg) end";
-
-    luaL_dostring(L, c.c_str());
     return true;
 }
 
@@ -61,40 +87,10 @@ bool LUABase::CallScript(std::string script, std::string arg1, DebugLevel debug)
 	printf("LuaError: error running script %s: %s\n", script.c_str(), lua_tostring(L, -1));
 	return false;
     }
-
     return true;
 }
 
 bool LUABase::CallScript(std::string script, LuaArgList args, DebugLevel debug) {
-    if (luaL_dofile(L, script.c_str())) {
-	printf("LuaError: %s\n", lua_tostring(L, -1));
-	return false;
-    }
-
-    lua_getglobal(L, "main");
-    if (!lua_isfunction(L, -1)) {
-	printf("LuaError: function `main` not found, or value main not a global function.\n");
-
-	lua_pop(L, 1);
-	return false;
-    }
-
-    size_t size = args.size();
-    for (unsigned int i = 0; i < size; i++) {
-	if (__M_IsNumber(args[i])) {
-	    lua_pushnumber(L, boost::any_cast<double>(args[i]));
-	} else if (__M_IsString(args[i])) {
-	    lua_pushstring(L, boost::any_cast<std::string > (args[i]).c_str());
-	} else {
-	}
-    }
-
-    /* do the call (size arguments, 0 result) */
-    if (lua_pcall(L, size, 0, 0)) {
-	printf("LuaError: error running script %s: %s\n", script.c_str(), lua_tostring(L, -1));
-	return false;
-    }
-
     return true;
 }
 

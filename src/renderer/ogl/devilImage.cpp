@@ -72,7 +72,7 @@ bool devilImage::Load(std::string filename) {
 
     if (ilLoadImage(filename.c_str()) == false) {
 	ILenum error = ilGetError();
-	printf("ERROR:: DevIL error (%d) %s\n", error, iluErrorString(error));
+	printf("ERROR:: DevIL error (%d, %s) %s\n", error, filename.c_str(), iluErrorString(error));
 
 	id = 0;
 	width = 0;
