@@ -32,7 +32,7 @@ void Theme::Init() {
 }
 
 bool Theme::LoadTheme(std::string themefile) {
-	return LUABase::CallScript("scripts/xmlParse.lua", themefile);
+	return LUABase::CallScript("./scripts/xmlParse.lua", themefile);
 }
 
 Window* Theme::NewWidget(std::string name, Window* data) {

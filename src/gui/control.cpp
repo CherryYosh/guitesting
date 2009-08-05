@@ -24,11 +24,6 @@
 Control::Control() : _attributes(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(), canReleaseMouse(true),
 parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL), orientation(All), movement(3) { }
 
-Control::Control(const Control& orig) : _attributes(orig._attributes), x(orig.x), y(orig.y), z(orig.z),
-width(orig.width), height(orig.height), color(orig.color), parent(orig.parent), root(orig.root),
-mouseOverChild(orig.mouseOverChild), activeChild(orig.activeChild), movement(orig.movement),
-children(orig.children), events(orig.events), orientation(orig.orientation), canReleaseMouse(orig.canReleaseMouse) { }
-
 Control::Control(long t, Window* r, Control* p, LayerT l, float ix, float iy) : _attributes(t), x(ix), y(iy),
 z(-TOP_LAYER), color(), parent(p), root(r), mouseOverChild(NULL), activeChild(NULL), orientation(All), canReleaseMouse(true) {
     SetLayer(l);

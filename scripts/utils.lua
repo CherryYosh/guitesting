@@ -1,35 +1,35 @@
 function GetEventByName(name)
 	if name == "colorchange" then
-		return events.ColorChangeEvent()
+		return ColorChangeEvent()
 	elseif name == "move" then
-		return events.MoveEvent()
+		return MoveEvent()
 	elseif name == "close" then
-		return events.CloseEvent()
+		return CloseEvent()
 	elseif name == "rotation" then
-		return events.RotationEvent()
+		return RotationEvent()
 	else
-		return events.Event()
+		return Event()
 	end
 end
 
 function ToLayer(str)
 	if str == "top" then
-		return widgets.TOP_LAYER
+		return TOP_LAYER
 	elseif str == "default" then
-		return widgets.DEFAULT_LAYER
+		return DEFAULT_LAYER
 	elseif str == "bottom" then
-		return widgets.BOTTOM_LAYER
+		return BOTTOM_LAYER
 	end
 end
 
 function ToOrientation(str)
     if str == "all" then
-	return widgets.All
+	return All
     elseif str == "vertical" then
-	return widgets.Vertical
+	return Vertical
     elseif str == "horizontal" then
-	return widgets.Horizontal
+	return Horizontal
     elseif str == "none" then
-	return widgets.DontResize
+	return DontResize
     end
 end

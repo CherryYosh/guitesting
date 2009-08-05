@@ -16,5 +16,7 @@ extern const luaL_reg Theme_table_metatable[];
 extern const luaL_reg Theme_methods[];
 extern const luaL_reg Theme_metatable[];
 
+void Theme_DoExtra(lua_State*);
+
 #endif	/* _LUA_THEME_H */
 

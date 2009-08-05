@@ -33,7 +33,6 @@ class Window : public Control {
 public:
     Window();
     Window(GUI*, Renderer*);
-    Window(const Window&);
     ~Window();
 
     Control* clone();

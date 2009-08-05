@@ -40,11 +40,6 @@ Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), borde
     rotation.make_identity();
 }
 
-Window::Window(const Window& orig) : gui(orig.gui), renderer(orig.renderer), activeEvents(orig.activeEvents),
-rotation(orig.rotation), topborder(orig.topborder), bottomborder(orig.bottomborder), leftborder(orig.leftborder),
-rightborder(orig.rightborder), leftedge(orig.leftedge), rightedge(orig.rightedge), resizable(orig.resizable),
-bordersSet(orig.bordersSet), Control(orig) { };
-
 Window::~Window() {
     std::vector<Event*>::iterator it;
     for (it = activeEvents.begin(); it != activeEvents.end(); it++) {

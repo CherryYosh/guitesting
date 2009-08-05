@@ -5,6 +5,9 @@
 #include <iostream>
 
 #include "lua_theme.h"
+#include "lua_window.h"
+#include "lua_control.h"
+#include "lua_label.h"
 
 //========================================================= Lua globals
 
@@ -17,7 +20,6 @@ static int lua_panic(lua_State *L) {
     assert(false); //Fix this
     return 0;
 }
-
 
 //========================================================= Base Class
 
@@ -35,24 +37,31 @@ void LUABase::Init() {
 
 	luaL_openlibs(L);
 
-#define ADD_TABLE(name) {\
-	    lua_newtable(L); \
-	    luaL_register(L, NULL, name##_methods); \
-	    luaL_newmetatable(L, #name"_ud" ); \
-	    luaL_register(L, NULL, name##_metatable ); \
-	    lua_pushliteral(L, "__index"); \
-	    lua_pushvalue(L, -3); \
-	    lua_rawset(L, -3); \
-	    lua_pop(L, 2); }
+/**
+ * This creates the userdata, creating a global table of "name" from name_table_methods and name_table_metatable
+ * a instance table of "name_ud" is created from name_methods and name_metatable tables
+ * Any extra settings can be set via the name_DoExtra function
+ */
+#define REGISTER_USERDATA(name){\
+	luaL_openlib(L, #name, name##_table_methods, 0);\
+	luaL_newmetatable(L, #name);\
+	luaL_register(L, NULL, name##_table_metatable);\
+	lua_setmetatable(L, -2);\
+	lua_newtable(L); \
+	luaL_register(L, NULL, name##_methods); \
+	luaL_newmetatable(L, #name"_ud" ); \
+	luaL_register(L, NULL, name##_metatable ); \
+	lua_pushliteral(L, "__index"); \
+	lua_pushvalue(L, -3); \
+	lua_rawset(L, -3); \
+	lua_settop(L, 0); \
+	name##_DoExtra(L); }
 
-	luaL_openlib(L, "Theme", Theme_table_methods, 0);
-	luaL_newmetatable(L, "Theme");
-	luaL_register(L, NULL, Theme_table_metatable );
-	lua_setmetatable(L, -2);
-	lua_pop(L,1);
-	
-	ADD_TABLE(Theme);
-	
+	REGISTER_USERDATA(Theme);
+	REGISTER_USERDATA(Window);
+	REGISTER_USERDATA(Control);
+	REGISTER_USERDATA(Label);
+
 	initialized = true;
     }
 }

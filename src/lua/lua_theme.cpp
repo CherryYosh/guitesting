@@ -64,11 +64,15 @@ static int Theme_NewWidget(lua_State* L){
     check_args_range(L, 2, 2); //should be 3 but im lazy right now
     __M_GET_USERDATA(Theme, self, 1);
 
-    Window* w = static_cast<Window*>(lua_newuserdata(L, sizeof(Window)));
+    void* mem = lua_newuserdata(L, sizeof(Window));
     luaL_getmetatable(L, "Window_ud");
     lua_setmetatable(L, -2);
 
-    w = self.NewWidget(luaL_checkstring(L, 2));
+	//make sure that this works
+	//This might cause a memory leak, but doing anything like delete w; causes a crash.
+	Window* w = self.NewWidget(luaL_checkstring(L, 2));
+	new (mem) Window(*w);
+
     return 1;
 }
 
@@ -107,3 +111,4 @@ const luaL_reg Theme_metatable[] = {
     {NULL, NULL}
 };
 
+void Theme_DoExtra(lua_State*){};

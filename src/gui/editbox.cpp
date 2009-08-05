@@ -25,6 +25,10 @@ Editbox::Editbox(const Editbox& orig) : caretPos(orig.caretPos), currentLine(ori
 	text.push_back("");
 }
 
+Editbox::Editbox(const Control& orig) : caretPos(0), currentLine(0), Label(orig) {
+	this->attributes(GUI_RECIEVE_KEYS | GUI_RECIEVE_MOUSE | GUI_HAS_TEXT);
+}
+
 Editbox::~Editbox() {
 	//nothing right now
 }
@@ -78,7 +82,7 @@ void Editbox::OnKeyPress(unsigned short unicode, int key, int mod) {
 			args.push_back(text[0].toString());
 			args.push_back(peer);
 
-			LUABase::CallScript("scripts/textParser.lua", args);
+			LUABase::CallScript("./scripts/textParser.lua", args);
 
 			//being lazy
 			text[0].clear();

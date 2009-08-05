@@ -25,9 +25,10 @@
 
 class Label : public Control {
 public:
-        Label(long, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+    Label(long, Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	Label(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
-        Label(const Label&);
+    Label(const Label&);
+	Label(const Control&);
 	~Label();
 
         Control* clone();

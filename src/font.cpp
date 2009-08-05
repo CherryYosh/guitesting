@@ -26,7 +26,7 @@ Font::Font() : image(), fontName("") {
     Init();
 }
 
-Font::Font(std::string font, unsigned int size) : fontName(font) {
+Font::Font(std::string font, unsigned int size) : image(), fontName(font) {
     Init();
     Load(font, size);
 }
@@ -104,7 +104,7 @@ void Font::Load(std::string font, unsigned int size) {
 	chars[i].bearingY = glyphs[i].bearingY;
     }
 
-    hasKerning = FT_HAS_KERNING(face);
+    hasKerning = (FT_HAS_KERNING(face) != 0);
 
     new (image) devilImage(GL_RGBA, 256, 256, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, img_buffer);
 }
@@ -130,7 +130,9 @@ Image* Font::GetImage() {
 }
 
 unsigned int Font::GetImageID() {
-    return image->GetID();
+	if(image != NULL)
+		return image->GetID();
+	else return 0;
 }
 
 FontChar* Font::GetChar(char c) {

@@ -23,6 +23,10 @@ Label::Label(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_HA
 
 Label::Label(const Label& orig) : text(orig.text), isMultiline(orig.isMultiline), Control(orig) {}
 
+Label::Label(const Control& orig) : text(), isMultiline(false), Control(orig) {
+	this->attributes(GUI_HAS_TEXT);
+}
+
 Label::~Label() {
     //nothing
 }

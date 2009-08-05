@@ -21,6 +21,7 @@ class Editbox : public Label {
 public:
     Editbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
     Editbox(const Editbox& orig);
+	Editbox(const Control& orig);
     ~Editbox();
 
     Control* clone();

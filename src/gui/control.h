@@ -54,7 +54,6 @@ enum LayerT {
 class Control {
 public:
     Control();
-    Control(const Control&);
     Control(long, Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
     virtual ~Control();
 
