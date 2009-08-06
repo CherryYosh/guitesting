@@ -15,11 +15,9 @@
 
 //================================= table methods
 
-static Theme* Theme_push(lua_State* L) {
-    Theme* t = static_cast<Theme*>(lua_newuserdata(L, sizeof(Theme)));
-    luaL_getmetatable(L, "Theme_ud");
-    lua_setmetatable(L, -2);
-    return t;
+static int Theme_push(lua_State* L) {    
+    __M_LUA_PUSH(new Theme(), "Theme_ud");
+    return 1;
 }
 
 static int Theme_new(lua_State* L) {
@@ -52,7 +50,7 @@ static int Theme_AddTextureData(lua_State* L) {
     return 0;
 }
 
-static int Theme_Alias(lua_State* L){
+static int Theme_Alias(lua_State* L) {
     check_args(L, 3);
     __M_GET_USERDATA(Theme, self, 1);
 
@@ -60,19 +58,11 @@ static int Theme_Alias(lua_State* L){
     return 0;
 }
 
-static int Theme_NewWidget(lua_State* L){
+static int Theme_NewWidget(lua_State* L) {
     check_args_range(L, 2, 2); //should be 3 but im lazy right now
     __M_GET_USERDATA(Theme, self, 1);
 
-    void* mem = lua_newuserdata(L, sizeof(Window));
-    luaL_getmetatable(L, "Window_ud");
-    lua_setmetatable(L, -2);
-
-	//make sure that this works
-	//This might cause a memory leak, but doing anything like delete w; causes a crash.
-	Window* w = self.NewWidget(luaL_checkstring(L, 2));
-	new (mem) Window(*w);
-
+    __M_LUA_PUSH(self.NewWidget(luaL_checkstring(L, 2)), "Window_ud");
     return 1;
 }
 
@@ -82,7 +72,7 @@ static int Theme_tostring(lua_State* L) {
     check_args(L, 1);
     __M_GET_USERDATA(Theme, self, 1);
 
-    lua_pushstring(L, "name");
+    lua_pushstring(L, "testing here here 123");
     return 1;
 }
 
@@ -111,4 +101,4 @@ const luaL_reg Theme_metatable[] = {
     {NULL, NULL}
 };
 
-void Theme_DoExtra(lua_State*){};
+void Theme_DoExtra(lua_State*) { };

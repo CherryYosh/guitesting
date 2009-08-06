@@ -30,3 +30,12 @@ int check_args_range(lua_State* L, int min, int max){
     }
 	return numArgs;
 }
+
+void* check_data(lua_State* L, void* data){
+    void* ptr = *static_cast<void**>(data);
+    if(ptr == NULL){
+	lua_error(L);
+    }
+
+    return ptr;
+}

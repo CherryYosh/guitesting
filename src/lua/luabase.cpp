@@ -8,6 +8,7 @@
 #include "lua_window.h"
 #include "lua_control.h"
 #include "lua_label.h"
+#include "lua_editbox.h"
 
 //========================================================= Lua globals
 
@@ -61,6 +62,7 @@ void LUABase::Init() {
 	REGISTER_USERDATA(Window);
 	REGISTER_USERDATA(Control);
 	REGISTER_USERDATA(Label);
+	REGISTER_USERDATA(Editbox);
 
 	initialized = true;
     }
