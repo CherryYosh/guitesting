@@ -47,7 +47,7 @@ local function child(name, args)
 	end
     end
 
-    --if args["multiline"] == "true" then curChild : ToLabel() : multiline( true )  end
+    if args["multiline"] == "true" then curChild : ToLabel() : multiline( true )  end
     if args["width"] then curChild : SetWidth( args["width"] ) end
     if args["height"] then curChild : SetHeight( args["height"] ) end
     if args["orientation"] then curChild : SetOrientation( ToOrientation(args["orientation"]) ) end

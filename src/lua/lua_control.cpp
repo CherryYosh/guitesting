@@ -24,7 +24,7 @@ static int Control_SetOrientation(lua_State* L) {
     check_args(L, 2);
     __M_GET_USERDATA(Control, self, 1);
 
-    self.SetOrientation((OrientationT) luaL_checkint(L, 2));
+    self.SetOrientation(OrientationT(luaL_checkint(L, 2)));
     return 0;
 }
 
@@ -79,14 +79,16 @@ const luaL_reg Control_metatable[] = {
 };
 
 void Control_DoExtra(lua_State* L) {
-#define SET(v) lua_setglobal(L, #v); lua_pushinteger(L, v);
+#define SET(v) lua_pushinteger(L, v); lua_setglobal(L, #v);
 
     SET(DontResize);
     SET(All);
     SET(Horizontal);
     SET(Vertical);
+
     SET(BOTTOM_LAYER);
     SET(DEFAULT_LAYER);
     SET(TOP_LAYER);
+    
     lua_settop(L, 0);
 }
