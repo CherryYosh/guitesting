@@ -43,7 +43,7 @@ Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), borde
 Window::~Window() {
     std::vector<Event*>::iterator it;
     for (it = activeEvents.begin(); it != activeEvents.end(); it++) {
-	(*it)->End();
+	(*it)->End(false);
     }
 
     activeEvents.clear();

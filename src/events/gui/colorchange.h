@@ -22,7 +22,7 @@ public:
 	Event* clone();
 
 	void Begin();
-	void End();
+	void End(bool = true);
 	void Step(unsigned int);
 	void Linear(unsigned int);
 

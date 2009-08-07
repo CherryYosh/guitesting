@@ -25,7 +25,7 @@ void MoveEvent::Begin() {
 	}
 };
 
-void MoveEvent::End() {
+void MoveEvent::End(bool update) {
 	object->GetRoot()->RemoveEvent(this);
 };
 

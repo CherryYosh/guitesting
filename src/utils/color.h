@@ -29,16 +29,7 @@ namespace util {
 	float operator[](int i) {
 	    return _array[i];
 	};
-/*
-	Color & operator=(const Color& c){
-	    if(this != &c){
-		//this->~Color();
-		delete this;
-		new (this) Color(c);
-	    }
-	    return *this;
-	}
-*/
+
 	Color & operator=(const char* s) {
 	    this->~Color();
 	    new (this) Color(s);

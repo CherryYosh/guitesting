@@ -31,7 +31,7 @@ void CloseEvent::Step(unsigned int step){
 		printf("FAIL!!!\n");
 }
 
-void CloseEvent::End(){
+void CloseEvent::End(bool update){
 	
 }
 

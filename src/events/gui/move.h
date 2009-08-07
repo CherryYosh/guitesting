@@ -23,7 +23,7 @@ public:
 	void SetObject(Control*);
 
 	void Begin();
-	void End();
+	void End(bool = true);
 	void Step(unsigned int);
 
 	void Linear(unsigned int);

@@ -28,7 +28,7 @@ public:
 	/**
 	 * Called after the event is finsihed
 	 */
-	virtual void End() = 0;
+	virtual void End(bool = true) = 0;
 
 	virtual void Step(unsigned int) = 0;
 protected:

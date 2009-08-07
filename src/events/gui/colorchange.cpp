@@ -23,10 +23,11 @@ void ColorChangeEvent::Begin() {
 		remainingTime = duration;
 }
 
-void ColorChangeEvent::End() {
+void ColorChangeEvent::End(bool update) {
 	object->SetColor(util::Color(0.0, 0.0, 0.0, 0.0));
 	object->GetRoot()->RemoveEvent(this);
-	object->GetRoot()->UpdateControl(object);
+
+	if(update) object->GetRoot()->UpdateControl(object);
 }
 
 void ColorChangeEvent::Step(unsigned int step) {

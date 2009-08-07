@@ -29,7 +29,7 @@ void RotationEvent::Step(unsigned int step) {
 	object->GetRoot()->UpdateControl(object->GetRoot());
 }
 
-void RotationEvent::End() {
+void RotationEvent::End(bool update) {
 	object->GetRoot()->RemoveEvent(this);
 }
 
