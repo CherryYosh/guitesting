@@ -9,7 +9,7 @@
 
 ColorChangeEvent::ColorChangeEvent() : color("#000000FF"), GUIEvent() {}
 
-ColorChangeEvent::ColorChangeEvent(Control* o) : color("#000000"), GUIEvent(o) {}
+ColorChangeEvent::ColorChangeEvent(Widget* o) : color("#000000"), GUIEvent(o) {}
 
 ColorChangeEvent::ColorChangeEvent(const ColorChangeEvent& c) : color(c.color), GUIEvent(c) { }
 
@@ -25,15 +25,15 @@ void ColorChangeEvent::Begin() {
 
 void ColorChangeEvent::End(bool update) {
 	object->SetColor(util::Color(0.0, 0.0, 0.0, 0.0));
-	object->GetRoot()->RemoveEvent(this);
+	object->GetRoot()->DeactivateEvent(this);
 
-	if(update) object->GetRoot()->UpdateControl(object);
+	if(update) object->GetRoot()->UpdateWidget(object);
 }
 
 void ColorChangeEvent::Step(unsigned int step) {
 	Linear(step);
 	remainingTime -= step;
-	object->GetRoot()->UpdateControl(object);
+	object->GetRoot()->UpdateWidget(object);
 }
 
 void ColorChangeEvent::Linear(unsigned int step) {
@@ -60,7 +60,7 @@ void ColorChangeEvent::Linear(unsigned int step) {
 
 	//dont use End() because we dont want to reset the color
 	if (stop)
-		object->GetRoot()->RemoveEvent(this);
+		object->GetRoot()->DeactivateEvent(this);
 }
 
 void ColorChangeEvent::SetColor(util::Color c){

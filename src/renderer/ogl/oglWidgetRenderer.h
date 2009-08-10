@@ -14,7 +14,7 @@
 #include "../../camera.h"
 #include "../../utils/matrix.h"
 #include "../../utils/vector.h"
-#include "../../gui/control.h"
+#include "../../gui/Widget.h"
 
 #include <vector>
 
@@ -42,7 +42,7 @@ public:
 	Camera* GetCamera();
 private:
 	unsigned int TotalObjects;	//the total number of objects, including all children
-	std::vector<Control*> Objects;
+	std::vector<Widget*> Objects;
 	VBO Buffer;
 	Shader* shader;
 };

@@ -55,7 +55,6 @@ void oglBase::SetupContext() {
 	SDL_EnableUNICODE(true);
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
 	SDL_WM_SetCaption("GUI Project", NULL);
 

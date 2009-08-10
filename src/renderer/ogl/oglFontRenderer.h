@@ -11,7 +11,7 @@
 #include "../../colorstring.h"
 #include "../fontrenderer.h"
 #include "../../camera.h"
-#include "../../gui/control.h"
+#include "../../gui/Widget.h"
 #include "shader.h"
 #include "vbo.h"
 
@@ -42,10 +42,10 @@ public:
     int* GetViewport();
     Camera* GetCamera();
 private:
-    void GenerateStringData(Control*, FontData*, int&, size_t&, int&);
+    void GenerateStringData(Widget*, FontData*, int&, size_t&, int&);
 
     unsigned int TotalObjects;
-    std::vector<Control*> Objects;
+    std::vector<Widget*> Objects;
     Shader* shader;
     VBO Buffer;
 };

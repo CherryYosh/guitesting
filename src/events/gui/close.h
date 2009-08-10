@@ -14,7 +14,7 @@
 class CloseEvent : public GUIEvent {
 public:
 	CloseEvent();
-	CloseEvent(Control*);
+	CloseEvent(Widget*);
 	CloseEvent(const CloseEvent& orig);
 	virtual ~CloseEvent();
 

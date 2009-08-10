@@ -1,11 +1,11 @@
 #ifndef SLIDER_H
 #define	SLIDER_H
 
-#include "control.h"
+#include "Widget.h"
 
-class Slider : public Control {
+class Slider : public Widget {
 public:
-	Slider(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Slider(Window* = NULL, Widget* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Slider();
 
 	bool OnMouseMotion(float, float, unsigned short);
@@ -28,7 +28,7 @@ private:
 	float value;
 	float minValue, maxValue;
 
-	Control* Thumb;
+	Widget* Thumb;
 
 	boost::function<void(float)> Callback;
 };

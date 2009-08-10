@@ -15,16 +15,16 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "control.h"
+#include "Widget.h"
 
-class Button : public Control {
+class Button : public Widget {
 public:
 	Button();
+	Button(Window*);
 	Button(const Button&);
-	Button(Window*, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	~Button();
 
-	Control* clone();
+	Widget* clone();
 protected:
 private:
 };

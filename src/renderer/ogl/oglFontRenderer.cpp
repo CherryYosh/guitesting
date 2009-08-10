@@ -45,7 +45,7 @@ unsigned int oglFontRenderer::GetTotalChars(void* obj) {
     std::vector<colorstring> strings;
     size_t size1, size2;
 
-    std::vector<Control*> labels = static_cast<Control*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
+    std::vector<Widget*> labels = static_cast<Widget*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
     if (labels.empty()) {
 	return 0;
     }
@@ -70,7 +70,7 @@ void oglFontRenderer::AddObject(void* obj) {
     assert(obj);
 
     TotalObjects += GetTotalChars(obj);
-    Objects.push_back(static_cast<Control*> (obj));
+    Objects.push_back(static_cast<Widget*> (obj));
 }
 
 /**
@@ -80,7 +80,7 @@ void oglFontRenderer::AddObject(void* obj) {
 void oglFontRenderer::RemoveObject(void* obj) {
     assert(obj != NULL);
 
-    std::vector<Control*>::iterator it = Objects.begin();
+    std::vector<Widget*>::iterator it = Objects.begin();
     while (it != Objects.end()) {
 	if (*it == obj) {
 	    it = Objects.erase(it);
@@ -155,7 +155,7 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
     float h;
     int height, lines;
 
-    std::vector<Control*> labels = static_cast<Control*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
+    std::vector<Widget*> labels = static_cast<Widget*> (obj)->GetChildrenWith(GUI_HAS_TEXT);
     if (labels.empty())
 	return;
 
@@ -205,16 +205,16 @@ void oglFontRenderer::Update(void* obj, unsigned int update) {
 /**
  * Generates the string data, setting everything that is needed except the first y
  * the first y will be set as a line number and then a second pass must be made to correctly set it and the others
- * @param obj the control object to use
+ * @param obj the Widget object to use
  * @param outLines out - the number of total lines, used when setting the y correctly
  */
-void oglFontRenderer::GenerateStringData(Control* obj, FontData* data, int& numLines, size_t& slot, int& height) {
+void oglFontRenderer::GenerateStringData(Widget* obj, FontData* data, int& numLines, size_t& slot, int& height) {
     float x, by, y, z;
     float* color;
     FontChar* c;
     numLines = 1; //new
 
-    std::vector<Control*> labels = obj->GetChildrenWith(GUI_HAS_TEXT);
+    std::vector<Widget*> labels = obj->GetChildrenWith(GUI_HAS_TEXT);
     if (labels.empty()) {
 	return;
     }

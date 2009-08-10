@@ -18,14 +18,14 @@
 
 #include <iostream>
 
-Button::Button() : Control() { }
+Button::Button() : Widget() { }
 
-Button::Button(const Button& orig) : Control(orig) { }
+Button::Button(const Button& orig) : Widget(orig) { }
 
-Button::Button(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_CLICKABLE, p, c, l, x, y) { }
+Button::Button(Window* r) : Widget(GUI_CLICKABLE, r) { }
 
 Button::~Button() { }
 
-Control* Button::clone() {
+Widget* Button::clone() {
 	return new Button(*this);
 }

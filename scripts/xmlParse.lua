@@ -7,7 +7,7 @@ local tempChild = nil
 local isInEvent = false
 local isInBorder = false
 
---load the utils file for GetEventByName, cant use swig for this sadly
+--load the globals from the utils file
 dofile("scripts/utils.lua")
 
 local function import(name, args)

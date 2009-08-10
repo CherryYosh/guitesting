@@ -9,7 +9,7 @@
 #define	_GUIEVENT_H
 
 #include "../event.h"
-#include "../../gui/control.h"
+#include "../../gui/Widget.h"
 #include "../../gui/window.h"
 
 class GUIEvent : public Event {
@@ -17,21 +17,21 @@ public:
 
 	GUIEvent() : object(NULL), Event() { };
 
-	GUIEvent(Control* o) : object(o), Event() { };
+	GUIEvent(Widget* o) : object(o), Event() { };
 
 	GUIEvent(const GUIEvent& orig) : object(orig.object), Event(orig) { };
 
 	virtual ~GUIEvent() { };
 
-	virtual void SetObject(Control* c) {
+	virtual void SetObject(Widget* c) {
 		object = c;
 	};
 
-	Control* GetObject(){
+	Widget* GetObject(){
 		return object;
 	}
 protected:
-	Control* object;
+	Widget* object;
 };
 
 #endif	/* _GUIEVENT_H */

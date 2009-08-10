@@ -1,23 +1,23 @@
 /*   This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-	You should have received a copy of the GNU General Public License
-	long with this program.  If not, see <http://www.gnu.org/licenses/>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+long with this program.  If not, see <http://www.gnu.org/licenses/>
 
- * 	Copyright 2008,2009 James Brandon Stevenson
- */
+* 	Copyright 2008,2009 James Brandon Stevenson
+*/
 
 #include "editbox.h"
 
 #include "../lua/luabase.h"
 
-Editbox::Editbox(Window* p, Control* c, LayerT l, float x, float y) : caretPos(0), currentLine(0), Label(GUI_RECIEVE_KEYS | GUI_RECIEVE_MOUSE | GUI_HAS_TEXT, p, c, l, x, y) {
+Editbox::Editbox(Window* p) : caretPos(0), currentLine(0), Label(GUI_RECIEVE_KEYS | GUI_RECIEVE_MOUSE | GUI_HAS_TEXT, p) {
 	text.push_back("");
 }
 
@@ -25,15 +25,11 @@ Editbox::Editbox(const Editbox& orig) : caretPos(orig.caretPos), currentLine(ori
 	text.push_back("");
 }
 
-Editbox::Editbox(const Control& orig) : caretPos(0), currentLine(0), Label(orig) {
-	this->attributes(GUI_RECIEVE_KEYS | GUI_RECIEVE_MOUSE | GUI_HAS_TEXT);
-}
-
 Editbox::~Editbox() {
 	//nothing right now
 }
 
-Control* Editbox::clone(){
+Widget* Editbox::clone(){
 	return new Editbox(*this);
 }
 
@@ -140,8 +136,8 @@ void Editbox::SetCaretPos(int newpos) {
 }
 
 /**
- * TODO: Find a better name..
- */
+* TODO: Find a better name..
+*/
 void Editbox::SetDialog(Label* l) {
 	peer = l;
 }

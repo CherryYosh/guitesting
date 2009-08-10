@@ -15,7 +15,7 @@
 class ColorChangeEvent : public GUIEvent {
 public:
 	ColorChangeEvent();
-	ColorChangeEvent(Control*);
+	ColorChangeEvent(Widget*);
 	ColorChangeEvent(const ColorChangeEvent& orig);
 	virtual ~ColorChangeEvent();
 

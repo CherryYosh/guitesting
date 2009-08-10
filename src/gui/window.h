@@ -15,7 +15,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "control.h"
+#include "widget.h"
 
 #include "../renderer/renderer.h"
 #include "../events/event.h"
@@ -26,23 +26,24 @@
 #include <vector>
 #include <list>
 
-class Control;
+class Widget;
 class GUI;
 
-class Window : public Control {
+class Window : public Widget {
 public:
     Window();
     Window(GUI*, Renderer*);
     ~Window();
 
-    Control* clone();
+    Widget* clone();
 
-    void AddChild(Control*);
+	void AddChild(Widget*);
+    void AddChild(Widget*, bool);
     void Move(float, float);
 
     void Close();
 
-    void UpdateControl(Control*);
+    void UpdateWidget(Widget*);
 
     void OnKeyPress(unsigned short, int, int);
     void OnMousePress(unsigned short, int, int);
@@ -62,8 +63,8 @@ public:
     void SetRenderer(Renderer*);
     Renderer* GetRenderer();
 
-    void AddEvent(Event*);
-    void RemoveEvent(Event*);
+    void ActivateEvent(Event*);
+    void DeactivateEvent(Event*);
     void StepEvents(unsigned int);
 
     void Rotate(float, float, float, float);
@@ -76,11 +77,10 @@ public:
     bool Resizable();
     void Resize(int, int);
 
-    //TODO: find better names
-    float GetInternalX();
-    float GetInternalY();
-    float GetInternalWidth();
-    float GetInternalHeight();
+    float InternalX();
+    float InternalY();
+    float InternalWidth();
+    float InternalHeight();
 
     bool GetChildAttributes(long);
 
@@ -96,7 +96,7 @@ private:
 
     bool bordersSet;
     bool resizable;
-    Control *topborder, *bottomborder, *leftborder, *rightborder, *leftedge, *rightedge;
+    Widget *topborder, *bottomborder, *leftborder, *rightborder, *leftedge, *rightedge;
 };
 
 #endif

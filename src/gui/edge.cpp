@@ -14,7 +14,7 @@ Edge::Edge(const Edge& orig) { }
 
 Edge::~Edge() { }
 
-Control* Edge::clone() {
+Widget* Edge::clone() {
     return new Edge(*this);
 }
 

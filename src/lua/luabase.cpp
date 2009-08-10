@@ -6,7 +6,7 @@
 
 #include "lua_theme.h"
 #include "lua_window.h"
-#include "lua_control.h"
+#include "lua_widget.h"
 #include "lua_label.h"
 #include "lua_editbox.h"
 
@@ -60,7 +60,7 @@ void LUABase::Init() {
 
 	REGISTER_USERDATA(Theme);
 	REGISTER_USERDATA(Window);
-	REGISTER_USERDATA(Control);
+	REGISTER_USERDATA(Widget);
 	REGISTER_USERDATA(Label);
 	REGISTER_USERDATA(Editbox);
 

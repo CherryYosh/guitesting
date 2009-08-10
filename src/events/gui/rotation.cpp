@@ -9,7 +9,7 @@
 
 RotationEvent::RotationEvent() : x(0), y(0), z(0), GUIEvent() { }
 
-RotationEvent::RotationEvent(Control* c) : x(0), y(0), z(0), GUIEvent(c) { }
+RotationEvent::RotationEvent(Widget* c) : x(0), y(0), z(0), GUIEvent(c) { }
 
 RotationEvent::RotationEvent(const RotationEvent& orig) : x(orig.x), y(orig.y), z(orig.z), GUIEvent(orig) { }
 
@@ -26,11 +26,11 @@ void RotationEvent::Begin() {
 void RotationEvent::Step(unsigned int step) {
 	Linear(step);
 	remainingTime -= step;
-	object->GetRoot()->UpdateControl(object->GetRoot());
+	object->GetRoot()->UpdateWidget(object->GetRoot());
 }
 
 void RotationEvent::End(bool update) {
-	object->GetRoot()->RemoveEvent(this);
+	object->GetRoot()->DeactivateEvent(this);
 }
 
 void RotationEvent::Linear(unsigned int step) {

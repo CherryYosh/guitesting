@@ -22,7 +22,7 @@
  * key may be rebound without need to restart, actions however cant
  * be changed without modifying the source
  ******************************************************************
- * TODO: add unicode controler support, along with support for the
+ * TODO: add unicode Widgeter support, along with support for the
  * odditys found in some key boards / OS's (no ctrls in OSX, ) also
  * support for additional mouse buttons..
  */

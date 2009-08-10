@@ -8,15 +8,15 @@
 #ifndef _EDGE_H
 #define	_EDGE_H
 
-#include "control.h"
+#include "Widget.h"
 
-class Edge : public Control{
+class Edge : public Widget{
 public:
     Edge();
     Edge(const Edge& orig);
     virtual ~Edge();
 
-    Control* clone();
+    Widget* clone();
 
     void OnMousePress(unsigned short, int, int);
     bool OnMouseMotion(float, float, unsigned short);

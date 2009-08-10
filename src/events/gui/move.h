@@ -14,13 +14,13 @@
 class MoveEvent : public GUIEvent{
 public:
 	MoveEvent();
-	MoveEvent(Control*);
+	MoveEvent(Widget*);
 	MoveEvent(const MoveEvent& orig);
 	virtual ~MoveEvent();
 
 	Event* clone();
 
-	void SetObject(Control*);
+	void SetObject(Widget*);
 
 	void Begin();
 	void End(bool = true);

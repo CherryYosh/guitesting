@@ -14,7 +14,7 @@
 class RotationEvent : public GUIEvent  {
 public:
 	RotationEvent();
-	RotationEvent(Control*);
+	RotationEvent(Widget*);
 	RotationEvent(const RotationEvent& orig);
 	virtual ~RotationEvent();
 

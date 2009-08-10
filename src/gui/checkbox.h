@@ -8,11 +8,11 @@
 #ifndef CHECKBOX_H
 #define	CHECKBOX_H
 
-#include "control.h"
+#include "Widget.h"
 
-class Checkbox : public Control {
+class Checkbox : public Widget {
 public:
-	Checkbox(Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Checkbox(Window* = NULL, Widget* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
 	virtual ~Checkbox();
 private:
 };

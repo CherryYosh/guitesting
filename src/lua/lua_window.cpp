@@ -44,12 +44,12 @@ static int Window_NewChild(lua_State* L) {
     int args = check_args_range(L, 4, 5);
     __M_GET_USERDATA(Window, self, 1);
 
-    Control* c = self.NewChild(luaL_checkstring(L, 2),
+    Widget* c = self.NewChild(luaL_checkstring(L, 2),
 	    luaL_checknumber(L, 3),
 	    luaL_checknumber(L, 4),
 	    (args == 5) ? (LayerT) luaL_checkint(L, 5) : DEFAULT_LAYER);
 
-    __M_LUA_PUSH(c, "Control_ud");
+    __M_LUA_PUSH(c, "Widget_ud");
     return 1;
 }
 

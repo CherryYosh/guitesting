@@ -15,11 +15,11 @@
 #ifndef RULE_H
 #define RULE_H
 
-#include "control.h"
+#include "widget.h"
 
-class Rule : public Control {
+class Rule : public Widget {
 public:
-	Rule( Window* = NULL, Control* = NULL, LayerT = DEFAULT_LAYER, float = 0, float = 0);
+	Rule(Window* = NULL);
 	~Rule();
 protected:
 private:

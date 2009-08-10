@@ -9,7 +9,7 @@
 
 MoveEvent::MoveEvent() : delta(0, 0), GUIEvent() { }
 
-MoveEvent::MoveEvent(Control* c) : delta(0, 0), GUIEvent(c) { }
+MoveEvent::MoveEvent(Widget* c) : delta(0, 0), GUIEvent(c) { }
 
 MoveEvent::MoveEvent(const MoveEvent& orig) : delta(orig.delta), GUIEvent(orig) { }
 
@@ -26,13 +26,13 @@ void MoveEvent::Begin() {
 };
 
 void MoveEvent::End(bool update) {
-	object->GetRoot()->RemoveEvent(this);
+	object->GetRoot()->DeactivateEvent(this);
 };
 
 void MoveEvent::Step(unsigned int step) {
 	Linear(step);
 	remainingTime -= step;
-	object->GetRoot()->UpdateControl(object);
+	object->GetRoot()->UpdateWidget(object);
 }
 
 void MoveEvent::Linear(unsigned int step) {
@@ -59,10 +59,10 @@ void MoveEvent::Linear(unsigned int step) {
 		);
 
 	if (stop)
-		object->GetRoot()->RemoveEvent(this);
+		object->GetRoot()->DeactivateEvent(this);
 }
 
-void MoveEvent::SetObject(Control* c) {
+void MoveEvent::SetObject(Widget* c) {
 	object = c;
 }
 

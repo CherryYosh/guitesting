@@ -16,7 +16,7 @@
 #include "theme.h"
 
 #include "lua/luabase.h"
-#include "gui/controls.h"
+#include "gui/widgets.h"
 
 //static values
 std::map<std::string, ThemeData> Theme::textures;

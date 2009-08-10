@@ -9,7 +9,7 @@
 
 CloseEvent::CloseEvent() : GUIEvent() { };
 
-CloseEvent::CloseEvent(Control* c) : GUIEvent(c) { }
+CloseEvent::CloseEvent(Widget* c) : GUIEvent(c) { }
 
 CloseEvent::CloseEvent(const CloseEvent& orig)  : GUIEvent(orig) { };
 

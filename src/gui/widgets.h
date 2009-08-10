@@ -12,33 +12,26 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 
 * 	Copyright 2008,2009 James Brandon Stevenson
 */
-#ifndef EDITBOX_H
-#define EDITBOX_H
+/* A simple list of Widgets to be added... */
 
+#ifndef WIDGETS_H
+#define WIDGETS_H
+
+#include "widget.h"
+#include "window.h"
+#include "button.h"
+#include "rule.h"
+#include "editbox.h"
 #include "label.h"
+#include "slider.h"
+#include "edge.h"
 
-class Editbox : public Label {
-public:
-	Editbox(Window* = NULL);
-	Editbox(const Editbox& orig);
-	~Editbox();
-
-	Widget* clone();
-
-	void OnKeyPress(unsigned short, int, int);
-
-	void ChangeCaretLine(int);
-	void MoveCaret(int);
-	void SetCaretPos(int);
-
-	void AddString(std::string , util::Color = "#FFFFFF");
-
-	void SetDialog(Label*);
-protected:
-	Label* peer;
-
-	int caretPos;
-	int currentLine;
-};
-
+#define __M_WIDGETCAST(ptr,str)					\
+	if(str == "widget"){ ptr = new Widget(); }		\
+		else if(str == "button"){ ptr = new Button(); }		\
+		else if(str == "rule"){ ptr = new Rule(); }			\
+		else if(str == "editbox"){ ptr = new Editbox(); }		\
+			else if(str == "label"){ ptr = new Label(); }               \
+			else if(str == "edge"){ ptr = new Edge(); }         \
+		else { throw std::invalid_argument("Widgets::__M_WidgetCast::" + str + "_not_valid_widget" ); }
 #endif

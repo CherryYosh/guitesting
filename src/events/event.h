@@ -1,7 +1,7 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-class Control;
+class Widget;
 
 #include <stdio.h>
 

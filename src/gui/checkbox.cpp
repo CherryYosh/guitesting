@@ -7,7 +7,7 @@
 
 #include "checkbox.h"
 
-Checkbox::Checkbox(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_CLICKABLE, p, c, l, x, y) {
+Checkbox::Checkbox(Window* p, Widget* c, LayerT l, float x, float y) : Widget(GUI_CLICKABLE, p, c, l, x, y) {
 	printf("Checkbox not in yet\n");
 }
 

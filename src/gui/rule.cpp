@@ -17,6 +17,6 @@
 
 #include "rule.h"
 
-Rule::Rule(Window* p, Control* c, LayerT l, float x, float y) : Control(GUI_NONE, p, c, l, x, y) { }
+Rule::Rule(Window* p) : Widget(GUI_NONE, p) { }
 
 Rule::~Rule() { }
