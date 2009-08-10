@@ -11,7 +11,7 @@
 #include "../../colorstring.h"
 #include "../fontrenderer.h"
 #include "../../camera.h"
-#include "../../gui/Widget.h"
+#include "../../gui/widget.h"
 #include "shader.h"
 #include "vbo.h"
 

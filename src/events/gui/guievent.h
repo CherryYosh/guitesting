@@ -9,7 +9,7 @@
 #define	_GUIEVENT_H
 
 #include "../event.h"
-#include "../../gui/Widget.h"
+#include "../../gui/widget.h"
 #include "../../gui/window.h"
 
 class GUIEvent : public Event {

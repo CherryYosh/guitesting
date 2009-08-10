@@ -16,7 +16,7 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "gui.h"
 #include "input.h"
 #include "theme.h"
-#include "gui/Widgets.h"
+#include "gui/widgets.h"
 #include "renderer/ogl/oglWidgetRenderer.h"
 #include "renderer/ogl/oglFontRenderer.h"
 

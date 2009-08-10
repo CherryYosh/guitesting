@@ -14,11 +14,12 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 #include <GL/glew.h>
 
-#include "Widget.h"
+#include "widget.h"
+
 #include "window.h"
 #include "label.h"
 #include "../events/gui/guievent.h"
-#include "Widgets.h"
+#include "widgets.h"
 #include "../theme.h"
 
 Widget::Widget() : attributes_(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(), canReleaseMouse(true),

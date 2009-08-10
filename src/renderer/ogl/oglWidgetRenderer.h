@@ -14,7 +14,7 @@
 #include "../../camera.h"
 #include "../../utils/matrix.h"
 #include "../../utils/vector.h"
-#include "../../gui/Widget.h"
+#include "../../gui/widget.h"
 
 #include <vector>
 

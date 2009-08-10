@@ -23,7 +23,6 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "rule.h"
 #include "editbox.h"
 #include "label.h"
-#include "slider.h"
 #include "edge.h"
 
 #define __M_WIDGETCAST(ptr,str)					\

@@ -15,7 +15,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Widget.h"
+#include "widget.h"
 
 class Button : public Widget {
 public:

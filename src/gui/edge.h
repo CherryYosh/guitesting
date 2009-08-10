@@ -8,7 +8,7 @@
 #ifndef _EDGE_H
 #define	_EDGE_H
 
-#include "Widget.h"
+#include "widget.h"
 
 class Edge : public Widget{
 public:
