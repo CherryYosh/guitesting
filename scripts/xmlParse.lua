@@ -16,7 +16,7 @@ end
 
 local function textures(name, args)
     if not Theme.SetImage("themes/" .. args["file"]) then
-	if not Theme.SetImage(args["file"]) then error("Could not find image " .. args["file"]) end
+		if not Theme.SetImage(args["file"]) then error("Could not find image " .. args["file"]) end
     end
 end
 

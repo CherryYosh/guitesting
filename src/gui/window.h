@@ -96,7 +96,8 @@ private:
 
     bool bordersSet;
     bool resizable;
-    Widget *topborder, *bottomborder, *leftborder, *rightborder, *leftedge, *rightedge;
+    int top, bottom, left, right;
+	Widget *leftedge, *rightedge;
 };
 
 #endif

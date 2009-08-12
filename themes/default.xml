@@ -7,7 +7,7 @@
     <widgets>
 	<widget name="console" resizable="true">
 	    <border top="14" bottom="7" left="2" right="2"><!-- values are the thickness -->
-		<close x="2" y="2"/><!--TODO-->
+			<close x="2" y="2"/>
 	    </border>
 
 	    <child type="editbox.input" x="0" y="0" width="%100" move="none" orientation="vertical">

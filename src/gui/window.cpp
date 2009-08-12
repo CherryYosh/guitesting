@@ -55,7 +55,7 @@ void Window::AddChild(Widget *child, bool border) {
 	}
 
 	//inital position of the widget is a offset
-	if (!border && bordersSet) child->Move(leftborder->GetWidth(), topborder->GetHeight());
+	if (!border && bordersSet) child->Move(left, top);
 
 	Widget::AddChild(child);
 }
@@ -202,18 +202,10 @@ void Window::Rotate(float a, float x, float y, float z) {
 	rotation.rotate(a, x, y, z);
 }
 
-void Window::SetBorders(int top, int bottom, int left, int right) {
-	topborder = NewChild("rule.top", 0, 0, DEFAULT_LAYER, Vertical);
-	topborder->SetHeight(top);
+void Window::SetBorders(int t, int b, int l, int r) {
+	top = t; bottom = b; left = l; right = r;
 
-	bottomborder = NewChild("rule.bottom", 0, GetHeight(), DEFAULT_LAYER, Vertical);
-	bottomborder->SetHeight(bottom);
-
-	leftborder = NewChild("rule.left", 0, top, DEFAULT_LAYER, Horizontal);
-	leftborder->SetWidth(left);
-
-	rightborder = NewChild("rule.right", GetWidth() - right, top, DEFAULT_LAYER, Horizontal);
-	rightborder->SetWidth(right);
+	Widget* background = NewChild("rule.", 0, 0, BACKGROUND_LAYER);
 
 	if (resizable) {
 		leftedge = NewChild("edge.left", 0, GetHeight(), DEFAULT_LAYER, DontResize);
@@ -229,26 +221,6 @@ void Window::SetBorders(int top, int bottom, int left, int right) {
 
 void Window::UpdateBorders() {
 	if (bordersSet) {
-		topborder->SetPosition(GetX(), GetY()); // just to make sure
-		topborder->SetWidth(GetWidth());
-
-		if (resizable) {
-			leftedge->SetPosition(GetX(), GetY() + GetHeight() - leftedge->GetHeight());
-
-			bottomborder->SetPosition(GetX() + leftedge->GetWidth(), GetY() + GetHeight() - bottomborder->GetHeight());
-			bottomborder->SetWidth(GetWidth() - leftedge->GetWidth() - rightedge->GetWidth());
-
-			rightedge->SetPosition(bottomborder->GetX() + bottomborder->GetWidth(), GetY() + GetHeight() - rightedge->GetHeight());
-		} else {
-			bottomborder->SetPosition(GetX(), GetY() + GetHeight() - bottomborder->GetHeight());
-			bottomborder->SetWidth(GetWidth());
-		}
-
-		leftborder->SetPosition(GetX(), GetY() + topborder->GetHeight());
-		leftborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
-
-		rightborder->SetPosition(GetX() + GetWidth() - rightborder->GetWidth(), GetY() + topborder->GetHeight());
-		rightborder->SetHeight(GetHeight() - bottomborder->GetHeight() - topborder->GetHeight());
 	}
 }
 
@@ -273,25 +245,25 @@ void Window::Resize(int wdelta, int hdelta) {
 
 float Window::InternalX() {
 	if (bordersSet) {
-		return GetX() + leftborder->GetWidth();
+		//return GetX() + leftborder->GetWidth();
 	} else return GetX();
 }
 
 float Window::InternalY() {
 	if (bordersSet) {
-		return GetY() + topborder->GetHeight();
+		//return GetY() + topborder->GetHeight();
 	} else return GetY();
 }
 
 float Window::InternalWidth() {
 	if (bordersSet) {
-		return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
+		//return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
 	} else return GetWidth();
 }
 
 float Window::InternalHeight() {
 	if (bordersSet) {
-		return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
+		//return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
 	} else return GetHeight();
 }
 

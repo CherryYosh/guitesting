@@ -41,7 +41,7 @@ enum OrientationT {
 }; //TODO: rename / refactor
 
 enum LayerT {
-	BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER
+	BACKGROUND_LAYER, BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER
 };
 
 /**
