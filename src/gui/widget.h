@@ -23,6 +23,7 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include <map>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
@@ -99,8 +100,6 @@ public:
 	virtual void SetHeight(std::string);
 	virtual void SetHeight(float);
 
-	virtual void Resize(int, int);
-
 	virtual void SetZ(float);
 	virtual void AddZ(float);
 	virtual void SetLayer(LayerT);
@@ -132,8 +131,6 @@ public:
 
 	OrientationT GetOrientation();
 	void SetOrientation(OrientationT);
-
-	void SetMovementFlags(std::string);
 
 	bool CanReleaseMouse();
 	void LockMouse();

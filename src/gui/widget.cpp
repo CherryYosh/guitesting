@@ -189,7 +189,7 @@ void Widget::SetWidth(std::string s) {
 		float f = atof(s.substr(1, std::string::npos).c_str()) / 100.0;
 		if (f > 1.0) f = 1.0;
 
-		SetWidth(root->InternalWidth() * f);
+		//SetWidth(root->InternalWidth() * f);
 	} else {
 		SetWidth(atof(s.c_str())); //LUA might call this SetWidth "180" thinking I want a string, so convert to a float
 	}
@@ -200,7 +200,7 @@ void Widget::SetHeight(std::string s) {
 		float f = atof(s.substr(1, std::string::npos).c_str()) / 100.0;
 		if (f > 1.0) f = 1.0;
 
-		SetHeight(root->InternalWidth() * f);
+		//SetHeight(root->InternalWidth() * f);
 	} else {
 		SetHeight(atof(s.c_str())); //LUA might call this SetHeight "180" thinking I want a string, so convert to a float
 	}
@@ -216,33 +216,6 @@ void Widget::SetHeight(float h) {
 
 void Widget::SetColor(util::Color c) {
 	color = c;
-}
-
-void Widget::Resize(int w, int h) {
-	//women and children first
-	//keeps the aspect
-	size_t size = children.size();
-	for (size_t i = 0; i < size; i++) {
-		children[i]->Resize(w, h);
-	}
-
-	//move to keep the same position % wise
-	float xdelta = 0, ydelta = 0;
-	if (movement == 1 || movement == 3) xdelta = (GetX() - root->InternalX()) / root->InternalWidth() * w;
-	if (movement == 2 || movement == 3) ydelta = (GetY() - root->InternalY()) / root->InternalHeight() * h;
-	Move(xdelta, ydelta);
-
-	if (GetOrientation() == All || GetOrientation() == Vertical) {
-		float wdelta = GetWidth() / root->InternalWidth() * w;
-		SetWidth(GetWidth() + wdelta);
-	}
-
-	if (GetOrientation() == All || GetOrientation() == Horizontal) {
-		float hdelta = (GetHeight() / root->InternalHeight()) * h;
-		SetHeight(GetHeight() + hdelta);
-	}
-
-	StartEvent("onResize");
 }
 
 void Widget::SetColor(float r, float g, float b, float a) {
@@ -566,15 +539,6 @@ OrientationT Widget::GetOrientation() {
 
 void Widget::SetOrientation(OrientationT t) {
 	orientation = t;
-}
-
-/*TODO: Refactor?? */
-void Widget::SetMovementFlags(std::string s) {
-	if (s == "none") movement = 0;
-	else if (s == "x") movement = 1;
-	else if (s == "y") movement = 2;
-	else if (s == "both") movement = 3;
-	else throw std::invalid_argument("Widget::SetMovementFlags::Invalid_Flags");
 }
 
 bool Widget::CanReleaseMouse() {

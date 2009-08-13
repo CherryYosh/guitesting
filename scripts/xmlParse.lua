@@ -72,7 +72,7 @@ local function dialog(name, args)
 	child(name, args)
 
 	--just sets the previous' childs dialog to the current
-	--tempChild : ToEditbox() : SetDialog( curChild : ToEditbox() )
+	tempChild : ToEditbox() : SetDialog( curChild : ToEditbox() )
 end
 
 local function dialogEnd(name)
@@ -82,7 +82,7 @@ end
 
 local function border(name, args)
     isInBorder = true
-    curWidget : SetBorders( args["top"], args["bottom"], args["left"], args["right"] )
+    curWidget : SetBorder( args["top"], args["bottom"], args["left"], args["right"] )
 end
 
 local function borderEnd(name)
@@ -91,7 +91,7 @@ end
 
 local function borderChild(name, args)
     if name == "close" then
-	curWidget : CloseButton( args["x"], args["y"] )
+	--curWidget : CloseButton( args["x"], args["y"] )
     end
 end
 

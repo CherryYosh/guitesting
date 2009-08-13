@@ -32,7 +32,7 @@ static int Widget_SetMovementFlags(lua_State* L) {
     check_args(L, 2);
     __M_GET_USERDATA(Widget, self, 1);
 
-    self.SetMovementFlags(luaL_checkstring(L, 2));
+    //self.SetMovementFlags(luaL_checkstring(L, 2));
     return 0;
 }
 

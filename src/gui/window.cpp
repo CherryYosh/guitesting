@@ -27,11 +27,13 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "../events/gui/colorchange.h"
 #include <SDL/SDL.h>
 
-Window::Window() : gui(NULL), renderer(NULL), activeEvents(), resizable(false), bordersSet(false), Widget(GUI_CONTAINER, this) {
+Window::Window() : gui(NULL), renderer(NULL), activeEvents(), top(0), bottom(0),
+left(0), right(0), Widget(GUI_CONTAINER, this) {
 	rotation.make_identity();
 }
 
-Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), bordersSet(false), Widget(GUI_CONTAINER, this) {
+Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), top(0), bottom(0),
+left(0), right(0), Widget(GUI_CONTAINER, this) {
 	rotation.make_identity();
 }
 
@@ -39,25 +41,6 @@ Window::~Window() { }
 
 Widget* Window::clone() {
 	return new Window(*this);
-}
-
-void Window::AddChild(Widget *child){ //cant do default because we need it to overload
-	AddChild(child, false);
-}
-
-void Window::AddChild(Widget *child, bool border) {
-	float delta = 0;
-	if ((delta = (child->GetX() + child->GetWidth()) - InternalWidth()) > 0) {
-		Resize(delta, 0);
-	}
-	if ((delta = (child->GetY() + child->GetHeight()) - InternalHeight()) > 0) {
-		Resize(0, delta);
-	}
-
-	//inital position of the widget is a offset
-	if (!border && bordersSet) child->Move(left, top);
-
-	Widget::AddChild(child);
 }
 
 void Window::Move(float xChange, float yChange) {
@@ -80,6 +63,7 @@ void Window::Close() {
 
 void Window::UpdateWidget(Widget* w) {
 	if (w == NULL) return;
+	
 	renderer->Update(w, RENDERER_REFRESH);
 }
 
@@ -202,86 +186,46 @@ void Window::Rotate(float a, float x, float y, float z) {
 	rotation.rotate(a, x, y, z);
 }
 
-void Window::SetBorders(int t, int b, int l, int r) {
-	top = t; bottom = b; left = l; right = r;
-
-	Widget* background = NewChild("rule.", 0, 0, BACKGROUND_LAYER);
-
-	if (resizable) {
-		leftedge = NewChild("edge.left", 0, GetHeight(), DEFAULT_LAYER, DontResize);
-		leftedge->SetHeight(bottom);
-
-		rightedge = NewChild("edge.right", 0, GetHeight(), DEFAULT_LAYER, DontResize);
-		rightedge->SetHeight(bottom);
-	}
-
-	bordersSet = true;
-	UpdateBorders();
-}
-
-void Window::UpdateBorders() {
-	if (bordersSet) {
-	}
-}
-
-void Window::Resizable(bool v) {
-	resizable = v;
-}
-
-bool Window::Resizable() {
-	return resizable;
-}
-
-void Window::Resize(int wdelta, int hdelta) {
-	size_t size = children.size();
-	for (size_t i = 0; i < size; i++) {
-		children[i]->Resize(wdelta, hdelta);
-	}
-
-	SetWidth(GetWidth() + wdelta);
-	SetHeight(GetHeight() + hdelta);
-	UpdateBorders();
-}
-
-float Window::InternalX() {
-	if (bordersSet) {
-		//return GetX() + leftborder->GetWidth();
-	} else return GetX();
-}
-
-float Window::InternalY() {
-	if (bordersSet) {
-		//return GetY() + topborder->GetHeight();
-	} else return GetY();
-}
-
-float Window::InternalWidth() {
-	if (bordersSet) {
-		//return GetWidth() - leftborder->GetWidth() - rightborder->GetWidth();
-	} else return GetWidth();
-}
-
-float Window::InternalHeight() {
-	if (bordersSet) {
-		//return GetHeight() - topborder->GetHeight() - bottomborder->GetHeight();
-	} else return GetHeight();
-}
-
 bool Window::GetChildAttributes(long flags) {
 	if (activeChild != NULL) return activeChild->attributes(flags);
 	else return false;
 }
 
-void Window::CloseButton(int x, int y, util::Color color) {
-	//HACK!!!
-	bool t = bordersSet;
-	bordersSet = false;
-	Widget* c = NewChild("button.close", x, y, TOP_LAYER, DontResize);
-	bordersSet = t;
+void Window::SetBorder(int t, int b, int l, int r){
+    if(t < 0 || b < 0 || l < 0 || r < 0) exit(-1);
 
-	ColorChangeEvent* ce = new ColorChangeEvent(c);
-	ce->SetColor(color);
+    top = t; bottom = b; left = l; right = r;
 
-	c->AddEvent("onClick", new CloseEvent(c)); //OnClick we close
-	c->AddEvent("onHover", ce); //onHover we turn to color
+   border = NewChild("rule.background.default", 0, 0, BACKGROUND_LAYER);
+
+   SetInternalSize(0, 0);
+}
+
+float Window::InternalX(){
+    return x + left;
+}
+
+float Window::InternalY(){
+    return y + top;
+}
+
+float Window::InternalWidth(){
+    return width - left - right;
+}
+
+float Window::InternalHeight(){
+    return height - top - bottom;
+}
+
+void Window::SetInternalSize(int w, int h){
+    SetSize(w + left + right, h + top + bottom);
+}
+
+void Window::SetSize(int w, int h){
+    float wdelta, hdelta;
+
+    size_t size = children.size();
+    for(int i = 0; i < size; i++){
+
+    }
 }

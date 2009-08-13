@@ -37,8 +37,6 @@ public:
 
     Widget* clone();
 
-	void AddChild(Widget*);
-    void AddChild(Widget*, bool);
     void Move(float, float);
 
     void Close();
@@ -70,12 +68,7 @@ public:
     void Rotate(float, float, float, float);
     void ReloadTheme();
 
-    void SetBorders(int, int, int, int);
-    void UpdateBorders();
-
-    void Resizable(bool);
-    bool Resizable();
-    void Resize(int, int);
+    void SetBorder(int, int, int, int);
 
     float InternalX();
     float InternalY();
@@ -83,8 +76,6 @@ public:
     float InternalHeight();
 
     bool GetChildAttributes(long);
-
-    void CloseButton(int, int, util::Color = "#FF000000");
 
 protected:
 private:
@@ -94,10 +85,8 @@ private:
     std::vector<Event*> activeEvents;
     util::matrix4<float> rotation;
 
-    bool bordersSet;
-    bool resizable;
     int top, bottom, left, right;
-	Widget *leftedge, *rightedge;
+    Widget* border;
 };
 
 #endif

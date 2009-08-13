@@ -27,7 +27,7 @@ void Edge::OnMousePress(unsigned short button, int x, int y) {
 
 bool Edge::OnMouseMotion(float lx, float ly, unsigned short button) {
     if (button == 1) { //TODO: Unhard-code
-	root->Resize(lx - oldx, ly - oldy);
+	//root->Resize(lx - oldx, ly - oldy);
 
 	oldx = lx;
 	oldy = ly;
