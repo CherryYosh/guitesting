@@ -80,6 +80,8 @@ public:
     void SetInternalSize(int, int);
 
     bool GetChildAttributes(long);
+
+    bool borderFinished;
 protected:
 private:
     GUI* gui;

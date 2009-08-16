@@ -28,12 +28,12 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include <SDL/SDL.h>
 
 Window::Window() : gui(NULL), renderer(NULL), activeEvents(), top(0), bottom(0),
-left(0), right(0), Widget(GUI_CONTAINER, this) {
+left(0), right(0), borderFinished(false), Widget(GUI_CONTAINER, this) {
 	rotation.make_identity();
 }
 
 Window::Window(GUI* p, Renderer* r) : gui(p), renderer(r), activeEvents(), top(0), bottom(0),
-left(0), right(0), Widget(GUI_CONTAINER, this) {
+left(0), right(0), borderFinished(false), Widget(GUI_CONTAINER, this) {
 	rotation.make_identity();
 }
 
@@ -201,7 +201,7 @@ void Window::AddChild(Widget* w){
 
 	if(wd > 0 || hd > 0) AdjustSize(wd, hd);
 
-	if(w != border){
+	if(borderFinished){
 	    w->Move(left, top);
 	}
 

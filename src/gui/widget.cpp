@@ -572,8 +572,6 @@ void Widget::SetSize(int w, int h){
 		wp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_VERTICAL) ? children[i]->GetWidth() / GetWidth() : 0;
 		hp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_HORIZONTAL) ? children[i]->GetHeight() / GetHeight() : 0;
 
-		printf("Resizing: %i %f %f, %f %f, %f %f\nfinal: %f %f\n", i, wp, hp, GetWidth(), GetHeight(), children[i]->GetWidth(), children[i]->GetHeight(), w * wp, h*hp);
-
 		children[i]->SetSize(w * wp, h * hp);
     }
 

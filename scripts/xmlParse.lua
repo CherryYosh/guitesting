@@ -89,11 +89,12 @@ end
 
 local function borderEnd(name)
     isInBorder = false
+    curWidget : FinishBorder();
 end
 
 local function borderChild(name, args)
     if name == "close" then
-	--curWidget : CloseButton( args["x"], args["y"] )
+	curWidget : CloseButton( args["x"], args["y"] )
     end
 end
 
