@@ -37,9 +37,13 @@ class Window;
 #define GUI_CONTAINER 16
 #define GUI_ALL ~0
 
-enum OrientationT {
-	DontResize, All, Horizontal, Vertical
-}; //TODO: rename / refactor
+enum ResizeConstraintT {
+	RESIZE_NONE, RESIZE_ALL, RESIZE_HORIZONTAL, RESIZE_VERTICAL
+};
+
+enum MovementConstrainT {
+	MOVEMENT_NONE, MOVEMENT_ALL, MOVEMENT_HORIZONTAL, MOVEMENT_VERTICAL
+};
 
 enum LayerT {
 	BACKGROUND_LAYER, BOTTOM_LAYER, DEFAULT_LAYER, TOP_LAYER
@@ -50,6 +54,8 @@ enum LayerT {
 */
 class Widget {
 public:
+	static Widget* NewWidget(std::string, std::string, int = 0, int = 0, LayerT = DEFAULT_LAYER, ResizeConstraintT = RESIZE_ALL, MovementConstrainT  = MOVEMENT_NONE);
+
 	Widget();
 	Widget(long, Window* = NULL);
 	virtual ~Widget();
@@ -83,7 +89,6 @@ public:
 	util::Color GetColor();
 	float* GetColorv();
 
-	virtual Widget* NewChild(std::string type, float x = 0, float y = 0, LayerT = DEFAULT_LAYER, OrientationT = All);
 	virtual void AddChild(Widget*);
 	virtual Widget* GetChild(unsigned int);
 	virtual Widget* IterateChildren(unsigned int);
@@ -107,8 +112,11 @@ public:
 	util::matrix4<float>* GetRotation();
 	float* GetRotationfv();
 
-	std::string GetName();
-	void SetName(std::string);
+	std::string GetType();
+	void SetType(std::string);
+
+	std::string GetBackground();
+	void SetBackground(std::string);
 
 	Window* GetRoot();
 	void SetRoot(Window*);
@@ -129,12 +137,15 @@ public:
 	void StartEvent(std::string);
 	void EndEvent(std::string);
 
-	OrientationT GetOrientation();
-	void SetOrientation(OrientationT);
+	ResizeConstraintT GetResizeConstraint();
+	void SetResizeConstraint(ResizeConstraintT);
 
 	bool CanReleaseMouse();
 	void LockMouse();
 	void ReleaseMouse();
+
+	void SetSize(int, int);
+	void AdjustSize(int, int);
 
 	float s, t, s2, t2;
 protected:
@@ -153,9 +164,11 @@ protected:
 	long attributes_;
 	util::Color color;
 private:
-	int movement; //FIND A BETTER NAME / FIX THE BUG
-	std::string name;
-	OrientationT orientation;
+	std::string type;
+	std::string background;
 	bool canReleaseMouse;
+
+	ResizeConstraintT resize;
+	MovementConstrainT movement;
 };
 #endif

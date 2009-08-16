@@ -24,12 +24,12 @@ end
 
 function ToOrientation(str)
     if str == "all" then
-	return All
+	return RESIZE_ALL
     elseif str == "vertical" then
-	return Vertical
+	return RESIZE_VERTICAL
     elseif str == "horizontal" then
-	return Horizontal
+	return RESIZE_HORIZONTAL
     elseif str == "none" then
-	return DontResize
+	return RESIZE_NONE
     end
 end

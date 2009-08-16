@@ -41,7 +41,9 @@ Window* Theme::NewWidget(std::string name, Window* data) {
 	else
 		widgets[name] = new Window();
 
-	widgets[name]->SetName(name);
+	//widgets[name]->SetType(name);
+	//widgets[name]->SetBackground("background.default");
+
 	return widgets[name];
 }
 

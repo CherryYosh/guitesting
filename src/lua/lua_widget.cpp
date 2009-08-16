@@ -9,47 +9,39 @@
 //================================== Table Methods
 
 static int Widget_SetWidth(lua_State* L) {
-    check_args(L, 2);
-    __M_GET_USERDATA(Widget, self, 1);
+	check_args(L, 2);
+	__M_GET_USERDATA(Widget, self, 1);
 
-    if (lua_isnumber(L, 2)) {
-	self.SetWidth(luaL_checknumber(L, 2));
-    } else {
-	self.SetWidth(luaL_checkstring(L, 2));
-    }
-    return 0;
+	if (lua_isnumber(L, 2)) {
+		self.SetWidth(luaL_checknumber(L, 2));
+	} else {
+		self.SetWidth(luaL_checkstring(L, 2));
+	}
+	return 0;
 }
 
-static int Widget_SetOrientation(lua_State* L) {
-    check_args(L, 2);
-    __M_GET_USERDATA(Widget, self, 1);
+static int Widget_SetResizeConstraint(lua_State* L) {
+	check_args(L, 2);
+	__M_GET_USERDATA(Widget, self, 1);
 
-    self.SetOrientation(OrientationT(luaL_checkint(L, 2)));
-    return 0;
-}
-
-static int Widget_SetMovementFlags(lua_State* L) {
-    check_args(L, 2);
-    __M_GET_USERDATA(Widget, self, 1);
-
-    //self.SetMovementFlags(luaL_checkstring(L, 2));
-    return 0;
+	self.SetResizeConstraint(ResizeConstraintT(luaL_checkint(L, 2)));
+	return 0;
 }
 
 static int Widget_ToLabel(lua_State* L) {
-    check_args(L, 1);
-    __M_GET_USERDATAPTR(Widget, self, 1);
+	check_args(L, 1);
+	__M_GET_USERDATAPTR(Widget, self, 1);
 
-    __M_LUA_PUSH((Label*)self, "Label_ud");
-    return 1;
+	__M_LUA_PUSH((Label*)self, "Label_ud");
+	return 1;
 }
 
 static int Widget_ToEditbox(lua_State* L) {
-    check_args(L, 1);
-    __M_GET_USERDATAPTR(Widget, self, 1);
+	check_args(L, 1);
+	__M_GET_USERDATAPTR(Widget, self, 1);
 
-    __M_LUA_PUSH((Editbox*)self, "Editbox_ud");
-    return 1;
+	__M_LUA_PUSH((Editbox*)self, "Editbox_ud");
+	return 1;
 }
 
 //================================== Table Metatable
@@ -58,37 +50,36 @@ static int Widget_ToEditbox(lua_State* L) {
 //================================== Tables
 
 const luaL_reg Widget_table_methods[] = {
-    {NULL, NULL}
+	{NULL, NULL}
 };
 
 const luaL_reg Widget_table_metatable[] = {
-    {NULL, NULL}
+	{NULL, NULL}
 };
 
 const luaL_reg Widget_methods[] = {
-    {"SetWidth", Widget_SetWidth},
-    {"SetOrientation", Widget_SetOrientation},
-    {"SetMovementFlags", Widget_SetMovementFlags},
-    {"ToLabel", Widget_ToLabel},
-    {"ToEditbox", Widget_ToEditbox},
-    {NULL, NULL}
+	{"SetWidth", Widget_SetWidth},
+	{"SetResizeConstraint", Widget_SetResizeConstraint},
+	{"ToLabel", Widget_ToLabel},
+	{"ToEditbox", Widget_ToEditbox},
+	{NULL, NULL}
 };
 
 const luaL_reg Widget_metatable[] = {
-    {NULL, NULL}
+	{NULL, NULL}
 };
 
 void Widget_DoExtra(lua_State* L) {
 #define SET(v) lua_pushinteger(L, v); lua_setglobal(L, #v);
 
-    SET(DontResize);
-    SET(All);
-    SET(Horizontal);
-    SET(Vertical);
+	SET(RESIZE_NONE);
+	SET(RESIZE_ALL);
+	SET(RESIZE_HORIZONTAL);
+	SET(RESIZE_VERTICAL);
 
-    SET(BOTTOM_LAYER);
-    SET(DEFAULT_LAYER);
-    SET(TOP_LAYER);
+	SET(BOTTOM_LAYER);
+	SET(DEFAULT_LAYER);
+	SET(TOP_LAYER);
 
 	SET(GUI_NONE);
 	SET(GUI_HAS_TEXT);
@@ -96,6 +87,6 @@ void Widget_DoExtra(lua_State* L) {
 	SET(GUI_RECIEVE_MOUSE);
 	SET(GUI_CLICKABLE);
 	SET(GUI_ALL);
-    
-    lua_settop(L, 0);
+
+	lua_settop(L, 0);
 }

@@ -10,8 +10,8 @@
 			<close x="2" y="2"/>
 	    </border>
 
-	    <child type="editbox.input" x="0" y="0" width="%100" move="none" orientation="vertical">
-		<dialog type="editbox.background" x="0" y="20" width="%100" move="none" multiline="true"/>
+	    <child type="editbox" background="inputbox" x="0" y="0" width="%100" move="none" orientation="vertical">
+			<dialog type="editbox" background="background.editbox" x="0" y="20" width="%100" move="none" multiline="true"/>
 	    </child>
 	</widget>
     </widgets>

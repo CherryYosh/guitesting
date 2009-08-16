@@ -22,11 +22,25 @@ long with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "widgets.h"
 #include "../theme.h"
 
+Widget* Widget::NewWidget(std::string t, std::string bg, int x, int y, LayerT l, ResizeConstraintT rc, MovementConstrainT mc){
+	Widget* ret;
+	__M_WIDGETCAST(ret, t);
+
+	ret->SetType(t);
+	ret->SetBackground(bg);
+	ret->SetPosition(x, y);
+	ret->SetResizeConstraint(rc);
+	ret->ReloadTheme();
+
+	return ret;
+}
+
+
 Widget::Widget() : attributes_(GUI_NONE), x(0), y(0), z(-TOP_LAYER), color(), canReleaseMouse(true),
-parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL), orientation(All), movement(3) { }
+parent(NULL), root(NULL), mouseOverChild(NULL), activeChild(NULL), resize(RESIZE_ALL), movement(MOVEMENT_ALL) { }
 
 Widget::Widget(long attr, Window* r) : attributes_(attr), x(0), y(0), z(-TOP_LAYER), color(), 
-parent(NULL), root(r), mouseOverChild(NULL), activeChild(NULL), orientation(All), canReleaseMouse(true) {
+parent(NULL), root(r), mouseOverChild(NULL), activeChild(NULL), resize(RESIZE_ALL), movement(MOVEMENT_ALL), canReleaseMouse(true) {
 }
 
 Widget::~Widget() {
@@ -189,7 +203,7 @@ void Widget::SetWidth(std::string s) {
 		float f = atof(s.substr(1, std::string::npos).c_str()) / 100.0;
 		if (f > 1.0) f = 1.0;
 
-		//SetWidth(root->InternalWidth() * f);
+		SetWidth(root->InternalWidth() * f);
 	} else {
 		SetWidth(atof(s.c_str())); //LUA might call this SetWidth "180" thinking I want a string, so convert to a float
 	}
@@ -200,7 +214,7 @@ void Widget::SetHeight(std::string s) {
 		float f = atof(s.substr(1, std::string::npos).c_str()) / 100.0;
 		if (f > 1.0) f = 1.0;
 
-		//SetHeight(root->InternalWidth() * f);
+		SetHeight(root->InternalWidth() * f);
 	} else {
 		SetHeight(atof(s.c_str())); //LUA might call this SetHeight "180" thinking I want a string, so convert to a float
 	}
@@ -250,20 +264,6 @@ void Widget::OnMouseEnter() {
 
 void Widget::OnMouseLeave() {
 	EndEvent("onHover");
-}
-
-Widget * Widget::NewChild(std::string type, float x, float y, LayerT layer, OrientationT ori) {
-	Widget* ret;
-	__M_WIDGETCAST(ret, type.substr(0, type.find('.')));
-
-	ret->SetName(type);
-	ret->SetPosition(x, y);
-	ret->SetLayer(layer);
-	ret->SetOrientation(ori);
-	ret->ReloadTheme();
-
-	AddChild(ret);
-	return ret;
 }
 
 void Widget::AddChild(Widget * c) {
@@ -514,7 +514,7 @@ std::vector<Widget*> Widget::GetChildrenWith(long flags) {
 }
 
 void Widget::ReloadTheme() {
-	ThemeData data = Theme::GetData(name);
+	ThemeData data = Theme::GetData(background);
 
 	SetWidth(data.width);
 	SetHeight(data.height);
@@ -525,20 +525,28 @@ void Widget::ReloadTheme() {
 	t2 = 1.0 - float((data.t + data.height)) / float(Theme::ImageHeight());
 }
 
-std::string Widget::GetName() {
-	return name;
+std::string Widget::GetType() {
+	return type;
 }
 
-void Widget::SetName(std::string n) {
-	name = n;
+void Widget::SetType(std::string t) {
+	type = t;
 }
 
-OrientationT Widget::GetOrientation() {
-	return orientation;
+std::string Widget::GetBackground(){
+	return background;
 }
 
-void Widget::SetOrientation(OrientationT t) {
-	orientation = t;
+void Widget::SetBackground(std::string bg){
+	background = bg;
+}
+
+ResizeConstraintT Widget::GetResizeConstraint() {
+	return resize;
+}
+
+void Widget::SetResizeConstraint(ResizeConstraintT t) {
+	resize = t;
 }
 
 bool Widget::CanReleaseMouse() {
@@ -551,4 +559,24 @@ void Widget::LockMouse() {
 
 void Widget::ReleaseMouse() {
 	canReleaseMouse = true;
+}
+
+void Widget::SetSize(int w, int h){
+	if(w < 0 || h < 0) throw std::invalid_argument("Width or height is negitave");
+
+    float wp, hp;
+    size_t size = children.size();
+    for(int i = 0; i < size; i++){
+		wp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_VERTICAL) ? children[i]->GetWidth() / width : 0;
+		hp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_HORIZONTAL) ? children[i]->GetHeight() / height : 0;
+
+		children[i]->SetSize(w * wp, h * hp); 
+    }
+
+	SetWidth(w);
+	SetHeight(h);
+}
+
+void Widget::AdjustSize(int w, int h){
+	SetSize(GetWidth() + w, GetHeight() + h);
 }

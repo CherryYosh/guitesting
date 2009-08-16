@@ -75,6 +75,10 @@ public:
     float InternalWidth();
     float InternalHeight();
 
+	void AddChild(Widget*);
+
+	void SetInternalSize(int, int);
+
     bool GetChildAttributes(long);
 
 protected:

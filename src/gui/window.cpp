@@ -191,14 +191,28 @@ bool Window::GetChildAttributes(long flags) {
 	else return false;
 }
 
+void Window::AddChild(Widget* w){
+	float wd, hd;
+	wd = (w->GetX() + w->GetWidth()) - InternalWidth(); 
+	hd = (w->GetY() + w->GetHeight()) - InternalHeight(); 
+
+	if(wd < 0) wd = 0;
+	if(hd < 0) hd = 0;
+
+	if(wd > 0 || hd > 0) AdjustSize(wd, hd);
+
+	Widget::AddChild(w);
+}
+
 void Window::SetBorder(int t, int b, int l, int r){
-    if(t < 0 || b < 0 || l < 0 || r < 0) exit(-1);
+    if(t < 0 || b < 0 || l < 0 || r < 0) std::invalid_argument("invalide range");
 
     top = t; bottom = b; left = l; right = r;
 
-   border = NewChild("rule.background.default", 0, 0, BACKGROUND_LAYER);
+	border = Widget::NewWidget("rule", "background.default", 0, 0, BACKGROUND_LAYER);
+	border->SetSize(left + right, top + bottom);
 
-   SetInternalSize(0, 0);
+	SetInternalSize(0, 0);
 }
 
 float Window::InternalX(){
@@ -219,13 +233,4 @@ float Window::InternalHeight(){
 
 void Window::SetInternalSize(int w, int h){
     SetSize(w + left + right, h + top + bottom);
-}
-
-void Window::SetSize(int w, int h){
-    float wdelta, hdelta;
-
-    size_t size = children.size();
-    for(int i = 0; i < size; i++){
-
-    }
 }
