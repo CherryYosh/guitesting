@@ -41,9 +41,9 @@ end
 local function child(name, args)
     if curWidget then
 		if args["layer"] then
-			curChild = widget : NewWidget(args["type"], args["background"], args["x"], args["y"], ToLayer(args["layer"]))
+			curChild = Widget.NewWidget(args["type"], args["background"], args["x"], args["y"], ToLayer(args["layer"]))
 		else
-			curChild = widget : NewWidget(args["type"], args["background"], args["x"], args["y"])
+			curChild = Widget.NewWidget(args["type"], args["background"], args["x"], args["y"])
 		end
     end
 
@@ -51,9 +51,9 @@ local function child(name, args)
     if args["width"] then curChild : SetWidth( args["width"] ) end
     if args["height"] then curChild : SetHeight( args["height"] ) end
     if args["orientation"] then curChild : SetResizeConstraint( ToOrientation(args["orientation"]) ) end
-    if args["move"] then curChild : SetMovementFlags( args["move"] ) end
+    --if args["move"] then curChild : SetMovementFlags( args["move"] ) end
 	
-	curWidget : AddChild(curChild);
+    curWidget : AddChild(curChild);
 end
 
 local function childEnd(name)
@@ -163,6 +163,4 @@ function main(filepath)
     end
 
     file:close()
-	
-	print("lua done!")
 end

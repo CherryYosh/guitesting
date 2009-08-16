@@ -20,6 +20,18 @@ static int Widget_SetWidth(lua_State* L) {
 	return 0;
 }
 
+static int Widget_SetHeight(lua_State* L) {
+	check_args(L, 2);
+	__M_GET_USERDATA(Widget, self, 1);
+
+	if (lua_isnumber(L, 2)) {
+		self.SetHeight(luaL_checknumber(L, 2));
+	} else {
+		self.SetHeight(luaL_checkstring(L, 2));
+	}
+	return 0;
+}
+
 static int Widget_SetResizeConstraint(lua_State* L) {
 	check_args(L, 2);
 	__M_GET_USERDATA(Widget, self, 1);
@@ -44,12 +56,35 @@ static int Widget_ToEditbox(lua_State* L) {
 	return 1;
 }
 
+static int Widget_NewWidget(lua_State* L){
+    int args = check_args_range(L, 2, 7);
+
+    Widget* w = NULL;
+    if(args == 2){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2));
+    } else if(args == 3){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_checkint(L, 3));
+    }	else if(args == 4){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_checkint(L, 3), luaL_checkint(L, 4));
+    }	else if(args == 5){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_checkint(L, 3), luaL_checkint(L, 4), LayerT(luaL_checkint(L, 5)));
+    }	else if(args == 6){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_checkint(L, 3), luaL_checkint(L, 4), LayerT(luaL_checkint(L, 5)), ResizeConstraintT(luaL_checkint(L, 6)));
+    }	else if(args == 7){
+	w = Widget::NewWidget(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_checkint(L, 3), luaL_checkint(L, 4), LayerT(luaL_checkint(L, 5)), ResizeConstraintT(luaL_checkint(L, 6)), MovementConstrainT(luaL_checkint(L, 7)));
+    }
+
+    __M_LUA_PUSH(w, "Widget_ud");
+    return 1;
+}
+
 //================================== Table Metatable
 //================================== Methods
 //================================== metatables
 //================================== Tables
 
 const luaL_reg Widget_table_methods[] = {
+	{"NewWidget", Widget_NewWidget},
 	{NULL, NULL}
 };
 
@@ -59,6 +94,7 @@ const luaL_reg Widget_table_metatable[] = {
 
 const luaL_reg Widget_methods[] = {
 	{"SetWidth", Widget_SetWidth},
+	{"SetHeight", Widget_SetHeight},
 	{"SetResizeConstraint", Widget_SetResizeConstraint},
 	{"ToLabel", Widget_ToLabel},
 	{"ToEditbox", Widget_ToEditbox},

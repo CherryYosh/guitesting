@@ -201,6 +201,11 @@ void Window::AddChild(Widget* w){
 
 	if(wd > 0 || hd > 0) AdjustSize(wd, hd);
 
+	if(w != border){
+	    w->Move(left, top);
+	}
+
+	w->SetRoot(this);
 	Widget::AddChild(w);
 }
 
@@ -208,11 +213,11 @@ void Window::SetBorder(int t, int b, int l, int r){
     if(t < 0 || b < 0 || l < 0 || r < 0) std::invalid_argument("invalide range");
 
     top = t; bottom = b; left = l; right = r;
+    SetSize(left + right, top + bottom);
 
-	border = Widget::NewWidget("rule", "background.default", 0, 0, BACKGROUND_LAYER);
-	border->SetSize(left + right, top + bottom);
-
-	SetInternalSize(0, 0);
+    border = Widget::NewWidget("rule", "background.default", 0, 0, BACKGROUND_LAYER, RESIZE_ALL);
+    AddChild(border);
+    border->SetSize(GetWidth(), GetHeight());
 }
 
 float Window::InternalX(){

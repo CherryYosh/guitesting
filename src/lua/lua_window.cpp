@@ -5,9 +5,10 @@
 
 #include <string>
 //================================== Table Methods
-
+//================================== Table Metatable
+//================================== Methods
 static int Window_SetBorder(lua_State* L) {
-    //check_args(L, 5);
+    check_args(L, 5);
     __M_GET_USERDATA(Window, self, 1);
 
     self.SetBorder(luaL_checkint(L, 2),
@@ -18,8 +19,14 @@ static int Window_SetBorder(lua_State* L) {
     return 0;
 }
 
-//================================== Table Metatable
-//================================== Methods
+static int Window_AddChild(lua_State* L){
+    check_args(L, 2);
+    __M_GET_USERDATA(Window, self, 1);
+    __M_GET_USERDATA(Widget, other, 2);
+
+    self.AddChild(&other);
+    return 0;
+}
 //================================== metatables
 //================================== Tables
 
@@ -32,6 +39,7 @@ const luaL_reg Window_table_metatable[] = {
 };
 
 const luaL_reg Window_methods[] = {
+    {"AddChild", Window_AddChild},
     {"SetBorder", Window_SetBorder},
     {NULL, NULL}
 };

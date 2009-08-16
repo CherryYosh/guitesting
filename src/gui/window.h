@@ -75,12 +75,11 @@ public:
     float InternalWidth();
     float InternalHeight();
 
-	void AddChild(Widget*);
+    void AddChild(Widget*);
 
-	void SetInternalSize(int, int);
+    void SetInternalSize(int, int);
 
     bool GetChildAttributes(long);
-
 protected:
 private:
     GUI* gui;

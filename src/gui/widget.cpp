@@ -28,6 +28,7 @@ Widget* Widget::NewWidget(std::string t, std::string bg, int x, int y, LayerT l,
 
 	ret->SetType(t);
 	ret->SetBackground(bg);
+	ret->SetLayer(l);
 	ret->SetPosition(x, y);
 	ret->SetResizeConstraint(rc);
 	ret->ReloadTheme();
@@ -203,7 +204,8 @@ void Widget::SetWidth(std::string s) {
 		float f = atof(s.substr(1, std::string::npos).c_str()) / 100.0;
 		if (f > 1.0) f = 1.0;
 
-		SetWidth(root->InternalWidth() * f);
+		if(root != NULL)
+		    SetWidth(root->InternalWidth() * f);
 	} else {
 		SetWidth(atof(s.c_str())); //LUA might call this SetWidth "180" thinking I want a string, so convert to a float
 	}
@@ -562,15 +564,17 @@ void Widget::ReleaseMouse() {
 }
 
 void Widget::SetSize(int w, int h){
-	if(w < 0 || h < 0) throw std::invalid_argument("Width or height is negitave");
+    if(w < 0 || h < 0) throw std::invalid_argument("Width or height is negitave");
 
     float wp, hp;
     size_t size = children.size();
-    for(int i = 0; i < size; i++){
-		wp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_VERTICAL) ? children[i]->GetWidth() / width : 0;
-		hp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_HORIZONTAL) ? children[i]->GetHeight() / height : 0;
+    for(size_t i = 0; i < size; i++){
+		wp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_VERTICAL) ? children[i]->GetWidth() / GetWidth() : 0;
+		hp = (children[i]->GetResizeConstraint() == RESIZE_ALL || children[i]->GetResizeConstraint() == RESIZE_HORIZONTAL) ? children[i]->GetHeight() / GetHeight() : 0;
 
-		children[i]->SetSize(w * wp, h * hp); 
+		printf("Resizing: %i %f %f, %f %f, %f %f\nfinal: %f %f\n", i, wp, hp, GetWidth(), GetHeight(), children[i]->GetWidth(), children[i]->GetHeight(), w * wp, h*hp);
+
+		children[i]->SetSize(w * wp, h * hp);
     }
 
 	SetWidth(w);
