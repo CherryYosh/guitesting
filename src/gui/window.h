@@ -81,7 +81,7 @@ public:
 
     bool GetChildAttributes(long);
 
-    bool borderFinished;
+    bool borderFinished, resizable;
 protected:
 private:
     GUI* gui;

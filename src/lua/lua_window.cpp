@@ -41,7 +41,7 @@ static int Window_FinishBorder(lua_State* L){
 }
 
 static int Window_CloseButton(lua_State* L){
-    int args = check_args_range(L, 1, 4);
+    int args = check_args_min(L, 1);
     __M_GET_USERDATA(Window, self, 1);
 
     util::Color color("#FF000000"); //default to red
@@ -63,6 +63,15 @@ static int Window_CloseButton(lua_State* L){
     self.AddChild(c);
     return 0;
 }
+
+static int Window_Resizable(lua_State* L){
+    check_args(L, 2);
+    __M_GET_USERDATA(Window, self, 1);
+
+    self.resizable = (lua_toboolean(L, 2) != 0);
+    return 0;
+}
+
 //================================== metatables
 //================================== Tables
 
@@ -79,6 +88,7 @@ const luaL_reg Window_methods[] = {
     {"SetBorder", Window_SetBorder},
     {"FinishBorder", Window_FinishBorder},
     {"CloseButton", Window_CloseButton},
+    {"Resizable", Window_Resizable},
     {NULL, NULL}
 };
 

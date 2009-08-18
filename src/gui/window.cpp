@@ -218,6 +218,17 @@ void Window::SetBorder(int t, int b, int l, int r){
     border = Widget::NewWidget("rule", "background.default", 0, 0, BACKGROUND_LAYER, RESIZE_ALL);
     AddChild(border);
     border->SetSize(GetWidth(), GetHeight());
+
+    if(resizable){
+	Widget* le = Widget::NewWidget("edge", "leftedge", 0, GetHeight() - bottom, TOP_LAYER, RESIZE_NONE);
+	AddChild(le);
+	le->SetHeight(bottom);
+
+	Widget* re = Widget::NewWidget("edge", "rightedge", 0, GetHeight() - bottom, TOP_LAYER, RESIZE_NONE);
+	AddChild(re);
+	re->SetHeight(bottom);
+	re->Move(GetWidth() - re->GetWidth(), 0);
+    }
 }
 
 float Window::InternalX(){

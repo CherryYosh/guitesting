@@ -5,7 +5,7 @@
     <import file="themes/defaultmap.xml"/>
 
     <widgets>
-	<widget name="console">
+	<widget name="console" resizable="true">
 	    <border top="13" bottom="7" left="2" right="2"><!-- values are the thickness -->
 			<close x="2" y="2"/>
 	    </border>
