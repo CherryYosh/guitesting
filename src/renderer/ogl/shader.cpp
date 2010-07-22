@@ -33,7 +33,7 @@ const char* getErrorString( GLenum error );
 
 
 Shader::Shader(){
-	name = "noname";
+	name = "NULL";
 
 	//set the values, since we might wind up doing 1000's of these
 	//I figure memset will be faster then a for loop
@@ -56,8 +56,8 @@ bool Shader::Load( std::string shaderName ){
 	s1 = SHADERPATH + shaderName + ".vert";
 	s2 = SHADERPATH + shaderName + ".frag";
 
-	id = glslLoadShaderProgram( s1.c_str(), s2.c_str() );
-	return true;
+	id = glslLoadShaderProgram( s1, s2 );
+	return (id != 0);
 }
 
 void Shader::Bind(){
@@ -125,6 +125,8 @@ GLuint glslLoadShaderProgram( std::string vertex, std::string fragment ){
 		printf( "ERROR: Unable to load programs, program defined as NULL" );
 		return 0;
 	}
+
+	printf( "INFO: Loading Shaders %s %s\n", vertex.c_str(), fragment.c_str());
 
 	//temp ids
 	GLuint vsID, fsID, program;

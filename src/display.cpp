@@ -52,7 +52,7 @@ void Display::InitTimers() {
     FPSTimer->SetFunction(boost::bind<void>(&Display::DrawFPS, this, FPSTimer->GetTicksPtr()));
     FPSTimer->Start();
 
-    timers.AddTimer(FPSTimer, true, false);
+    //timers.AddTimer(FPSTimer, true, false);
     timers.AddTimer(Mouse_GetTimer());
 }
 
